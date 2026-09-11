@@ -1,0 +1,1077 @@
+/* Ray-tracing additions. The base layout is shared with the C++ Programming course. */
+
+.ray-lesson {
+  --lesson-accent: #79dceb;
+  --lesson-accent-rgb: 121, 220, 235;
+}
+
+.ray-lesson[data-lesson="04"],
+.ray-lesson[data-lesson="07"],
+.ray-lesson[data-lesson="11"] {
+  --lesson-accent: #f4c15e;
+  --lesson-accent-rgb: 244, 193, 94;
+}
+
+.ray-lesson[data-lesson="06"],
+.ray-lesson[data-lesson="09"],
+.ray-lesson[data-lesson="13"] {
+  --lesson-accent: #82e0b9;
+  --lesson-accent-rgb: 130, 224, 185;
+}
+
+.ray-lesson[data-lesson="12"],
+.ray-lesson[data-lesson="14"] {
+  --lesson-accent: #b4a2ff;
+  --lesson-accent-rgb: 180, 162, 255;
+}
+
+.ray-lesson .course-main {
+  background:
+    radial-gradient(circle at 84% 12%, rgba(var(--lesson-accent-rgb), 0.12), transparent 34rem),
+    linear-gradient(180deg, rgba(var(--lesson-accent-rgb), 0.025), transparent 58rem);
+}
+
+.ray-lesson .lesson-hero {
+  background:
+    radial-gradient(circle at 83% 54%, rgba(var(--lesson-accent-rgb), 0.22) 0 0.38rem, transparent 0.46rem),
+    radial-gradient(circle at 83% 54%, transparent 0 5.2rem, rgba(var(--lesson-accent-rgb), 0.23) 5.27rem 5.35rem, transparent 5.43rem 9.8rem, rgba(245, 184, 75, 0.22) 9.87rem 9.95rem, transparent 10.03rem),
+    linear-gradient(100deg, rgba(3, 16, 13, 0.99), rgba(3, 16, 13, 0.88) 43%, rgba(3, 16, 13, 0.56));
+}
+
+.ray-lesson .lesson-hero::before {
+  opacity: 0.28;
+  background-image:
+    linear-gradient(rgba(var(--lesson-accent-rgb), 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--lesson-accent-rgb), 0.16) 1px, transparent 1px);
+  background-size: 3.4rem 3.4rem;
+  mask-image: linear-gradient(90deg, #000 0%, #000 30%, transparent 84%);
+}
+
+.ray-lesson[data-art-pattern="flow"] .lesson-hero::before {
+  background-image: repeating-linear-gradient(112deg, transparent 0 2.8rem, rgba(var(--lesson-accent-rgb), 0.3) 2.84rem 2.92rem, transparent 3rem 5.8rem);
+  background-size: 100% 100%;
+}
+
+.ray-lesson[data-art-pattern="branch"] .lesson-hero::before {
+  background-image:
+    linear-gradient(35deg, transparent 48%, rgba(var(--lesson-accent-rgb), 0.35) 49%, transparent 50%),
+    linear-gradient(-35deg, transparent 48%, rgba(245, 184, 75, 0.26) 49%, transparent 50%);
+  background-size: 8rem 8rem;
+}
+
+.ray-lesson .lesson-hero::after {
+  border-color: rgba(var(--lesson-accent-rgb), 0.34);
+  box-shadow: 0 0 0 4rem rgba(var(--lesson-accent-rgb), 0.035), 0 0 0 8rem rgba(245, 184, 75, 0.018);
+}
+
+.ray-lesson .lesson-article {
+  background:
+    linear-gradient(135deg, rgba(var(--lesson-accent-rgb), 0.075), transparent 18rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 14rem),
+    var(--paper);
+}
+
+.sidebar-continuation {
+  margin: 1.1rem;
+  padding: 1rem;
+  border: 1px solid var(--course-line);
+  border-radius: var(--radius);
+  background: rgba(116, 215, 255, 0.06);
+  color: var(--course-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.sidebar-continuation strong {
+  color: var(--course-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lesson-list-divider {
+  margin: 0.8rem 0.45rem 0.25rem;
+  padding: 0.55rem 0.45rem 0.35rem;
+  border-bottom: 1px solid var(--course-line);
+  color: var(--course-cyan);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.vulkan-lesson {
+  --lesson-accent: #b4a2ff;
+  --lesson-accent-rgb: 180, 162, 255;
+}
+
+.vulkan-lesson .lesson-hero {
+  background:
+    radial-gradient(circle at 78% 35%, rgba(180, 162, 255, 0.13), transparent 24rem),
+    linear-gradient(135deg, rgba(116, 215, 255, 0.04), transparent 56%),
+    #04110f;
+}
+
+.vulkan-worked-account {
+  margin: clamp(2.2rem, 5vw, 3.5rem) 0;
+  padding: clamp(1.2rem, 3vw, 1.8rem);
+  border: 1px solid #cbc4e5;
+  border-top: 0.34rem solid #6558a8;
+  border-radius: 0.7rem;
+  background:
+    linear-gradient(135deg, rgba(101, 88, 168, 0.08), transparent 22rem),
+    var(--paper-raised);
+  color: var(--paper-ink);
+  box-shadow: 0 1.2rem 2.8rem rgba(36, 31, 56, 0.1);
+}
+
+.vulkan-account-heading {
+  max-width: 66rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid #d9d3e8;
+}
+
+.vulkan-account-kicker {
+  margin: 0 0 0.35rem;
+  color: #594d9b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.vulkan-account-heading h2 {
+  margin: 0;
+  color: var(--paper-ink);
+  font-family: var(--display);
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  line-height: 1.12;
+}
+
+.vulkan-account-heading > p:last-child {
+  max-width: 60rem;
+  margin: 0.8rem 0 0;
+  color: var(--paper-muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.vulkan-account-prose {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.15rem;
+}
+
+.vulkan-account-prose > section {
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--paper-line);
+  border-radius: 0.48rem;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.vulkan-worked-account h3 {
+  margin: 0 0 0.45rem;
+  color: #403677;
+  font-family: var(--display);
+  font-size: 1.12rem;
+}
+
+.vulkan-worked-account p {
+  line-height: 1.68;
+}
+
+.vulkan-account-prose p,
+.vulkan-account-example p {
+  margin: 0;
+}
+
+.vulkan-account-example {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border-left: 0.28rem solid #6558a8;
+  background: rgba(101, 88, 168, 0.075);
+}
+
+.vulkan-account-formula {
+  margin-top: 0.85rem !important;
+  overflow-x: auto;
+}
+
+.vulkan-account-formula code {
+  display: block;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #cec7e2;
+  border-radius: 0.4rem;
+  background: #eee9f8;
+  color: #33296e;
+  font-size: 0.9rem;
+  font-weight: 750;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vulkan-account-boundary {
+  margin: 1rem 0 0;
+  padding: 1rem 1.05rem;
+  border: 1px solid #c4d4ca;
+  border-left: 0.28rem solid var(--paper-green);
+  border-radius: 0.42rem;
+  background: rgba(11, 107, 66, 0.065);
+  color: #303a34;
+}
+
+.vulkan-account-boundary strong {
+  color: var(--paper-green);
+}
+
+.official-reference {
+  margin: 1.5rem 0;
+  padding: 0.9rem 1rem;
+  border-left: 0.24rem solid #6558a8;
+  background: rgba(101, 88, 168, 0.075);
+  color: var(--paper-ink);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.official-reference strong {
+  color: #51458d;
+}
+
+.lesson-article .official-reference a {
+  color: #075c39;
+  text-decoration-thickness: 0.1em;
+}
+
+.learning-objectives,
+.calculation,
+.worked-trace,
+.checkpoint,
+.warning-note,
+.terminology-note,
+.transfer-task,
+.vulkan-bridge {
+  margin: 1.7rem 0;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgba(var(--lesson-accent-rgb, 15, 111, 78), 0.35);
+  border-left: 0.32rem solid rgb(var(--lesson-accent-rgb, 15, 111, 78));
+  border-radius: 0.5rem;
+  background: rgba(var(--lesson-accent-rgb, 15, 111, 78), 0.08);
+}
+
+.learning-objectives h2,
+.calculation h3,
+.worked-trace h3,
+.checkpoint h3,
+.warning-note h3,
+.terminology-note h3,
+.transfer-task h2,
+.vulkan-bridge h2 {
+  margin-top: 0;
+}
+
+.warning-note {
+  border-color: rgba(176, 103, 31, 0.35);
+  border-left-color: #b0671f;
+  background: rgba(245, 184, 75, 0.11);
+}
+
+.terminology-note {
+  border-color: rgba(77, 80, 153, 0.38);
+  border-left-color: #5f5ab5;
+  background: linear-gradient(135deg, rgba(95, 90, 181, 0.1), rgba(116, 215, 255, 0.045));
+}
+
+.terminology-note p:last-child {
+  margin-bottom: 0;
+}
+
+.worked-answer {
+  margin-top: 0.9rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(var(--lesson-accent-rgb, 15, 111, 78), 0.28);
+  border-radius: 0.42rem;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.worked-answer h4 {
+  margin: 0 0 0.35rem;
+  color: var(--paper-green);
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.worked-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.transfer-task {
+  border-color: rgba(11, 107, 66, 0.42);
+  border-left-color: var(--paper-green);
+  background: rgba(11, 107, 66, 0.08);
+}
+
+.vulkan-bridge {
+  border-color: rgba(77, 80, 153, 0.38);
+  border-left-color: #5f5ab5;
+  background: rgba(95, 90, 181, 0.08);
+}
+
+.equation {
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+  border-radius: 0.45rem;
+  background: #e8e4d9;
+  color: #1e2924;
+  font-family: var(--mono);
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ray-lab {
+  margin: clamp(2rem, 5vw, 3.4rem) 0;
+  padding: clamp(0.8rem, 2vw, 1rem);
+  border: 1px solid rgba(var(--lesson-accent-rgb), 0.52);
+  border-radius: 0.75rem;
+  background:
+    radial-gradient(circle at 82% 0%, rgba(var(--lesson-accent-rgb), 0.12), transparent 24rem),
+    #06130f;
+  color: var(--course-ink);
+  box-shadow: 0 1.5rem 3rem rgba(3, 16, 13, 0.25);
+}
+
+.ray-lab-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(16rem, 1.1fr);
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 0.55rem;
+}
+
+.ray-lab .ray-lab-heading h2 {
+  margin: 0;
+  color: var(--course-ink);
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+
+.ray-lab-heading > p {
+  margin: 0;
+  color: var(--course-soft);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.ray-lab-kicker {
+  margin: 0 0 0.25rem;
+  color: var(--lesson-accent);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.ray-lab .ray-lab-kicker {
+  margin: 0 0 0.15rem;
+}
+
+.ray-lab-instruction {
+  margin: 0;
+  padding: 0.48rem 0.68rem;
+  border: 1px solid rgba(var(--lesson-accent-rgb), 0.32);
+  border-left: 0.28rem solid var(--lesson-accent);
+  border-radius: 0.45rem;
+  background: rgba(var(--lesson-accent-rgb), 0.08);
+  color: var(--course-soft);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.ray-lab-instruction strong {
+  color: var(--course-ink);
+}
+
+.ray-lab-instruction code {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--lesson-accent);
+}
+
+.ray-lab > .ray-lab-instruction {
+  margin: 0;
+}
+
+.ray-lab-workspace {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 22rem));
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.ray-output,
+.ray-diagram {
+  overflow: hidden;
+  border: 1px solid rgba(170, 214, 199, 0.25);
+  border-radius: 0.55rem;
+  background: #020806;
+}
+
+.canvas-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.55rem;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.38rem 0.55rem;
+  border-bottom: 1px solid rgba(170, 214, 199, 0.18);
+  color: var(--course-soft);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.canvas-label > output,
+.canvas-label > [data-diagram-label] {
+  flex: 0 0 auto;
+  color: var(--lesson-accent);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.canvas-label-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.08rem;
+}
+
+.canvas-label-copy strong {
+  color: var(--course-soft);
+}
+
+.canvas-label-copy small {
+  color: var(--course-muted);
+  font-size: 0.64rem;
+  font-weight: 650;
+  line-height: 1.2;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ray-output canvas,
+.ray-diagram canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #020806;
+}
+
+.ray-output canvas {
+  aspect-ratio: 8 / 5;
+  image-rendering: auto;
+}
+
+.ray-diagram canvas {
+  aspect-ratio: 24 / 13;
+}
+
+.ray-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+}
+
+.ray-control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 0.6rem;
+  align-items: center;
+  padding: 0.48rem 0.58rem;
+  border: 1px solid rgba(170, 214, 199, 0.18);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.ray-control label {
+  color: var(--course-soft);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.ray-control output {
+  color: var(--lesson-accent);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.ray-control input,
+.ray-control select {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: var(--lesson-accent);
+}
+
+.ray-control select {
+  min-height: 2.1rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--course-line-strong);
+  border-radius: 0.35rem;
+  background: var(--course-panel);
+  color: var(--course-ink);
+  font: inherit;
+}
+
+.ray-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+}
+
+.ray-actions button {
+  cursor: pointer;
+}
+
+.lab-button-secondary {
+  border: 1px solid var(--course-line-strong);
+  background: transparent;
+  color: var(--course-ink);
+}
+
+.ray-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+}
+
+.ray-metrics div {
+  padding: 0.68rem 0.75rem;
+  border-top: 1px solid rgba(var(--lesson-accent-rgb), 0.35);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ray-metrics dt {
+  color: var(--course-muted);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.ray-metrics dd {
+  margin: 0.18rem 0 0;
+  color: var(--course-ink);
+  font-family: var(--mono);
+  font-size: 0.86rem;
+}
+
+.ray-lab-note,
+.ray-lab-noscript {
+  margin: 0;
+  color: var(--course-soft);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.ray-lab-note code {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--lesson-accent);
+}
+
+.pixel-storage-lab .ray-output canvas {
+  display: block;
+  image-rendering: pixelated;
+  cursor: crosshair;
+}
+
+.pixel-raster-frame {
+  position: relative;
+}
+
+.pixel-raster-frame::after {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(198, 213, 207, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(198, 213, 207, 0.2) 1px, transparent 1px);
+  background-size: 6.25% 10%;
+  content: "";
+  pointer-events: none;
+}
+
+.pixel-raster-key {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.42rem 0.55rem;
+  color: var(--course-soft);
+  font-size: 0.72rem;
+}
+
+.lesson-article .pixel-raster-key {
+  margin: 0;
+}
+
+.pixel-raster-key > span {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.pixel-key-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.08rem;
+  color: var(--course-soft);
+  line-height: 1.2;
+}
+
+.pixel-key-copy strong {
+  font-size: 0.67rem;
+}
+
+.pixel-raster-key code {
+  background: transparent;
+  color: var(--course-ink);
+  font-size: 0.7rem;
+}
+
+.pixel-swatch {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+.pixel-swatch-background {
+  background: rgb(24, 42, 36);
+}
+
+.pixel-swatch-selected {
+  background: rgb(247, 184, 75);
+}
+
+.pixel-storage-controls {
+  grid-template-columns: repeat(2, minmax(11rem, 1fr));
+}
+
+.vector-controls {
+  grid-template-columns: repeat(3, minmax(9rem, 1fr));
+}
+
+.vector-lab .ray-output canvas {
+  display: block;
+}
+
+.pixel-storage-facts,
+.vector-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.55rem 0 0;
+}
+
+.pixel-storage-facts div,
+.vector-facts div {
+  min-width: 0;
+  padding: 0.45rem 0.52rem;
+  border-top: 1px solid rgba(var(--lesson-accent-rgb), 0.38);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.pixel-storage-facts dt,
+.vector-facts dt {
+  color: var(--course-muted);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.pixel-storage-facts dd,
+.vector-facts dd {
+  margin: 0.12rem 0 0;
+  color: var(--course-ink);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+.vector-facts dd {
+  font-size: clamp(0.7rem, 1.1vw, 0.8rem);
+}
+
+.vector-formulas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.vector-formulas p {
+  margin: 0;
+  padding: 0.48rem 0.55rem;
+  border: 1px solid rgba(170, 214, 199, 0.18);
+  border-radius: 0.45rem;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--course-soft);
+  text-align: center;
+}
+
+.vector-formulas code {
+  background: transparent;
+  color: var(--lesson-accent);
+  font-size: clamp(0.66rem, 1vw, 0.76rem);
+}
+
+.concept-lab .ray-diagram canvas {
+  aspect-ratio: 8 / 5;
+}
+
+.concept-lab .ray-lab-heading {
+  grid-template-columns: minmax(0, 0.9fr) minmax(16rem, 1.1fr);
+  gap: 1rem;
+  align-items: end;
+}
+
+.concept-lab .ray-lab-workspace {
+  grid-template-columns: repeat(2, minmax(0, 22rem));
+}
+
+.ray-controls + .ray-lab-workspace,
+.lab-control-strip + .ray-lab-workspace {
+  margin-top: 0.55rem;
+}
+
+.focused-concept-lab .ray-lab-workspace {
+  width: min(100%, 22rem);
+  margin-inline: auto;
+}
+
+.focused-concept-lab .ray-diagram canvas {
+  aspect-ratio: 8 / 5;
+}
+
+.concept-controls {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+.lab-control-strip {
+  display: flex;
+  gap: 0.55rem;
+  align-items: stretch;
+}
+
+.lab-control-strip .ray-controls {
+  flex: 1 1 auto;
+}
+
+.lab-control-strip .ray-actions {
+  flex: 0 0 auto;
+  align-items: stretch;
+}
+
+.lab-control-strip .ray-actions .course-button {
+  min-height: 0;
+  padding: 0.38rem 0.58rem;
+  font-size: 0.68rem;
+  line-height: 1.2;
+}
+
+.stage-03-lab .ray-output canvas {
+  cursor: crosshair;
+}
+
+.concept-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.42rem;
+  margin: 0.55rem 0 0;
+}
+
+.concept-facts div {
+  min-width: 0;
+  padding: 0.42rem 0.5rem;
+  border: 1px solid rgba(var(--lesson-accent-rgb), 0.24);
+  border-top-color: rgba(var(--lesson-accent-rgb), 0.52);
+  border-radius: 0.42rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.concept-facts dt {
+  color: var(--course-muted);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.concept-facts dd {
+  margin: 0.12rem 0 0;
+  overflow-wrap: anywhere;
+  color: var(--course-ink);
+  font-family: var(--mono);
+  font-size: clamp(0.68rem, 1vw, 0.78rem);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.concept-facts-8 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.concept-formulas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.concept-formulas p {
+  margin: 0;
+  padding: 0.46rem 0.55rem;
+  border: 1px solid rgba(170, 214, 199, 0.18);
+  border-radius: 0.45rem;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--course-soft);
+  text-align: center;
+}
+
+.concept-formulas code {
+  background: transparent;
+  color: var(--lesson-accent);
+  font-size: clamp(0.68rem, 1vw, 0.78rem);
+  line-height: 1.3;
+}
+
+.pixel-storage-formula {
+  margin: 0;
+  padding: 0.48rem 0.55rem;
+  border: 1px solid rgba(170, 214, 199, 0.18);
+  border-radius: 0.45rem;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--course-soft);
+  text-align: center;
+}
+
+.pixel-storage-formula code {
+  background: transparent;
+  color: var(--lesson-accent);
+  font-size: clamp(0.7rem, 1.2vw, 0.82rem);
+}
+
+.lab-conclusion {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+  gap: 0.5rem;
+  align-items: stretch;
+  margin-top: 0.5rem;
+}
+
+.lab-conclusion > .ray-lab-note {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.55rem;
+  border-left: 0.2rem solid rgba(var(--lesson-accent-rgb), 0.5);
+  background: rgba(var(--lesson-accent-rgb), 0.06);
+}
+
+.lesson-article .lab-conclusion > .ray-lab-note,
+.lesson-article .lab-conclusion > .pixel-storage-formula {
+  margin: 0;
+}
+
+.vulkan-continuation {
+  margin-top: clamp(3rem, 8vw, 6rem);
+  padding: clamp(1.4rem, 4vw, 2.4rem);
+  border: 1px solid var(--course-line-strong);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(180, 162, 255, 0.12), rgba(116, 215, 255, 0.04));
+}
+
+.vulkan-continuation h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.vulkan-continuation > p:last-child {
+  max-width: 64rem;
+  color: var(--course-soft);
+}
+
+.glossary-entry[hidden],
+.glossary-empty[hidden] {
+  display: none;
+}
+
+.pagination-link-disabled {
+  visibility: hidden;
+}
+
+@media (max-width: 68rem) {
+  .ray-lab-workspace,
+  .concept-lab .ray-lab-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .ray-output,
+  .ray-diagram {
+    width: min(100%, 36rem);
+    margin-inline: auto;
+  }
+
+  .concept-lab .ray-lab-heading {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+    align-items: start;
+  }
+
+  .lab-control-strip,
+  .lab-conclusion {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .ray-diagram canvas {
+    max-height: 22rem;
+  }
+}
+
+@media (min-width: 68.01rem) and (max-height: 50rem) {
+  .ray-lab {
+    padding: 0.68rem;
+  }
+
+  .ray-lab .ray-lab-heading h2 {
+    font-size: 1.5rem;
+    line-height: 1.05;
+  }
+
+  .ray-lab-heading {
+    margin-bottom: 0.35rem;
+  }
+
+  .ray-lab > .ray-lab-instruction {
+    padding: 0.35rem 0.6rem;
+    line-height: 1.3;
+  }
+
+  .ray-controls,
+  .ray-actions {
+    margin-top: 0.35rem;
+  }
+
+  .ray-controls + .ray-lab-workspace,
+  .lab-control-strip + .ray-lab-workspace,
+  .pixel-storage-facts,
+  .vector-facts,
+  .concept-facts,
+  .lab-conclusion {
+    margin-top: 0.35rem;
+  }
+
+  .canvas-label {
+    min-height: 2.5rem;
+    padding-block: 0.3rem;
+  }
+
+  .ray-lab-workspace,
+  .concept-lab .ray-lab-workspace {
+    grid-template-columns: repeat(2, minmax(0, 17.5rem));
+  }
+
+  .focused-concept-lab .ray-lab-workspace {
+    width: min(100%, 17.5rem);
+    grid-template-columns: minmax(0, 17.5rem);
+  }
+
+  .concept-facts-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 46rem) {
+  .vulkan-account-prose {
+    grid-template-columns: 1fr;
+  }
+
+  .ray-lab-heading {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .ray-controls,
+  .ray-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pixel-storage-facts,
+  .vector-facts,
+  .concept-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .vector-controls,
+  .vector-formulas {
+    grid-template-columns: 1fr;
+  }
+
+  .pixel-raster-key {
+    grid-template-columns: 1fr;
+  }
+
+  .ray-actions .course-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 31rem) {
+  .ray-controls,
+  .ray-metrics,
+  .pixel-storage-facts,
+  .vector-facts,
+  .concept-facts,
+  .concept-formulas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .ray-controls,
+  .ray-actions {
+    display: none !important;
+  }
+
+  .ray-lab {
+    break-inside: avoid;
+    border-color: #777;
+    background: white;
+    color: black;
+    box-shadow: none;
+  }
+
+  .ray-lab .ray-lab-heading h2,
+  .ray-lab-heading > p,
+  .ray-lab-note,
+  .ray-metrics dd {
+    color: black;
+  }
+
+  .vulkan-worked-account {
+    break-inside: avoid;
+    border-color: #777;
+    background: white;
+    color: black;
+    box-shadow: none;
+  }
+}

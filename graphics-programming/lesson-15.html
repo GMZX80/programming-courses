@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create the API, device and queue relationships that will own every later resource and command.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 15 - Vulkan Makes Ownership Explicit</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="15" data-ray-stage="15" data-art-pattern="flow">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 15 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html" aria-current="page"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 15</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">15. Vulkan Makes Ownership Explicit</h1>
+            <p class="lesson-deck">Create the API, device and queue relationships that will own every later resource and command.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-14.html">&larr; Lesson 14</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-16.html">Lesson 16 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>30 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-15-api" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-api&amp;lesson=15#term-api" aria-label="Look up API in the graphics glossary" title="Look up API in the graphics glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-15-api-version" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-api-version&amp;lesson=15#term-api-version" aria-label="Look up API version in the graphics glossary" title="Look up API version in the graphics glossary">API version</a> <a class="glossary-chip" id="glossary-panel-origin-15-buffer" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-buffer&amp;lesson=15#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-15-command-buffer" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-command-buffer&amp;lesson=15#term-command-buffer" aria-label="Look up command buffer in the graphics glossary" title="Look up command buffer in the graphics glossary">command buffer</a> <a class="glossary-chip" id="glossary-panel-origin-15-command-pool" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-command-pool&amp;lesson=15#term-command-pool" aria-label="Look up command pool in the graphics glossary" title="Look up command pool in the graphics glossary">command pool</a> <a class="glossary-chip" id="glossary-panel-origin-15-cpu" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-cpu&amp;lesson=15#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-15-device-extension" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-device-extension&amp;lesson=15#term-device-extension" aria-label="Look up device extension in the graphics glossary" title="Look up device extension in the graphics glossary">device extension</a> <a class="glossary-chip" id="glossary-panel-origin-15-gpu" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-gpu&amp;lesson=15#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-15-host" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-host&amp;lesson=15#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-15-image" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-image&amp;lesson=15#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-15-instance-extension" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-instance-extension&amp;lesson=15#term-instance-extension" aria-label="Look up instance extension in the graphics glossary" title="Look up instance extension in the graphics glossary">instance extension</a> <a class="glossary-chip" id="glossary-panel-origin-15-javascript" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-javascript&amp;lesson=15#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> <a class="glossary-chip" id="glossary-panel-origin-15-logical-device" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-logical-device&amp;lesson=15#term-logical-device" aria-label="Look up logical device in the graphics glossary" title="Look up logical device in the graphics glossary">logical device</a> <a class="glossary-chip" id="glossary-panel-origin-15-memory-requirements" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-memory-requirements&amp;lesson=15#term-memory-requirements" aria-label="Look up memory requirements in the graphics glossary" title="Look up memory requirements in the graphics glossary">memory requirements</a> <a class="glossary-chip" id="glossary-panel-origin-15-physical-device" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-physical-device&amp;lesson=15#term-physical-device" aria-label="Look up physical device in the graphics glossary" title="Look up physical device in the graphics glossary">physical device</a> <a class="glossary-chip" id="glossary-panel-origin-15-pixel" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-pixel&amp;lesson=15#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-15-pnext-chain" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-pnext-chain&amp;lesson=15#term-pnext-chain" aria-label="Look up pNext chain in the graphics glossary" title="Look up pNext chain in the graphics glossary">pNext chain</a> <a class="glossary-chip" id="glossary-panel-origin-15-presentation-surface" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-presentation-surface&amp;lesson=15#term-presentation-surface" aria-label="Look up presentation surface in the graphics glossary" title="Look up presentation surface in the graphics glossary">presentation surface</a> <a class="glossary-chip" id="glossary-panel-origin-15-primary-ray" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-primary-ray&amp;lesson=15#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-15-queue" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-queue&amp;lesson=15#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> <a class="glossary-chip" id="glossary-panel-origin-15-queue-family" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-queue-family&amp;lesson=15#term-queue-family" aria-label="Look up queue family in the graphics glossary" title="Look up queue family in the graphics glossary">queue family</a> <a class="glossary-chip" id="glossary-panel-origin-15-ray-interval" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-ray-interval&amp;lesson=15#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> <a class="glossary-chip" id="glossary-panel-origin-15-scene" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-scene&amp;lesson=15#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-15-storage-image" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-storage-image&amp;lesson=15#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> <a class="glossary-chip" id="glossary-panel-origin-15-swapchain" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-swapchain&amp;lesson=15#term-swapchain" aria-label="Look up swapchain in the graphics glossary" title="Look up swapchain in the graphics glossary">swapchain</a> <a class="glossary-chip" id="glossary-panel-origin-15-synchronization2" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-synchronization2&amp;lesson=15#term-synchronization2" aria-label="Look up Synchronization2 in the graphics glossary" title="Look up Synchronization2 in the graphics glossary">Synchronization2</a> <a class="glossary-chip" id="glossary-panel-origin-15-validation-layer" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-validation-layer&amp;lesson=15#term-validation-layer" aria-label="Look up validation layer in the graphics glossary" title="Look up validation layer in the graphics glossary">validation layer</a> <a class="glossary-chip" id="glossary-panel-origin-15-vulkan-feature" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-vulkan-feature&amp;lesson=15#term-vulkan-feature" aria-label="Look up Vulkan feature in the graphics glossary" title="Look up Vulkan feature in the graphics glossary">Vulkan feature</a> <a class="glossary-chip" id="glossary-panel-origin-15-vulkan-instance" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-vulkan-instance&amp;lesson=15#term-vulkan-instance" aria-label="Look up Vulkan instance in the graphics glossary" title="Look up Vulkan instance in the graphics glossary">Vulkan instance</a> <a class="glossary-chip" id="glossary-panel-origin-15-vulkan-loader" href="glossary.html?from=lesson-15.html%23glossary-panel-origin-15-vulkan-loader&amp;lesson=15#term-vulkan-loader" aria-label="Look up Vulkan loader in the graphics glossary" title="Look up Vulkan loader in the graphics glossary">Vulkan loader</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>Vulkan is often introduced by the number of objects required before a <a class="glossary-term" id="glossary-origin-15-0001" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0001&amp;lesson=15#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> appears. That makes the <a class="glossary-term" id="glossary-origin-15-0002" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0002&amp;lesson=15#term-api" aria-label="Look up API in the graphics glossary" title="Look up API in the graphics glossary">API</a> look like a ceremony whose purpose is to be completed as quickly as possible. Copy an initialisation function, accept the first device returned by enumeration and celebrate when a window changes colour. The colour is evidence that some work reached some device. It is not yet evidence that we understand which object owns that work or why the selected device can execute the renderer we intend to build.</p>
+<p>Part II therefore begins with ownership and selection. The manual renderer let <a class="glossary-term" id="glossary-origin-15-0003" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0003&amp;lesson=15#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> and the browser supply an execution environment. Vulkan asks the application to state that environment: which <a class="glossary-term" id="glossary-origin-15-0004" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0004&amp;lesson=15#term-api-version" aria-label="Look up API version in the graphics glossary" title="Look up API version in the graphics glossary">API version</a> it expects, which <a class="glossary-term" id="glossary-origin-15-0005" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0005&amp;lesson=15#term-physical-device" aria-label="Look up physical device in the graphics glossary" title="Look up physical device in the graphics glossary">physical device</a> satisfies its requirements, which <a class="glossary-term" id="glossary-origin-15-0006" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0006&amp;lesson=15#term-queue-family" aria-label="Look up queue family in the graphics glossary" title="Look up queue family in the graphics glossary">queue family</a> can execute and present the work, and which <a class="glossary-term" id="glossary-origin-15-0007" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0007&amp;lesson=15#term-logical-device" aria-label="Look up logical device in the graphics glossary" title="Look up logical device in the graphics glossary">logical device</a> enables the features used by later lessons. This explicitness is valuable only if each choice has a criterion.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Distinguish a <a class="glossary-term" id="glossary-origin-15-0008" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0008&amp;lesson=15#term-vulkan-instance" aria-label="Look up Vulkan instance in the graphics glossary" title="Look up Vulkan instance in the graphics glossary">Vulkan instance</a>, physical device, logical device, queue family and <a class="glossary-term" id="glossary-origin-15-0009" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0009&amp;lesson=15#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a>.</li>
+<li>Request a Vulkan 1.3 teaching baseline without confusing that request with the loader's supported version.</li>
+<li>Select a device using reported capabilities and retain a written reason for every rejection.</li>
+</ul>
+</section>
+
+<h2>Choose a baseline before choosing a device</h2>
+<p>The current Vulkan specification is newer than the minimum required by this course. Our compute renderer uses Vulkan 1.3 as its core baseline because <a class="glossary-term" id="glossary-origin-15-0010" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0010&amp;lesson=15#term-synchronization2" aria-label="Look up Synchronization2 in the graphics glossary" title="Look up Synchronization2 in the graphics glossary">synchronisation2</a> is core there and the resulting responsibilities are available without teaching an older and newer barrier vocabulary at the same time. A Vulkan 1.4 implementation can still create an application that requests 1.3. Hardware ray tracing remains feature and extension gated in Lessons 27 and 28; a high core version does not silently promise those facilities.</p>
+<p>First ask what the loader supports. Rejecting a loader below the course baseline is better than creating an instance and discovering later that a required core feature cannot be enabled.</p>
+
+<pre><code class="language-cpp">uint32_t loaderVersion = VK_API_VERSION_1_0;
+VkResult versionResult = vkEnumerateInstanceVersion(&amp;loaderVersion);
+if (versionResult != VK_SUCCESS ||
+    loaderVersion &lt; VK_API_VERSION_1_3) {
+    throw std::runtime_error("Vulkan 1.3 loader required");
+}
+
+VkApplicationInfo applicationInfo{
+    .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+    .pApplicationName = "Inspectable Vulkan Ray Tracer",
+    .applicationVersion = VK_MAKE_API_VERSION(0, 1, 0, 0),
+    .pEngineName = "Course renderer",
+    .engineVersion = VK_MAKE_API_VERSION(0, 1, 0, 0),
+    .apiVersion = VK_API_VERSION_1_3
+};</code></pre>
+
+<p>The application version describes our program. The API version describes the Vulkan interface it requests. Neither value selects a <a class="glossary-term" id="glossary-origin-15-0011" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0011&amp;lesson=15#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a>. That happens only after an instance has connected the application to the loader and the enabled <a class="glossary-term" id="glossary-origin-15-0012" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0012&amp;lesson=15#term-instance-extension" aria-label="Look up instance extension in the graphics glossary" title="Look up instance extension in the graphics glossary">instance extensions</a>.</p>
+
+<h2>Create the instance deliberately</h2>
+<p>A window-system library may supply the platform-specific instance extensions needed to create a <a class="glossary-term" id="glossary-origin-15-0013" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0013&amp;lesson=15#term-presentation-surface" aria-label="Look up presentation surface in the graphics glossary" title="Look up presentation surface in the graphics glossary">presentation surface</a>. That library is allowed to create a window and report extension names. It is not allowed to choose the renderer's physical device, construct its rays or decide its synchronisation. Keep the boundary visible.</p>
+
+<pre><code class="language-cpp">std::vector&lt;const char*&gt; instanceExtensions =
+    window.requiredVulkanInstanceExtensions();
+
+#ifndef NDEBUG
+instanceExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+const char* validationLayer = "VK_LAYER_KHRONOS_validation";
+#endif
+
+VkInstanceCreateInfo instanceInfo{
+    .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+    .pApplicationInfo = &amp;applicationInfo,
+    .enabledExtensionCount =
+        static_cast&lt;uint32_t&gt;(instanceExtensions.size()),
+    .ppEnabledExtensionNames = instanceExtensions.data()
+};
+
+#ifndef NDEBUG
+instanceInfo.enabledLayerCount = 1;
+instanceInfo.ppEnabledLayerNames = &amp;validationLayer;
+#endif
+
+VkInstance instance = VK_NULL_HANDLE;
+check(vkCreateInstance(&amp;instanceInfo, nullptr, &amp;instance));</code></pre>
+
+<p>Before enabling the <a class="glossary-term" id="glossary-origin-15-0014" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0014&amp;lesson=15#term-validation-layer" aria-label="Look up validation layer in the graphics glossary" title="Look up validation layer in the graphics glossary">validation layer</a>, enumerate layers and establish that it is present. Validation is a diagnostic witness. It can report many invalid API relationships, but a quiet validation log does not prove that the <a class="glossary-term" id="glossary-origin-15-0015" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0015&amp;lesson=15#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">camera ray</a>, <a class="glossary-term" id="glossary-origin-15-0016" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0016&amp;lesson=15#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">intersection interval</a> or final colour is correct. Part I remains our behavioural reference.</p>
+
+<h2>Enumerate physical devices as candidates</h2>
+<p>A physical device is a reported implementation, not an object we create. For each candidate, record its properties, Vulkan 1.3 features, memory properties, <a class="glossary-term" id="glossary-origin-15-0017" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0017&amp;lesson=15#term-device-extension" aria-label="Look up device extension in the graphics glossary" title="Look up device extension in the graphics glossary">device extensions</a> and queue families. The course baseline requires a queue family that can execute compute work and support presentation to the selected surface. We also require the <a class="glossary-term" id="glossary-origin-15-0018" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0018&amp;lesson=15#term-swapchain" aria-label="Look up swapchain in the graphics glossary" title="Look up swapchain in the graphics glossary">swapchain</a> device extension. We do not enable the ray-tracing extensions merely because one candidate reports them.</p>
+
+<pre><code class="language-cpp">struct Candidate {
+    VkPhysicalDevice physical = VK_NULL_HANDLE;
+    uint32_t queueFamily = UINT32_MAX;
+    VkPhysicalDeviceProperties properties{};
+    VkPhysicalDeviceVulkan13Features features13{
+        .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES
+    };
+};
+
+bool suitable(const Candidate&amp; candidate) {
+    return candidate.queueFamily != UINT32_MAX
+        &amp;&amp; candidate.features13.synchronization2 == VK_TRUE
+        &amp;&amp; supportsDeviceExtension(
+               candidate.physical,
+               VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+}</code></pre>
+
+<p>The complete selector also checks that the surface has at least one usable format and presentation mode. A discrete device is not automatically superior. An integrated implementation satisfying every requirement may be the appropriate candidate, especially when unified memory avoids transfers that another device would require. We can rank suitable devices later. Suitability is the gate.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-15">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-15">How Vulkan Decides Which Device May Be Used</h2>
+        <p>Device selection is an acceptance decision. The application must establish the complete capability contract before it creates the logical device and retrieves a queue.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>The application enumerates physical devices and questions each one about API version, queue-family capabilities, presentation support and required features. Only a candidate satisfying that complete baseline may be used to create the logical device. The queue is then retrieved from the family and index requested during logical-device creation.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Keep the queried properties and <a class="glossary-term" id="glossary-origin-15-0019" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0019&amp;lesson=15#term-pnext-chain" aria-label="Look up pNext chain in the graphics glossary" title="Look up pNext chain in the graphics glossary">feature chain</a> beside the selection decision. Record the selected physical-device handle, queue-family index, enabled extensions and enabled features. The created queue must come from that stated family. A device name, vendor or broad classification such as discrete GPU is descriptive evidence, but it is not the acceptance test.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>Suppose a discrete device can compute but cannot present to the chosen surface, while an integrated device supports Vulkan 1.3, the required features and a queue family that can both compute and present. The integrated device is the suitable candidate for this renderer. Ranking unsuitable devices by apparent speed would answer the wrong question.</p>
+        <p class="vulkan-account-formula"><code>candidate = API baseline + queue capability + required features</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> Creating the logical device and retrieving its queue establishes that the requested ownership chain was accepted. It does not establish that later resources are compatible, that commands are correct or that this device will render the <a class="glossary-term" id="glossary-origin-15-0020" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0020&amp;lesson=15#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> faster.</p>
+</section>
+
+<h2>Create one logical device and retrieve its queue</h2>
+<p>The logical device enables a chosen subset of the physical device's reported features and creates queues from named families. It owns most Vulkan objects constructed in subsequent lessons. This ownership is why a <a class="glossary-term" id="glossary-origin-15-0021" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0021&amp;lesson=15#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> created from one logical device cannot be submitted through a queue belonging to another.</p>
+
+<pre><code class="language-cpp">float priority = 1.0f;
+VkDeviceQueueCreateInfo queueInfo{
+    .sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
+    .queueFamilyIndex = selected.queueFamily,
+    .queueCount = 1,
+    .pQueuePriorities = &amp;priority
+};
+
+VkPhysicalDeviceVulkan13Features enabled13{
+    .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES,
+    .synchronization2 = VK_TRUE
+};
+
+const char* deviceExtensions[] = {
+    VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
+
+VkDeviceCreateInfo deviceInfo{
+    .sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+    .pNext = &amp;enabled13,
+    .queueCreateInfoCount = 1,
+    .pQueueCreateInfos = &amp;queueInfo,
+    .enabledExtensionCount = 1,
+    .ppEnabledExtensionNames = deviceExtensions
+};
+
+VkDevice device = VK_NULL_HANDLE;
+check(vkCreateDevice(selected.physical, &amp;deviceInfo, nullptr, &amp;device));
+
+VkQueue queue = VK_NULL_HANDLE;
+vkGetDeviceQueue(device, selected.queueFamily, 0, &amp;queue);</code></pre>
+
+<p><code>VkQueue</code> is retrieved, not independently created. The logical device creation request asked for one queue from the selected family; index zero retrieves that queue. Later commands will be recorded elsewhere and submitted here. Recording is not execution, and a queue handle is not a background thread promised to our application.</p>
+
+<div class="worked-trace">
+<h3>Reject a tempting device</h3>
+<p>Candidate A reports Vulkan 1.4 and hardware ray tracing but no presentation support for the chosen surface on its compute family. Candidate B reports Vulkan 1.3, synchronisation2, the swapchain extension and one family supporting compute and presentation. For the renderer built in Lessons 15 to 26, B satisfies the complete baseline and A does not. The ray-tracing features of A do not repair the missing presentation route. Lesson 27 may revisit device requirements, but it must not rewrite this decision after resources have already been created.</p>
+</div>
+
+<div class="checkpoint">
+<h3>Name the owner</h3>
+<p>Which object owns an <a class="glossary-term" id="glossary-origin-15-0022" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0022&amp;lesson=15#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> created in Lesson 16: the instance, physical device, logical device, queue family or queue?</p>
+<div class="worked-answer"><h4>The answer</h4><p>The image is created from and owned by the logical device. The physical device supplied the properties and memory capabilities used to choose that logical device. A <a class="glossary-term" id="glossary-origin-15-0023" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0023&amp;lesson=15#term-command-buffer" aria-label="Look up command buffer in the graphics glossary" title="Look up command buffer in the graphics glossary">command buffer</a> may later use the image and a queue may execute those commands, but neither becomes the image's owner.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> consult the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/initialization.html">Vulkan initialisation chapter</a> and <a href="https://docs.vulkan.org/guide/latest/enabling_extensions.html">extension-enabling guide</a> when checking the current object and feature rules.</p>
+
+<section class="transfer-task">
+<h2>Make the selection explain itself</h2>
+<p>Extend the selector so every physical device produces a short report containing API version, device type, queue-family flags, presentation support, swapchain support and synchronisation2. Do not print only the winning device. A rejection without a recorded failed criterion is difficult to distinguish from an enumeration bug. Run the program with validation enabled, then deliberately request a device extension that no candidate supports and confirm that selection fails before <code>vkCreateDevice</code>.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry the ownership chain forward</h2>
+<p>Retain the instance, selected physical device, logical device, queue-family index and queue as separate fields in the renderer. The physical device will answer capability and memory questions. The logical device will create resources. The family index will create a compatible <a class="glossary-term" id="glossary-origin-15-0024" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0024&amp;lesson=15#term-command-pool" aria-label="Look up command pool in the graphics glossary" title="Look up command pool in the graphics glossary">command pool</a>. The queue will execute submissions. Collapsing those fields into an unnamed initialisation block may shorten a listing, but it removes the account needed when a later object is incompatible.</p>
+</section>
+
+<p>We have not rendered anything. That is the correct result for this lesson. We have established who may create the <a class="glossary-term" id="glossary-origin-15-0025" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0025&amp;lesson=15#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a>, who reports its <a class="glossary-term" id="glossary-origin-15-0026" href="glossary.html?from=lesson-15.html%23glossary-origin-15-0026&amp;lesson=15#term-memory-requirements" aria-label="Look up memory requirements in the graphics glossary" title="Look up memory requirements in the graphics glossary">memory requirements</a> and where recorded work will eventually be submitted. Lesson 16 now constructs the first device resource without pretending that an image handle is also its memory.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-14.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">14. A Complete Scene and the Cost of Seeing It</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-16.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">16. An Image Is Not Its Memory</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://GMZX80.github.io/programming-courses/cpp-programming/sitemap.xml

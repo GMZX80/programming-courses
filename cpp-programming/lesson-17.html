@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understanding the most popular data structure">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 17 - 17. The Array</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-17.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 17 - 17. The Array">
+    <meta property="og:description" content="Understanding the most popular data structure">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-17.html">
+</head>
+<body class="course-page lesson-page" data-lesson="17" data-art-pattern="cells" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 17 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html" aria-current="page"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 17</span>
+            </nav>
+            <p class="hero-kicker">Lesson 17 · 24 lesson course</p>
+            <h1 id="lesson-title">17. The Array</h1>
+            <p class="lesson-deck">Understanding the most popular data structure</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-16.html">← Lesson 16</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-18.html">Lesson 18 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>64 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-17-address" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-address&amp;lesson=17#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-17-argument" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-argument&amp;lesson=17#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-17-array" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-array&amp;lesson=17#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">array</a> <a class="glossary-chip" id="glossary-panel-origin-17-benchmark" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-benchmark&amp;lesson=17#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">benchmark</a> <a class="glossary-chip" id="glossary-panel-origin-17-block" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-block&amp;lesson=17#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-17-buffer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-buffer&amp;lesson=17#term-buffer" aria-label="Look up buffer in the programming glossary" title="Look up buffer in the programming glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-17-byte" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-byte&amp;lesson=17#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">byte</a> <a class="glossary-chip" id="glossary-panel-origin-17-cpp" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-cpp&amp;lesson=17#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-17-reference" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-reference&amp;lesson=17#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-17-cache" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-cache&amp;lesson=17#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> <a class="glossary-chip" id="glossary-panel-origin-17-cache-locality" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-cache-locality&amp;lesson=17#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">cache locality</a> <a class="glossary-chip" id="glossary-panel-origin-17-class" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-class&amp;lesson=17#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-17-code" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-code&amp;lesson=17#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-17-compile-time" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-compile-time&amp;lesson=17#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-17-compiler-optimisation" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-compiler-optimisation&amp;lesson=17#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">compiler optimisation</a> <a class="glossary-chip" id="glossary-panel-origin-17-condition" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-condition&amp;lesson=17#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-17-constant" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-constant&amp;lesson=17#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> <a class="glossary-chip" id="glossary-panel-origin-17-container" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-container&amp;lesson=17#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-17-contiguous-memory" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-contiguous-memory&amp;lesson=17#term-contiguous-memory" aria-label="Look up contiguous memory in the programming glossary" title="Look up contiguous memory in the programming glossary">contiguous memory</a> <a class="glossary-chip" id="glossary-panel-origin-17-conversion" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-conversion&amp;lesson=17#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-17-correctness" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-correctness&amp;lesson=17#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-17-cpu" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-cpu&amp;lesson=17#term-cpu" aria-label="Look up CPU in the programming glossary" title="Look up CPU in the programming glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-17-dangling-pointer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-dangling-pointer&amp;lesson=17#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling pointer</a> <a class="glossary-chip" id="glossary-panel-origin-17-debugging" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-debugging&amp;lesson=17#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-17-definition" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-definition&amp;lesson=17#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-17-dereference-operator" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-dereference-operator&amp;lesson=17#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereference operator</a> <a class="glossary-chip" id="glossary-panel-origin-17-dynamic-allocation" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-dynamic-allocation&amp;lesson=17#term-dynamic-allocation" aria-label="Look up dynamic allocation in the programming glossary" title="Look up dynamic allocation in the programming glossary">dynamic allocation</a> <a class="glossary-chip" id="glossary-panel-origin-17-expression" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-expression&amp;lesson=17#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-17-final-specifier" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-final-specifier&amp;lesson=17#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-17-function" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-function&amp;lesson=17#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-17-heap" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-heap&amp;lesson=17#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a> <a class="glossary-chip" id="glossary-panel-origin-17-include-directive" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-include-directive&amp;lesson=17#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-17-integer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-integer&amp;lesson=17#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-17-interface" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-interface&amp;lesson=17#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-17-iterator" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-iterator&amp;lesson=17#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterator</a> <a class="glossary-chip" id="glossary-panel-origin-17-iterator-invalidation" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-iterator-invalidation&amp;lesson=17#term-iterator-invalidation" aria-label="Look up iterator invalidation in the programming glossary" title="Look up iterator invalidation in the programming glossary">iterator invalidation</a> <a class="glossary-chip" id="glossary-panel-origin-17-lifetime" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-lifetime&amp;lesson=17#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-17-loop" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-loop&amp;lesson=17#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-17-main-function" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-main-function&amp;lesson=17#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-17-memory-allocation" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-memory-allocation&amp;lesson=17#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">memory allocation</a> <a class="glossary-chip" id="glossary-panel-origin-17-noexcept" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-noexcept&amp;lesson=17#term-noexcept" aria-label="Look up noexcept in the programming glossary" title="Look up noexcept in the programming glossary">noexcept</a> <a class="glossary-chip" id="glossary-panel-origin-17-object" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-object&amp;lesson=17#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-17-out-of-bounds-access" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-out-of-bounds-access&amp;lesson=17#term-out-of-bounds-access" aria-label="Look up out-of-bounds access in the programming glossary" title="Look up out-of-bounds access in the programming glossary">out-of-bounds access</a> <a class="glossary-chip" id="glossary-panel-origin-17-ownership" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-ownership&amp;lesson=17#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-17-parameter" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-parameter&amp;lesson=17#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-17-pass-by-pointer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-pass-by-pointer&amp;lesson=17#term-pass-by-pointer" aria-label="Look up pass by pointer in the programming glossary" title="Look up pass by pointer in the programming glossary">pass by pointer</a> <a class="glossary-chip" id="glossary-panel-origin-17-pointer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-pointer&amp;lesson=17#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-17-precondition" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-precondition&amp;lesson=17#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> <a class="glossary-chip" id="glossary-panel-origin-17-program" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-program&amp;lesson=17#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-17-raii" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-raii&amp;lesson=17#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-chip" id="glossary-panel-origin-17-runtime" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-runtime&amp;lesson=17#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-17-rvalue" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-rvalue&amp;lesson=17#term-rvalue" aria-label="Look up rvalue in the programming glossary" title="Look up rvalue in the programming glossary">rvalue</a> <a class="glossary-chip" id="glossary-panel-origin-17-scope" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-scope&amp;lesson=17#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-17-smart-pointer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-smart-pointer&amp;lesson=17#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> <a class="glossary-chip" id="glossary-panel-origin-17-state" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-state&amp;lesson=17#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-17-static-keyword" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-static-keyword&amp;lesson=17#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> <a class="glossary-chip" id="glossary-panel-origin-17-string" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-string&amp;lesson=17#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-17-switch-statement" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-switch-statement&amp;lesson=17#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch statement</a> <a class="glossary-chip" id="glossary-panel-origin-17-testing" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-testing&amp;lesson=17#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-17-type" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-type&amp;lesson=17#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-17-undefined-behaviour" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-undefined-behaviour&amp;lesson=17#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a> <a class="glossary-chip" id="glossary-panel-origin-17-value" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-value&amp;lesson=17#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-17-variable" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-variable&amp;lesson=17#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-17-vector" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-vector&amp;lesson=17#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="17">
+<img src="assets/images/lesson-art/lesson-17-array.png" alt="Abstract contiguous array of uniform cells with one indexed cell highlighted and a locality wave passing through." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p style="text-align: left;">&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-17-0001" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0001&amp;lesson=17#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">Arrays</a>, <a class="glossary-term" id="glossary-origin-17-0002" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0002&amp;lesson=17#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">Locality</a> &amp; Performance (<a class="glossary-term" id="glossary-origin-17-0003" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0003&amp;lesson=17#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+
+<p>
+Ensuring that <em>related <a class="glossary-term" id="glossary-origin-17-0004" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0004&amp;lesson=17#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> lives together in memory</em> pays off—especially in <a class="glossary-term" id="glossary-origin-17-0005" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0005&amp;lesson=17#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">programs</a> where timeliness is essential. 
+When data that is used in the same part of an execution trace is laid out <a class="glossary-term" id="glossary-origin-17-0006" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0006&amp;lesson=17#term-contiguous-memory" aria-label="Look up contiguous memory in the programming glossary" title="Look up contiguous memory in the programming glossary">contiguously</a>, the <a class="glossary-term" id="glossary-origin-17-0007" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0007&amp;lesson=17#term-cpu" aria-label="Look up CPU in the programming glossary" title="Look up CPU in the programming glossary">CPU</a> hits <a class="glossary-term" id="glossary-origin-17-0008" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0008&amp;lesson=17#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> more often and avoids 
+expensive page faults. That is why the humble <strong>array</strong>—a sequence of same-typed elements stored in <em>contiguous memory</em>—is the
+fundamental building <a class="glossary-term" id="glossary-origin-17-0009" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0009&amp;lesson=17#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> for performance-oriented programmers.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Locality Advisor</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste your <a class="glossary-term" id="glossary-origin-17-0010" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0010&amp;lesson=17#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a>; ask for a locality check (row-major vs column-major access, loop order, fusion/splitting suggestions).</li>
+      <li>Have AI propose a data layout (AoS vs SoA) to improve cache behaviour for your workload.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) What a C++ Array Is (and why it’s fast)</h3>
+
+<p>
+A C++ array stores <em>N</em> <a class="glossary-term" id="glossary-origin-17-0011" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0011&amp;lesson=17#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">objects</a> of the same <a class="glossary-term" id="glossary-origin-17-0012" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0012&amp;lesson=17#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> in one contiguous block. This allows hardware prefetchers to bring in the next elements
+efficiently (cache-line friendly) and makes iteration very cheap.
+</p>
+
+<pre><code class="language-cpp">int a[5] = {1, 2, 3, 4, 5};  // 5 contiguous ints
+</code></pre>
+
+<ul>
+  <li>Contiguity helps: sequential access benefits from spatial locality.</li>
+  <li>Arrays have a <strong>fixed size known at <a class="glossary-term" id="glossary-origin-17-0013" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0013&amp;lesson=17#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a></strong>.</li>
+  <li>Any complete type works: built-ins, structs/<a class="glossary-term" id="glossary-origin-17-0014" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0014&amp;lesson=17#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">classes</a>, even user-<a class="glossary-term" id="glossary-origin-17-0015" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0015&amp;lesson=17#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">defined</a> types (UDTs).</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pick the Right <a class="glossary-term" id="glossary-origin-17-0016" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0016&amp;lesson=17#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">Container</a></summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Describe size/resize needs; get a recommendation: <code>T[N]</code>, <code>std::array&lt;T,N&gt;</code>, <code>std::vector&lt;T&gt;</code>, or <code>std::unique_ptr&lt;T[]&gt;</code>.</li>
+      <li>Ask for a “cache-aware” pass (reserve, padding/alignment tips, SoA refactor).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) <a class="glossary-term" id="glossary-origin-17-0017" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0017&amp;lesson=17#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">Scope</a>, Storage &amp; Size</h3>
+
+<p><strong>Fixed-size arrays</strong> require the element count at compile time:</p>
+<pre><code class="language-cpp">int a[5];                 // ok: size is a constant expression
+// int n = read();        // runtime value
+// int b[n];              // ❌ <em>Variable Length Arrays</em> are not standard C++
+</code></pre>
+
+<p><strong>Safer fixed-size alternative:</strong> <code>std::array&lt;T, N&gt;</code> (knows its size, works with STL, still contiguous):</p>
+<pre><code class="language-cpp">#include &lt;array&gt;
+std::array&lt;int, 5&gt; a = {1,2,3,4,5};
+for (int x : a) { /* ... */ }
+</code></pre>
+
+<p><strong><a class="glossary-term" id="glossary-origin-17-0018" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0018&amp;lesson=17#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">Runtime</a>-sized, still contiguous:</strong> use <code>std::vector&lt;T&gt;</code> (dynamic size) or <code>std::unique_ptr&lt;T[]&gt;</code> (manual size, no resize):</p>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+std::vector&lt;int&gt; v(5);           // 5 ints, contiguous, resizable
+auto buf = std::make_unique&lt;int[]&gt;(5); // contiguous, fixed count, RAII
+</code></pre>
+
+<hr>
+
+<h3>3) Arrays of User-Defined Types (and <a class="glossary-term" id="glossary-origin-17-0019" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0019&amp;lesson=17#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a>-sized internals)</h3>
+
+<p>
+Arrays hold elements of the same type and size. If elements vary <em>logically</em> in size, store handles/<a class="glossary-term" id="glossary-origin-17-0020" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0020&amp;lesson=17#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointers</a>/<a class="glossary-term" id="glossary-origin-17-0021" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0021&amp;lesson=17#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> to 
+independently allocated data (or use types like <code>std::string</code> that manage their own dynamic storage).
+</p>
+
+<pre><code class="language-cpp">struct Blob { std::size_t n; unsigned char* data; }; // handle to variable-sized payload
+Blob blobs[3];           // contiguous Blobs; each Blob's 'data' may point elsewhere (heap)
+</code></pre>
+
+<p>
+Remember: an array of <code>std::string</code> is contiguous in its <em><a class="glossary-term" id="glossary-origin-17-0022" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0022&amp;lesson=17#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> objects</em>, but not necessarily their character <a class="glossary-term" id="glossary-origin-17-0023" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0023&amp;lesson=17#term-buffer" aria-label="Look up buffer in the programming glossary" title="Look up buffer in the programming glossary">buffers</a>.
+</p>
+
+<hr>
+
+<h3>4) Access Patterns &amp; Locality (make the hardware happy)</h3>
+
+<p><strong>Row-major order</strong> (C/C++ default for multi-dimensional arrays):</p>
+<pre><code class="language-cpp">int m[ROWS][COLS];
+// Best: iterate rows outside, columns inside
+for (int r = 0; r &lt; ROWS; ++r)
+  for (int c = 0; c &lt; COLS; ++c)
+    use(m[r][c]);  // contiguous progression
+</code></pre>
+
+<p>Bad locality example (column-first on row-major data) increases cache misses.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Loop Order &amp; Blocking</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to rewrite your nested loops to match memory layout and propose blocking (tiling) for large matrices.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>5) Arrays vs <a class="glossary-term" id="glossary-origin-17-0024" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0024&amp;lesson=17#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">Vectors</a> — When to Choose Which</h3>
+
+<ul>
+  <li><strong>C-style array <code>T[N]</code>:</strong> fixed <em>N</em>, no size metadata, decays to pointer on pass; very lightweight.</li>
+  <li><strong><code>std::array&lt;T,N&gt;</code>:</strong> fixed <em>N</em>, knows its size, STL-friendly; same contiguous layout as <code>T[N]</code>.</li>
+  <li><strong><code>std::vector&lt;T&gt;</code>:</strong> dynamic size; contiguous, but may reallocate when growing (invalidates pointers/<a class="glossary-term" id="glossary-origin-17-0025" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0025&amp;lesson=17#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterators</a>).</li>
+</ul>
+
+<pre><code class="language-cpp">// Avoid reallocation penalty by reserving
+std::vector&lt;float&gt; samples;
+samples.reserve(1'000'000);   // contiguous block up front
+for (...) samples.push_back(...);
+</code></pre>
+
+<p>
+Vectors do add a small overhead (size/capacity tracking, growth strategy), but are still contiguous and usually very fast. Prefer them when size isn’t known until runtime.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Growth Strategy</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Provide rough element counts; AI suggests <code>reserve()</code> sizes and when to <a class="glossary-term" id="glossary-origin-17-0026" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0026&amp;lesson=17#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch</a> to fixed storage.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) Passing Arrays Safely (don’t lose the size!)</h3>
+
+<p>C-style arrays decay to pointers; you lose the length:</p>
+<pre><code class="language-cpp">void f(int* data, std::size_t n); // pass pointer + size
+</code></pre>
+
+<p>Prefer <code>std::span</code> (C++20) or templates that capture size:</p>
+<pre><code class="language-cpp">#include &lt;span&gt;
+
+void g(std::span&lt;const int&gt; s) {
+    for (int x : s) { /* ... */ }
+}
+
+template&lt;std::size_t N&gt;
+void h(const int (&amp;arr)[N]) { /* N is known here */ }
+</code></pre>
+
+<hr>
+
+<h3>7) Common Pitfalls (and fixes)</h3>
+
+<ul>
+  <li><strong><a class="glossary-term" id="glossary-origin-17-0027" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0027&amp;lesson=17#term-out-of-bounds-access" aria-label="Look up out-of-bounds access in the programming glossary" title="Look up out-of-bounds access in the programming glossary">Out-of-bounds</a>:</strong> no bounds checks on <code>T[N]</code>; prefer <code>std::array</code>/<code>std::vector</code> and checked access in <a class="glossary-term" id="glossary-origin-17-0028" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0028&amp;lesson=17#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debug</a> (<code>.at()</code>).</li>
+  <li><strong>Pointer decay:</strong> passing <code>a</code> to a <a class="glossary-term" id="glossary-origin-17-0029" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0029&amp;lesson=17#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> loses size; pass <code>std::span</code> or size <a class="glossary-term" id="glossary-origin-17-0030" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0030&amp;lesson=17#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a>.</li>
+  <li><strong>VLA usage:</strong> Variable Length Arrays are non-standard in C++; use <code>std::vector</code> or <code>std::unique_ptr&lt;T[]&gt;</code>.</li>
+  <li><strong>Reallocation <a class="glossary-term" id="glossary-origin-17-0031" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0031&amp;lesson=17#term-iterator-invalidation" aria-label="Look up iterator invalidation in the programming glossary" title="Look up iterator invalidation in the programming glossary">invalidation</a>:</strong> keep in mind that <code>std::vector::push_back</code> may invalidate pointers/iterators; call <code>reserve()</code> first.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Bounds &amp; Invalidation Audit</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to scan for potential out-of-bounds and iterator invalidation; get refactors to <code>span</code>/<code>at()</code>/<code>reserve()</code>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) Worked Examples</h3>
+
+<p><strong>A) Summing an array with good locality</strong></p>
+<pre><code class="language-cpp">#include &lt;cstddef&gt;
+int sum(const int* p, std::size_t n) {
+    int s = 0;
+    for (std::size_t i = 0; i &lt; n; ++i) s += p[i];  // linear access
+    return s;
+}
+</code></pre>
+
+<p><strong>B) 2D traversal (row-major friendly)</strong></p>
+<pre><code class="language-cpp">constexpr int R = 512, C = 512;
+int m[R][C] = {};
+for (int r = 0; r &lt; R; ++r)
+  for (int c = 0; c &lt; C; ++c)
+    m[r][c] = r + c;  // sequential in memory per row
+</code></pre>
+
+<p><strong>C) Fixed vs dynamic</strong></p>
+<pre><code class="language-cpp">#include &lt;array&gt;
+#include &lt;vector&gt;
+
+std::array&lt;float, 1024&gt; a;     // compile-time size, no allocation at runtime
+std::vector&lt;float&gt;      b(1024); // runtime-sized, resizable if needed
+</code></pre>
+
+<hr>
+
+<h3>9) Mini Exercise — Choose the Right Structure</h3>
+
+<p><strong>Scenario:</strong> You will collect ~1,000,000 samples, then process them once (no further growth after load).</p>
+<ul>
+  <li>Option 1: <code>std::vector&lt;float&gt; samples; samples.reserve(1'000'000);</code> then <code>push_back</code> during load.</li>
+  <li>Option 2: Two-phase: read the exact count first, then construct <code>std::vector&lt;float&gt; samples(count);</code> and fill by index.</li>
+  <li>Option 3: If the count is a true compile-time <a class="glossary-term" id="glossary-origin-17-0032" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0032&amp;lesson=17#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a>, use <code>std::array&lt;float, N&gt;</code>.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pick &amp; Justify</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to justify a choice based on determinism, memory footprint, and cache behaviour for your specific workload.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li>Use arrays (<code>T[N]</code> or <code>std::array</code>) for <strong>fixed-size, performance-critical</strong> data; enjoy contiguous storage.</li>
+  <li>Use <code>std::vector</code> for <strong>runtime-sized</strong> contiguous sequences; call <code>reserve()</code> if you know the count.</li>
+  <li>Iterate in <strong>memory order</strong> (row-major) and keep hot data together for cache efficiency.</li>
+  <li>Avoid non-standard VLAs; pass arrays with size info (prefer <code>std::span</code> or templates).</li>
+  <li>When elements vary in size, store handles in the array (pointers/indices) or use owning types like <code>std::string</code>.</li>
+</ul>
+        
+<!-- lesson-enhancement:17:start -->
+<section class="lesson-enhancement" id="arrays-bounds-and-views">
+<p class="lesson-enhancement-kicker">Advanced perspective: a sequence is useful only while its boundary remains attached</p>
+<h2>Contiguous storage does not excuse an access whose bound cannot be proved</h2>
+<p>An array gives us a sequence of adjacent elements of one type. That layout can support efficient traversal and simple interoperability, but neither property answers the first <a class="glossary-term" id="glossary-origin-17-0033" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0033&amp;lesson=17#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> question: does this particular subscript designate an element of this particular sequence? For <code>int values[3]</code>, the valid indices are 0, 1 and 2. The <a class="glossary-term" id="glossary-origin-17-0034" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0034&amp;lesson=17#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <code>values[3]</code> steps beyond the elements. A program that appears to survive the access has demonstrated only that one failure was not immediately visible.</p>
+<p>The bound is not a suggestion for sensible input. It is part of the proof required before each indexed access. If <code>count</code> is the number of elements, a valid subscript satisfies <code>0 &lt;= index &amp;&amp; index &lt; count</code>. For an unsigned index the lower comparison is implicit in the type, but the upper comparison remains essential. A pointer may be formed one position past the <a class="glossary-term" id="glossary-origin-17-0035" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0035&amp;lesson=17#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> element for range reasoning; <a class="glossary-term" id="glossary-origin-17-0036" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0036&amp;lesson=17#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereferencing</a> that one-past <a class="glossary-term" id="glossary-origin-17-0037" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0037&amp;lesson=17#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> is still invalid.</p>
+<table>
+<thead><tr><th>Claim</th><th>What supports it</th><th>What does not support it</th></tr></thead>
+<tbody>
+<tr><td>The index is valid.</td><td>The index is compared with the current <a class="glossary-term" id="glossary-origin-17-0038" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0038&amp;lesson=17#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">extent</a> of the same sequence.</td><td>The loop ran without crashing yesterday.</td></tr>
+<tr><td>The pointer may be dereferenced.</td><td>It designates a live element within the permitted range.</td><td>It is non-null or numerically close to another valid <a class="glossary-term" id="glossary-origin-17-0039" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0039&amp;lesson=17#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a>.</td></tr>
+<tr><td>The saved bound is current.</td><td>No intervening operation changed the logical sequence it describes.</td><td>The variable is named <code>size</code> or <code>count</code>.</td></tr>
+<tr><td>The traversal is efficient.</td><td>Measurement on the relevant data, build and machine supports the claim.</td><td>The elements happen to be contiguous.</td></tr>
+</tbody>
+</table>
+
+<h3>Array-to-pointer <a class="glossary-term" id="glossary-origin-17-0040" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0040&amp;lesson=17#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> removes information from the <a class="glossary-term" id="glossary-origin-17-0041" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0041&amp;lesson=17#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a></h3>
+<p>The type of a built-in array object includes its element count. While the expression still refers to that array, facilities such as <code>std::size</code> can obtain the bound. In many expression contexts, however, the array is converted to a pointer to its first element. A function parameter written with array-looking syntax is adjusted to a <a class="glossary-term" id="glossary-origin-17-0042" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0042&amp;lesson=17#term-pass-by-pointer" aria-label="Look up pass by pointer in the programming glossary" title="Look up pass by pointer in the programming glossary">pointer parameter</a>; writing a number inside those brackets does not make the function receive or enforce that number.</p>
+<p>Once the interface contains only <code>const int* data</code>, the callee cannot recover how many <a class="glossary-term" id="glossary-origin-17-0043" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0043&amp;lesson=17#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integers</a> the caller intended to make available. A separate count can restore the contract by convention, but pointer and count can disagree. Which sequence produced the pointer? Is the count measured in elements or <a class="glossary-term" id="glossary-origin-17-0044" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0044&amp;lesson=17#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">bytes</a>? Was it captured before the <a class="glossary-term" id="glossary-origin-17-0045" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0045&amp;lesson=17#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">owner</a> resized? Each question exists because the type no longer carries the complete relationship.</p>
+<table>
+<thead><tr><th>Interface shape</th><th>Information retained</th><th>Remaining responsibility</th></tr></thead>
+<tbody>
+<tr><td><code>const int* data</code></td><td>An access path to a possible first element.</td><td>The extent and lifetime must be established elsewhere.</td></tr>
+<tr><td><code>const int* data, std::size_t count</code></td><td>Address and claimed element count.</td><td>The caller must supply a matching pair.</td></tr>
+<tr><td>Reference to <code>const int (&amp;)[N]</code></td><td>The built-in array and its compile-time bound.</td><td>The interface accepts that array form and fixed extent.</td></tr>
+<tr><td><code>std::span&lt;const int&gt;</code></td><td>A non-owning contiguous range and its extent as one view.</td><td>The owner must keep the elements alive and uninvalidated.</td></tr>
+</tbody>
+</table>
+
+<h3>Keep ownership and extent visible at the call</h3>
+<pre><code class="language-cpp">#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;span&gt;
+
+int sum(std::span&lt;const int&gt; values) {
+    int total{0};
+    for (const int value : values) {
+        total += value;
+    }
+    return total;
+}
+
+int main() {
+    const std::array values{4, 7, 9};
+    std::cout &lt;&lt; sum(values) &lt;&lt; '\n';
+}
+</code></pre>
+<p>The <code>std::array</code> in <code>main</code> owns three integers as part of its value. The span passed to <code>sum</code> is a view of those elements. It does not copy them and it does not own them. Its <code>const</code> element type prevents this function from modifying the integers through the view; it does not extend their lifetime.</p>
+<p>The range-based loop obtains the elements described by the span without making the function invent a second count or maintain a manual index. The trace is 0 plus 4, then 7, then 9, so the result is 20. That visible arithmetic is useful, but the interface is doing the more important work. Data and extent arrive together, while ownership remains visibly with the caller for the duration of this call.</p>
+<table>
+<thead><tr><th>Object or view</th><th>Owns elements?</th><th>Can change length?</th><th>What its type communicates</th></tr></thead>
+<tbody>
+<tr><td>Built-in <code>T[N]</code></td><td>Yes, as part of the array object.</td><td>No.</td><td>A fixed contiguous sequence; the bound is present before decay.</td></tr>
+<tr><td><code>std::array&lt;T, N&gt;</code></td><td>Yes.</td><td>No.</td><td>A fixed-size value with container operations.</td></tr>
+<tr><td><code>std::vector&lt;T&gt;</code></td><td>Yes.</td><td>Yes.</td><td>A runtime-sized contiguous sequence with managed storage.</td></tr>
+<tr><td><code>std::span&lt;T&gt;</code></td><td>No.</td><td>The view's extent is fixed after construction.</td><td>Borrowed contiguous elements, with either <a class="glossary-term" id="glossary-origin-17-0046" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0046&amp;lesson=17#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> or dynamic extent.</td></tr>
+</tbody>
+</table>
+<p>A span makes the bound available; it does not turn every operation into a checked operation. If <a class="glossary-term" id="glossary-origin-17-0047" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0047&amp;lesson=17#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> uses an explicit index, the program must still establish its validity or choose an operation whose contract performs the required check. Better information makes a better interface possible. It does not abolish <a class="glossary-term" id="glossary-origin-17-0048" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0048&amp;lesson=17#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">preconditions</a>.</p>
+
+<h3>Select the representation from change, ownership and identity</h3>
+<p>"Arrays are fast" is not a container-selection rule. First decide whether the element count is fixed by the problem or known only at runtime. Then decide who owns the elements, whether the sequence must resize, and whether existing references must survive changes. A <code>std::array</code> is appropriate when the count is genuinely fixed and value semantics fit. A <code>std::vector</code> is appropriate when the program owns a contiguous sequence whose size changes at runtime. A span is appropriate when an operation borrows an already existing contiguous range.</p>
+<p>Using a <a class="glossary-term" id="glossary-origin-17-0049" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0049&amp;lesson=17#term-dynamic-allocation" aria-label="Look up dynamic allocation in the programming glossary" title="Look up dynamic allocation in the programming glossary">dynamic allocation</a> merely because the count is large answers none of those questions. Nor does a built-in array become the correct choice merely because it has no separate size or capacity fields. Representation overhead matters only after the required behaviour is correct and the workload shows that the difference is material.</p>
+
+<h3>Growth changes more than the number reported by <code>size()</code></h3>
+<p>A vector owns a sequence and normally retains capacity for some number of elements. When an insertion requires more storage than the current capacity, the vector obtains a new <a class="glossary-term" id="glossary-origin-17-0050" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0050&amp;lesson=17#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">allocation</a>, moves or copies its elements as required, and releases the old allocation. Pointers, references and iterators into the former allocation are then invalid. The vector object is still alive. Its old element addresses are not.</p>
+<p><code>reserve</code> can establish enough capacity for a known amount of growth. If it reallocates, references into the old storage are invalidated at that point. Successful later insertions that remain within capacity avoid reallocation, but this is a bounded statement about those operations, not a permanent licence to store addresses. The past call to <code>reserve</code> must be compared with the actual capacity and subsequent growth.</p>
+<table>
+<thead><tr><th>Event</th><th>Sequence state</th><th>Borrower question</th></tr></thead>
+<tbody>
+<tr><td>Construct a vector with three elements.</td><td>Three live elements in owned contiguous storage.</td><td>Any view must stay within those three elements.</td></tr>
+<tr><td>Save a pointer to element zero.</td><td>The vector remains the owner.</td><td>The pointer is valid only while that element and allocation remain valid.</td></tr>
+<tr><td>Insert without reallocation.</td><td>The sequence grows in existing storage.</td><td>Check the specified invalidation rules, including the old end position.</td></tr>
+<tr><td>Insert with reallocation.</td><td>Elements occupy a new allocation.</td><td>Old pointers, references and iterators into the elements are invalid.</td></tr>
+</tbody>
+</table>
+
+<h3>Contiguity permits a locality <a class="glossary-term" id="glossary-origin-17-0051" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0051&amp;lesson=17#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a>; it does not finish one</h3>
+<p>For <code>int grid[2][3]</code>, the rightmost index varies across adjacent elements. Row-first traversal therefore follows the stored order, while column-first traversal uses a larger stride. On a sufficiently large and repeatedly processed row-major data set, that difference can affect cache behaviour. This is a mechanism worth <a class="glossary-term" id="glossary-origin-17-0052" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0052&amp;lesson=17#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a>, not a ritual for rearranging every nested loop.</p>
+<p>Observed performance also depends on element size, working-set size, <a class="glossary-term" id="glossary-origin-17-0053" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0053&amp;lesson=17#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">compiler optimisation</a>, access frequency, hardware, surrounding work and whether a different data organisation reduces the useful computation. An array of objects may be contiguous in those objects while the data reached through members is allocated elsewhere. An array of <code>std::string</code> places the string objects together; it does not promise that all character buffers follow one another. Draw what is actually contiguous before predicting what the cache will see.</p>
+<p>The same discipline applies to array-of-structures and structure-of-arrays designs. The correct choice depends on which fields are accessed together across which elements. A <a class="glossary-term" id="glossary-origin-17-0054" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0054&amp;lesson=17#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">benchmark</a> should represent that access pattern and preserve the program's required behaviour. Faster output from a test that quietly computes less is not a locality success.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> require a bound source and an invalidation proof</summary>
+<div>
+<p>When AI produces a loop, ask where the extent came from, which sequence it describes, and which operation could make it stale. Require tests for an empty range, one element, the final legal index and the first rejected index. If a pointer, iterator or span is retained, mark its owner and every mutation between creation and final use.</p>
+<p>For a performance suggestion, require the claimed mechanism and a measurement plan. "Contiguous is cache friendly" is a starting hypothesis. The answer must still identify traversal order, data volume, fields used, build configuration and a correctness check for the transformed code. Otherwise a confident optimisation can conceal either a boundary error or a benchmark that measures the wrong task.</p>
+</div>
+</details>
+
+<h3>Transfer task: preserve the slice, not merely its first address</h3>
+<p>Design a function that sums elements <code>first</code> through <code>last</code> of a caller-owned vector, with <code>first</code> included and <code>last</code> excluded. State what must be true when the slice is empty, when it covers the full vector, and when either endpoint is outside the vector. Decide whether the function should receive the vector and two indices, a span already restricted by the caller, or a different representation.</p>
+<p>Now assume the caller saves that slice, appends elements to the vector and uses the slice again. Draw the owner, data allocation, extent and saved view before and after the append. Your answer must identify the <a class="glossary-term" id="glossary-origin-17-0055" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0055&amp;lesson=17#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> under which reallocation occurs and what that does to the view. Do not repair the design by saying "call <code>reserve</code>" until you have stated the maximum growth that makes that promise sufficient.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The summing operation does not need to own a vector and it does not need to interpret two unrelated integers. It needs one already validated range. I would therefore separate checking the requested endpoints from processing the resulting span:</p>
+<pre><code class="language-cpp">#include &lt;cstddef&gt;
+#include &lt;cstdint&gt;
+#include &lt;numeric&gt;
+#include &lt;optional&gt;
+#include &lt;span&gt;
+#include &lt;vector&gt;
+
+std::optional&lt;std::span&lt;const int&gt;&gt; checked_slice(
+    const std::vector&lt;int&gt;&amp; values,
+    std::size_t first,
+    std::size_t last) noexcept
+{
+    if (first &gt; last || last &gt; values.size()) {
+        return std::nullopt;
+    }
+
+    std::span&lt;const int&gt; all{values};
+    return all.subspan(first, last - first);
+}
+
+std::optional&lt;std::span&lt;const int&gt;&gt; checked_slice(
+    std::vector&lt;int&gt;&amp;&amp;,
+    std::size_t,
+    std::size_t) = delete;
+
+std::optional&lt;std::span&lt;const int&gt;&gt; checked_slice(
+    const std::vector&lt;int&gt;&amp;&amp;,
+    std::size_t,
+    std::size_t) = delete;
+
+std::int64_t sum(std::span&lt;const int&gt; values)
+{
+    return std::accumulate(
+        values.begin(), values.end(), std::int64_t{0});
+}
+</code></pre>
+<p>The contract is now visible. An empty slice is valid when <code>first == last</code>, including when both equal <code>values.size()</code>, and its sum is zero. The full slice is <code>[0, values.size())</code>. Any request with <code>first &gt; last</code> or <code>last &gt; values.size()</code> is rejected before <code>subspan</code> is called. The deleted <a class="glossary-term" id="glossary-origin-17-0056" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0056&amp;lesson=17#term-rvalue" aria-label="Look up rvalue in the programming glossary" title="Look up rvalue in the programming glossary">rvalue</a> overloads prevent a temporary vector from producing a span whose owner disappears at the end of the call. The wider accumulator avoids ordinary <code>int</code> overflow for realistic vectors of integers; a domain that can exceed <code>std::int64_t</code> still needs an explicit checked-arithmetic policy.</p>
+<p>The saved view remains non-owning. Its lifetime picture is:</p>
+<table>
+<thead><tr><th>Moment</th><th>Owner</th><th>Allocation</th><th>Saved view</th></tr></thead>
+<tbody>
+<tr><td>Before append</td><td>The vector owns allocation A.</td><td>A contains the vector's live elements.</td><td>A pointer into A plus the fixed slice extent.</td></tr>
+<tr><td>Append within capacity</td><td>The vector still owns A.</td><td>The new element is constructed in A.</td><td>A view whose data pointer is before the old end remains usable and does not grow. An empty view positioned at the old end should be created again because that past-the-end position is invalidated.</td></tr>
+<tr><td>Append beyond capacity</td><td>The vector owns a new allocation B.</td><td>Elements move or copy to B and A is released.</td><td>The saved pointer still names A and is <a class="glossary-term" id="glossary-origin-17-0057" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0057&amp;lesson=17#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling</a>. Using the view has <a class="glossary-term" id="glossary-origin-17-0058" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0058&amp;lesson=17#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a>.</td></tr>
+</tbody>
+</table>
+<p>For one <code>push_back</code>, reallocation is required when the old <code>size()</code> equals the old <code>capacity()</code>. More generally, a sequence of appends reallocates when the required new size exceeds the current capacity. Calling <code>reserve</code> is sufficient only if the maximum growth is known. If the vector currently contains <code>n</code> elements and at most <code>g</code> will be appended, call <code>reserve(n + g)</code> before creating the span, check that the addition itself is representable, and do not exceed that bound. Calling <code>reserve</code> after saving the view is too late because <code>reserve</code> may itself reallocate.</p>
+<p>If the growth bound is not known, do not retain the span across mutation. Save the two indices and create a fresh checked span after the append when the slice is meant to follow the vector. Copy the elements into a new vector when the slice is meant to be an independent snapshot. Those are different lifetime promises, and the representation should say which one was intended.</p>
+</div>
+</details>
+
+<p>A safe sequence interface keeps four facts connected: the storage owner, the first element, the number of permitted elements and the operations that can invalidate the relationship. Lose any one of them and the array may remain contiguous while the program's reasoning develops a hole.</p>
+</section>
+<!-- lesson-enhancement:17:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-16.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">16. Scope and Extent</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-18.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">18. Classes and Objects</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

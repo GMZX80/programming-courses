@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Send a second ray towards the light and handle the numerical boundary at the surface that created it.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 08 - Shadows and the Problem of Zero</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="08" data-ray-stage="8" data-art-pattern="branch">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 08 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html" aria-current="page"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 08</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">8. Shadows and the Problem of Zero</h1>
+            <p class="lesson-deck">Send a second ray towards the light and handle the numerical boundary at the surface that created it.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-07.html">&larr; Lesson 07</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-09.html">Lesson 09 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>28 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-08-acceleration-structure" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-acceleration-structure&amp;lesson=08#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structure</a> <a class="glossary-chip" id="glossary-panel-origin-08-bounded-ray" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-bounded-ray&amp;lesson=08#term-bounded-ray" aria-label="Look up bounded ray in the graphics glossary" title="Look up bounded ray in the graphics glossary">bounded ray</a> <a class="glossary-chip" id="glossary-panel-origin-08-candidate-intersection" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-candidate-intersection&amp;lesson=08#term-candidate-intersection" aria-label="Look up candidate intersection in the graphics glossary" title="Look up candidate intersection in the graphics glossary">candidate intersection</a> <a class="glossary-chip" id="glossary-panel-origin-08-diffuse" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-diffuse&amp;lesson=08#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> <a class="glossary-chip" id="glossary-panel-origin-08-direction" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-direction&amp;lesson=08#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-08-epsilon" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-epsilon&amp;lesson=08#term-epsilon" aria-label="Look up epsilon in the graphics glossary" title="Look up epsilon in the graphics glossary">epsilon</a> <a class="glossary-chip" id="glossary-panel-origin-08-finite-precision" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-finite-precision&amp;lesson=08#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite precision</a> <a class="glossary-chip" id="glossary-panel-origin-08-floating-point" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-floating-point&amp;lesson=08#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> <a class="glossary-chip" id="glossary-panel-origin-08-gpu" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-gpu&amp;lesson=08#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-08-hit" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-hit&amp;lesson=08#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-08-hit-record" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-hit-record&amp;lesson=08#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> <a class="glossary-chip" id="glossary-panel-origin-08-intersection" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-intersection&amp;lesson=08#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-08-maximum-distance" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-maximum-distance&amp;lesson=08#term-maximum-distance" aria-label="Look up maximum distance in the graphics glossary" title="Look up maximum distance in the graphics glossary">maximum distance</a> <a class="glossary-chip" id="glossary-panel-origin-08-normalise" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-normalise&amp;lesson=08#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-08-occlusion" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-occlusion&amp;lesson=08#term-occlusion" aria-label="Look up occlusion in the graphics glossary" title="Look up occlusion in the graphics glossary">occlusion</a> <a class="glossary-chip" id="glossary-panel-origin-08-origin-bias" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-origin-bias&amp;lesson=08#term-origin-bias" aria-label="Look up origin bias in the graphics glossary" title="Look up origin bias in the graphics glossary">origin bias</a> <a class="glossary-chip" id="glossary-panel-origin-08-plane" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-plane&amp;lesson=08#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> <a class="glossary-chip" id="glossary-panel-origin-08-point" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-point&amp;lesson=08#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-08-point-light" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-point-light&amp;lesson=08#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a> <a class="glossary-chip" id="glossary-panel-origin-08-primary-ray" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-primary-ray&amp;lesson=08#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-08-ray-interval" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-ray-interval&amp;lesson=08#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> <a class="glossary-chip" id="glossary-panel-origin-08-sample" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-sample&amp;lesson=08#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-08-scene" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-scene&amp;lesson=08#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-08-self-intersection" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-self-intersection&amp;lesson=08#term-self-intersection" aria-label="Look up self-intersection in the graphics glossary" title="Look up self-intersection in the graphics glossary">self-intersection</a> <a class="glossary-chip" id="glossary-panel-origin-08-shadow-ray" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-shadow-ray&amp;lesson=08#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> <a class="glossary-chip" id="glossary-panel-origin-08-specular" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-specular&amp;lesson=08#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> <a class="glossary-chip" id="glossary-panel-origin-08-sphere" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-sphere&amp;lesson=08#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-08-surface-normal" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-surface-normal&amp;lesson=08#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A shadow is not a dark shape placed beneath an object. It is the result of a failed visibility route from a surface <a class="glossary-term" id="glossary-origin-08-0001" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0001&amp;lesson=08#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> to a light <a class="glossary-term" id="glossary-origin-08-0002" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0002&amp;lesson=08#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a>. This is a useful correction because it turns a special visual effect into a familiar operation: construct a ray, give it an interval and ask whether any geometry occupies that interval.</p>
+<p>The <a class="glossary-term" id="glossary-origin-08-0003" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0003&amp;lesson=08#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> begins on the surface that created it. In exact arithmetic, its origin belongs to that surface. In <a class="glossary-term" id="glossary-origin-08-0004" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0004&amp;lesson=08#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite-precision</a> arithmetic, the reconstructed <a class="glossary-term" id="glossary-origin-08-0005" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0005&amp;lesson=08#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> position may be slightly inside, outside or exactly on the numerical boundary. If we ask for <a class="glossary-term" id="glossary-origin-08-0006" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0006&amp;lesson=08#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersections</a> beginning at zero, the surface can block its own route to the light. The resulting speckles or dark regions are commonly called <a class="glossary-term" id="glossary-origin-08-0007" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0007&amp;lesson=08#term-self-intersection" aria-label="Look up self-intersection in the graphics glossary" title="Look up self-intersection in the graphics glossary">shadow acne</a>. The name is memorable; the cause is the part we need to retain.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Construct a shadow ray with a <a class="glossary-term" id="glossary-origin-08-0008" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0008&amp;lesson=08#term-maximum-distance" aria-label="Look up maximum distance in the graphics glossary" title="Look up maximum distance in the graphics glossary">maximum distance</a> ending before the <a class="glossary-term" id="glossary-origin-08-0009" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0009&amp;lesson=08#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a>.</li>
+<li>Stop the query at the first valid occluder rather than computing an unnecessary closest shaded hit.</li>
+<li>Explain why a scale-aware origin or interval policy is required at a generating surface.</li>
+</ul>
+</section>
+
+<h2>The light defines a bounded interval</h2>
+<p>From hit position <code>P</code>, compute the displacement to the light position, retain its length and <a class="glossary-term" id="glossary-origin-08-0010" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0010&amp;lesson=08#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> it. A blocking object matters only if it lies after the surface and before the light.</p>
+
+<pre><code class="language-js">const toLight = subtract(light.position, hit.position);
+const lightDistance = length(toLight);
+const direction = scale(toLight, 1 / lightDistance);
+
+const shadowRay = {
+    origin: hit.position,
+    direction
+};
+
+const blocked = anyHit(
+    shadowRay,
+    0.001,
+    lightDistance - 0.001
+);
+</code></pre>
+
+<p>The upper bound is essential. A <a class="glossary-term" id="glossary-origin-08-0011" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0011&amp;lesson=08#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> beyond the light lies on the same infinite line but cannot block light that ends before it. Asking for <code>tMax = ∞</code> would answer whether anything exists in that <a class="glossary-term" id="glossary-origin-08-0012" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0012&amp;lesson=08#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a>, not whether the light route is occluded.</p>
+
+<h2>Any hit is sufficient</h2>
+<p>A <a class="glossary-term" id="glossary-origin-08-0013" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0013&amp;lesson=08#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> needs the closest surface because that record will be shaded. A shadow ray needs a yes or no answer. Once one valid occluder is found, further object tests cannot change blocked into unblocked. A dedicated <code>anyHit</code> traversal can therefore return immediately.</p>
+
+<pre><code class="language-js">function anyHit(ray, objects, tMin, tMax) {
+    for (const object of objects) {
+        if (object.intersect(ray, tMin, tMax) !== null) {
+            return true;
+        }
+    }
+    return false;
+}
+</code></pre>
+
+<p>This early return is not merely an optimisation pasted onto the closest-hit function. It follows from a different required result. When the answer is existential, one witness is enough. When the answer needs a shaded surface, we must retain the closest record. Naming the two queries makes the purpose inspectable.</p>
+
+<h2>The origin is on a numerical boundary</h2>
+<p>Suppose a sphere hit is reconstructed with <code>P = O + tD</code>. Substituting <code>P</code> back into the sphere equation may produce a tiny residual rather than exact zero. A new outward ray beginning at <code>P</code> can then report a root close to zero. Treating that root as an occluder makes the surface shadow itself.</p>
+<p>A common teaching policy moves the shadow origin a small distance along the oriented <a class="glossary-term" id="glossary-origin-08-0014" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0014&amp;lesson=08#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a> and also begins the <a class="glossary-term" id="glossary-origin-08-0015" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0015&amp;lesson=08#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">accepted interval</a> at a small positive value:</p>
+
+<pre><code class="language-js">const epsilon = 0.001;
+const shadowRay = {
+    origin: add(hit.position, scale(hit.normal, epsilon)),
+    direction
+};
+
+const blocked = anyHit(
+    shadowRay,
+    epsilon,
+    lightDistance - epsilon
+);
+</code></pre>
+
+<p>This is useful for our <a class="glossary-term" id="glossary-origin-08-0016" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0016&amp;lesson=08#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> scale. It is not a universal constant for every renderer. Make the world one million times larger or smaller and the same value may cause a visible gap or fail to move the origin meaningfully. Robust systems relate offsets to <a class="glossary-term" id="glossary-origin-08-0017" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0017&amp;lesson=08#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> error, position magnitude and primitive behaviour. Our immediate criterion is narrower: the policy must reject the generating-surface artefact without skipping a genuinely nearby occluder.</p>
+
+<section class="ray-lab concept-lab stage-08-lab" data-ray-lab data-stage="8" aria-labelledby="ray-lab-title-08">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Shadow-boundary laboratory</p><h2 id="ray-lab-title-08">Move a Shadow Ray off Its Surface</h2></div>
+        <p>Compare an exact-surface origin with P plus epsilon N and inspect how that small change alters the accepted ray interval.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Switch the shadow origin between P and P + epsilon N. Watch the origin, interval and self-hit decision change together.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 8 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Shadow-bias image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Shadow diagnostic</strong><small>A deliberately exaggerated comparison between an exact-surface shadow origin and a biased origin.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">A deliberately exaggerated comparison between an exact-surface shadow origin and a biased origin.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Shadow-origin diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Inspect the ray origin</strong><small>A magnified surface boundary showing the exact point P and the offset point P plus epsilon N.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">A magnified surface boundary showing the exact point P and the offset point P plus epsilon N.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Origin offset ε</dt><dd><output data-shadow-epsilon>0.001</output></dd></div><div><dt>Shadow origin</dt><dd><output data-shadow-origin>P + 0.001N</output></dd></div><div><dt>Accepted t interval</dt><dd><output data-shadow-interval>[0.001, distance)</output></dd></div><div><dt>Generating surface</dt><dd><output data-shadow-outcome>Excluded</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-shadow-formula>Oshadow = P + εN</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Expose the failure before correcting it</h2>
+<p>The laboratory offers an exact-surface diagnostic. It deliberately permits the near-zero boundary to count as a hit so the consequence is obvious. Restore the biased origin and the direct-light contribution returns where no other object occupies the bounded route.</p>
+<p>This exaggerated mode is not evidence that every platform will produce the identical acne pattern from an exact origin. Floating-point evaluation details vary. It demonstrates the ambiguous query we would otherwise be relying upon: ask geometry whether a ray beginning on geometry hits geometry at zero. The corrected policy removes that ambiguity from the useful interval.</p>
+
+<div class="worked-trace">
+<h3>Keep an occluder, reject what lies beyond</h3>
+<p>The light is five units from the surface. One sphere intersects the shadow direction at <code>t = 2.1</code>, so the route is blocked. Another intersects at <code>t = 7.4</code>; it is beyond the light and irrelevant. A near-zero root at <code>t = 0.00002</code> from the generating surface is rejected by a minimum of 0.001. The interval, not the existence of roots alone, states the shadow question.</p>
+</div>
+
+<h2>Visibility gates direct light</h2>
+<p>The local terms from Lesson 7 are still calculated from the same directions. Direct <a class="glossary-term" id="glossary-origin-08-0018" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0018&amp;lesson=08#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> and <a class="glossary-term" id="glossary-origin-08-0019" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0019&amp;lesson=08#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> contributions are multiplied by zero when the shadow route is blocked and by one when it is clear. A small ambient teaching term remains so an occluded surface is not displayed as absolute black. That ambient value is not indirect illumination. It is a visible placeholder for transport we have not calculated.</p>
+
+<pre><code class="language-js">const visibility = blocked ? 0 : 1;
+const colour = add(
+    scale(albedo, 0.055),
+    scale(directLighting, visibility)
+);
+</code></pre>
+
+<p>Calling the placeholder ambient light would be convenient but misleading if we forgot what it replaces. A complete path tracer would obtain indirect contribution by sampling additional transport paths. We shall keep the term modest and labelled rather than claim more physics than the calculation contains.</p>
+
+<div class="checkpoint">
+<h3>Choose the correct maximum</h3>
+<p>A point light is 3.5 units from the surface. <a class="glossary-term" id="glossary-origin-08-0020" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0020&amp;lesson=08#term-candidate-intersection" aria-label="Look up candidate intersection in the graphics glossary" title="Look up candidate intersection in the graphics glossary">Candidate intersections</a> along its direction occur at <code>t = 0.0001</code>, <code>t = 2.0</code> and <code>t = 5.0</code>. With a minimum of 0.001 and maximum just below 3.5, which result decides the shadow?</p>
+<details class="reveal-answer"><summary>Reveal the interval</summary><div><p>The near-zero root is below the minimum and rejected. The hit at 2.0 lies between surface and light, so it blocks the route and the query may return immediately. The hit at 5.0 is beyond the light and would not matter even if the earlier occluder were absent.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Find a useful bias range</h2>
+<p>Expose the bias as a logarithmic control from a very small value to a visibly excessive one. Record when self-intersection disappears and when contact shadows begin to detach. Repeat after scaling every scene coordinate by 100. Explain why one hard-coded world-space constant cannot express the same numerical policy at both scales.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>Secondary-ray origin handling remains necessary in <a class="glossary-term" id="glossary-origin-08-0021" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0021&amp;lesson=08#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> ray tracing. Vulkan <a class="glossary-term" id="glossary-origin-08-0022" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0022&amp;lesson=08#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structures</a> and traversal hardware do not decide the semantic interval for us. Shader code or ray-query setup must provide appropriate minimum and maximum values, and performance work can exploit the any-hit nature of an <a class="glossary-term" id="glossary-origin-08-0023" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0023&amp;lesson=08#term-occlusion" aria-label="Look up occlusion in the graphics glossary" title="Look up occlusion in the graphics glossary">occlusion</a> query only after the bounds are correct.</p>
+</section>
+
+<p>Our spheres can now cast shadows, but they still appear suspended in an empty background. Lesson 9 adds an infinite <a class="glossary-term" id="glossary-origin-08-0024" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0024&amp;lesson=08#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> using a different intersection equation and demonstrates why the shared <a class="glossary-term" id="glossary-origin-08-0025" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0025&amp;lesson=08#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> was worth establishing.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-07.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">07. Light Is Another Direction</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-09.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">09. Planes and a Grounded Scene</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

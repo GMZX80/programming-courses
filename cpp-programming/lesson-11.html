@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Altering the control variable during iteration logic">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 11 - 11. The While (and Do) Loops</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-11.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 11 - 11. The While (and Do) Loops">
+    <meta property="og:description" content="Altering the control variable during iteration logic">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-11.html">
+</head>
+<body class="course-page lesson-page" data-lesson="11" data-art-pattern="orbit" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 11 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html" aria-current="page"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 11</span>
+            </nav>
+            <p class="hero-kicker">Lesson 11 · 24 lesson course</p>
+            <h1 id="lesson-title">11. The While (and Do) Loops</h1>
+            <p class="lesson-deck">Altering the control variable during iteration logic</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-10.html">← Lesson 10</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-12.html">Lesson 12 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>37 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-11-algorithm" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-algorithm&amp;lesson=11#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-11-boolean" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-boolean&amp;lesson=11#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-11-cpp" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-cpp&amp;lesson=11#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-11-code" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-code&amp;lesson=11#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-11-compile-time" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-compile-time&amp;lesson=11#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-11-condition" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-condition&amp;lesson=11#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-11-constant" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-constant&amp;lesson=11#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> <a class="glossary-chip" id="glossary-panel-origin-11-control-flow" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-control-flow&amp;lesson=11#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a> <a class="glossary-chip" id="glossary-panel-origin-11-debugger" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-debugger&amp;lesson=11#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a> <a class="glossary-chip" id="glossary-panel-origin-11-do-while-loop" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-do-while-loop&amp;lesson=11#term-do-while-loop" aria-label="Look up do-while loop in the programming glossary" title="Look up do-while loop in the programming glossary">do-while loop</a> <a class="glossary-chip" id="glossary-panel-origin-11-end-of-file" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-end-of-file&amp;lesson=11#term-end-of-file" aria-label="Look up end-of-file in the programming glossary" title="Look up end-of-file in the programming glossary">end-of-file</a> <a class="glossary-chip" id="glossary-panel-origin-11-expression" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-expression&amp;lesson=11#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-11-final-specifier" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-final-specifier&amp;lesson=11#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-11-function" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-function&amp;lesson=11#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-11-header-file" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-header-file&amp;lesson=11#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header file</a> <a class="glossary-chip" id="glossary-panel-origin-11-include-directive" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-include-directive&amp;lesson=11#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-11-infinite-loop" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-infinite-loop&amp;lesson=11#term-infinite-loop" aria-label="Look up infinite loop in the programming glossary" title="Look up infinite loop in the programming glossary">infinite loop</a> <a class="glossary-chip" id="glossary-panel-origin-11-input-output" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-input-output&amp;lesson=11#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">input/output</a> <a class="glossary-chip" id="glossary-panel-origin-11-integer" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-integer&amp;lesson=11#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-11-invariant" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-invariant&amp;lesson=11#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-11-loop" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-loop&amp;lesson=11#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-11-macro" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-macro&amp;lesson=11#term-macro" aria-label="Look up macro in the programming glossary" title="Look up macro in the programming glossary">macro</a> <a class="glossary-chip" id="glossary-panel-origin-11-main-function" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-main-function&amp;lesson=11#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-11-non-deterministic-algorithm" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-non-deterministic-algorithm&amp;lesson=11#term-non-deterministic-algorithm" aria-label="Look up non-deterministic algorithm in the programming glossary" title="Look up non-deterministic algorithm in the programming glossary">non-deterministic algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-11-program" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-program&amp;lesson=11#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-11-resource" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-resource&amp;lesson=11#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">resource</a> <a class="glossary-chip" id="glossary-panel-origin-11-sentinel" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-sentinel&amp;lesson=11#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel</a> <a class="glossary-chip" id="glossary-panel-origin-11-short-circuit-evaluation" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-short-circuit-evaluation&amp;lesson=11#term-short-circuit-evaluation" aria-label="Look up short-circuit evaluation in the programming glossary" title="Look up short-circuit evaluation in the programming glossary">short-circuit evaluation</a> <a class="glossary-chip" id="glossary-panel-origin-11-state" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-state&amp;lesson=11#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-11-stream" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-stream&amp;lesson=11#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-11-string" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-string&amp;lesson=11#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-11-switch-statement" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-switch-statement&amp;lesson=11#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch statement</a> <a class="glossary-chip" id="glossary-panel-origin-11-test-case" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-test-case&amp;lesson=11#term-test-case" aria-label="Look up test case in the programming glossary" title="Look up test case in the programming glossary">test case</a> <a class="glossary-chip" id="glossary-panel-origin-11-testing" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-testing&amp;lesson=11#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-11-value" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-value&amp;lesson=11#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-11-variable" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-variable&amp;lesson=11#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-11-watch-window" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-watch-window&amp;lesson=11#term-watch-window" aria-label="Look up watch window in the programming glossary" title="Look up watch window in the programming glossary">watch window</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="11">
+<img src="assets/images/lesson-art/lesson-11-while-do-loops.png" alt="Abstract condition-controlled cycles showing pre-test and post-test loop gates." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p>&nbsp;</p>
+<h2>Lesson: While &amp; <a class="glossary-term" id="glossary-origin-11-0001" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0001&amp;lesson=11#term-do-while-loop" aria-label="Look up do-while loop in the programming glossary" title="Look up do-while loop in the programming glossary">Do–While</a> <a class="glossary-term" id="glossary-origin-11-0002" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0002&amp;lesson=11#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">Loops</a> — <a class="glossary-term" id="glossary-origin-11-0003" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0003&amp;lesson=11#term-non-deterministic-algorithm" aria-label="Look up non-deterministic algorithm in the programming glossary" title="Look up non-deterministic algorithm in the programming glossary">Non-Deterministic</a> Iteration (<a class="glossary-term" id="glossary-origin-11-0004" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0004&amp;lesson=11#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+
+<p>
+<strong>For</strong> loops are ideal when the iteration count is known (or upper-bounded) at loop entry — even safer when it’s a <a class="glossary-term" id="glossary-origin-11-0005" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0005&amp;lesson=11#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile-time</a> <a class="glossary-term" id="glossary-origin-11-0006" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0006&amp;lesson=11#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a>. 
+But many real tasks don’t have a known count in advance (e.g., reading an unknown-length file, user input until a <a class="glossary-term" id="glossary-origin-11-0007" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0007&amp;lesson=11#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel</a>, polling a device). 
+That’s where <strong>while</strong> and <strong>do–while</strong> loops come in. They evaluate a <a class="glossary-term" id="glossary-origin-11-0008" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0008&amp;lesson=11#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> each iteration and rely on <em><a class="glossary-term" id="glossary-origin-11-0009" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0009&amp;lesson=11#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> that changes during the loop</em> to terminate.
+This power comes with risk: these loops can execute <em>zero times</em> or (worse) <em>forever</em> if the condition never becomes false.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pick the Right Loop</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Describe your task; ask AI to choose <em>for</em> vs <em>while</em> vs <em>do–while</em> and to state the <a class="glossary-term" id="glossary-origin-11-0010" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0010&amp;lesson=11#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">loop invariant</a> and termination condition.</li>
+      <li>Have AI rewrite a fragile <code>while(true)</code> into a condition-driven loop with a clear exit.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) While vs Do–While — The Basics</h3>
+
+<ul>
+  <li><strong>while</strong>: condition at the <em>start</em> — may execute zero times.</li>
+  <li><strong>do–while</strong>: condition at the <em>end</em> — executes at least once.</li>
+  <li>Both rely on some <em>control <a class="glossary-term" id="glossary-origin-11-0011" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0011&amp;lesson=11#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a>(s)</em> changing each iteration so the condition eventually becomes false.</li>
+</ul>
+
+<pre><code class="language-cpp">// while: may not run at all
+int x = 0;
+while (x &lt; 5) {
+  ++x;
+}
+
+// do–while: runs at least once
+int y = 10;
+do {
+  --y;
+} while (y &gt; 10); // condition checked after body
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Prove It Ends</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to identify the <em>variant</em> (a measure that decreases/increases towards termination) for your loop.</li>
+      <li>Have AI propose guard rails: max-iteration counters or timeouts, and where to place <code>break</code>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) Classic Use Case — Sentinel-Controlled Input</h3>
+
+<p><strong>Goal:</strong> Read <a class="glossary-term" id="glossary-origin-11-0012" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0012&amp;lesson=11#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integers</a> until the user enters 0; print 100 + input for each.</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    int value{};
+    // Loop continues while both extraction succeeds and sentinel not reached
+    while (std::cin &gt;&gt; value &amp;&amp; value != 0) {
+        std::cout &lt;&lt; 100 + value &lt;&lt; '\n';
+    }
+}
+</code></pre>
+
+<p><strong>Why it’s correct:</strong> The condition both <em>consumes input</em> and <em><a class="glossary-term" id="glossary-origin-11-0013" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0013&amp;lesson=11#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a></em> it, so the loop progresses or ends. If input fails, the <a class="glossary-term" id="glossary-origin-11-0014" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0014&amp;lesson=11#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> becomes false and the loop exits.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Robust Input Patterns</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to generate safe input conditions that both read and check (no stale <a class="glossary-term" id="glossary-origin-11-0015" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0015&amp;lesson=11#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">values</a>).</li>
+      <li>Have AI add invalid-input handling: clear <code>std::cin</code> and ignore bad tokens.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>3) File Reading — Avoid the <code>while(!in.eof())</code> Trap</h3>
+
+<p>The wrong way:</p>
+<pre><code class="language-cpp">#include &lt;fstream&gt;
+#include &lt;string&gt;
+
+std::ifstream in("data.txt");
+// ❌ buggy: eof() is only set <em>after</em> a read fails
+std::string line;
+while (!in.eof()) {
+    std::getline(in, line);
+    // last iteration may process stale 'line'
+}
+</code></pre>
+
+<p>The right way: make the <em>read</em> the condition.</p>
+<pre><code class="language-cpp">std::ifstream in("data.txt");
+std::string line;
+while (std::getline(in, line)) {
+    // use 'line'
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Generate Correct <a class="glossary-term" id="glossary-origin-11-0016" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0016&amp;lesson=11#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">I/O</a> Loops</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Provide your file format; ask AI for a correct read loop and minimal parser with error checks.</li>
+      <li>Have AI add counters and limits to avoid pathological files causing endless loops.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) Menu Loops — Why Do–While Shines</h3>
+
+<p><strong>Goal:</strong> Show a menu at least once, then continue until user chooses Quit.</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    char choice{};
+    do {
+        std::cout &lt;&lt; "[A]dd  [R]emove  [Q]uit: ";
+        if (!(std::cin &gt;&gt; choice)) break;  // input failed
+        switch (choice) {
+            case 'A': case 'a': /* add(); */ break;
+            case 'R': case 'r': /* remove(); */ break;
+            case 'Q': case 'q': std::cout &lt;&lt; "Bye!\n"; break;
+            default: std::cout &lt;&lt; "Unknown option\n"; break;
+        }
+    } while (choice != 'Q' &amp;&amp; choice != 'q');
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Build a Menu Skeleton</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to scaffold a do–while menu with input validation and a help option.</li>
+      <li>Have AI factor actions into <a class="glossary-term" id="glossary-origin-11-0017" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0017&amp;lesson=11#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">functions</a> so the loop stays readable.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>5) Escape Hatches — Guard Against Runaways</h3>
+
+<p>Non-deterministic loops need safety valves: a <strong>break</strong> on error, a <strong>max-iteration</strong> watchdog, or a <strong>deadline</strong> timeout.</p>
+
+<pre><code class="language-cpp">#include &lt;chrono&gt;
+
+bool work_once();
+
+bool bounded_loop() {
+    using clock = std::chrono::steady_clock;
+    auto deadline = clock::now() + std::chrono::seconds(2);
+    int attempts = 0, max_attempts = 10000;
+
+    while (clock::now() &lt; deadline &amp;&amp; attempts &lt; max_attempts) {
+        if (!work_once()) break;   // escape on failure
+        ++attempts;
+    }
+    return attempts &gt; 0;
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Add Safety Valves</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to add a watchdog counter or <code>steady_clock</code> deadline to an existing loop.</li>
+      <li>Have AI document the failure modes and what each <code>break</code> means.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) Common Logical Errors (Why Novices Struggle)</h3>
+
+<ul>
+  <li><strong>Condition never changes:</strong> forgetting to update the variable the condition depends on.</li>
+  <li><strong>Reading without consuming:</strong> testing a value but never reading new input → stuck on the same value.</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-11-0018" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0018&amp;lesson=11#term-end-of-file" aria-label="Look up end-of-file in the programming glossary" title="Look up end-of-file in the programming glossary">EOF</a> pattern:</strong> using <code>while(!in.eof())</code> instead of testing the read.</li>
+  <li><strong>Continue + no update:</strong> <code>continue</code> skips the update step you thought would run.</li>
+  <li><strong>Stream failure:</strong> not checking <code>std::cin</code>/<code>ifstream</code> failure clears; loop never progresses.</li>
+</ul>
+
+<pre><code class="language-cpp">// ❌ infinite loop: condition never changes
+int n = 5;
+while (n &gt; 0) {
+    std::cout &lt;&lt; n &lt;&lt; '\n';
+    // forgot: --n;
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Find the Stuck State</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste the loop; ask AI which variables must change each iteration and where to instrument them.</li>
+      <li>Have AI propose a quick logging <a class="glossary-term" id="glossary-origin-11-0019" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0019&amp;lesson=11#term-macro" aria-label="Look up macro in the programming glossary" title="Look up macro in the programming glossary">macro</a> or <a class="glossary-term" id="glossary-origin-11-0020" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0020&amp;lesson=11#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a> <a class="glossary-term" id="glossary-origin-11-0021" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0021&amp;lesson=11#term-watch-window" aria-label="Look up watch window in the programming glossary" title="Look up watch window in the programming glossary">watch list</a> for those variables.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>7) Worked Example — Read Lines, Sum Numbers</h3>
+
+<p>Read an unknown number of lines; each line contains space-separated integers; sum all numbers.</p>
+
+<pre><code class="language-cpp">#include &lt;fstream&gt;
+#include &lt;sstream&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::ifstream in("nums.txt");
+    if (!in) { std::cerr &lt;&lt; "Cannot open file\n"; return 1; }
+
+    long long sum = 0;
+    std::string line;
+    while (std::getline(in, line)) {          // progress: reads a line or exits
+        std::istringstream iss(line);
+        long long x;
+        while (iss &gt;&gt; x) {                    // progress: consumes tokens or exits
+            sum += x;
+        }
+    }
+    std::cout &lt;&lt; "Total = " &lt;&lt; sum &lt;&lt; '\n';
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Verify Progress</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to identify all progress points (what changes each iteration) and to add defensive checks/logs.</li>
+      <li>Have AI generate small test files (empty, 1 line, malformed) to validate the loop behaviour.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) Mini Exercise — Fix the Loop</h3>
+
+<p><strong>Problem:</strong> This loop should read tokens until end of file, but it never stops on malformed input.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::string s;
+    while (true) {
+        std::cin &gt;&gt; s;            // may fail and leave 's' unchanged
+        if (s == "quit") break;
+        std::cout &lt;&lt; s &lt;&lt; '\n';
+    }
+}
+</code></pre>
+
+<p><strong>Target fix:</strong> make the read the condition and handle failure:</p>
+<pre><code class="language-cpp">int main() {
+    std::string s;
+    while (std::cin &gt;&gt; s) {       // stops on EOF/failure
+        if (s == "quit") break;
+        std::cout &lt;&lt; s &lt;&lt; '\n';
+    }
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — From <code>while(true)</code> to Correct Logic</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to replace <code>while(true)</code> with a condition that both <em>consumes</em> input and <em>tests</em> it.</li>
+      <li>Have AI suggest a sentinel, an error path, and a bounded retry policy.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li>Use <strong>while</strong> / <strong>do–while</strong> only when the iteration count isn’t known at entry.</li>
+  <li>Make the <strong>read/advance action the condition</strong> so the loop progresses or ends.</li>
+  <li>Prefer do–while for menus and cases that must run once.</li>
+  <li>Add <strong>escape <a class="glossary-term" id="glossary-origin-11-0022" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0022&amp;lesson=11#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a></strong>: <code>break</code> on error, watchdog counters, or timeouts.</li>
+  <li>Beware logical errors: stale values, unconsumed input, <code>eof()</code> misuse, forgotten updates.</li>
+  <li>State the <strong>loop invariant</strong> and the <strong>termination measure</strong>—if you can’t, your loop is risky.</li>
+</ul>
+        
+<!-- lesson-enhancement:11:start -->
+<section class="lesson-enhancement" id="condition-controlled-progress">
+<p class="lesson-enhancement-kicker">Advanced perspective: progress and termination</p>
+<h2>A <code>while</code> loop is governed by state, not unpredictability</h2>
+<p>Not knowing the iteration count in advance does not make a loop random. If a file contains an unknown number of integers, the <a class="glossary-term" id="glossary-origin-11-0023" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0023&amp;lesson=11#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> cannot write the count into its source, but the next input operation can still decide the path precisely. Run the same program with the same starting state and input, and you should expect the same decisions. The count was unknown before execution. The controlling evidence was not.</p>
+<p>The real criterion is whether the loop exposes the state that permits one more iteration and the event that changes that state. A familiar <code>while</code> <a class="glossary-term" id="glossary-origin-11-0024" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0024&amp;lesson=11#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header</a> is not enough. If the condition observes a fact that the body never changes, or an input operation fails without the failure being handled, the program can repeat a stale state indefinitely.</p>
+
+<h3>Test placement changes the minimum amount of work</h3>
+<table>
+<thead><tr><th>Form</th><th>Execution order</th><th>If the condition begins false</th><th>Suitable requirement</th></tr></thead>
+<tbody>
+<tr><td><code>while</code></td><td>Test, body, then return to the test</td><td>The body executes zero times.</td><td>Work is permitted only after the condition has been established.</td></tr>
+<tr><td><code>do</code>-<code>while</code></td><td>Body, test, then return to the body if true</td><td>The body executes once.</td><td>One attempt or presentation is required before continuation can be decided.</td></tr>
+</tbody>
+</table>
+<p>A condition is evaluated at those test points; it is not monitored continuously while the body runs. In a <code>while</code> loop, a state change halfway through the body does not interrupt that body automatically. Control reaches the next test only through the program's stated <a class="glossary-term" id="glossary-origin-11-0025" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0025&amp;lesson=11#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a>. In a <code>do</code>-<code>while</code>, remember that the <a class="glossary-term" id="glossary-origin-11-0026" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0026&amp;lesson=11#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> condition is followed by a semicolon because it completes the statement.</p>
+<p>A menu illustrates the post-<a class="glossary-term" id="glossary-origin-11-0027" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0027&amp;lesson=11#term-test-case" aria-label="Look up test case in the programming glossary" title="Look up test case in the programming glossary">test case</a> only when showing the menu once is genuinely required before deciding whether to show it again. Input processing often belongs in a pre-test loop because the body must not use a value until the read has succeeded. Choosing between the forms is therefore a decision about evidence before work, not a preference for one spelling.</p>
+
+<h3>Let the operation that obtains a value govern its use</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    int total{0};
+    int value{0};
+
+    while (std::cin &gt;&gt; value) {
+        total += value;
+    }
+
+    std::cout &lt;&lt; "Total: " &lt;&lt; total &lt;&lt; '\n';
+}
+</code></pre>
+<p>The extraction <a class="glossary-term" id="glossary-origin-11-0028" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0028&amp;lesson=11#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> does two connected jobs. It attempts to read and convert the next integer into <code>value</code>, and it produces a stream state that can be tested as a condition. When extraction succeeds, the condition admits the body and that newly obtained value is added. When extraction cannot produce the next integer, the stream tests false and the body is not entered.</p>
+<table>
+<thead><tr><th>Input attempt</th><th>Condition result</th><th>Body action</th><th><code>total</code> after the decision</th></tr></thead>
+<tbody>
+<tr><td>Read <code>4</code></td><td>True</td><td>Add 4</td><td>4</td></tr>
+<tr><td>Read <code>7</code></td><td>True</td><td>Add 7</td><td>11</td></tr>
+<tr><td>Read <code>-2</code></td><td>True</td><td>Add -2</td><td>9</td></tr>
+<tr><td>Attempt another read at end of input</td><td>False</td><td>Body is not entered</td><td>9</td></tr>
+</tbody>
+</table>
+<p>The attempt matters. End-of-file state is normally discovered by trying to read beyond the available input, not by predicting before the last valid item that it is the last. That is why <code>while (!input.eof())</code> asks the wrong question. It can admit the body before the read that discovers the end has succeeded, leaving the program tempted to process a value that was not obtained by that iteration.</p>
+<p>Putting the extraction in the condition ties permission to use <code>value</code> to evidence that this extraction succeeded. The same reasoning applies to <code>std::getline(input, line)</code>. It is not a magic idiom to memorise. It is a boundary: acquire a new item and enter the body only if acquisition succeeded.</p>
+
+<h3>Stopping on failure is not the same as handling failure</h3>
+<p>The compact program stops when no further integer can be extracted. End of input, text where an integer was required and a more serious stream failure can all lead out of the loop, but they do not necessarily deserve the same program response. If the requirement says that a completed file is normal but malformed input must be reported, the stream state must be examined after the loop and the cases distinguished.</p>
+<p>Recovery is a separate policy. For malformed interactive input, the program may clear the failure state and deliberately discard or otherwise deal with the offending characters before trying again. Clearing the flags alone is not progress. If the same unacceptable characters remain available for the next extraction, the next attempt fails for the same reason and the loop has acquired a very efficient way to do nothing.</p>
+<p>A sentinel adds another deliberate exit. In <code>while (std::cin &gt;&gt; value &amp;&amp; value != 0)</code>, <a class="glossary-term" id="glossary-origin-11-0029" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0029&amp;lesson=11#term-short-circuit-evaluation" aria-label="Look up short-circuit evaluation in the programming glossary" title="Look up short-circuit evaluation in the programming glossary">short-circuit evaluation</a> first requires a successful extraction. Only then is the value compared with zero. The sentinel is read, but it is not processed by the body. Failed input is not compared as though it were a new value. Those are distinct exit events, even if both leave the loop.</p>
+
+<h3>Progress must be stated in the terms of the problem</h3>
+<p>For a search with a finite set of unexamined elements, the number remaining can provide a loop variant: after an unsuccessful step, that number must fall. For a countdown, the control value approaches its bound. For an input loop, a successful iteration consumes an item, while exhaustion or failure prevents another body execution. For a menu, a recognised quit event changes the state that controls continuation.</p>
+<p>Not every interactive or external loop can be proved to terminate independently of its environment. A service may be intended to wait for work until it is told to stop. An input loop may wait because a person never supplies a value or end signal. The honest claim is then conditional: when one of the specified exit events occurs, the loop detects it and follows the required path. Do not disguise an environmental assumption as a mathematical guarantee.</p>
+<table>
+<thead><tr><th>Question</th><th>Evidence required</th><th>Typical defect</th></tr></thead>
+<tbody>
+<tr><td>What permits another body execution?</td><td>A condition tied to current, valid state</td><td>The condition uses a stale value.</td></tr>
+<tr><td>What changes during an iteration?</td><td>A state transition, consumed item or external event</td><td>The body repeats without progress.</td></tr>
+<tr><td>What makes the condition false?</td><td>A reachable bound, failure, sentinel or stop event</td><td>The stated exit cannot be reached from the update.</td></tr>
+<tr><td>What does exit mean?</td><td>A post-loop distinction between completion, sentinel and error where required</td><td>Every exit is silently treated as success.</td></tr>
+</tbody>
+</table>
+
+<h3>A safety boundary contains damage; it does not repair logic</h3>
+<p>An iteration limit, deadline or watchdog can be valuable when the requirement imposes a real work or time budget. It can also leave a diagnostic instead of allowing an unintended loop to consume <a class="glossary-term" id="glossary-origin-11-0030" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0030&amp;lesson=11#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">resources</a> without bound. However, reaching that boundary proves only that the safety mechanism acted. It does not prove the underlying <a class="glossary-term" id="glossary-origin-11-0031" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0031&amp;lesson=11#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> made progress or completed its task.</p>
+<p>A bare <code>break</code> has the same limitation. It changes control flow, but it does not make the original condition correct. Each break should correspond to an explainable event, and the code after the loop must know whether work completed, a sentinel was received, an error occurred or a safety budget was exhausted.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> demand a progress and exit account</summary>
+<div>
+<p>For every generated <code>while</code> or <code>do</code>-<code>while</code> loop, require the system to identify the state that permits another iteration, the operation that changes that state and every event that leaves the loop. Then trace an ordinary input, a condition that begins false and a failed input yourself. Watch for the word "eventually". Unless the explanation names the event or quantity that moves towards exit, "eventually stops" is hope dressed as analysis.</p>
+</div>
+</details>
+
+<h3>Trace failure before designing recovery</h3>
+<p>Use the input sequence <code>4 7 -2 x 9</code> with the worked program. Predict each attempted extraction and the total before running it.</p>
+<p>Now decide what the requirement should do with <code>x</code>. Stop and report malformed input? Discard the rest of its line and ask again? Treat a specific token as a sentinel? Write the policy first, then identify the exact stream-state and character-handling operations needed to make the next attempt different from the failed one. Finally, test empty input and input beginning with <code>x</code>. If the first body execution is not justified by a successful read, the loop form is wrong before recovery even begins.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The program adds the first three integers, then the attempt to convert <code>x</code> fails. The body is not entered for that attempt, the loop ends with a total of 9, and the later 9 is not processed.</p>
+<p>The original loop makes four extraction attempts. The important row is the failed one: it does not authorise another execution of the body.</p>
+<table>
+<thead><tr><th>Attempt</th><th>Extraction result</th><th>Body action</th><th>Total</th></tr></thead>
+<tbody>
+<tr><td><code>4</code></td><td>Success</td><td>Add 4</td><td>4</td></tr>
+<tr><td><code>7</code></td><td>Success</td><td>Add 7</td><td>11</td></tr>
+<tr><td><code>-2</code></td><td>Success</td><td>Add -2</td><td>9</td></tr>
+<tr><td><code>x</code></td><td>Failure converting to <code>int</code></td><td>Body not entered</td><td>9</td></tr>
+</tbody>
+</table>
+<p>The <code>9</code> remains unread because the failed stream state ends the worked loop. That is a correct trace, but it leaves the recovery policy unanswered.</p>
+<p>One defensible interactive policy is to reject the malformed line, discard the rest of that line and continue with the next line. The program must clear the recoverable failure state and remove the offending characters. Clearing the flags without consuming input would merely repeat the same failure.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;limits&gt;
+
+int main() {
+    int total{0};
+    int value{0};
+
+    for (;;) {
+        if (std::cin &gt;&gt; value) {
+            total += value;
+            continue;
+        }
+
+        if (std::cin.bad()) {
+            std::cerr &lt;&lt; "Input error\n";
+            return 1;
+        }
+        if (std::cin.eof()) {
+            break;
+        }
+
+        std::cerr &lt;&lt; "Expected an integer; discarding this line\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');
+    }
+
+    std::cout &lt;&lt; "Total: " &lt;&lt; total &lt;&lt; '\n';
+}
+</code></pre>
+<p>For <code>4 7 -2 x 9</code> on one line, this chosen policy discards <code>x</code> and the remaining <code>9</code>, so the final total is 9. If <code>9</code> begins the following line, the next extraction succeeds and the total becomes 18. The distinction is deliberate: recovery follows the stated line policy.</p>
+<p>With empty input, the first extraction reaches end of input, no body action occurs and the total is zero. With input beginning with <code>x</code>, no value is processed before the failure is cleared and that line is discarded. A different requirement could stop and report the error instead, but it would need different code. The loop must not pretend that every failure has been recovered merely because execution continued.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:11:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-10.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">10. The For Loop</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-12.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">12. The IF Statement</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

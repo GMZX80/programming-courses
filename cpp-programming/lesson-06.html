@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Appropriate use of a function">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 06 - 6. Calling and Returning with Functions</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-06.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 06 - 6. Calling and Returning with Functions">
+    <meta property="og:description" content="Appropriate use of a function">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-06.html">
+</head>
+<body class="course-page lesson-page" data-lesson="06" data-art-pattern="orbit" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 06 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html" aria-current="page"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 06</span>
+            </nav>
+            <p class="hero-kicker">Lesson 06 · 24 lesson course</p>
+            <h1 id="lesson-title">6. Calling and Returning with Functions</h1>
+            <p class="lesson-deck">Appropriate use of a function</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-05.html">← Lesson 05</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-07.html">Lesson 07 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>50 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-06-algorithm" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-algorithm&amp;lesson=06#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-06-argument" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-argument&amp;lesson=06#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-06-cpp" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-cpp&amp;lesson=06#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-06-call-site" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-call-site&amp;lesson=06#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> <a class="glossary-chip" id="glossary-panel-origin-06-cast" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-cast&amp;lesson=06#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a> <a class="glossary-chip" id="glossary-panel-origin-06-circular-dependency" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-circular-dependency&amp;lesson=06#term-circular-dependency" aria-label="Look up circular dependency in the programming glossary" title="Look up circular dependency in the programming glossary">circular dependency</a> <a class="glossary-chip" id="glossary-panel-origin-06-code" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-code&amp;lesson=06#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-06-compiler" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-compiler&amp;lesson=06#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-06-condition" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-condition&amp;lesson=06#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-06-constructor" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-constructor&amp;lesson=06#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-06-conversion" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-conversion&amp;lesson=06#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-06-debugger" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-debugger&amp;lesson=06#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a> <a class="glossary-chip" id="glossary-panel-origin-06-declaration" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-declaration&amp;lesson=06#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-06-definition" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-definition&amp;lesson=06#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-06-deterministic-algorithm" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-deterministic-algorithm&amp;lesson=06#term-deterministic-algorithm" aria-label="Look up deterministic algorithm in the programming glossary" title="Look up deterministic algorithm in the programming glossary">deterministic algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-06-evaluation-order" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-evaluation-order&amp;lesson=06#term-evaluation-order" aria-label="Look up evaluation order in the programming glossary" title="Look up evaluation order in the programming glossary">evaluation order</a> <a class="glossary-chip" id="glossary-panel-origin-06-expression" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-expression&amp;lesson=06#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-06-final-specifier" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-final-specifier&amp;lesson=06#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-06-forward-declaration" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-forward-declaration&amp;lesson=06#term-forward-declaration" aria-label="Look up forward declaration in the programming glossary" title="Look up forward declaration in the programming glossary">forward declaration</a> <a class="glossary-chip" id="glossary-panel-origin-06-function" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-function&amp;lesson=06#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-06-function-call" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-function-call&amp;lesson=06#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function call</a> <a class="glossary-chip" id="glossary-panel-origin-06-function-overloading" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-function-overloading&amp;lesson=06#term-function-overloading" aria-label="Look up function overloading in the programming glossary" title="Look up function overloading in the programming glossary">function overloading</a> <a class="glossary-chip" id="glossary-panel-origin-06-function-signature" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-function-signature&amp;lesson=06#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-06-implicit-conversion" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-implicit-conversion&amp;lesson=06#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversion</a> <a class="glossary-chip" id="glossary-panel-origin-06-include-directive" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-include-directive&amp;lesson=06#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-06-initialisation" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-initialisation&amp;lesson=06#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-06-integer" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-integer&amp;lesson=06#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-06-interface" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-interface&amp;lesson=06#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-06-lifetime" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-lifetime&amp;lesson=06#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-06-loop" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-loop&amp;lesson=06#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-06-main-function" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-main-function&amp;lesson=06#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-06-object" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-object&amp;lesson=06#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-06-ownership" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-ownership&amp;lesson=06#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-06-parameter" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-parameter&amp;lesson=06#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-06-pass-by-value" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-pass-by-value&amp;lesson=06#term-pass-by-value" aria-label="Look up pass by value in the programming glossary" title="Look up pass by value in the programming glossary">pass by value</a> <a class="glossary-chip" id="glossary-panel-origin-06-pointer" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-pointer&amp;lesson=06#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-06-program" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-program&amp;lesson=06#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-06-recursion" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-recursion&amp;lesson=06#term-recursion" aria-label="Look up recursion in the programming glossary" title="Look up recursion in the programming glossary">recursion</a> <a class="glossary-chip" id="glossary-panel-origin-06-return-type" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-return-type&amp;lesson=06#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> <a class="glossary-chip" id="glossary-panel-origin-06-return-value" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-return-value&amp;lesson=06#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-06-rvalue" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-rvalue&amp;lesson=06#term-rvalue" aria-label="Look up rvalue in the programming glossary" title="Look up rvalue in the programming glossary">rvalue</a> <a class="glossary-chip" id="glossary-panel-origin-06-side-effect" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-side-effect&amp;lesson=06#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side effect</a> <a class="glossary-chip" id="glossary-panel-origin-06-state" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-state&amp;lesson=06#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-06-string" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-string&amp;lesson=06#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-06-string-view" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-string-view&amp;lesson=06#term-string-view" aria-label="Look up string_view in the programming glossary" title="Look up string_view in the programming glossary">string_view</a> <a class="glossary-chip" id="glossary-panel-origin-06-type" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-type&amp;lesson=06#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-06-unit-test" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-unit-test&amp;lesson=06#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-06-value" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-value&amp;lesson=06#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-06-variable" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-variable&amp;lesson=06#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-06-vector" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-vector&amp;lesson=06#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="06">
+<img src="assets/images/lesson-art/lesson-06-calling-returning.png" alt="Abstract nested function chambers linked by outward call paths and returning result paths." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-06-0001" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0001&amp;lesson=06#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">Calling Functions</a> &amp; <a class="glossary-term" id="glossary-origin-06-0002" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0002&amp;lesson=06#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">Parameter Lists</a> (<a class="glossary-term" id="glossary-origin-06-0003" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0003&amp;lesson=06#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+<p>Calling a function correctly means constructing the <strong>parameter list</strong> so it exactly matches the <a class="glossary-term" id="glossary-origin-06-0004" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0004&amp;lesson=06#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a>’s required <a class="glossary-term" id="glossary-origin-06-0005" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0005&amp;lesson=06#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a>. In C++, a function’s identity is not just its name: the <em>parameter types</em> are part of its <a class="glossary-term" id="glossary-origin-06-0006" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0006&amp;lesson=06#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">signature</a>. If the call’s parameter list doesn’t match, <a class="glossary-term" id="glossary-origin-06-0007" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0007&amp;lesson=06#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compilation</a> fails (or calls a different overload).</p>
+<hr>
+<h3>1) Function Calls &amp; Exact Type Matching</h3>
+<p><a class="glossary-term" id="glossary-origin-06-0008" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0008&amp;lesson=06#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">Declaration</a>, then call:</p>
+<pre><code class="language-cpp">int f1(int x) {
+    int y = 5;
+    return y;      // demo only: ignores x
+}
+
+int main() {
+    int z = f1(2); // OK: argument type int matches parameter type int
+}
+</code></pre>
+<p>The compiler enforces type/size compatibility so that the <a class="glossary-term" id="glossary-origin-06-0009" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0009&amp;lesson=06#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> you pass <em>fits</em> in the memory reserved for the parameter. This protects memory layout and prevents corruption; any logic safety you gain is a happy by-product.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Check Call Signatures</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Paste a function and its <a class="glossary-term" id="glossary-origin-06-0010" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0010&amp;lesson=06#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call sites</a>; ask AI to flag mismatched types and suggest minimal, safe fixes.</li>
+                    <li>Have AI propose overloads/templates when multiple type variants are needed.</li>
+                    <li>Ask AI to generate <em>usage examples</em> for each overload to prevent accidental <a class="glossary-term" id="glossary-origin-06-0011" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0011&amp;lesson=06#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversions</a>.</li>
+                </ul>
+</details>
+<hr>
+<h3>2) Substitution &amp; Nested Calls</h3>
+<p>The value for each parameter must be computed before the call can proceed. Parenthesised, nested calls are evaluated “inside-out” for each nested <a class="glossary-term" id="glossary-origin-06-0012" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0012&amp;lesson=06#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a>:</p>
+<pre><code class="language-cpp">int f1(int x) { return 5; }
+
+int main() {
+    int z = f1( f1(2) ); // inner f1(2) is evaluated to produce the argument of the outer call
+}
+</code></pre>
+<p>This enables concise <a class="glossary-term" id="glossary-origin-06-0013" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0013&amp;lesson=06#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a>, but readability suffers when nesting is overused:</p>
+<pre><code class="language-cpp">int f1(int){ return 5; }
+int f2(int){ return 7; }
+
+int z = f1( f2( f1(1) ) ); // hard to read
+// Clearer:
+int a = f1(1);
+int b = f2(a);
+int z2 = f1(b);
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — De-nest for Clarity</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI to rewrite deeply nested calls into named intermediate steps.</li>
+                    <li>Have AI extract a pipeline function that documents the order of operations.</li>
+                </ul>
+</details>
+<hr>
+<h3>3) <a class="glossary-term" id="glossary-origin-06-0014" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0014&amp;lesson=06#term-evaluation-order" aria-label="Look up evaluation order in the programming glossary" title="Look up evaluation order in the programming glossary">Order of Evaluation</a> Pitfalls (Multiple <a class="glossary-term" id="glossary-origin-06-0015" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0015&amp;lesson=06#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">Arguments</a>)</h3>
+<p>When a function has multiple arguments, <strong>do not rely on the order</strong> in which those arguments are evaluated — the standard allows the compiler to choose. <a class="glossary-term" id="glossary-origin-06-0016" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0016&amp;lesson=06#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">Side effects</a> in separate arguments can therefore behave unexpectedly.</p>
+<pre><code class="language-cpp">int i = 0;
+int g(){ return i++; }
+int h(){ return i++; }
+
+// Unspecified relative evaluation order of arguments:
+// either g() or h() may run first; 'i' is incremented twice, order unknown.
+int r = std::max(g(), h());
+
+// Safer:
+int a = g();
+int b = h();
+int r2 = std::max(a, b);
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Spot Side-Effect Hazards</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI to find calls where multiple arguments mutate the same <a class="glossary-term" id="glossary-origin-06-0017" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0017&amp;lesson=06#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a>, and split them safely.</li>
+                    <li>Have AI suggest <em>pure</em> helpers to separate computation from mutation.</li>
+                </ul>
+</details>
+<hr>
+<h3>4) Overloads, Conversions &amp; Ambiguity</h3>
+<p>C++ allows <em><a class="glossary-term" id="glossary-origin-06-0018" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0018&amp;lesson=06#term-function-overloading" aria-label="Look up function overloading in the programming glossary" title="Look up function overloading in the programming glossary">function overloading</a></em> — same name, different parameter types. The compiler selects the best match by exact match, promotions, then conversions. Ambiguities cause compile errors.</p>
+<pre><code class="language-cpp">void print(int);
+void print(double);
+// void print(std::string_view); // uncomment to support strings
+
+print(42);     // calls print(int)
+print(3.14);   // calls print(double)
+print('A');    // character promotes; likely print(int)
+print("hi");   // ❌ ambiguous/missing unless string overload exists
+</code></pre>
+<p>Prefer explicit overloads (or templates) over relying on <a class="glossary-term" id="glossary-origin-06-0019" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0019&amp;lesson=06#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversions</a> that can surprise callers.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Safer Overload Sets</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Have AI propose an overload or template set and generate example calls that prove resolution is unambiguous.</li>
+                    <li>Ask AI to add <code>explicit</code> <a class="glossary-term" id="glossary-origin-06-0020" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0020&amp;lesson=06#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructors</a> to prevent accidental conversions at call sites.</li>
+                </ul>
+</details>
+<hr>
+<h3>5) <a class="glossary-term" id="glossary-origin-06-0021" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0021&amp;lesson=06#term-forward-declaration" aria-label="Look up forward declaration in the programming glossary" title="Look up forward declaration in the programming glossary">Forward Declarations</a> &amp; <a class="glossary-term" id="glossary-origin-06-0022" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0022&amp;lesson=06#term-circular-dependency" aria-label="Look up circular dependency in the programming glossary" title="Look up circular dependency in the programming glossary">Circular Calls</a></h3>
+<p>Mutually calling functions need at least one forward declaration so the compiler knows the second function’s signature when compiling the first. Beware <strong>unbounded mutual <a class="glossary-term" id="glossary-origin-06-0023" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0023&amp;lesson=06#term-recursion" aria-label="Look up recursion in the programming glossary" title="Look up recursion in the programming glossary">recursion</a></strong> (infinite back-and-forth).</p>
+<pre><code class="language-cpp">int f2(int);          // forward declaration
+
+int f1(int x) {       // calls f2
+    int y = 5;
+    return f2(y);
+}
+
+int f2(int x) {       // calls f1
+    int y = 7;
+    return f1(y);     // ❌ without a base case, this can recurse forever
+}
+</code></pre>
+<p>Add termination <a class="glossary-term" id="glossary-origin-06-0024" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0024&amp;lesson=06#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">conditions</a> (base cases) or redesign to break the cycle.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Prove Termination</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI to add base cases/measures that strictly decrease to guarantee termination.</li>
+                    <li>Have AI convert mutually recursive code into an iterative <a class="glossary-term" id="glossary-origin-06-0025" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0025&amp;lesson=06#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> or a state machine if clearer.</li>
+                </ul>
+</details>
+<hr>
+<h3>6) Choosing Parameter Passing Style</h3>
+<p>Pick parameter types that express intent and cost:</p>
+<ul>
+    <li><strong>By value:</strong> <code>int f(int x)</code> — cheap scalars; copies are fine.</li>
+    <li><strong>By const reference:</strong> <code>int f(const std::string&amp; s)</code> — avoid copying large <a class="glossary-term" id="glossary-origin-06-0026" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0026&amp;lesson=06#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">objects</a>; no modification.</li>
+    <li><strong>By non-const reference:</strong> <code>void f(std::vector&lt;int&gt;&amp; v)</code> — call intends to modify <code>v</code>.</li>
+    <li><strong>By <a class="glossary-term" id="glossary-origin-06-0027" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0027&amp;lesson=06#term-rvalue" aria-label="Look up rvalue in the programming glossary" title="Look up rvalue in the programming glossary">rvalue</a> reference:</strong> <code>void f(std::string&amp;&amp; s)</code> — take <a class="glossary-term" id="glossary-origin-06-0028" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0028&amp;lesson=06#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> / move.</li>
+</ul>
+<pre><code class="language-cpp">int sum(const std::vector&lt;int&gt;&amp; v);     // read-only, no copy
+void append(std::vector&lt;int&gt;&amp; v, int x); // modifies caller's vector
+void set_name(std::string&amp;&amp; s);          // consumes a temporary by move
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pick the Right Passing Style</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI to rewrite signatures for intent (read-only vs modify vs consume).</li>
+                    <li>Have AI add <code>const</code> where safe and remove accidental copies on hot paths.</li>
+                </ul>
+</details>
+<hr>
+<h3>7) Worked Example — Fix the Calls</h3>
+<p>Identify problems and refactor for clarity and safety:</p>
+<pre><code class="language-cpp">int f1(int){ return 5; }
+int f2(int){ return 7; }
+
+int i = 0;
+int g(){ return i++; }
+int h(){ return i++; }
+
+int main() {
+    int z = f1( f2( f1(1) ) );  // hard to read
+    int r = std::max(g(), h()); // side-effect order risk
+
+    // Better:
+    int a = f1(1);
+    int b = f2(a);
+    int z2 = f1(b);
+
+    int ga = g();
+    int hb = h();
+    int r2 = std::max(ga, hb);
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Automated Refactor Patch</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI for a patch that introduces intermediates, removes ambiguous conversions, and documents intent.</li>
+                    <li>Have AI generate <a class="glossary-term" id="glossary-origin-06-0029" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0029&amp;lesson=06#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit tests</a> ensuring the refactor preserves behaviour.</li>
+                </ul>
+</details>
+<hr>
+<h3>8) Quick Checklist — Safe, Readable Calls</h3>
+<ul>
+    <li>Match parameter <strong>types exactly</strong> (or add explicit, safe overloads).</li>
+    <li>Avoid <strong>deep nesting</strong>; introduce named intermediates.</li>
+    <li>Do not rely on <strong>argument evaluation order</strong>; separate side effects.</li>
+    <li>Use forward declarations for mutual calls, but ensure <strong>base cases</strong> if recursive.</li>
+    <li>Choose parameter passing style to reflect intent and cost.</li>
+</ul>
+<h3>Mini Exercise — Call Sites, Signatures &amp; Safe Parameter Lists</h3>
+
+<p><em>Goal:</em> practise matching exact parameter types, de-nesting for clarity, avoiding argument order pitfalls, designing unambiguous overloads, breaking circular calls safely, and choosing the right passing style.</p>
+
+<ol style="list-style-type: upper-alpha;">
+  <li>
+    <strong>Match the signature (no accidental conversions)</strong><br>
+    Fix the call sites so they match the intended parameter types without surprising promotions/narrowing.
+    <pre><code class="language-cpp">int  scale_int(int x, int factor);
+double scale_double(double x, double factor);
+
+int main() {
+    long long big = 10000000000LL;
+    double d = 2.5;
+
+    auto a = scale_int(42, 2.0);     // ❌ mixed types
+    auto b = scale_double(3, d);     // ❌ relies on implicit int→double
+    auto c = scale_int(big, 3);      // ❌ potential narrowing
+
+    // TODO: Write correct calls OR adjust function signatures responsibly.
+}
+</code></pre>
+    <ul>
+      <li>Show both approaches: (1) fix the <em>calls</em> with explicit <a class="glossary-term" id="glossary-origin-06-0030" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0030&amp;lesson=06#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">casts</a>; (2) refactor <em>signatures</em> to accept the real use-cases (e.g., templates or wider types). State which you chose and why.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>De-nest for clarity (substitution still preserved)</strong><br>
+    Rewrite the nested calls with named intermediates, then extract a tiny “pipeline” function that documents the order.
+    <pre><code class="language-cpp">int f1(int x){ return x + 1; }
+int f2(int x){ return x * 2; }
+int f3(int x){ return x - 3; }
+
+int main() {
+    int z = f1( f2( f3( f1(5) ) ) ); // ❌ hard to read
+    // TODO: z2 using intermediates; then a function int pipeline(int) { ... }
+}
+</code></pre>
+  </li>
+
+  <li>
+    <strong>Argument evaluation order: separate side effects</strong><br>
+    Make the result <a class="glossary-term" id="glossary-origin-06-0031" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0031&amp;lesson=06#term-deterministic-algorithm" aria-label="Look up deterministic algorithm in the programming glossary" title="Look up deterministic algorithm in the programming glossary">deterministic</a> by removing side effects from argument expressions.
+    <pre><code class="language-cpp">#include &lt;algorithm&gt;
+int i = 0;
+int g(){ return i++; }
+int h(){ return i += 10; } // different side effect
+
+int main() {
+    int r = std::max(g(), h()); // ❌ relative evaluation order unspecified
+    // TODO: refactor to two statements (no side effects in the call).
+}
+</code></pre>
+    <ul>
+      <li>Explain (one sentence) why the standard allows either argument to be evaluated first.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Overloads &amp; ambiguity: make intent obvious</strong><br>
+    Remove ambiguity without “mystery” conversions; prefer explicit overloads.
+    <pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+void print(int);
+void print(double);
+// void print(std::string_view); // maybe needed?
+
+int main() {
+    print(42);        // ok
+    print(3.14);      // ok
+    print('A');       // likely calls print(int) via promotion
+    print("hi");      // ❌ ambiguous/missing
+    // TODO: Add the right overload(s) and show unambiguous calls, including u8/u16 string literals if you wish.
+}
+</code></pre>
+  </li>
+
+  <li>
+    <strong>Forward declarations &amp; termination</strong><br>
+    Provide the minimum forward declaration and add a base case to ensure the mutual recursion stops.
+    <pre><code class="language-cpp">int f2(int);                 // forward declaration
+
+int f1(int x) {              // calls f2
+    if (x &lt;= 0) return 0;    // TODO: sensible base case
+    return f2(x - 1);
+}
+
+int f2(int x) {              // calls f1
+    // TODO: matching base case / measure that decreases
+    return f1(x - 1);
+}
+</code></pre>
+    <ul>
+      <li>Explain what “measure strictly decreases” means for proving termination here.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Choose parameter passing style to express intent</strong><br>
+    Refactor signatures to avoid copies when reading, and to make mutation/consumption explicit.
+    <pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;string&gt;
+
+// ❌ unclear intent / unnecessary copies
+int    sum(std::vector&lt;int&gt; v);
+void   append(std::vector&lt;int&gt; v, int x);
+void   set_name(std::string s);
+
+// TODO: Rewrite as:
+// int    sum(const std::vector&lt;int&gt;&amp; v);            // read-only
+// void   append(std::vector&lt;int&gt;&amp; v, int x);        // modifies caller
+// void   set_name(std::string&amp;&amp; s);                 // consumes temporary
+</code></pre>
+    <ul>
+      <li>Give a one-line rationale for each choice (value / const&amp; / &amp; / &amp;&amp;).</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Worked clean-up: fix the calls</strong><br>
+    Apply all the above: remove nesting, separate side effects, and make passing style explicit.
+    <pre><code class="language-cpp">#include &lt;algorithm&gt;
+int f1(int){ return 5; }
+int f2(int){ return 7; }
+int i = 0;
+int g(){ return i++; }
+int h(){ return i++; }
+
+int main() {
+    int z  = f1( f2( f1(1) ) );      // ❌
+    int r  = std::max(g(), h());     // ❌
+
+    // TODO:
+    // int a = f1(1);
+    // int b = f2(a);
+    // int z2 = f1(b);
+    // int ga = g();
+    // int hb = h();
+    // int r2 = std::max(ga, hb);
+}
+</code></pre>
+  </li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Call-Site Coach</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li><strong>Signature audit:</strong> “List each function’s overload set and show which call resolves where (or fails).”</li>
+      <li><strong>De-nesting pass:</strong> “Rewrite nested calls into intermediates; generate a <code>pipeline()</code> function.”</li>
+      <li><strong>Side-effect finder:</strong> “Flag multiple-argument calls where expressions mutate the same state.”</li>
+      <li><strong>Passing style fixer:</strong> “Suggest <code>const&amp;</code>/<code>&amp;</code>/<code>&amp;&amp;</code> based on size, mutability, and ownership intent.”</li>
+    </ul>
+</details>
+        
+<!-- lesson-enhancement:06:start -->
+<section class="lesson-enhancement" id="calls-as-interface-events">
+<p class="lesson-enhancement-kicker">Lesson 6 extension · select, transfer, return and verify</p>
+<h2>Which operation receives the call, and what crosses the boundary?</h2>
+<p>Parentheses make a function call easy to recognise. Recognition is not yet an explanation. At a call site, the compiler must find a callable declaration, decide which operation the arguments can use, <a class="glossary-term" id="glossary-origin-06-0032" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0032&amp;lesson=06#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialise</a> that operation's parameters and give the <a class="glossary-term" id="glossary-origin-06-0033" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0033&amp;lesson=06#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">returned value</a> a destination. Each step can be correct in isolation while the programmer has still called the wrong operation.</p>
+<p>This is the distinction worth keeping: successful compilation proves that C++ found a permitted interpretation of the call. It does not prove that the interpretation matches the requirement. We need both accounts, the language account and the <a class="glossary-term" id="glossary-origin-06-0034" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0034&amp;lesson=06#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> account, and they must agree.</p>
+
+<h3>Follow one call all the way back to its receiver</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int add(int left, int right) {
+    return left + right;
+}
+
+int twice(int value) {
+    return value * 2;
+}
+
+int main() {
+    const int subtotal{add(12, 8)};
+    const int total{twice(subtotal)};
+    std::cout &lt;&lt; total &lt;&lt; '\n';
+}
+</code></pre>
+<p>Start with <code>add(12, 8)</code>. The argument expressions produce the values 12 and 8. Those values initialise the separate parameter objects <code>left</code> and <code>right</code> for this invocation. The function body adds the parameter values, and <code>return</code> supplies 20 as the result of the call expression. That result then initialises <code>subtotal</code>.</p>
+<p>The second call repeats the mechanism rather than sharing the first call's parameters. The expression <code>subtotal</code> produces 20, a new parameter object called <code>value</code> is initialised for <code>twice</code>, and the returned 40 initialises <code>total</code>. The parameter objects belong to their individual invocations and reach the end of their <a class="glossary-term" id="glossary-origin-06-0035" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0035&amp;lesson=06#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetimes</a> when those calls finish.</p>
+<table>
+<thead><tr><th>Call event</th><th>Values crossing in</th><th>Value crossing out</th><th>Receiver</th></tr></thead>
+<tbody>
+<tr><td><code>add(12, 8)</code></td><td><code>left</code> becomes 12; <code>right</code> becomes 8</td><td>20</td><td><code>subtotal</code></td></tr>
+<tr><td><code>twice(subtotal)</code></td><td><code>value</code> becomes 20</td><td>40</td><td><code>total</code></td></tr>
+</tbody>
+</table>
+<p>We could write <code>twice(add(12, 8))</code>. Here the inner call must finish because its returned value is the argument required by the outer call. Read the data dependency from the inside out: 12 and 8 enter <code>add</code>, 20 leaves it and enters <code>twice</code>, then 40 leaves <code>twice</code>. This necessary nesting is different from assuming that separate arguments to one call are evaluated from left to right.</p>
+<p>The named <a class="glossary-term" id="glossary-origin-06-0036" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0036&amp;lesson=06#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <code>subtotal</code> is not automatically superior, but it gives the intermediate value a meaning and a place to inspect it. Compression is useful only while the transfer of values remains obvious. If a <a class="glossary-term" id="glossary-origin-06-0037" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0037&amp;lesson=06#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a>, diagnostic or human explanation needs the intermediate state, the extra name has earned its place.</p>
+
+<h3>Exact type matching is too simple to be the rule</h3>
+<p>Suppose the visible declarations include <code>draw(int)</code> and <code>draw(double)</code>. For <code>draw(2)</code>, both declarations can be considered, but the <a class="glossary-term" id="glossary-origin-06-0038" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0038&amp;lesson=06#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> overload can accept the integer argument without conversion and is the better match. For <code>draw(2.0)</code>, the double overload has the corresponding advantage. C++ has selected between viable candidates; it has not required every possible call to begin with identical argument and parameter types.</p>
+<p>For these introductory examples, use three questions:</p>
+<ol>
+<li>Which declarations with this name are visible at the call site?</li>
+<li>Can the supplied arguments initialise their parameters?</li>
+<li>If more than one candidate is viable, which has the better conversion sequence?</li>
+</ol>
+<p>This is deliberately a beginner's model rather than the full overload-resolution specification. It is still strong enough to replace the false instruction to match every type exactly. A permitted conversion may make a call viable, several viable candidates may leave an ambiguous choice, and no viable candidate leaves the call ill-formed. The <a class="glossary-term" id="glossary-origin-06-0039" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0039&amp;lesson=06#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> alone does not choose between ordinary overloaded functions.</p>
+<p>Now imagine an ambiguous call repaired by inserting <code>static_cast&lt;int&gt;</code>. The compiler becomes quiet. What has that proved? It proves that the cast steered selection towards an integer operation. It does not prove that discarding a fractional part or choosing that operation matches the problem. Decide the meaning first; then make the argument type or the <a class="glossary-term" id="glossary-origin-06-0040" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0040&amp;lesson=06#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> state it. Silence from the diagnostic is necessary evidence, not sufficient evidence.</p>
+<p>A forward declaration has a narrower purpose. It makes a name and type available before the <a class="glossary-term" id="glossary-origin-06-0041" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0041&amp;lesson=06#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> appears. It does not run the function, reserve a permanent parameter object or solve a confused dependency. If two components require declarations from each other, the program may compile while the design still deserves inspection. Draw the dependency arrows and ask why both directions are needed.</p>
+
+<h3>Do not hide required order inside sibling arguments</h3>
+<p>Consider <code>consume(read_next(), read_next())</code>. One call to <code>read_next</code> will complete before the other, so their executions do not interleave. C++20 does not, however, require the left argument to be evaluated before the right argument. The body of <code>consume</code> begins only after both argument evaluations and parameter initialisations are complete.</p>
+<pre><code class="language-cpp">// Avoid making the result depend on which argument is evaluated first.
+consume(read_next(), read_next());
+
+// Make the required order explicit.
+const auto first = read_next();
+const auto second = read_next();
+consume(first, second);
+</code></pre>
+<p>If the program requires the first read to occur before the second, the original call has hidden a requirement that the language does not promise to honour. Separate statements make the sequence part of the source-level account. The problem was not nesting or multiple arguments by themselves. It was coordinating order-sensitive side effects through an unspecified relative order.</p>
+<p>Notice the contrast with <code>twice(add(12, 8))</code>. The outer call cannot proceed until the inner call produces its argument, so the value dependency establishes the required order. In <code>consume(read_next(), read_next())</code>, neither sibling argument depends on the other's result. Their written position is not a portable sequencing instruction.</p>
+
+<h3>Parameter form should admit the responsibility</h3>
+<p>A by-<a class="glossary-term" id="glossary-origin-06-0042" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0042&amp;lesson=06#term-pass-by-value" aria-label="Look up pass by value in the programming glossary" title="Look up pass by value in the programming glossary">value parameter</a> creates a separate parameter object, as <code>add</code> and <code>twice</code> demonstrate. Changing that parameter does not change the caller's object. A reference to <code>const</code> refers to an existing object and prevents modification through that reference. A non-const reference permits the function to modify the caller's object, so that effect should be visible in the function's purpose rather than discovered by accident.</p>
+<p>Cost matters, but intent comes first at this stage. Passing a small integer by value states the required relationship plainly. Passing a larger object by reference to <code>const</code> can avoid a copy while admitting observation rather than mutation. <a class="glossary-term" id="glossary-origin-06-0043" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0043&amp;lesson=06#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">Pointer</a> ownership and rvalue-reference policies belong with the later memory and object-lifetime material; adding advanced punctuation to a signature is not evidence of better design.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> require a call account, not a compiling cast</summary>
+<div>
+<p>When an AI tool proposes or repairs a call, require four pieces of evidence: the declarations visible at that point, the viable candidates, the conversion required for each argument and the selected overload. Compare its account with the compiler diagnostic and reduce the case when they disagree. If the proposed fix is a cast, ask which program requirement authorises the conversion and what information it may lose. "It compiles" describes one observation. It does not finish the review.</p>
+</div>
+</details>
+
+<h3>Build the call ledger</h3>
+<p>Trace <code>twice(add(12, 8))</code> on paper. Give every invocation its own parameters, write the value returned at each boundary and name the expression or object that receives it. Then place <code>draw(int)</code> and <code>draw(double)</code> beside the calls <code>draw(2)</code> and <code>draw(2.0)</code>. For each call, cross out the candidates that are not viable and explain why the selected conversion sequence is better.</p>
+<p>Finish with <code>consume(read_next(), read_next())</code>. Write two permitted traces, one for each relative argument order, and decide whether the observable program result can differ. If it can, replace the call with named intermediate statements and state the order now guaranteed by the source. A useful call explanation accounts for selection, values, effects and return. Familiar parentheses account for none of them.</p>
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<h4>The nested call</h4>
+<table>
+<thead><tr><th>Stage</th><th>Account</th></tr></thead>
+<tbody>
+<tr><td><code>add(12, 8)</code></td><td>The argument values 12 and 8 initialise separate parameters <code>left</code> and <code>right</code>.</td></tr>
+<tr><td>Inside <code>add</code></td><td><code>left + right</code> produces 20, and <code>return</code> makes 20 the value of the inner call expression.</td></tr>
+<tr><td><code>twice(...)</code></td><td>The returned 20 supplies the argument value that initialises a new parameter object called <code>value</code>.</td></tr>
+<tr><td>Inside <code>twice</code></td><td><code>value * 2</code> produces 40, and the outer call returns 40.</td></tr>
+<tr><td><a class="glossary-term" id="glossary-origin-06-0044" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0044&amp;lesson=06#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">Final</a> receiver</td><td>In <code>const int result{twice(add(12, 8))};</code>, the returned 40 initialises <code>result</code>.</td></tr>
+</tbody>
+</table>
+<p>The inner call must complete before its value can initialise the outer parameter. That dependency establishes the order; the nesting is not merely visual.</p>
+<h4>The overloads</h4>
+<table>
+<thead><tr><th>Call</th><th><code>draw(int)</code></th><th><code>draw(double)</code></th><th>Selection</th></tr></thead>
+<tbody>
+<tr><td><code>draw(2)</code></td><td>Viable with an exact match</td><td>Viable after converting <code>int</code> to <code>double</code></td><td><code>draw(int)</code>, because the exact match has the better conversion sequence</td></tr>
+<tr><td><code>draw(2.0)</code></td><td>Viable after converting <code>double</code> to <code>int</code></td><td>Viable with an exact match</td><td><code>draw(double)</code>, because the exact match has the better conversion sequence</td></tr>
+</tbody>
+</table>
+<p>No candidate should be crossed out as non-viable in either of these calls. One candidate is less preferred. That is different from being impossible.</p>
+<h4>The sibling arguments</h4>
+<p>Suppose successive calls to <code>read_next()</code> produce 10 and then 20.</p>
+<ul>
+<li>If the left argument is evaluated first, the left expression receives 10 and the right expression receives 20, producing <code>consume(10, 20)</code>.</li>
+<li>If the right argument is evaluated first, the right expression receives 10 and the left expression receives 20, producing <code>consume(20, 10)</code>.</li>
+</ul>
+<p>C++20 requires one argument evaluation to complete before the other, but it does not specify which sibling argument is evaluated first. The observable result can therefore differ when <code>consume</code> distinguishes its first and second parameters, or when the reads themselves have observable effects.</p>
+<pre><code class="language-cpp">const auto first = read_next();
+const auto second = read_next();
+consume(first, second);
+</code></pre>
+<p>The first declaration completes its read before the second declaration begins. The second read then completes before the call. The source now guarantees that the first value read becomes the first argument and the second value read becomes the second argument.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:06:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-05.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">05. The Main Function</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-07.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">07. Header Files</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

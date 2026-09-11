@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Well, we had to put this in!">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 09 - 9. &quot;Hello, World&quot;, (good night Vienna)</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-09.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 09 - 9. &quot;Hello, World&quot;, (good night Vienna)">
+    <meta property="og:description" content="Well, we had to put this in!">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-09.html">
+</head>
+<body class="course-page lesson-page" data-lesson="09" data-art-pattern="flow" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 09 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html" aria-current="page"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 09</span>
+            </nav>
+            <p class="hero-kicker">Lesson 09 · 24 lesson course</p>
+            <h1 id="lesson-title">9. &quot;Hello, World&quot;, (good night Vienna)</h1>
+            <p class="lesson-deck">Well, we had to put this in!</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-08.html">← Lesson 08</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-10.html">Lesson 10 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>52 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-09-abstraction" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-abstraction&amp;lesson=09#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> <a class="glossary-chip" id="glossary-panel-origin-09-argument" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-argument&amp;lesson=09#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-09-binary" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-binary&amp;lesson=09#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> <a class="glossary-chip" id="glossary-panel-origin-09-buffer" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-buffer&amp;lesson=09#term-buffer" aria-label="Look up buffer in the programming glossary" title="Look up buffer in the programming glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-09-byte" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-byte&amp;lesson=09#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">byte</a> <a class="glossary-chip" id="glossary-panel-origin-09-cpp" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-cpp&amp;lesson=09#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-09-class-template" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-class-template&amp;lesson=09#term-class-template" aria-label="Look up class template in the programming glossary" title="Look up class template in the programming glossary">class template</a> <a class="glossary-chip" id="glossary-panel-origin-09-code" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-code&amp;lesson=09#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-09-command-line-interface" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-command-line-interface&amp;lesson=09#term-command-line-interface" aria-label="Look up command-line interface in the programming glossary" title="Look up command-line interface in the programming glossary">command-line interface</a> <a class="glossary-chip" id="glossary-panel-origin-09-compiler" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-compiler&amp;lesson=09#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-09-complexity" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-complexity&amp;lesson=09#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a> <a class="glossary-chip" id="glossary-panel-origin-09-condition" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-condition&amp;lesson=09#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-09-constraint" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-constraint&amp;lesson=09#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">constraint</a> <a class="glossary-chip" id="glossary-panel-origin-09-debugger" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-debugger&amp;lesson=09#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a> <a class="glossary-chip" id="glossary-panel-origin-09-debugging" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-debugging&amp;lesson=09#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-09-declaration" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-declaration&amp;lesson=09#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-09-definition" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-definition&amp;lesson=09#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-09-disassembly" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-disassembly&amp;lesson=09#term-disassembly" aria-label="Look up disassembly in the programming glossary" title="Look up disassembly in the programming glossary">disassembly</a> <a class="glossary-chip" id="glossary-panel-origin-09-entry-point" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-entry-point&amp;lesson=09#term-entry-point" aria-label="Look up entry point in the programming glossary" title="Look up entry point in the programming glossary">entry point</a> <a class="glossary-chip" id="glossary-panel-origin-09-executable" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-executable&amp;lesson=09#term-executable" aria-label="Look up executable in the programming glossary" title="Look up executable in the programming glossary">executable</a> <a class="glossary-chip" id="glossary-panel-origin-09-expression" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-expression&amp;lesson=09#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-09-final-specifier" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-final-specifier&amp;lesson=09#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-09-function" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-function&amp;lesson=09#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-09-header-file" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-header-file&amp;lesson=09#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header file</a> <a class="glossary-chip" id="glossary-panel-origin-09-include-directive" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-include-directive&amp;lesson=09#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-09-initialisation" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-initialisation&amp;lesson=09#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-09-input-output" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-input-output&amp;lesson=09#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">input/output</a> <a class="glossary-chip" id="glossary-panel-origin-09-interface" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-interface&amp;lesson=09#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-09-library" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-library&amp;lesson=09#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> <a class="glossary-chip" id="glossary-panel-origin-09-linker" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-linker&amp;lesson=09#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">linker</a> <a class="glossary-chip" id="glossary-panel-origin-09-main-function" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-main-function&amp;lesson=09#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-09-namespace" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-namespace&amp;lesson=09#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">namespace</a> <a class="glossary-chip" id="glossary-panel-origin-09-operator" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-operator&amp;lesson=09#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-09-operator-overloading" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-operator-overloading&amp;lesson=09#term-operator-overloading" aria-label="Look up operator overloading in the programming glossary" title="Look up operator overloading in the programming glossary">operator overloading</a> <a class="glossary-chip" id="glossary-panel-origin-09-parameter" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-parameter&amp;lesson=09#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-09-preprocessor" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-preprocessor&amp;lesson=09#term-preprocessor" aria-label="Look up preprocessor in the programming glossary" title="Look up preprocessor in the programming glossary">preprocessor</a> <a class="glossary-chip" id="glossary-panel-origin-09-program" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-program&amp;lesson=09#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-09-runtime" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-runtime&amp;lesson=09#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-09-scope" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-scope&amp;lesson=09#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-09-build" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-build&amp;lesson=09#term-build" aria-label="Look up software build in the programming glossary" title="Look up software build in the programming glossary">software build</a> <a class="glossary-chip" id="glossary-panel-origin-09-stack" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-stack&amp;lesson=09#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> <a class="glossary-chip" id="glossary-panel-origin-09-standard-library" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-standard-library&amp;lesson=09#term-standard-library" aria-label="Look up standard library in the programming glossary" title="Look up standard library in the programming glossary">standard library</a> <a class="glossary-chip" id="glossary-panel-origin-09-state" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-state&amp;lesson=09#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-09-stream" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-stream&amp;lesson=09#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-09-stream-insertion-extraction" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-stream-insertion-extraction&amp;lesson=09#term-stream-insertion-extraction" aria-label="Look up stream insertion and extraction in the programming glossary" title="Look up stream insertion and extraction in the programming glossary">stream insertion and extraction</a> <a class="glossary-chip" id="glossary-panel-origin-09-string" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-string&amp;lesson=09#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-09-testing" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-testing&amp;lesson=09#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-09-translation-unit" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-translation-unit&amp;lesson=09#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation unit</a> <a class="glossary-chip" id="glossary-panel-origin-09-type" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-type&amp;lesson=09#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-09-type-safety" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-type-safety&amp;lesson=09#term-type-safety" aria-label="Look up type safety in the programming glossary" title="Look up type safety in the programming glossary">type safety</a> <a class="glossary-chip" id="glossary-panel-origin-09-using-directive" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-using-directive&amp;lesson=09#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">using directive</a> <a class="glossary-chip" id="glossary-panel-origin-09-vector" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-vector&amp;lesson=09#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="09">
+<img src="assets/images/lesson-art/lesson-09-hello-world.png" alt="Abstract first signal emerging from a deep machine into an illuminated output space." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+<p>&nbsp;</p>
+
+<p style="text-align: center;">&nbsp;</p>
+<h2>Lesson: “Hello, world” — Why the Simplest <a class="glossary-term" id="glossary-origin-09-0001" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0001&amp;lesson=09#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-term" id="glossary-origin-09-0002" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0002&amp;lesson=09#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">Program</a> Isn’t Simple</h2>
+
+<p>
+The first program many novices write is <em>Hello, world</em> (strictly: “Hello, world” with a comma). It’s often presented as the “simplest” C++ program, but that’s misleading. Printing text to a screen already requires the <a class="glossary-term" id="glossary-origin-09-0003" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0003&amp;lesson=09#term-standard-library" aria-label="Look up standard library in the programming glossary" title="Look up standard library in the programming glossary">C++ standard library</a>, OS integration, <a class="glossary-term" id="glossary-origin-09-0004" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0004&amp;lesson=09#term-buffer" aria-label="Look up buffer in the programming glossary" title="Look up buffer in the programming glossary">buffering</a>, and (in C++) heavy template machinery. Let’s demystify what’s happening and build the right mental model.
+</p>
+
+<hr>
+
+<h3>1) The Myth of Simplicity</h3>
+
+<p>
+To print anything, your program must cross the boundary between your <a class="glossary-term" id="glossary-origin-09-0005" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0005&amp;lesson=09#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> and the outside world (a console window, file, etc.). That requires:
+</p>
+<ul>
+  <li><strong><a class="glossary-term" id="glossary-origin-09-0006" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0006&amp;lesson=09#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">Headers</a> &amp; <a class="glossary-term" id="glossary-origin-09-0007" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0007&amp;lesson=09#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">libraries</a></strong> (e.g., <code>&lt;iostream&gt;</code>) that <a class="glossary-term" id="glossary-origin-09-0008" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0008&amp;lesson=09#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declare</a>/<a class="glossary-term" id="glossary-origin-09-0009" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0009&amp;lesson=09#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> <a class="glossary-term" id="glossary-origin-09-0010" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0010&amp;lesson=09#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">I/O</a> facilities.</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-09-0011" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0011&amp;lesson=09#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">Runtime</a> support</strong> (startup/shutdown routines, locale/<a class="glossary-term" id="glossary-origin-09-0012" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0012&amp;lesson=09#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> setup).</li>
+  <li><strong>OS interaction</strong> (file descriptors/handles, buffering, syscalls).</li>
+</ul>
+
+<pre><code class="language-cpp">// The textbook version
+#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Hello, world\n";
+    return 0;
+}
+</code></pre>
+
+<p>
+Looks tiny; hides a lot. Step through in a <a class="glossary-term" id="glossary-origin-09-0013" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0013&amp;lesson=09#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a> and you’ll see templates and <a class="glossary-term" id="glossary-origin-09-0014" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0014&amp;lesson=09#term-operator-overloading" aria-label="Look up operator overloading in the programming glossary" title="Look up operator overloading in the programming glossary">operator overloads</a> (e.g., <code>operator&lt;&lt;</code>) and runtime <a class="glossary-term" id="glossary-origin-09-0015" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0015&amp;lesson=09#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> before your line even executes.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Explain the “Extra Code”</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to summarise the <a class="glossary-term" id="glossary-origin-09-0016" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0016&amp;lesson=09#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">call stack</a> when stepping through <code>std::cout &lt;&lt; ...</code> (templates, <a class="glossary-term" id="glossary-origin-09-0017" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0017&amp;lesson=09#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a>&lt;&lt;, buffers).</li>
+    <li>Paste <a class="glossary-term" id="glossary-origin-09-0018" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0018&amp;lesson=09#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> errors or <a class="glossary-term" id="glossary-origin-09-0019" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0019&amp;lesson=09#term-disassembly" aria-label="Look up disassembly in the programming glossary" title="Look up disassembly in the programming glossary">disassembly</a>; have AI explain the parts relevant to your one line of code.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>2) Minimal vs “Hello, world”</h3>
+
+<p>Truly minimal C++ program (no I/O):</p>
+<pre><code class="language-cpp">int main() { return 0; }
+</code></pre>
+
+<p>
+Adding output pulls in the standard library I/O subsystem. That’s good (portable, safe), but it means “simple” is doing a lot of work behind the scenes.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Minimal vs I/O <a class="glossary-term" id="glossary-origin-09-0020" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0020&amp;lesson=09#term-build" aria-label="Look up software build in the programming glossary" title="Look up software build in the programming glossary">Builds</a></summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI for a “no I/O” scaffold (just <code>main</code>) and a matching “I/O” scaffold; compare <a class="glossary-term" id="glossary-origin-09-0021" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0021&amp;lesson=09#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> size/startup paths.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>3) Three Ways to Print (and what they imply)</h3>
+
+<p><strong>A) C++ streams (idiomatic C++)</strong></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main() {
+    std::cout &lt;&lt; "Hello, world\n";   // '\n' prints and usually leaves buffer line-buffered for terminals
+    // std::cout &lt;&lt; "Hello, world" &lt;&lt; std::endl; // prints + flushes (slower)
+    return 0;
+}
+</code></pre>
+
+<p><strong>B) C stdio (C compatibility)</strong></p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+int main() {
+    std::puts("Hello, world");  // adds '\n' automatically
+    return 0;
+}
+</code></pre>
+
+<p><strong>C) OS-level write (platform-specific; advanced)</strong></p>
+<pre><code class="language-cpp">// POSIX only
+#include &lt;unistd.h&gt;
+int main() {
+    const char msg[] = "Hello, world\n";
+    (void)write(1, msg, sizeof msg - 1); // 1 = stdout
+    return 0;
+}
+</code></pre>
+
+<ul>
+  <li>Streams are portable and <a class="glossary-term" id="glossary-origin-09-0022" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0022&amp;lesson=09#term-type-safety" aria-label="Look up type safety in the programming glossary" title="Look up type safety in the programming glossary">type-safe</a>; template-heavy under the hood.</li>
+  <li><code>&lt;cstdio&gt;</code> is simpler C-style I/O; sometimes easier to reason about.</li>
+  <li>OS calls are minimal but not portable; useful for learning what the library abstracts.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — I/O Trade-offs</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Describe your <a class="glossary-term" id="glossary-origin-09-0023" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0023&amp;lesson=09#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">constraints</a> (portability/perf/teaching goals); ask AI which I/O style to use and why.</li>
+    <li>Have AI convert a streams version to <code>&lt;cstdio&gt;</code> and to OS-level calls for comparison.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>4) Headers, <a class="glossary-term" id="glossary-origin-09-0024" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0024&amp;lesson=09#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">Namespaces</a>, and Why <code>using namespace std;</code> is a Bad Habit</h3>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+// Avoid this in real code (especially headers):
+// using namespace std;  // ❌ pulls in many names; risk of collisions
+
+int main() {
+    std::cout &lt;&lt; "Hello, world\n"; // be explicit
+    return 0;
+}
+</code></pre>
+
+<p>
+<code>&lt;iostream&gt;</code> declares the stream <a class="glossary-term" id="glossary-origin-09-0025" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0025&amp;lesson=09#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a> in the <code>std</code> namespace. Explicit qualification (<code>std::cout</code>) keeps your global <a class="glossary-term" id="glossary-origin-09-0026" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0026&amp;lesson=09#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> clean and avoids name conflicts.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Make “Hello, world” Teachable</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to produce a “teaching” version with commentary lines explaining each token (<code>#include</code>, <code>std::</code>, newline vs endl).</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>5) Buffering, Newlines, and <code>std::endl</code></h3>
+
+<ul>
+  <li><code>'\n'</code> writes a newline; output may remain buffered and flush later.</li>
+  <li><code>std::endl</code> writes a newline <em>and flushes</em> the stream (can be slower; use when you need immediate output).</li>
+  <li>Mixing C and C++ I/O can be fine, but be careful about sync: some environments require <code>std::ios::sync_with_stdio(true)</code> (default is usually true) to keep buffers consistent.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Diagnose “Why No Output?”</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Paste the snippet + how you’re running it; AI will suggest flush points or environment fixes (terminal vs IDE vs redirected file).</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>6) What’s All That Disassembly / Template Noise?</h3>
+
+<p>
+C++ streams are built from <a class="glossary-term" id="glossary-origin-09-0027" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0027&amp;lesson=09#term-class-template" aria-label="Look up class template in the programming glossary" title="Look up class template in the programming glossary">class templates</a>, operator overloads, sentinels, and facets (locale). When you step in, you’re stepping into all the machinery that makes streaming safe and flexible (formatting numbers, locales, wide chars, etc.). It’s normal to see a “wall of internals”.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Focus Your Debugger</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI for a minimal set of debugger watchpoints (e.g., <code>std::cout.rdbuf()</code> <a class="glossary-term" id="glossary-origin-09-0028" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0028&amp;lesson=09#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a>, error flags) and how to step over template internals.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>7) Worked Example — Three “Hello, world” Builds</h3>
+
+<p><strong>Streams version (idiomatic, portable)</strong></p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main() {
+    std::cout &lt;&lt; "Hello, world\n";
+    return 0;
+}
+</code></pre>
+
+<p><strong>C stdio version (simple C interop)</strong></p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+int main() {
+    std::puts("Hello, world");
+    return 0;
+}
+</code></pre>
+
+<p><strong>POSIX write (advanced, not portable)</strong></p>
+<pre><code class="language-cpp">#include &lt;unistd.h&gt;
+int main() {
+    const char msg[] = "Hello, world\n";
+    (void)write(1, msg, sizeof msg - 1);
+    return 0;
+}
+</code></pre>
+
+<p>
+Compare: portability, readability, dependency on templates, and what your debugger shows. They all do the same visible thing, but the path is very different.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Side-by-Side Explanation</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to produce a comparison table (portability, <a class="glossary-term" id="glossary-origin-09-0029" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0029&amp;lesson=09#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> level, typical use cases) for the three versions.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>8) Mini Exercise — Make It Yours</h3>
+
+<p>
+Modify the streams version to accept a name from the <a class="glossary-term" id="glossary-origin-09-0030" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0030&amp;lesson=09#term-command-line-interface" aria-label="Look up command-line interface in the programming glossary" title="Look up command-line interface in the programming glossary">command line</a> and greet the user (remember: <code>argc/argv</code> live in <code>main</code>).
+</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main(int argc, char* argv[]) {
+    if (argc &gt; 1) {
+        std::cout &lt;&lt; "Hello, " &lt;&lt; argv[1] &lt;&lt; "\n";
+    } else {
+        std::cout &lt;&lt; "Hello, world\n";
+    }
+    return 0;
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Extend “Hello, world” Safely</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to convert to <code>std::string</code>/<code>std::vector&lt;std::string&gt;</code> for safer <a class="glossary-term" id="glossary-origin-09-0031" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0031&amp;lesson=09#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> handling and to add basic validation.</li>
+    <li>Have AI show a version using a formatting library (e.g., <code>&lt;format&gt;</code> in modern C++) and explain pros/cons vs streams.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>Summary</h3>
+<ul>
+  <li><em>Hello, world</em> is a gateway into C++’s I/O abstractions, not a bare-metal triviality.</li>
+  <li>Printing engages headers, libraries, buffering, runtime, and (in C++) templates.</li>
+  <li>It’s normal to see “too much” when <a class="glossary-term" id="glossary-origin-09-0032" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0032&amp;lesson=09#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a>; learn to focus on your line and the immediate calls.</li>
+  <li>Choose the right I/O for the context: streams for portability, C stdio for simplicity, OS calls for learning/low-level control.</li>
+  <li>Use AI to explain the hidden <a class="glossary-term" id="glossary-origin-09-0033" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0033&amp;lesson=09#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a> so beginners don’t confuse “verbosity” with “difficulty”.</li>
+</ul>
+        
+<!-- lesson-enhancement:09:start -->
+<section class="lesson-enhancement" id="minimal-program-explained">
+<p class="lesson-enhancement-kicker">Advanced perspective: account for every layer of a small program</p>
+<h2>"Hello, World" is small enough to explain completely</h2>
+<p>Seeing the expected words in a console is the first success, but it is not the complete explanation. The stronger <a class="glossary-term" id="glossary-origin-09-0034" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0034&amp;lesson=09#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">test</a> is whether you can account for the source, the translated program and the observable result without turning an implementation detail from one machine into a rule of C++. This program is useful precisely because it is small enough for that account to be complete.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Hello, World\n";
+}
+</code></pre>
+<p>The requirement is exact: insert the characters <code>Hello, World</code> followed by a newline into the standard character output stream, then report successful completion. Compilation, visible output and termination status provide different evidence. A successful compilation does not prove that you ran the new <a class="glossary-term" id="glossary-origin-09-0035" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0035&amp;lesson=09#term-executable" aria-label="Look up executable in the programming glossary" title="Look up executable in the programming glossary">executable</a>. Seeing the words does not, by itself, prove which executable produced them. A careful test therefore builds the source, runs the resulting program and checks both output and status.</p>
+
+<h3>Give every part of the source a job</h3>
+<table>
+<thead><tr><th>Source</th><th>Job in this program</th><th>A common wrong account</th></tr></thead>
+<tbody>
+<tr><td><code>#include &lt;iostream&gt;</code></td><td>Makes the declarations needed to use the standard stream facilities available in this <a class="glossary-term" id="glossary-origin-09-0036" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0036&amp;lesson=09#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation unit</a>.</td><td>The header prints the text or copies a ready-made program into this one.</td></tr>
+<tr><td><code>int main()</code></td><td>Defines the no-argument form of the program's <code>main</code> <a class="glossary-term" id="glossary-origin-09-0037" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0037&amp;lesson=09#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> in a hosted C++ implementation.</td><td><code>main</code> is an ordinary function that this source must call for itself.</td></tr>
+<tr><td><code>std::cout</code></td><td>Names the standard character output stream. The qualification says that <code>cout</code> is found in namespace <code>std</code>.</td><td><code>std</code> is the name of a library file or a command that performs output.</td></tr>
+<tr><td><code>&lt;&lt;</code></td><td>Selects a stream-insertion operation because of the operands on its left and right.</td><td>The token must mean bit shifting wherever it appears.</td></tr>
+<tr><td><code>"Hello, World\n"</code></td><td>Provides the character sequence. The escape sequence <code>\n</code> represents one newline character; the two source characters are not printed separately.</td><td>The quotation marks or the backslash and letter <code>n</code> will appear in the output.</td></tr>
+<tr><td>The <a class="glossary-term" id="glossary-origin-09-0038" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0038&amp;lesson=09#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> <code>}</code></td><td>Ends <code>main</code>. Reaching it has the same successful termination effect as executing <code>return 0;</code> in this special function.</td><td>Omitting an explicit return leaves the termination status unpredictable.</td></tr>
+</tbody>
+</table>
+<p>The punctuation also matters. Parentheses form the <a class="glossary-term" id="glossary-origin-09-0039" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0039&amp;lesson=09#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">function parameter</a> list; braces delimit its body; the semicolon terminates the <a class="glossary-term" id="glossary-origin-09-0040" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0040&amp;lesson=09#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> statement. These marks are not decoration. Remove one and the compiler may reject the program because the grammatical structure is no longer the required one.</p>
+
+<h3>Trace the claim from source to observation</h3>
+<table>
+<thead><tr><th>Stage</th><th>What happens</th><th>What success establishes</th></tr></thead>
+<tbody>
+<tr><td><a class="glossary-term" id="glossary-origin-09-0041" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0041&amp;lesson=09#term-preprocessor" aria-label="Look up preprocessor in the programming glossary" title="Look up preprocessor in the programming glossary">Preprocessing</a> and translation</td><td>The <a class="glossary-term" id="glossary-origin-09-0042" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0042&amp;lesson=09#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> is processed and the C++ source is translated.</td><td>The implementation accepted the source involved in this build, subject to any diagnostics and build settings.</td></tr>
+<tr><td><a class="glossary-term" id="glossary-origin-09-0043" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0043&amp;lesson=09#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">Linking</a></td><td>The translated program is combined with the definitions and support required to form the executable.</td><td>The linker found a sufficient set of compatible definitions for this build.</td></tr>
+<tr><td>Start</td><td>The hosted environment starts the program and transfers control so that <code>main</code> is called.</td><td>The executable reached the C++ program's <a class="glossary-term" id="glossary-origin-09-0044" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0044&amp;lesson=09#term-entry-point" aria-label="Look up entry point in the programming glossary" title="Look up entry point in the programming glossary">entry function</a>.</td></tr>
+<tr><td>Insertion</td><td>The stream operation receives the character sequence and records it for output.</td><td>The output operation was attempted; stream state and the eventual destination decide what can be observed.</td></tr>
+<tr><td>Termination</td><td>Control reaches the end of <code>main</code>.</td><td>The program reports successful completion through its termination status.</td></tr>
+</tbody>
+</table>
+<p>This trace exposes an important distinction. Output is a stream effect, not a promise that pixels immediately appear in a particular console window. The program may be run with its standard output redirected to a file, captured by an IDE or connected to another process. The same C++ expression is used while the observable destination changes according to the execution environment.</p>
+
+<h3>A newline and a flush answer different requirements</h3>
+<p><code>\n</code> contributes a newline character to the sequence. It does not, by that fact alone, require the stream to make all buffered characters available immediately. <code>std::endl</code> performs two operations: it inserts a newline and then flushes the stream. Those statements can produce the same final text and still have different behaviour during execution.</p>
+<p>If the program simply writes a completed line and terminates, an explicit flush may add no useful evidence. If it writes a prompt and then waits for input, or records progress before a long operation, making output available at that point may be part of the requirement. The criterion is therefore not a preferred spelling. Ask whether immediate availability is observable and necessary. Use a flush when the answer is yes; do not pay for repeated flushing merely because the result looked correct in a tiny example.</p>
+<p>A missing line in an IDE is not enough evidence to diagnose buffering. First check that the program was built, that the new executable was run, and that you are looking at its actual output destination. Only then inspect stream state, flushing and environment behaviour. Otherwise a plausible explanation can send you towards the wrong layer.</p>
+
+<h3>Keep language, library and platform claims separate</h3>
+<p>The source is C++, but not every event below the source is specified as an operating-system call. C++ specifies the language constructs and its standard library specifies the stream <a class="glossary-term" id="glossary-origin-09-0045" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0045&amp;lesson=09#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a>. A particular library implementation must realise that interface using its runtime and host environment, but the route it chooses is not part of the meaning of <code>std::cout</code>.</p>
+<table>
+<thead><tr><th>Layer</th><th>Example in or near this program</th><th>Claim you may safely make</th></tr></thead>
+<tbody>
+<tr><td>C++ language</td><td>Function definition, expression statement and <a class="glossary-term" id="glossary-origin-09-0046" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0046&amp;lesson=09#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> literal</td><td>The source has structure and meaning governed by the C++ language rules.</td></tr>
+<tr><td>C++ standard library</td><td><code>std::cout</code>, <a class="glossary-term" id="glossary-origin-09-0047" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0047&amp;lesson=09#term-stream-insertion-extraction" aria-label="Look up stream insertion and extraction in the programming glossary" title="Look up stream insertion and extraction in the programming glossary">stream insertion</a> and <code>std::endl</code></td><td>These are standard C++ library facilities available in a conforming hosted implementation.</td></tr>
+<tr><td>C standard-library interface in C++</td><td><code>std::printf</code> after including <code>&lt;cstdio&gt;</code></td><td>This is a different standard-library interface for formatted output, not an explanation of stream insertion.</td></tr>
+<tr><td>Platform interface</td><td>A POSIX file-descriptor operation such as <code>write</code></td><td>This may be used on a suitable platform, but it is not portable ISO C++.</td></tr>
+<tr><td>Implementation mechanism</td><td>The calls, buffers and internal types seen while debugging one library build</td><td>These explain that implementation and build; they do not automatically establish a universal C++ mechanism.</td></tr>
+</tbody>
+</table>
+<p>This separation prevents two opposite mistakes. The first is to describe <code>std::cout</code> as if C++ itself controls a console device. The second is to see library internals in a debugger and conclude that every conforming implementation must use the same calls and types. Neither conclusion follows from the observation.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> audit the explanation, not its confidence</summary>
+<div>
+<p>Give an AI system the complete program and ask it to classify each claim as language, standard library, toolchain, runtime or operating environment. Then test the boundaries. Does it say that <code>#include</code> performs output? Does it claim that a newline always flushes? Does it turn a POSIX call seen on one platform into a C++ requirement? Retain only claims that survive comparison with the source, compiler evidence and the documented interface. Fluency is not evidence.</p>
+</div>
+</details>
+
+<h3>Test the model by changing one requirement</h3>
+<p>Change the required output to two lines, with <code>Hello,</code> on the first and <code>World</code> on the second. Before editing, write down the exact character sequence, including both newline positions. Then make the smallest source change, build again, run the resulting executable and compare the observation with the prediction.</p>
+<p>Finally, repeat the test with standard output redirected to a file. The absence of a console line is now expected, not a failure. Explain which parts of the C++ account stayed the same, which environmental <a class="glossary-term" id="glossary-origin-09-0048" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0048&amp;lesson=09#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> changed and what evidence proves successful termination. If you can do that without appealing to hidden magic, this first program has done its real job.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The required character sequence is <code>Hello,\nWorld\n</code>. There is one newline after the comma and another after <code>World</code>. The smallest source change is therefore confined to the string literal:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Hello,\nWorld\n";
+}
+</code></pre>
+<p>A run should display two complete lines:</p>
+<pre><code>Hello,
+World
+</code></pre>
+<p>The prediction is stronger than saying that the output should look roughly right. The first insertion supplies eleven visible characters and two newline characters, and reaching the end of <code>main</code> reports successful termination.</p>
+<p>With standard output redirected, for example with <code>.\hello.exe &gt; greeting.txt</code>, the C++ account has not changed. The program still enters <code>main</code>, performs the same stream insertion and reaches the same successful end. The environmental destination has changed from the terminal to <code>greeting.txt</code>. The useful evidence is that the file contains the two predicted lines and that the process reports status zero. An empty console is expected in this run; it does not show that the insertion failed.</p>
+<p>If the file is inspected <a class="glossary-term" id="glossary-origin-09-0049" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0049&amp;lesson=09#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">byte</a> by byte, remember that a text-mode implementation may represent a newline using the platform's external line-ending convention. The C++ source prediction concerns newline characters. A byte-level test must also state the environment whose representation is being checked.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:09:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-08.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">08. Namespaces</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-10.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">10. The For Loop</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

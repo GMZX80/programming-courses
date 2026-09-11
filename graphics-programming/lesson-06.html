@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Separate the fact that a ray hit something from the information required to shade that surface.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 06 - Normals and Surface Materials</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="06" data-ray-stage="6" data-art-pattern="cells">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 06 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html" aria-current="page"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 06</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">6. Normals and Surface Materials</h1>
+            <p class="lesson-deck">Separate the fact that a ray hit something from the information required to shade that surface.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-05.html">&larr; Lesson 05</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-07.html">Lesson 07 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>27 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-06-albedo" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-albedo&amp;lesson=06#term-albedo" aria-label="Look up albedo in the graphics glossary" title="Look up albedo in the graphics glossary">albedo</a> <a class="glossary-chip" id="glossary-panel-origin-06-buffer" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-buffer&amp;lesson=06#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-06-camera" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-camera&amp;lesson=06#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-06-coordinate-space" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-coordinate-space&amp;lesson=06#term-coordinate-space" aria-label="Look up coordinate space in the graphics glossary" title="Look up coordinate space in the graphics glossary">coordinate space</a> <a class="glossary-chip" id="glossary-panel-origin-06-direction" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-direction&amp;lesson=06#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-06-dot-product" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-dot-product&amp;lesson=06#term-dot-product" aria-label="Look up dot product in the graphics glossary" title="Look up dot product in the graphics glossary">dot product</a> <a class="glossary-chip" id="glossary-panel-origin-06-finite-precision" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-finite-precision&amp;lesson=06#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite precision</a> <a class="glossary-chip" id="glossary-panel-origin-06-front-face" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-front-face&amp;lesson=06#term-front-face" aria-label="Look up front face in the graphics glossary" title="Look up front face in the graphics glossary">front face</a> <a class="glossary-chip" id="glossary-panel-origin-06-gpu" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-gpu&amp;lesson=06#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-06-hit" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-hit&amp;lesson=06#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-06-hit-record" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-hit-record&amp;lesson=06#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> <a class="glossary-chip" id="glossary-panel-origin-06-image" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-image&amp;lesson=06#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-06-index-of-refraction" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-index-of-refraction&amp;lesson=06#term-index-of-refraction" aria-label="Look up index of refraction in the graphics glossary" title="Look up index of refraction in the graphics glossary">index of refraction</a> <a class="glossary-chip" id="glossary-panel-origin-06-intersection" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-intersection&amp;lesson=06#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-06-material" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-material&amp;lesson=06#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-06-normal-map" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-normal-map&amp;lesson=06#term-normal-map" aria-label="Look up normal map in the graphics glossary" title="Look up normal map in the graphics glossary">normal map</a> <a class="glossary-chip" id="glossary-panel-origin-06-normalise" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-normalise&amp;lesson=06#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-06-pixel" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-pixel&amp;lesson=06#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-06-point" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-point&amp;lesson=06#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-06-reflection" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-reflection&amp;lesson=06#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-06-refraction" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-refraction&amp;lesson=06#term-refraction" aria-label="Look up refraction in the graphics glossary" title="Look up refraction in the graphics glossary">refraction</a> <a class="glossary-chip" id="glossary-panel-origin-06-rgb" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-rgb&amp;lesson=06#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> <a class="glossary-chip" id="glossary-panel-origin-06-shader-interface" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-shader-interface&amp;lesson=06#term-shader-interface" aria-label="Look up shader interface in the graphics glossary" title="Look up shader interface in the graphics glossary">shader interface</a> <a class="glossary-chip" id="glossary-panel-origin-06-specular" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-specular&amp;lesson=06#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> <a class="glossary-chip" id="glossary-panel-origin-06-sphere" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-sphere&amp;lesson=06#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-06-surface-normal" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-surface-normal&amp;lesson=06#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-06-tangent-space" href="glossary.html?from=lesson-06.html%23glossary-panel-origin-06-tangent-space&amp;lesson=06#term-tangent-space" aria-label="Look up tangent space in the graphics glossary" title="Look up tangent space in the graphics glossary">tangent space</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A <a class="glossary-term" id="glossary-origin-06-0001" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0001&amp;lesson=06#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> tells us that a ray met a surface first. It does not yet tell us how that surface faces the ray or how it should respond to light. Those two questions are related but they are not the same. The <a class="glossary-term" id="glossary-origin-06-0002" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0002&amp;lesson=06#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a> belongs to the surface geometry at a position. The <a class="glossary-term" id="glossary-origin-06-0003" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0003&amp;lesson=06#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> describes how the surface will be interpreted. Keeping them separate allows one <a class="glossary-term" id="glossary-origin-06-0004" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0004&amp;lesson=06#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> equation to support clay, metal or glass without becoming three different sphere equations.</p>
+<p>The normal is also the first result that exposes orientation. A sphere has an obvious outward <a class="glossary-term" id="glossary-origin-06-0005" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0005&amp;lesson=06#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a>, but a ray may begin outside or inside it. Later <a class="glossary-term" id="glossary-origin-06-0006" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0006&amp;lesson=06#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> and <a class="glossary-term" id="glossary-origin-06-0007" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0007&amp;lesson=06#term-refraction" aria-label="Look up refraction in the graphics glossary" title="Look up refraction in the graphics glossary">refraction</a> calculations need a normal that is consistently oriented against the incoming ray, along with a separate fact recording which side was hit.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Calculate the outward unit normal of a sphere at a hit position.</li>
+<li>Orient the stored normal against the incoming direction and retain a front-face flag.</li>
+<li>Explain why geometry and material data meet in a <a class="glossary-term" id="glossary-origin-06-0008" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0008&amp;lesson=06#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> without becoming the same responsibility.</li>
+</ul>
+</section>
+
+<h2>The sphere normal follows from its definition</h2>
+<p>Every <a class="glossary-term" id="glossary-origin-06-0009" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0009&amp;lesson=06#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> on a sphere is one radius from its centre. The displacement <code>P - C</code> therefore points directly outwards. Dividing by the radius gives unit length:</p>
+<p class="equation">Nout = (P − C) / r</p>
+<p>This formula assumes the hit point is on the surface and the radius is positive. If an implementation allows a zero radius, the geometry has no usable surface normal. If <a class="glossary-term" id="glossary-origin-06-0010" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0010&amp;lesson=06#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite precision</a> places <code>P</code> slightly away from the exact surface, the result may not be exactly unit length; <a class="glossary-term" id="glossary-origin-06-0011" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0011&amp;lesson=06#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalising</a> defensively can be reasonable, although it adds work and may conceal a larger <a class="glossary-term" id="glossary-origin-06-0012" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0012&amp;lesson=06#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> error. The teaching code uses division by the known radius so the connection remains visible.</p>
+
+<pre><code class="language-js">const position = pointOnRay(ray, t);
+const outward = scale(
+    subtract(position, sphere.centre),
+    1 / sphere.radius
+);
+</code></pre>
+
+<h2>Record which side was entered</h2>
+<p>Take the <a class="glossary-term" id="glossary-origin-06-0013" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0013&amp;lesson=06#term-dot-product" aria-label="Look up dot product in the graphics glossary" title="Look up dot product in the graphics glossary">dot product</a> between the incoming ray direction and the outward normal. A negative result means they oppose one another: the ray met the outside of the surface. A positive result means the ray is moving in roughly the same direction as the outward normal, so it is leaving from inside.</p>
+
+<pre><code class="language-js">const frontFace = dot(ray.direction, outward) &lt; 0;
+const normal = frontFace ? outward : scale(outward, -1);
+
+return {
+    t,
+    position,
+    normal,
+    frontFace,
+    material: sphere.material
+};
+</code></pre>
+
+<p>The stored <code>normal</code> now points against the incoming ray in both cases. The <code>frontFace</code> flag preserves which side was originally encountered. Replacing the outward normal without preserving the flag would lose information required by a refractive material, which must know whether the ray is entering or leaving.</p>
+
+<div class="worked-trace">
+<h3>Outside and inside</h3>
+<p>An outside ray travels down negative Z and hits the front of a sphere whose outward normal points along positive Z. Their dot product is -1, so <code>frontFace</code> is true and the stored normal remains positive Z. A ray inside the sphere travels along positive Z and meets the same surface with an outward positive-Z normal. Their dot product is 1, so <code>frontFace</code> is false and the stored normal is flipped to negative Z. In both records the stored normal opposes the incoming direction.</p>
+</div>
+
+<section class="ray-lab concept-lab stage-06-lab" data-ray-lab data-stage="6" aria-labelledby="ray-lab-title-06">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Hit-record laboratory</p><h2 id="ray-lab-title-06">Read One Hit Record Two Ways</h2></div>
+        <p>Switch between the stored surface normal and material albedo while the intersections, hit distances and geometry remain unchanged.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Switch between Normal and Material albedo. The displayed field changes; the hit distance and geometry do not.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 6 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Hit-record diagnostic image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Selected diagnostic view</strong><small>The same sphere hits displayed using either their surface normals or material albedos.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">The same sphere hits displayed using either their surface normals or material albedos.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Hit-record field diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>One unchanged hit record</strong><small>One fixed hit record with its normal and material fields shown separately.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">One fixed hit record with its normal and material fields shown separately.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Hit distance t</dt><dd><output data-record-distance>2.340</output></dd></div><div><dt>Stored normal N</dt><dd><output data-record-normal>(0.000, 0.000, 1.000)</output></dd></div><div><dt>Material albedo</dt><dd><output data-record-albedo>(0.820, 0.240, 0.130)</output></dd></div><div><dt>Displayed field</dt><dd><output data-record-display>Normal</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-record-formula>RGB = 0.5 × (N + 1) = (0.500, 0.500, 1.000)</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Turn records into diagnostic views</h2>
+<p>The normal components lie between -1 and 1. Remapping each component with <code>0.5 × (N + 1)</code> produces a displayable <a class="glossary-term" id="glossary-origin-06-0014" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0014&amp;lesson=06#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> colour. This creates a normal diagnostic in which smoothly changing colour across a sphere exposes its curvature. The <a class="glossary-term" id="glossary-origin-06-0015" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0015&amp;lesson=06#term-albedo" aria-label="Look up albedo in the graphics glossary" title="Look up albedo in the graphics glossary">albedo</a> view instead reads the material's base colour.</p>
+
+<pre><code class="language-js">function normalColour(hit) {
+    return scale(add(hit.normal, [1, 1, 1]), 0.5);
+}
+
+function albedoColour(hit) {
+    return hit.material.albedo;
+}
+</code></pre>
+
+<p>Switch between the two in the laboratory. The intersection distances and visible object boundaries do not change. Only the field read from the record changes. This is a useful debugging habit: display an intermediate quantity directly before asking a more elaborate lighting calculation to conceal it. A normal <a class="glossary-term" id="glossary-origin-06-0016" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0016&amp;lesson=06#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> can reveal inverted orientation, discontinuities and wrong <a class="glossary-term" id="glossary-origin-06-0017" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0017&amp;lesson=06#term-coordinate-space" aria-label="Look up coordinate space in the graphics glossary" title="Look up coordinate space in the graphics glossary">coordinate spaces</a> far more clearly than a polished material.</p>
+
+<div class="warning-note">
+<h3>This is a normal diagnostic, not a texture <a class="glossary-term" id="glossary-origin-06-0018" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0018&amp;lesson=06#term-normal-map" aria-label="Look up normal map in the graphics glossary" title="Look up normal map in the graphics glossary">normal map</a></h3>
+<p>The word normal map is also used for a texture whose stored values perturb a surface normal, usually after a <a class="glossary-term" id="glossary-origin-06-0019" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0019&amp;lesson=06#term-tangent-space" aria-label="Look up tangent space in the graphics glossary" title="Look up tangent space in the graphics glossary">tangent-space</a> transformation. We are not doing that here. We are mapping the actual geometric normal into a visible colour. The glossary makes the local meaning explicit because shared vocabulary can otherwise disguise two different operations.</p>
+</div>
+
+<h2>The material is a set of decisions</h2>
+<p>For now a material stores albedo, <a class="glossary-term" id="glossary-origin-06-0020" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0020&amp;lesson=06#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> strength and shininess. Later it may state reflection, transmission and <a class="glossary-term" id="glossary-origin-06-0021" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0021&amp;lesson=06#term-index-of-refraction" aria-label="Look up index of refraction in the graphics glossary" title="Look up index of refraction in the graphics glossary">index of refraction</a>. A material is not merely a final RGB colour. It supplies values and rules that determine how the hit contributes to the ray's result and whether more rays are created.</p>
+
+<pre><code class="language-js">const blueMaterial = {
+    albedo: [0.14, 0.42, 0.82],
+    specular: 0.34,
+    shininess: 32,
+    reflectivity: 0
+};
+</code></pre>
+
+<p>Attaching a material reference to geometry is convenient because the geometry knows which surface was intersected. The sphere intersection must not start performing lighting in response. It should populate the record and stop. This boundary allows the same closest-hit traversal to support diagnostic normals, local lighting and recursive materials without rewriting the geometric tests.</p>
+
+<div class="checkpoint">
+<h3>Orient the record</h3>
+<p>A ray direction is <code>(0, -1, 0)</code> and the outward normal is <code>(0, 1, 0)</code>. What are <code>frontFace</code> and the stored normal? What changes if the ray direction becomes <code>(0, 1, 0)</code>?</p>
+<details class="reveal-answer"><summary>Reveal the record</summary><div><p>The first dot product is -1, so the hit is on the <a class="glossary-term" id="glossary-origin-06-0022" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0022&amp;lesson=06#term-front-face" aria-label="Look up front face in the graphics glossary" title="Look up front face in the graphics glossary">front face</a> and the stored normal remains <code>(0, 1, 0)</code>. The second dot product is 1, so the hit is from inside, <code>frontFace</code> is false and the stored normal becomes <code>(0, -1, 0)</code>. In both cases it points against the incoming ray.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Make a record inspector</h2>
+<p>Select five <a class="glossary-term" id="glossary-origin-06-0023" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0023&amp;lesson=06#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixels</a> across one sphere. For each, print <code>t</code>, position, normal length, <code>frontFace</code> and material name. Confirm that the normal length is close to one and that the centre-front normal points towards the <a class="glossary-term" id="glossary-origin-06-0024" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0024&amp;lesson=06#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a>. Then place the camera inside a large sphere and repeat. Explain the flipped stored normals using the face flag.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>Vulkan shaders will pass intersection attributes and material indices through explicit <a class="glossary-term" id="glossary-origin-06-0025" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0025&amp;lesson=06#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffers</a> and <a class="glossary-term" id="glossary-origin-06-0026" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0026&amp;lesson=06#term-shader-interface" aria-label="Look up shader interface in the graphics glossary" title="Look up shader interface in the graphics glossary">shader interfaces</a>. Coordinate spaces and data layout will become more visible, not less. The present hit record gives us a semantic checklist: distance, position, oriented normal, side and material must agree before the representation is changed for <a class="glossary-term" id="glossary-origin-06-0027" href="glossary.html?from=lesson-06.html%23glossary-origin-06-0027&amp;lesson=06#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> execution.</p>
+</section>
+
+<p>We now have a position, an oriented normal and a material for the nearest surface. Lesson 7 introduces a light and calculates what the relationships between its direction, the normal and the viewer permit that surface to contribute.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-05.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">05. The Closest Visible Surface</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-07.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">07. Light Is Another Direction</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

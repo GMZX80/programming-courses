@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Implement any-hit visibility in the compute shader and preserve the interval from surface to light.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 23 - A Shadow Query Is Still Bounded</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="23" data-ray-stage="23" data-art-pattern="branch">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 23 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html" aria-current="page"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 23</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">23. A Shadow Query Is Still Bounded</h1>
+            <p class="lesson-deck">Implement any-hit visibility in the compute shader and preserve the interval from surface to light.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-22.html">&larr; Lesson 22</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-24.html">Lesson 24 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>37 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-23-acceleration-structure" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-acceleration-structure&amp;lesson=23#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structure</a> <a class="glossary-chip" id="glossary-panel-origin-23-any-hit-query" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-any-hit-query&amp;lesson=23#term-any-hit-query" aria-label="Look up any-hit query in the graphics glossary" title="Look up any-hit query in the graphics glossary">any-hit query</a> <a class="glossary-chip" id="glossary-panel-origin-23-atomic-operation" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-atomic-operation&amp;lesson=23#term-atomic-operation" aria-label="Look up atomic operation in the graphics glossary" title="Look up atomic operation in the graphics glossary">atomic operation</a> <a class="glossary-chip" id="glossary-panel-origin-23-bounded-ray" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-bounded-ray&amp;lesson=23#term-bounded-ray" aria-label="Look up bounded ray in the graphics glossary" title="Look up bounded ray in the graphics glossary">bounded ray</a> <a class="glossary-chip" id="glossary-panel-origin-23-buffer" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-buffer&amp;lesson=23#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-23-candidate-intersection" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-candidate-intersection&amp;lesson=23#term-candidate-intersection" aria-label="Look up candidate intersection in the graphics glossary" title="Look up candidate intersection in the graphics glossary">candidate intersection</a> <a class="glossary-chip" id="glossary-panel-origin-23-compute-shader" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-compute-shader&amp;lesson=23#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-23-diffuse" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-diffuse&amp;lesson=23#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> <a class="glossary-chip" id="glossary-panel-origin-23-dispatch" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-dispatch&amp;lesson=23#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-23-epsilon" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-epsilon&amp;lesson=23#term-epsilon" aria-label="Look up epsilon in the graphics glossary" title="Look up epsilon in the graphics glossary">epsilon</a> <a class="glossary-chip" id="glossary-panel-origin-23-fence" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-fence&amp;lesson=23#term-fence" aria-label="Look up fence in the graphics glossary" title="Look up fence in the graphics glossary">fence</a> <a class="glossary-chip" id="glossary-panel-origin-23-floating-point" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-floating-point&amp;lesson=23#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> <a class="glossary-chip" id="glossary-panel-origin-23-hit" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-hit&amp;lesson=23#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-23-host" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-host&amp;lesson=23#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-23-intersection" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-intersection&amp;lesson=23#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-23-invocation" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-invocation&amp;lesson=23#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-23-material" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-material&amp;lesson=23#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-23-maximum-distance" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-maximum-distance&amp;lesson=23#term-maximum-distance" aria-label="Look up maximum distance in the graphics glossary" title="Look up maximum distance in the graphics glossary">maximum distance</a> <a class="glossary-chip" id="glossary-panel-origin-23-minimum-distance" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-minimum-distance&amp;lesson=23#term-minimum-distance" aria-label="Look up minimum distance in the graphics glossary" title="Look up minimum distance in the graphics glossary">minimum distance</a> <a class="glossary-chip" id="glossary-panel-origin-23-occlusion" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-occlusion&amp;lesson=23#term-occlusion" aria-label="Look up occlusion in the graphics glossary" title="Look up occlusion in the graphics glossary">occlusion</a> <a class="glossary-chip" id="glossary-panel-origin-23-origin-bias" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-origin-bias&amp;lesson=23#term-origin-bias" aria-label="Look up origin bias in the graphics glossary" title="Look up origin bias in the graphics glossary">origin bias</a> <a class="glossary-chip" id="glossary-panel-origin-23-pixel" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-pixel&amp;lesson=23#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-23-point" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-point&amp;lesson=23#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-23-point-light" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-point-light&amp;lesson=23#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a> <a class="glossary-chip" id="glossary-panel-origin-23-primitive-test" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-primitive-test&amp;lesson=23#term-primitive-test" aria-label="Look up primitive test in the graphics glossary" title="Look up primitive test in the graphics glossary">primitive test</a> <a class="glossary-chip" id="glossary-panel-origin-23-ray-interval" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-ray-interval&amp;lesson=23#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> <a class="glossary-chip" id="glossary-panel-origin-23-readback" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-readback&amp;lesson=23#term-readback" aria-label="Look up readback in the graphics glossary" title="Look up readback in the graphics glossary">readback</a> <a class="glossary-chip" id="glossary-panel-origin-23-reflection" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-reflection&amp;lesson=23#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-23-scene" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-scene&amp;lesson=23#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-23-secondary-ray" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-secondary-ray&amp;lesson=23#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary ray</a> <a class="glossary-chip" id="glossary-panel-origin-23-self-intersection" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-self-intersection&amp;lesson=23#term-self-intersection" aria-label="Look up self-intersection in the graphics glossary" title="Look up self-intersection in the graphics glossary">self-intersection</a> <a class="glossary-chip" id="glossary-panel-origin-23-shader-storage-buffer" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-shader-storage-buffer&amp;lesson=23#term-shader-storage-buffer" aria-label="Look up shader storage buffer in the graphics glossary" title="Look up shader storage buffer in the graphics glossary">shader storage buffer</a> <a class="glossary-chip" id="glossary-panel-origin-23-shadow-ray" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-shadow-ray&amp;lesson=23#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> <a class="glossary-chip" id="glossary-panel-origin-23-specular" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-specular&amp;lesson=23#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> <a class="glossary-chip" id="glossary-panel-origin-23-sphere" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-sphere&amp;lesson=23#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-23-surface-normal" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-surface-normal&amp;lesson=23#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-23-triangle" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-triangle&amp;lesson=23#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A shadow is not a dark <a class="glossary-term" id="glossary-origin-23-0001" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0001&amp;lesson=23#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> painted behind an object. It is the result of asking whether the interval from a surface towards a light is clear. The <a class="glossary-term" id="glossary-origin-23-0002" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0002&amp;lesson=23#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> already has every component of that question: a ray structure, primitive equations and a <a class="glossary-term" id="glossary-origin-23-0003" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0003&amp;lesson=23#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-term" id="glossary-origin-23-0004" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0004&amp;lesson=23#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a>. What changes is the interval and the required answer.</p>
+<p>The primary query wants the closest surface over a long forward interval. The shadow query wants any blocker after a small starting offset but before the light. Once one valid blocker is found, searching for a closer one is unnecessary.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Construct a bounded <a class="glossary-term" id="glossary-origin-23-0005" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0005&amp;lesson=23#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> from the accepted surface towards a <a class="glossary-term" id="glossary-origin-23-0006" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0006&amp;lesson=23#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a>.</li>
+<li>Explain separately the small origin offset and the <a class="glossary-term" id="glossary-origin-23-0007" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0007&amp;lesson=23#term-maximum-distance" aria-label="Look up maximum distance in the graphics glossary" title="Look up maximum distance in the graphics glossary">maximum distance</a> before the light.</li>
+<li>Measure shadow-query work without turning an instrumentation counter into a rendering dependency.</li>
+</ul>
+</section>
+
+<h2>Ask the cheaper question</h2>
+<p>Write a Boolean scene query that exits on its first accepted candidate. It can call the same <a class="glossary-term" id="glossary-origin-23-0008" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0008&amp;lesson=23#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> equation and discard the returned position, <a class="glossary-term" id="glossary-origin-23-0009" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0009&amp;lesson=23#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a> and material. A specialised primitive predicate could later avoid that unused work, but using one trusted equation first prevents two subtly different <a class="glossary-term" id="glossary-origin-23-0010" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0010&amp;lesson=23#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> policies.</p>
+
+<pre><code class="language-glsl">bool anySceneHit(Ray ray, float tMin, float tMax) {
+    for (uint index = 0; index &lt; control.sphereCount; ++index) {
+        vec4 sphere = scene.spheres[index].centreRadius;
+        Hit candidate = intersectSphere(
+            ray, sphere.xyz, sphere.w, tMin, tMax);
+        if (candidate.found) {
+            return true;
+        }
+    }
+    return false;
+}</code></pre>
+
+<p>This result is independent of which blocker is encountered first because every valid blocker produces the same Boolean answer. Record order may affect the amount of work due to early exit, but not whether the light is blocked.</p>
+
+<h2>Build the interval from the light</h2>
+
+<pre><code class="language-glsl">vec3 toLight = uniforms.lightPosition.xyz - hit.position;
+float lightDistance = length(toLight);
+vec3 lightDirection = toLight / lightDistance;
+
+const float shadowEpsilon = 0.001;
+Ray shadowRay;
+shadowRay.origin = hit.position + hit.normal * shadowEpsilon;
+shadowRay.direction = lightDirection;
+
+bool blocked = anySceneHit(
+    shadowRay,
+    shadowEpsilon,
+    lightDistance - shadowEpsilon);</code></pre>
+
+<p>The maximum is not infinity. A sphere two units beyond the point light cannot prevent photons travelling from that light to the surface. The lower bound and shifted origin address numerical <a class="glossary-term" id="glossary-origin-23-0011" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0011&amp;lesson=23#term-self-intersection" aria-label="Look up self-intersection in the graphics glossary" title="Look up self-intersection in the graphics glossary">self-intersection</a> close to the source surface. They are related safeguards, not permission to choose a huge arbitrary offset.</p>
+<p>For a point light, subtracting the <a class="glossary-term" id="glossary-origin-23-0012" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0012&amp;lesson=23#term-epsilon" aria-label="Look up epsilon in the graphics glossary" title="Look up epsilon in the graphics glossary">epsilon</a> from the upper bound also avoids treating geometry exactly at or just beyond the light position as a blocker. If the resulting maximum is not greater than the minimum, the interval is empty and the query should be skipped.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-23">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-23">How a Shadow Query Stops at the Light</h2>
+        <p>A shadow ray asks a bounded visibility question from the surface to the light. Intersections outside that interval do not answer it.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>The shadow query begins near the accepted surface and ends just before the point light. It asks whether any geometry intersects that finite interval. The shader may stop at the first accepted blocker because the identity of the closest blocker is irrelevant to this particular visibility question.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Record the shifted origin, <a class="glossary-term" id="glossary-origin-23-0013" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0013&amp;lesson=23#term-minimum-distance" aria-label="Look up minimum distance in the graphics glossary" title="Look up minimum distance in the graphics glossary">minimum distance</a>, light distance, maximum distance and <a class="glossary-term" id="glossary-origin-23-0014" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0014&amp;lesson=23#term-candidate-intersection" aria-label="Look up candidate intersection in the graphics glossary" title="Look up candidate intersection in the graphics glossary">candidate intersection</a> used by one shadow ray. Test the same candidate before the light, beyond the light and below the minimum. The visibility result must follow interval membership rather than mere existence on the infinite ray.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>With a light distance of 5 and an <a class="glossary-term" id="glossary-origin-23-0015" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0015&amp;lesson=23#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">accepted interval</a> beginning at 0.001 and ending just below 5, a blocker at distance 2 occludes the light. A candidate at distance 7 does not. It intersects the mathematical ray, but it lies beyond the journey being tested.</p>
+        <p class="vulkan-account-formula"><code>blocked = any accepted t where tMin ≤ t &lt; lightDistance</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> A correct occluded-or-visible flag establishes one bounded direct-light query. It does not establish that the <a class="glossary-term" id="glossary-origin-23-0016" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0016&amp;lesson=23#term-origin-bias" aria-label="Look up origin bias in the graphics glossary" title="Look up origin bias in the graphics glossary">origin bias</a> is suitable at every scene scale or that <a class="glossary-term" id="glossary-origin-23-0017" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0017&amp;lesson=23#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflections</a> and other <a class="glossary-term" id="glossary-origin-23-0018" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0018&amp;lesson=23#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary rays</a> use the right intervals.</p>
+</section>
+
+<h2>Apply visibility to direct light only</h2>
+
+<pre><code class="language-glsl">vec3 shadeLocal(Hit hit, Ray ray) {
+    MaterialGPU material = materials[hit.materialIndex];
+    vec3 ambient = 0.025 * material.albedoRoughness.xyz;
+
+    vec3 toLight = uniforms.lightPosition.xyz - hit.position;
+    float lightDistance = length(toLight);
+    vec3 L = toLight / lightDistance;
+
+    Ray shadowRay = Ray(
+        hit.position + hit.normal * control.shadowEpsilon,
+        L);
+
+    bool blocked = anySceneHit(
+        shadowRay,
+        control.shadowEpsilon,
+        lightDistance - control.shadowEpsilon);
+
+    if (blocked) {
+        return ambient;
+    }
+    return ambient + directLight(material, hit, ray, L);
+}</code></pre>
+
+<p>The ambient teaching approximation remains because it does not claim to arrive directly from this point light. <a class="glossary-term" id="glossary-origin-23-0019" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0019&amp;lesson=23#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">Diffuse</a> and <a class="glossary-term" id="glossary-origin-23-0020" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0020&amp;lesson=23#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> terms are suppressed together when the point light is invisible. A later environment or indirect-light contribution would have its own visibility and sampling rules.</p>
+
+<h2>Do not hide the epsilon</h2>
+<p>Put the shadow epsilon in a named per-<a class="glossary-term" id="glossary-origin-23-0021" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0021&amp;lesson=23#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> control rather than scattering a literal across functions. Test a deliberate range. If it is too small, round-off may cause the originating surface to shadow itself. If it is too large, a ray can leap over a nearby legitimate blocker or detach contact shadows.</p>
+<p>A fixed world-space epsilon also changes meaning if the entire scene is rescaled. A renderer that must operate across different scene scales can account for <a class="glossary-term" id="glossary-origin-23-0022" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0022&amp;lesson=23#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> distance, coordinate magnitude and <a class="glossary-term" id="glossary-origin-23-0023" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0023&amp;lesson=23#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> error. The fixed value remains useful here because its failure can be observed directly and compared with the manual calculation from Lesson 8. State the scene scale and the chosen value whenever results are recorded.</p>
+
+<div class="worked-trace">
+<h3>Bound one light query</h3>
+<p>A hit lies at (0, 0, -2), and the point light lies at (0, 3, -2), so the light distance is 3. With epsilon 0.001, the shadow interval ends at 2.999. A blocker intersected at distance 1.2 makes the <a class="glossary-term" id="glossary-origin-23-0024" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0024&amp;lesson=23#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> shadowed. An intersection at 3.4 is behind the light and is rejected. Changing the maximum to a large scene distance would incorrectly let the latter object cast a shadow from this light.</p>
+</div>
+
+<h2>Add counters as observers</h2>
+<p>Lesson 14 counted manual work. The compute tracer can do the same with a small <a class="glossary-term" id="glossary-origin-23-0025" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0025&amp;lesson=23#term-shader-storage-buffer" aria-label="Look up shader storage buffer in the graphics glossary" title="Look up shader storage buffer in the graphics glossary">storage buffer</a> whose unsigned counters are updated atomically. Possible counters include primary <a class="glossary-term" id="glossary-origin-23-0026" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0026&amp;lesson=23#term-primitive-test" aria-label="Look up primitive test in the graphics glossary" title="Look up primitive test in the graphics glossary">primitive tests</a>, shadow rays and shadow primitive tests. Atomics are necessary because many <a class="glossary-term" id="glossary-origin-23-0027" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0027&amp;lesson=23#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocations</a> update the same locations.</p>
+
+<pre><code class="language-glsl">layout(std430, set = 0, binding = 4) buffer TraceCounters {
+    uint primaryTests;
+    uint shadowRays;
+    uint shadowTests;
+} counters;
+
+// Before launching a shadow query:
+atomicAdd(counters.shadowRays, 1u);
+
+// Inside the shadow-loop body:
+atomicAdd(counters.shadowTests, 1u);</code></pre>
+
+<p>Reset the counter buffer before the dispatch, make that reset visible to compute shader reads and writes, then make shader writes visible to the transfer or <a class="glossary-term" id="glossary-origin-23-0028" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0028&amp;lesson=23#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-term" id="glossary-origin-23-0029" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0029&amp;lesson=23#term-readback" aria-label="Look up readback in the graphics glossary" title="Look up readback in the graphics glossary">readback</a> used after completion. A convenient command sequence is fill buffer, barrier, trace dispatch, barrier, copy to a host-visible readback buffer. Wait for the submission's <a class="glossary-term" id="glossary-origin-23-0030" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0030&amp;lesson=23#term-fence" aria-label="Look up fence in the graphics glossary" title="Look up fence in the graphics glossary">fence</a> before reading the mapped result.</p>
+<p>Counters perturb performance. Every <a class="glossary-term" id="glossary-origin-23-0031" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0031&amp;lesson=23#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> may contend on the same cache lines, so do not use an instrumented timing as the renderer's normal cost. They answer structural questions: how many tests were requested and how often early exit occurred.</p>
+
+<h2>Expect early exit to vary across invocations</h2>
+<p>Some shadow rays return on their first sphere; others inspect the whole array. Neighbouring shader invocations may therefore take different control paths. This divergence is a performance concern, not a reason to replace the bounded logic. The reference shader should first report the right visibility for every selected pixel.</p>
+<p>Record reordering can reduce or increase the counter total because likely blockers appear earlier or later. It must not change the shadow mask. This distinction between answer and work becomes important when <a class="glossary-term" id="glossary-origin-23-0032" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0032&amp;lesson=23#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structures</a> choose traversal order internally.</p>
+
+<div class="checkpoint">
+<h3>Place a blocker beyond the light</h3>
+<p>The light is 4.0 units from the hit. Another sphere intersects the shadow ray at 5.5. Does it block this point light?</p>
+<div class="worked-answer"><h4>The answer</h4><p>No. The shadow maximum is slightly less than 4.0, so 5.5 lies outside the requested interval. It could matter for another ray or another light, but it cannot obstruct the segment ending at this light.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/synchronization.html">synchronization chapter</a> defines availability and visibility, and the <a href="https://docs.vulkan.org/guide/latest/synchronization_examples.html">synchronization examples</a> show common transfer and compute dependencies.</p>
+
+<section class="transfer-task">
+<h2>Map correctness and work separately</h2>
+<p>Produce a binary shadow-mask output and capture it for the scene in two different sphere-buffer orders. The masks must match exactly. For the same two runs, read the shadow-test counter and explain any difference using early exit. Next sweep the epsilon across at least five values, including one that produces acne and one that visibly detaches a contact shadow. Record the smallest value that remains stable for the present scene scale rather than claiming that it is universal.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry the bounded query to new geometry</h2>
+<p>Retain <code>anySceneHit</code>, its explicit interval and the optional counters. Lesson 24 will add indexed <a class="glossary-term" id="glossary-origin-23-0033" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0033&amp;lesson=23#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangles</a> to the same scene-query contract. A shadow ray will not care whether its first blocker is a sphere or triangle; it will care only that the primitive returns a valid distance inside the requested bounds.</p>
+</section>
+
+<p>The scene now contains absence as a calculated result: direct light is present only when a bounded secondary query finds no obstruction. We have not invented a special shadow-drawing operation. We have reused the ray question with a different interval and a cheaper stopping condition.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-22.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">22. Materials and Light Remain Separate</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-24.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">24. Triangles Need a Buffer Contract</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

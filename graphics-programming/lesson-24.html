@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Store vertices and indices with an explicit shader layout before applying the familiar triangle intersection test.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 24 - Triangles Need a Buffer Contract</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="24" data-ray-stage="24" data-art-pattern="cells">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 24 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html" aria-current="page"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 24</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">24. Triangles Need a Buffer Contract</h1>
+            <p class="lesson-deck">Store vertices and indices with an explicit shader layout before applying the familiar triangle intersection test.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-23.html">&larr; Lesson 23</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-25.html">Lesson 25 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>39 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-24-alignment" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-alignment&amp;lesson=24#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> <a class="glossary-chip" id="glossary-panel-origin-24-barycentric-coordinates" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-barycentric-coordinates&amp;lesson=24#term-barycentric-coordinates" aria-label="Look up barycentric coordinates in the graphics glossary" title="Look up barycentric coordinates in the graphics glossary">barycentric coordinates</a> <a class="glossary-chip" id="glossary-panel-origin-24-buffer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-buffer&amp;lesson=24#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-24-closest-hit" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-closest-hit&amp;lesson=24#term-closest-hit" aria-label="Look up closest hit in the graphics glossary" title="Look up closest hit in the graphics glossary">closest hit</a> <a class="glossary-chip" id="glossary-panel-origin-24-cpu" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-cpu&amp;lesson=24#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-24-degenerate-triangle" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-degenerate-triangle&amp;lesson=24#term-degenerate-triangle" aria-label="Look up degenerate triangle in the graphics glossary" title="Look up degenerate triangle in the graphics glossary">degenerate triangle</a> <a class="glossary-chip" id="glossary-panel-origin-24-descriptor" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-descriptor&amp;lesson=24#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> <a class="glossary-chip" id="glossary-panel-origin-24-descriptor-pool" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-descriptor-pool&amp;lesson=24#term-descriptor-pool" aria-label="Look up descriptor pool in the graphics glossary" title="Look up descriptor pool in the graphics glossary">descriptor pool</a> <a class="glossary-chip" id="glossary-panel-origin-24-determinant" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-determinant&amp;lesson=24#term-determinant" aria-label="Look up determinant in the graphics glossary" title="Look up determinant in the graphics glossary">determinant</a> <a class="glossary-chip" id="glossary-panel-origin-24-direction" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-direction&amp;lesson=24#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-24-dispatch" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-dispatch&amp;lesson=24#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-24-edge" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-edge&amp;lesson=24#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-24-hit" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-hit&amp;lesson=24#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-24-hit-record" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-hit-record&amp;lesson=24#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> <a class="glossary-chip" id="glossary-panel-origin-24-host" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-host&amp;lesson=24#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-24-image" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-image&amp;lesson=24#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-24-index-buffer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-index-buffer&amp;lesson=24#term-index-buffer" aria-label="Look up index buffer in the graphics glossary" title="Look up index buffer in the graphics glossary">index buffer</a> <a class="glossary-chip" id="glossary-panel-origin-24-interpolation" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-interpolation&amp;lesson=24#term-interpolation" aria-label="Look up interpolation in the graphics glossary" title="Look up interpolation in the graphics glossary">interpolation</a> <a class="glossary-chip" id="glossary-panel-origin-24-intersection" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-intersection&amp;lesson=24#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-24-invocation" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-invocation&amp;lesson=24#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-24-material" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-material&amp;lesson=24#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-24-memory-binding" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-memory-binding&amp;lesson=24#term-memory-binding" aria-label="Look up memory binding in the graphics glossary" title="Look up memory binding in the graphics glossary">memory binding</a> <a class="glossary-chip" id="glossary-panel-origin-24-mesh" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-mesh&amp;lesson=24#term-mesh" aria-label="Look up mesh in the graphics glossary" title="Look up mesh in the graphics glossary">mesh</a> <a class="glossary-chip" id="glossary-panel-origin-24-normalise" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-normalise&amp;lesson=24#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-24-padding" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-padding&amp;lesson=24#term-padding" aria-label="Look up padding in the graphics glossary" title="Look up padding in the graphics glossary">padding</a> <a class="glossary-chip" id="glossary-panel-origin-24-point" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-point&amp;lesson=24#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-24-primitive-index" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-primitive-index&amp;lesson=24#term-primitive-index" aria-label="Look up primitive index in the graphics glossary" title="Look up primitive index in the graphics glossary">primitive index</a> <a class="glossary-chip" id="glossary-panel-origin-24-readback" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-readback&amp;lesson=24#term-readback" aria-label="Look up readback in the graphics glossary" title="Look up readback in the graphics glossary">readback</a> <a class="glossary-chip" id="glossary-panel-origin-24-rgb" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-rgb&amp;lesson=24#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> <a class="glossary-chip" id="glossary-panel-origin-24-scene" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-scene&amp;lesson=24#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-24-secondary-ray" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-secondary-ray&amp;lesson=24#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary ray</a> <a class="glossary-chip" id="glossary-panel-origin-24-shader-storage-buffer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-shader-storage-buffer&amp;lesson=24#term-shader-storage-buffer" aria-label="Look up shader storage buffer in the graphics glossary" title="Look up shader storage buffer in the graphics glossary">shader storage buffer</a> <a class="glossary-chip" id="glossary-panel-origin-24-sphere" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-sphere&amp;lesson=24#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-24-std430" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-std430&amp;lesson=24#term-std430" aria-label="Look up std430 in the graphics glossary" title="Look up std430 in the graphics glossary">std430</a> <a class="glossary-chip" id="glossary-panel-origin-24-stride" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-stride&amp;lesson=24#term-stride" aria-label="Look up stride in the graphics glossary" title="Look up stride in the graphics glossary">stride</a> <a class="glossary-chip" id="glossary-panel-origin-24-surface-normal" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-surface-normal&amp;lesson=24#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-24-triangle" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-triangle&amp;lesson=24#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> <a class="glossary-chip" id="glossary-panel-origin-24-vertex-buffer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-vertex-buffer&amp;lesson=24#term-vertex-buffer" aria-label="Look up vertex buffer in the graphics glossary" title="Look up vertex buffer in the graphics glossary">vertex buffer</a> <a class="glossary-chip" id="glossary-panel-origin-24-winding" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-winding&amp;lesson=24#term-winding" aria-label="Look up winding in the graphics glossary" title="Look up winding in the graphics glossary">winding</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p><a class="glossary-term" id="glossary-origin-24-0001" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0001&amp;lesson=24#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">Spheres</a> are compact because four values define the whole surface. Most rendered assets arrive as <a class="glossary-term" id="glossary-origin-24-0002" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0002&amp;lesson=24#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangles</a>, and triangles expose a different Vulkan problem before their equation even runs: several <a class="glossary-term" id="glossary-origin-24-0003" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0003&amp;lesson=24#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffers</a> must agree about what one record means. A <a class="glossary-term" id="glossary-origin-24-0004" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0004&amp;lesson=24#term-vertex-buffer" aria-label="Look up vertex buffer in the graphics glossary" title="Look up vertex buffer in the graphics glossary">vertex buffer</a> stores positions, an <a class="glossary-term" id="glossary-origin-24-0005" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0005&amp;lesson=24#term-index-buffer" aria-label="Look up index buffer in the graphics glossary" title="Look up index buffer in the graphics glossary">index buffer</a> selects three of them, and the shader must apply the same <a class="glossary-term" id="glossary-origin-24-0006" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0006&amp;lesson=24#term-stride" aria-label="Look up stride in the graphics glossary" title="Look up stride in the graphics glossary">stride</a> and index interpretation used by the <a class="glossary-term" id="glossary-origin-24-0007" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0007&amp;lesson=24#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a>.</p>
+<p>Add indexed triangles to the compute tracer without invoking the rasterisation pipeline. Each <a class="glossary-term" id="glossary-origin-24-0008" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0008&amp;lesson=24#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> still follows its own ray. It reads three vertex positions, solves the ray-triangle <a class="glossary-term" id="glossary-origin-24-0009" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0009&amp;lesson=24#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> from Lesson 10 and offers the resulting <a class="glossary-term" id="glossary-origin-24-0010" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0010&amp;lesson=24#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> to the same closest-distance reduction.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Define storage-buffer records for vertices and triangle indices with inspectable strides.</li>
+<li>Implement a bounded Moller-Trumbore intersection and retain <a class="glossary-term" id="glossary-origin-24-0011" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0011&amp;lesson=24#term-barycentric-coordinates" aria-label="Look up barycentric coordinates in the graphics glossary" title="Look up barycentric coordinates in the graphics glossary">barycentric coordinates</a>.</li>
+<li>Diagnose an index or stride fault from buffer contents rather than from a distorted final <a class="glossary-term" id="glossary-origin-24-0012" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0012&amp;lesson=24#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> alone.</li>
+</ul>
+</section>
+
+<h2>Choose records the shader cannot misunderstand</h2>
+<p>Use one <code>vec4</code>-sized position per vertex and one <code>uvec4</code>-sized index record per triangle. The spare w components cost space, but they make both storage-buffer strides 16 bytes and keep this first contract obvious.</p>
+
+<pre><code class="language-cpp">struct alignas(16) VertexGPU {
+    float x;
+    float y;
+    float z;
+    float spare;
+};
+
+struct alignas(16) TriangleGPU {
+    std::uint32_t i0;
+    std::uint32_t i1;
+    std::uint32_t i2;
+    std::uint32_t materialIndex;
+};
+
+static_assert(sizeof(VertexGPU) == 16);
+static_assert(sizeof(TriangleGPU) == 16);</code></pre>
+
+<p>The triangle record uses its fourth component for a <a class="glossary-term" id="glossary-origin-24-0013" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0013&amp;lesson=24#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> index, so no separate metadata lookup is required. Validate every index against the vertex count on the <a class="glossary-term" id="glossary-origin-24-0014" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0014&amp;lesson=24#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a>. A valid storage-buffer <a class="glossary-term" id="glossary-origin-24-0015" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0015&amp;lesson=24#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> does not make an out-of-range index meaningful.</p>
+
+<pre><code class="language-glsl">layout(std430, set = 0, binding = 5) readonly buffer VertexBuffer {
+    vec4 positions[];
+} vertices;
+
+layout(std430, set = 0, binding = 6) readonly buffer TriangleBuffer {
+    uvec4 indicesAndMaterial[];
+} triangles;</code></pre>
+
+<p>Add both bindings to the set layout and <a class="glossary-term" id="glossary-origin-24-0016" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0016&amp;lesson=24#term-descriptor-pool" aria-label="Look up descriptor pool in the graphics glossary" title="Look up descriptor pool in the graphics glossary">descriptor pool</a>, create device-local buffers with storage and transfer-destination use, and upload them through staging. Supply vertex and triangle counts in the trace control. Record a transfer-to-compute dependency before the first <a class="glossary-term" id="glossary-origin-24-0017" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0017&amp;lesson=24#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> that reads them.</p>
+
+<h2>Fetch three positions explicitly</h2>
+
+<pre><code class="language-glsl">uvec4 record = triangles.indicesAndMaterial[triangleIndex];
+vec3 a = vertices.positions[record.x].xyz;
+vec3 b = vertices.positions[record.y].xyz;
+vec3 c = vertices.positions[record.z].xyz;</code></pre>
+
+<p>During bring-up, reserve a debug mode that writes <code>a</code>, <code>b</code> and <code>c</code> for one chosen triangle to a <a class="glossary-term" id="glossary-origin-24-0018" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0018&amp;lesson=24#term-readback" aria-label="Look up readback in the graphics glossary" title="Look up readback in the graphics glossary">readback</a> buffer. If the CPU believes the indices are (0, 1, 2), establish that the shader sees those exact unsigned values and positions before investigating the intersection arithmetic.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-24">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-24">How a Byte Layout Becomes Triangle Data</h2>
+        <p>The triangle equation can be correct while its inputs are nonsense. Host and shader must first agree on the exact addresses from which the indices and positions are read.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>The host and shader agree on the member types, offsets, <a class="glossary-term" id="glossary-origin-24-0019" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0019&amp;lesson=24#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> and stride of vertex and index records. The shader calculates the record address from the base, index and declared stride, reads the three vertex indices and then loads the corresponding positions before applying the familiar triangle equation.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Use host offset checks and shader-layout information to record every member offset and the final stride. In a diagnostic route, read one chosen triangle&#x27;s indices and positions back from the shader. Establish this byte account before altering the intersection code, because a correct equation cannot repair an incorrect address.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>With a 16-byte record stride, record 3 begins 48 bytes after the base. Assuming a convenient 12-byte stride would begin it at byte 36 and reinterpret unrelated bytes as indices. Both calculations are simple; only one matches the declared storage contract.</p>
+        <p class="vulkan-account-formula"><code>record address = base + record index × declared stride</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> One correctly reconstructed triangle establishes the selected buffer address and values. It does not cover every index range, <a class="glossary-term" id="glossary-origin-24-0020" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0020&amp;lesson=24#term-winding" aria-label="Look up winding in the graphics glossary" title="Look up winding in the graphics glossary">winding</a>, <a class="glossary-term" id="glossary-origin-24-0021" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0021&amp;lesson=24#term-degenerate-triangle" aria-label="Look up degenerate triangle in the graphics glossary" title="Look up degenerate triangle in the graphics glossary">degenerate triangle</a> or shared-<a class="glossary-term" id="glossary-origin-24-0022" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0022&amp;lesson=24#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> intersection case.</p>
+</section>
+
+<h2>Move the triangle equation intact</h2>
+
+<p>Extend the private <a class="glossary-term" id="glossary-origin-24-0023" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0023&amp;lesson=24#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> with <code>vec3 barycentric</code> and initialise it to zero in <code>noHit</code>. Sphere hits may leave that field at zero because they do not use triangle coordinates; a retained triangle overwrites it with three valid weights.</p>
+
+<pre><code class="language-glsl">Hit intersectTriangle(
+    Ray ray,
+    vec3 a,
+    vec3 b,
+    vec3 c,
+    float tMin,
+    float tMax)
+{
+    const float determinantEpsilon = 0.0000001;
+    vec3 edge1 = b - a;
+    vec3 edge2 = c - a;
+    vec3 p = cross(ray.direction, edge2);
+    float determinant = dot(edge1, p);
+
+    if (abs(determinant) &lt; determinantEpsilon) {
+        return noHit();
+    }
+
+    float inverseDeterminant = 1.0 / determinant;
+    vec3 fromA = ray.origin - a;
+    float u = dot(fromA, p) * inverseDeterminant;
+    if (u &lt; 0.0 || u &gt; 1.0) {
+        return noHit();
+    }
+
+    vec3 q = cross(fromA, edge1);
+    float v = dot(ray.direction, q) * inverseDeterminant;
+    if (v &lt; 0.0 || u + v &gt; 1.0) {
+        return noHit();
+    }
+
+    float t = dot(edge2, q) * inverseDeterminant;
+    if (t &lt; tMin || t &gt; tMax) {
+        return noHit();
+    }
+
+    Hit hit = noHit();
+    hit.found = true;
+    hit.t = t;
+    hit.position = ray.origin + t * ray.direction;
+    vec3 outward = normalize(cross(edge1, edge2));
+    hit.normal = dot(ray.direction, outward) &lt; 0.0
+        ? outward : -outward;
+    hit.barycentric = vec3(1.0 - u - v, u, v);
+    return hit;
+}</code></pre>
+
+<p>This version accepts both triangle orientations because it tests the absolute <a class="glossary-term" id="glossary-origin-24-0024" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0024&amp;lesson=24#term-determinant" aria-label="Look up determinant in the graphics glossary" title="Look up determinant in the graphics glossary">determinant</a> and later faces the <a class="glossary-term" id="glossary-origin-24-0025" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0025&amp;lesson=24#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a> against the arriving ray. If the course renderer chooses back-face culling, implement it as an explicit policy and test the sign appropriate to the chosen winding convention.</p>
+
+<h2>Offer triangles to the same reduction</h2>
+<p>After testing spheres, loop over triangle records with the current <code>closestDistance</code> as their maximum. When a triangle candidate is retained, assign its material index and <a class="glossary-term" id="glossary-origin-24-0026" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0026&amp;lesson=24#term-primitive-index" aria-label="Look up primitive index in the graphics glossary" title="Look up primitive index in the graphics glossary">primitive identity</a>. The reverse order, triangles followed by spheres, must produce the same physical <a class="glossary-term" id="glossary-origin-24-0027" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0027&amp;lesson=24#term-closest-hit" aria-label="Look up closest hit in the graphics glossary" title="Look up closest hit in the graphics glossary">closest hit</a>.</p>
+
+<pre><code class="language-glsl">for (uint index = 0; index &lt; control.triangleCount; ++index) {
+    uvec4 record = triangles.indicesAndMaterial[index];
+    Hit candidate = intersectTriangle(
+        ray,
+        vertices.positions[record.x].xyz,
+        vertices.positions[record.y].xyz,
+        vertices.positions[record.z].xyz,
+        tMin,
+        closestDistance);
+
+    if (candidate.found) {
+        candidate.materialIndex = record.w;
+        closest = candidate;
+        closestDistance = candidate.t;
+    }
+}</code></pre>
+
+<p>The closest-hit contract is shared even though the primitive data and equation differ. The shadow query can use a corresponding Boolean triangle test and return as soon as either kind of geometry blocks the bounded interval.</p>
+
+<div class="worked-trace">
+<h3>Read barycentric evidence</h3>
+<p>A retained triangle hit reports <code>u = 0.2</code> and <code>v = 0.3</code>. The three weights are therefore (0.5, 0.2, 0.3). They are non-negative and sum to one, so the <a class="glossary-term" id="glossary-origin-24-0028" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0028&amp;lesson=24#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> is inside the triangle. A value such as <code>u = 0.8</code>, <code>v = 0.5</code> fails because their sum exceeds one even though each value considered alone is between zero and one.</p>
+</div>
+
+<h2>Use barycentrics before adding vertex attributes</h2>
+<p>Display the three barycentric components directly as <a class="glossary-term" id="glossary-origin-24-0029" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0029&amp;lesson=24#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a>. The vertices should approach pure red, green and blue according to the chosen component order, with smooth linear variation across the triangle. A discontinuity or impossible negative region points to the intersection or vertex ordering rather than to the material system.</p>
+<p>Once positions are correct, a parallel normal buffer could be indexed by the same record and <a class="glossary-term" id="glossary-origin-24-0030" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0030&amp;lesson=24#term-interpolation" aria-label="Look up interpolation in the graphics glossary" title="Look up interpolation in the graphics glossary">interpolated</a> with the barycentric weights. Do not <a class="glossary-term" id="glossary-origin-24-0031" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0031&amp;lesson=24#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> the weights; they already sum to one within arithmetic tolerance. Interpolate the vertex normals and normalise the resulting <a class="glossary-term" id="glossary-origin-24-0032" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0032&amp;lesson=24#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a>. A geometric normal remains useful for orientation and offsets even after a smooth shading normal is introduced.</p>
+
+<h2>Diagnose stride before mathematics</h2>
+<p>The worked account above contrasts the declared 16-byte stride with an incorrect shorter stride. On the real shader, a stride disagreement often makes the first record look correct and later records progressively wrong. Capture at least two records. Compare raw buffer offsets, shader indices and fetched positions.</p>
+<p>Do not repair this by changing triangle coordinates until the corrupted shape happens to look acceptable. The host and shader are interpreting different byte sequences. Establish a single layout contract with compile-time size checks, validation-layer feedback where applicable, and a shader witness.</p>
+
+<div class="checkpoint">
+<h3>Interpret a triangle record</h3>
+<p>A record contains indices (4, 1, 7) and material index 3. Which buffer supplies the position of the third vertex, and which value selects appearance?</p>
+<div class="worked-answer"><h4>The answer</h4><p>Vertex position 7 supplies the third position. The separate fourth value 3 selects the material after this triangle becomes the closest hit. Treating 3 as another vertex index or 7 as a material would be a record-contract error.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> Vulkan buffer objects and their <a class="glossary-term" id="glossary-origin-24-0033" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0033&amp;lesson=24#term-memory-binding" aria-label="Look up memory binding in the graphics glossary" title="Look up memory binding in the graphics glossary">memory binding</a> are defined by the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/resources.html">resource chapter</a>; shader storage layout is described in the <a href="https://docs.vulkan.org/guide/latest/mapping_data_to_shaders.html">mapping data guide</a>.</p>
+
+<section class="transfer-task">
+<h2>Make layout faults observable</h2>
+<p>Upload two triangles whose indices and positions are deliberately easy to recognise. Record the CPU byte offset of each triangle, the four unsigned values read by the shader and the three fetched positions. Render a barycentric diagnostic and test one ray near each edge. Then introduce a controlled host-stride error in a separate debug copy, capture the resulting witness and restore the correct layout. Explain why the fault first appears at a particular record.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry mixed geometry into secondary work</h2>
+<p>Retain the vertex and triangle buffers, barycentric hit data and shared closest/any-hit contracts. Lesson 25 will allow a retained material to launch another ray. The new ray will query the same mixed <a class="glossary-term" id="glossary-origin-24-0034" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0034&amp;lesson=24#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a>, so neither the geometry buffers nor their descriptors need to know whether a ray is primary or secondary.</p>
+</section>
+
+<p>The compute renderer can now trace the primitive from which most practical scenes are assembled while keeping the manual equation visible. This is deliberately exhaustive traversal: every ray still asks every sphere and every triangle. Before replacing that cost with hardware traversal, we need to complete the reference path with bounded <a class="glossary-term" id="glossary-origin-24-0035" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0035&amp;lesson=24#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary rays</a> and sampling.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-23.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">23. A Shadow Query Is Still Bounded</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-25.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">25. Secondary Rays Need Bounded State</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create the storage image, obtain its requirements and bind memory before asking a shader to write a pixel.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 16 - An Image Is Not Its Memory</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="16" data-ray-stage="16" data-art-pattern="cells">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 16 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html" aria-current="page"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 16</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">16. An Image Is Not Its Memory</h1>
+            <p class="lesson-deck">Create the storage image, obtain its requirements and bind memory before asking a shader to write a pixel.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-15.html">&larr; Lesson 15</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-17.html">Lesson 17 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>28 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-16-alignment" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-alignment&amp;lesson=16#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> <a class="glossary-chip" id="glossary-panel-origin-16-compute-pipeline" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-compute-pipeline&amp;lesson=16#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> <a class="glossary-chip" id="glossary-panel-origin-16-compute-shader" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-compute-shader&amp;lesson=16#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-16-descriptor" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-descriptor&amp;lesson=16#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> <a class="glossary-chip" id="glossary-panel-origin-16-descriptor-set" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-descriptor-set&amp;lesson=16#term-descriptor-set" aria-label="Look up descriptor set in the graphics glossary" title="Look up descriptor set in the graphics glossary">descriptor set</a> <a class="glossary-chip" id="glossary-panel-origin-16-descriptor-set-layout" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-descriptor-set-layout&amp;lesson=16#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a> <a class="glossary-chip" id="glossary-panel-origin-16-device-memory" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-device-memory&amp;lesson=16#term-device-memory" aria-label="Look up device memory in the graphics glossary" title="Look up device memory in the graphics glossary">device memory</a> <a class="glossary-chip" id="glossary-panel-origin-16-device-local-memory" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-device-local-memory&amp;lesson=16#term-device-local-memory" aria-label="Look up device-local memory in the graphics glossary" title="Look up device-local memory in the graphics glossary">device-local memory</a> <a class="glossary-chip" id="glossary-panel-origin-16-fence" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-fence&amp;lesson=16#term-fence" aria-label="Look up fence in the graphics glossary" title="Look up fence in the graphics glossary">fence</a> <a class="glossary-chip" id="glossary-panel-origin-16-host" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-host&amp;lesson=16#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-16-image" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-image&amp;lesson=16#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-16-image-format" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-image-format&amp;lesson=16#term-image-format" aria-label="Look up image format in the graphics glossary" title="Look up image format in the graphics glossary">image format</a> <a class="glossary-chip" id="glossary-panel-origin-16-image-subresource" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-image-subresource&amp;lesson=16#term-image-subresource" aria-label="Look up image subresource in the graphics glossary" title="Look up image subresource in the graphics glossary">image subresource</a> <a class="glossary-chip" id="glossary-panel-origin-16-image-tiling" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-image-tiling&amp;lesson=16#term-image-tiling" aria-label="Look up image tiling in the graphics glossary" title="Look up image tiling in the graphics glossary">image tiling</a> <a class="glossary-chip" id="glossary-panel-origin-16-image-view" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-image-view&amp;lesson=16#term-image-view" aria-label="Look up image view in the graphics glossary" title="Look up image view in the graphics glossary">image view</a> <a class="glossary-chip" id="glossary-panel-origin-16-memory-binding" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-memory-binding&amp;lesson=16#term-memory-binding" aria-label="Look up memory binding in the graphics glossary" title="Look up memory binding in the graphics glossary">memory binding</a> <a class="glossary-chip" id="glossary-panel-origin-16-memory-dependency" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-memory-dependency&amp;lesson=16#term-memory-dependency" aria-label="Look up memory dependency in the graphics glossary" title="Look up memory dependency in the graphics glossary">memory dependency</a> <a class="glossary-chip" id="glossary-panel-origin-16-memory-requirements" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-memory-requirements&amp;lesson=16#term-memory-requirements" aria-label="Look up memory requirements in the graphics glossary" title="Look up memory requirements in the graphics glossary">memory requirements</a> <a class="glossary-chip" id="glossary-panel-origin-16-memory-type" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-memory-type&amp;lesson=16#term-memory-type" aria-label="Look up memory type in the graphics glossary" title="Look up memory type in the graphics glossary">memory type</a> <a class="glossary-chip" id="glossary-panel-origin-16-padding" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-padding&amp;lesson=16#term-padding" aria-label="Look up padding in the graphics glossary" title="Look up padding in the graphics glossary">padding</a> <a class="glossary-chip" id="glossary-panel-origin-16-physical-device" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-physical-device&amp;lesson=16#term-physical-device" aria-label="Look up physical device in the graphics glossary" title="Look up physical device in the graphics glossary">physical device</a> <a class="glossary-chip" id="glossary-panel-origin-16-rgba" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-rgba&amp;lesson=16#term-rgba" aria-label="Look up RGBA in the graphics glossary" title="Look up RGBA in the graphics glossary">RGBA</a> <a class="glossary-chip" id="glossary-panel-origin-16-storage-image" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-storage-image&amp;lesson=16#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> <a class="glossary-chip" id="glossary-panel-origin-16-suballocation" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-suballocation&amp;lesson=16#term-suballocation" aria-label="Look up suballocation in the graphics glossary" title="Look up suballocation in the graphics glossary">suballocation</a> <a class="glossary-chip" id="glossary-panel-origin-16-swapchain-image" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-swapchain-image&amp;lesson=16#term-swapchain-image" aria-label="Look up swapchain image in the graphics glossary" title="Look up swapchain image in the graphics glossary">swapchain image</a> <a class="glossary-chip" id="glossary-panel-origin-16-texel" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-texel&amp;lesson=16#term-texel" aria-label="Look up texel in the graphics glossary" title="Look up texel in the graphics glossary">texel</a> <a class="glossary-chip" id="glossary-panel-origin-16-usage-flags" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-usage-flags&amp;lesson=16#term-usage-flags" aria-label="Look up usage flags in the graphics glossary" title="Look up usage flags in the graphics glossary">usage flags</a> <a class="glossary-chip" id="glossary-panel-origin-16-vulkan-handle" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-vulkan-handle&amp;lesson=16#term-vulkan-handle" aria-label="Look up Vulkan handle in the graphics glossary" title="Look up Vulkan handle in the graphics glossary">Vulkan handle</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>An <a class="glossary-term" id="glossary-origin-16-0001" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0001&amp;lesson=16#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> is easy to imagine as a rectangular allocation of colour values. Vulkan separates that useful mental picture into several objects and queries. <code>VkImage</code> describes format, extent, usage, tiling and related properties. <code>VkDeviceMemory</code> supplies storage compatible with requirements reported after image creation. <code>VkImageView</code> describes how a range of that image will be interpreted when a shader or another operation accesses it.</p>
+<p>Treating these as ceremony produces fragile code. A multiplication such as width times height times four can account for the minimum visible <a class="glossary-term" id="glossary-origin-16-0002" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0002&amp;lesson=16#term-rgba" aria-label="Look up RGBA in the graphics glossary" title="Look up RGBA in the graphics glossary">RGBA8</a> <a class="glossary-term" id="glossary-origin-16-0003" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0003&amp;lesson=16#term-texel" aria-label="Look up texel in the graphics glossary" title="Look up texel in the graphics glossary">texel</a> bytes, but it cannot replace <code>vkGetImageMemoryRequirements</code>. The implementation may require a larger size, a particular <a class="glossary-term" id="glossary-origin-16-0004" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0004&amp;lesson=16#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> and only some <a class="glossary-term" id="glossary-origin-16-0005" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0005&amp;lesson=16#term-memory-type" aria-label="Look up memory type in the graphics glossary" title="Look up memory type in the graphics glossary">memory types</a>. Keep the simple byte account because it explains the image; use the Vulkan query because it decides the allocation.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Create an off-screen <a class="glossary-term" id="glossary-origin-16-0006" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0006&amp;lesson=16#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> with a format and usage that the selected <a class="glossary-term" id="glossary-origin-16-0007" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0007&amp;lesson=16#term-physical-device" aria-label="Look up physical device in the graphics glossary" title="Look up physical device in the graphics glossary">physical device</a> supports.</li>
+<li>Obtain size, alignment and memory-type requirements before allocating and binding <a class="glossary-term" id="glossary-origin-16-0008" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0008&amp;lesson=16#term-device-memory" aria-label="Look up device memory in the graphics glossary" title="Look up device memory in the graphics glossary">device memory</a>.</li>
+<li>Create an <a class="glossary-term" id="glossary-origin-16-0009" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0009&amp;lesson=16#term-image-view" aria-label="Look up image view in the graphics glossary" title="Look up image view in the graphics glossary">image view</a> and explain why the shader receives the view rather than raw device memory.</li>
+</ul>
+</section>
+
+<h2>Use an intermediate storage image</h2>
+<p>The <a class="glossary-term" id="glossary-origin-16-0010" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0010&amp;lesson=16#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> will write an off-screen image. We do not assume that every <a class="glossary-term" id="glossary-origin-16-0011" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0011&amp;lesson=16#term-swapchain-image" aria-label="Look up swapchain image in the graphics glossary" title="Look up swapchain image in the graphics glossary">swapchain image</a> supports storage-image use. The intermediate image requests storage use for shader writes and transfer-source use so Lesson 18 can copy it towards presentation. This makes the resource contract explicit and keeps presentation capability separate from the ray-tracing output format.</p>
+
+<pre><code class="language-cpp">VkFormat outputFormat = VK_FORMAT_R8G8B8A8_UNORM;
+
+VkFormatProperties formatProperties{};
+vkGetPhysicalDeviceFormatProperties(
+    physicalDevice,
+    outputFormat,
+    &amp;formatProperties);
+
+if ((formatProperties.optimalTilingFeatures &amp;
+     VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT) == 0) {
+    throw std::runtime_error("Selected storage format is unsupported");
+}
+
+VkImageCreateInfo imageInfo{
+    .sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
+    .imageType = VK_IMAGE_TYPE_2D,
+    .format = outputFormat,
+    .extent = { width, height, 1 },
+    .mipLevels = 1,
+    .arrayLayers = 1,
+    .samples = VK_SAMPLE_COUNT_1_BIT,
+    .tiling = VK_IMAGE_TILING_OPTIMAL,
+    .usage = VK_IMAGE_USAGE_STORAGE_BIT |
+             VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
+    .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
+    .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED
+};
+
+VkImage outputImage = VK_NULL_HANDLE;
+check(vkCreateImage(device, &amp;imageInfo, nullptr, &amp;outputImage));</code></pre>
+
+<p><code>VK_IMAGE_LAYOUT_UNDEFINED</code> permits the previous contents to be discarded. It does not mean the shader may immediately write the image. Lesson 18 records a transition to <code>VK_IMAGE_LAYOUT_GENERAL</code> with the execution and <a class="glossary-term" id="glossary-origin-16-0012" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0012&amp;lesson=16#term-memory-dependency" aria-label="Look up memory dependency in the graphics glossary" title="Look up memory dependency in the graphics glossary">memory dependency</a> appropriate to the first use. Creation describes the resource; a command changes its device-use state.</p>
+
+<h2>Ask the image what memory it requires</h2>
+<p>Once the image exists, Vulkan reports its <a class="glossary-term" id="glossary-origin-16-0013" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0013&amp;lesson=16#term-memory-requirements" aria-label="Look up memory requirements in the graphics glossary" title="Look up memory requirements in the graphics glossary">memory requirements</a>. The <code>size</code> is the allocation range needed for binding. The <code>alignment</code> constrains the binding offset. <code>memoryTypeBits</code> identifies which physical-device memory types are compatible with this resource.</p>
+
+<pre><code class="language-cpp">VkMemoryRequirements requirements{};
+vkGetImageMemoryRequirements(device, outputImage, &amp;requirements);
+
+uint32_t findMemoryType(
+    uint32_t allowedBits,
+    VkMemoryPropertyFlags requiredProperties)
+{
+    VkPhysicalDeviceMemoryProperties memoryProperties{};
+    vkGetPhysicalDeviceMemoryProperties(
+        physicalDevice,
+        &amp;memoryProperties);
+
+    for (uint32_t index = 0;
+         index &lt; memoryProperties.memoryTypeCount;
+         ++index) {
+        const bool allowed = (allowedBits &amp; (1u &lt;&lt; index)) != 0;
+        const bool hasProperties =
+            (memoryProperties.memoryTypes[index].propertyFlags &amp;
+             requiredProperties) == requiredProperties;
+
+        if (allowed &amp;&amp; hasProperties) {
+            return index;
+        }
+    }
+    throw std::runtime_error("No compatible memory type");
+}</code></pre>
+
+<p>For this device-written image, require <a class="glossary-term" id="glossary-origin-16-0014" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0014&amp;lesson=16#term-device-local-memory" aria-label="Look up device-local memory in the graphics glossary" title="Look up device-local memory in the graphics glossary">device-local memory</a>. Do not also require <a class="glossary-term" id="glossary-origin-16-0015" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0015&amp;lesson=16#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> visibility merely because it would make debugging convenient. An implementation may expose a type with both properties, but the renderer must not eliminate suitable discrete devices by demanding a combination it does not actually need. Host-visible staging resources will have a different criterion.</p>
+
+<h2>Allocate and bind are separate operations</h2>
+
+<pre><code class="language-cpp">const uint32_t memoryTypeIndex = findMemoryType(
+    requirements.memoryTypeBits,
+    VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+VkMemoryAllocateInfo allocationInfo{
+    .sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
+    .allocationSize = requirements.size,
+    .memoryTypeIndex = memoryTypeIndex
+};
+
+VkDeviceMemory outputMemory = VK_NULL_HANDLE;
+check(vkAllocateMemory(
+    device,
+    &amp;allocationInfo,
+    nullptr,
+    &amp;outputMemory));
+
+check(vkBindImageMemory(device, outputImage, outputMemory, 0));</code></pre>
+
+<p>The zero binding offset satisfies the alignment requirement because zero is aligned to every positive alignment. A production allocator will normally suballocate many resources from larger blocks to avoid excessive device allocations. The direct allocation here exposes the relationship before an allocator represents it on our behalf. We shall not confuse a teaching allocation strategy with a recommendation to allocate every final resource separately.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-16">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-16">How an Image Acquires Storage and an Interpretation</h2>
+        <p>The image, its backing memory and its image view are related Vulkan objects with different responsibilities. This account follows the relationship in the order Vulkan requires.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>Image creation describes an extent, format, tiling and permitted uses. It does not allocate the storage. Vulkan reports the size, alignment and compatible memory types required by that particular image. The application chooses a compatible memory type, allocates enough aligned memory, binds it to the image and finally creates an image view that states how later operations will interpret the image.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Retain the image create information and the returned memory requirements together. Record the selected memory-type index, allocation size, binding offset and image-view subresource range. This account makes it possible to distinguish the image handle, its backing allocation and the view used by a <a class="glossary-term" id="glossary-origin-16-0016" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0016&amp;lesson=16#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a>.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>A 640 by 360 RGBA8 image contains 230,400 texels and at least 921,600 bytes of channel storage. That arithmetic is useful, but Vulkan may report a larger requirement because the resource has implementation alignment and layout constraints. The returned requirement, not the convenient multiplication, controls the allocation.</p>
+        <p class="vulkan-account-formula"><code>minimum texel bytes = width × height × format bytes</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> Successful <a class="glossary-term" id="glossary-origin-16-0017" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0017&amp;lesson=16#term-memory-binding" aria-label="Look up memory binding in the graphics glossary" title="Look up memory binding in the graphics glossary">memory binding</a> establishes that the image has compatible backing storage. It does not place the image in the layout required by a shader, create a descriptor or make a later write visible to presentation.</p>
+</section>
+
+<h2>Create the shader's interpretation</h2>
+<p>A descriptor does not bind <code>VkDeviceMemory</code> to a shader. It references an image view. The view selects a format and subresource range from the already bound image. Our image has one colour mip level and one array layer, so the view remains deliberately simple.</p>
+
+<pre><code class="language-cpp">VkImageViewCreateInfo viewInfo{
+    .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+    .image = outputImage,
+    .viewType = VK_IMAGE_VIEW_TYPE_2D,
+    .format = outputFormat,
+    .components = {
+        VK_COMPONENT_SWIZZLE_IDENTITY,
+        VK_COMPONENT_SWIZZLE_IDENTITY,
+        VK_COMPONENT_SWIZZLE_IDENTITY,
+        VK_COMPONENT_SWIZZLE_IDENTITY
+    },
+    .subresourceRange = {
+        .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+        .baseMipLevel = 0,
+        .levelCount = 1,
+        .baseArrayLayer = 0,
+        .layerCount = 1
+    }
+};
+
+VkImageView outputView = VK_NULL_HANDLE;
+check(vkCreateImageView(device, &amp;viewInfo, nullptr, &amp;outputView));</code></pre>
+
+<p>The format appears in both image and view because the view is a typed interpretation. Compatible reinterpretation rules exist, but this lesson gains nothing by using them. Matching formats gives us one fewer possibility when a storage-image write produces an unexpected channel.</p>
+
+<div class="worked-trace">
+<h3>Account for 640 by 360 RGBA8</h3>
+<p>The image contains 230,400 texels. Four eight-bit channels require at least 921,600 bytes of texel data. Suppose Vulkan reports <code>requirements.size = 983,040</code>, <code>alignment = 256</code> and memory types 1, 3 and 5 as compatible. The allocation must use at least 983,040 bytes and one of those bits. Choosing memory type 2 because it is device local would still be invalid if bit 2 is absent from <code>memoryTypeBits</code>. Visible texel arithmetic explains content; the requirement decides binding.</p>
+</div>
+
+<h2>Keep object lifetime in the correct order</h2>
+<p>The image view refers to the image, and the image is bound to memory. After all submitted use has completed, destroy the view, destroy the image and free the memory. Freeing memory while a bound image may still be used is not a shortcut. Waiting for the entire device to become idle before every ordinary destruction would be correct in a narrow shutdown path but ruin useful overlap during rendering. Later per-frame ownership will use <a class="glossary-term" id="glossary-origin-16-0018" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0018&amp;lesson=16#term-fence" aria-label="Look up fence in the graphics glossary" title="Look up fence in the graphics glossary">fences</a> to decide when resources are safe to reuse.</p>
+
+<pre><code class="language-cpp">vkDeviceWaitIdle(device);
+vkDestroyImageView(device, outputView, nullptr);
+vkDestroyImage(device, outputImage, nullptr);
+vkFreeMemory(device, outputMemory, nullptr);</code></pre>
+
+<div class="checkpoint">
+<h3>Which number controls allocation?</h3>
+<p>Your 320 by 180 RGBA16F image contains 57,600 texels and eight bytes per texel, giving 460,800 visible texel bytes. Vulkan reports a memory requirement size of 524,288 bytes. Which size belongs in <code>VkMemoryAllocateInfo</code>?</p>
+<div class="worked-answer"><h4>The answer</h4><p>Use 524,288 bytes because the queried requirement controls the allocation bound to the image. The 460,800-byte calculation remains useful for understanding the unpadded texel content and expected scaling, but it cannot overrule device alignment and storage requirements.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> the Khronos specification chapters on <a href="https://docs.vulkan.org/spec/latest/chapters/resources.html">resources</a>, <a href="https://docs.vulkan.org/spec/latest/chapters/memory.html">device memory</a> and <a href="https://docs.vulkan.org/spec/latest/chapters/descriptors.html">storage images</a> define the current requirements used here.</p>
+
+<section class="transfer-task">
+<h2>Make the resource account visible</h2>
+<p>Log the chosen format, extent, <a class="glossary-term" id="glossary-origin-16-0019" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0019&amp;lesson=16#term-usage-flags" aria-label="Look up usage flags in the graphics glossary" title="Look up usage flags in the graphics glossary">usage flags</a>, minimum texel bytes, reported memory size, alignment, compatible type bits, selected type index and selected property flags. Create the image at two extents and compare which numbers scale exactly with texel count and which are rounded or constrained by the implementation. Then remove <code>VK_IMAGE_USAGE_STORAGE_BIT</code> and confirm that the object you created no longer satisfies the descriptor use planned for Lesson 17. Restore the flag before continuing.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry one complete resource forward</h2>
+<p>Retain the image, memory, view, format and extent together, but do not collapse them into one claim. The image describes and owns no allocation by itself. The memory has no shader interpretation by itself. The view cannot outlive the image it references. Lesson 17 will add a <a class="glossary-term" id="glossary-origin-16-0020" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0020&amp;lesson=16#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a> and <a class="glossary-term" id="glossary-origin-16-0021" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0021&amp;lesson=16#term-descriptor-set" aria-label="Look up descriptor set in the graphics glossary" title="Look up descriptor set in the graphics glossary">descriptor set</a> that expose this view to one compute shader binding.</p>
+</section>
+
+<p>We still have no shader and no recorded work. We do have a complete storage resource whose creation, allocation, binding and interpretation can each be inspected. That is enough progress. Lesson 17 now constructs the resource interface and a <a class="glossary-term" id="glossary-origin-16-0022" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0022&amp;lesson=16#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> without pretending that a pipeline object executes before a command is submitted.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-15.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">15. Vulkan Makes Ownership Explicit</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-17.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">17. Descriptors Give the Shader Its Resources</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

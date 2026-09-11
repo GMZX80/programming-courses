@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Constructing object-oriented solutions">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 18 - 18. Classes and Objects</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-18.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 18 - 18. Classes and Objects">
+    <meta property="og:description" content="Constructing object-oriented solutions">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-18.html">
+</head>
+<body class="course-page lesson-page" data-lesson="18" data-art-pattern="cells" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 18 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html" aria-current="page"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 18</span>
+            </nav>
+            <p class="hero-kicker">Lesson 18 · 24 lesson course</p>
+            <h1 id="lesson-title">18. Classes and Objects</h1>
+            <p class="lesson-deck">Constructing object-oriented solutions</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-17.html">← Lesson 17</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-19.html">Lesson 19 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>80 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-18-abstraction" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-abstraction&amp;lesson=18#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> <a class="glossary-chip" id="glossary-panel-origin-18-access-control" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-access-control&amp;lesson=18#term-access-control" aria-label="Look up access control in the programming glossary" title="Look up access control in the programming glossary">access control</a> <a class="glossary-chip" id="glossary-panel-origin-18-address" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-address&amp;lesson=18#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-18-algorithm" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-algorithm&amp;lesson=18#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-18-api" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-api&amp;lesson=18#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-18-argument" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-argument&amp;lesson=18#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-18-binary" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-binary&amp;lesson=18#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> <a class="glossary-chip" id="glossary-panel-origin-18-boolean" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-boolean&amp;lesson=18#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-18-bug" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-bug&amp;lesson=18#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-18-byte" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-byte&amp;lesson=18#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">byte</a> <a class="glossary-chip" id="glossary-panel-origin-18-cpp" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-cpp&amp;lesson=18#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-18-reference" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-reference&amp;lesson=18#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-18-template" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-template&amp;lesson=18#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">C++ template</a> <a class="glossary-chip" id="glossary-panel-origin-18-class" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-class&amp;lesson=18#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-18-code" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-code&amp;lesson=18#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-18-compile-time" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-compile-time&amp;lesson=18#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-18-compiler" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-compiler&amp;lesson=18#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-18-complexity" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-complexity&amp;lesson=18#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a> <a class="glossary-chip" id="glossary-panel-origin-18-composition" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-composition&amp;lesson=18#term-composition" aria-label="Look up composition in the programming glossary" title="Look up composition in the programming glossary">composition</a> <a class="glossary-chip" id="glossary-panel-origin-18-condition" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-condition&amp;lesson=18#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-18-const-correctness" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-const-correctness&amp;lesson=18#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">const-correctness</a> <a class="glossary-chip" id="glossary-panel-origin-18-constraint" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-constraint&amp;lesson=18#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">constraint</a> <a class="glossary-chip" id="glossary-panel-origin-18-constructor" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-constructor&amp;lesson=18#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-18-container" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-container&amp;lesson=18#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-18-copy-constructor" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-copy-constructor&amp;lesson=18#term-copy-constructor" aria-label="Look up copy constructor in the programming glossary" title="Look up copy constructor in the programming glossary">copy constructor</a> <a class="glossary-chip" id="glossary-panel-origin-18-dangling-pointer" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-dangling-pointer&amp;lesson=18#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling pointer</a> <a class="glossary-chip" id="glossary-panel-origin-18-definition" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-definition&amp;lesson=18#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-18-derived-class" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-derived-class&amp;lesson=18#term-derived-class" aria-label="Look up derived class in the programming glossary" title="Look up derived class in the programming glossary">derived class</a> <a class="glossary-chip" id="glossary-panel-origin-18-destructor" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-destructor&amp;lesson=18#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructor</a> <a class="glossary-chip" id="glossary-panel-origin-18-dispatch" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-dispatch&amp;lesson=18#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-18-encapsulation" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-encapsulation&amp;lesson=18#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">encapsulation</a> <a class="glossary-chip" id="glossary-panel-origin-18-enumeration" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-enumeration&amp;lesson=18#term-enumeration" aria-label="Look up enumeration in the programming glossary" title="Look up enumeration in the programming glossary">enumeration</a> <a class="glossary-chip" id="glossary-panel-origin-18-exception" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-exception&amp;lesson=18#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-18-expression" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-expression&amp;lesson=18#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-18-function" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-function&amp;lesson=18#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-18-global-variable" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-global-variable&amp;lesson=18#term-global-variable" aria-label="Look up global variable in the programming glossary" title="Look up global variable in the programming glossary">global variable</a> <a class="glossary-chip" id="glossary-panel-origin-18-header-file" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-header-file&amp;lesson=18#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header file</a> <a class="glossary-chip" id="glossary-panel-origin-18-include-directive" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-include-directive&amp;lesson=18#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-18-inheritance" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-inheritance&amp;lesson=18#term-inheritance" aria-label="Look up inheritance in the programming glossary" title="Look up inheritance in the programming glossary">inheritance</a> <a class="glossary-chip" id="glossary-panel-origin-18-initialisation" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-initialisation&amp;lesson=18#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-18-integer" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-integer&amp;lesson=18#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-18-interface" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-interface&amp;lesson=18#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-18-invariant" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-invariant&amp;lesson=18#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-18-iterator-invalidation" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-iterator-invalidation&amp;lesson=18#term-iterator-invalidation" aria-label="Look up iterator invalidation in the programming glossary" title="Look up iterator invalidation in the programming glossary">iterator invalidation</a> <a class="glossary-chip" id="glossary-panel-origin-18-lifetime" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-lifetime&amp;lesson=18#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-18-main-function" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-main-function&amp;lesson=18#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-18-memory-leak" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-memory-leak&amp;lesson=18#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">memory leak</a> <a class="glossary-chip" id="glossary-panel-origin-18-method" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-method&amp;lesson=18#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">method</a> <a class="glossary-chip" id="glossary-panel-origin-18-noexcept" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-noexcept&amp;lesson=18#term-noexcept" aria-label="Look up noexcept in the programming glossary" title="Look up noexcept in the programming glossary">noexcept</a> <a class="glossary-chip" id="glossary-panel-origin-18-object" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-object&amp;lesson=18#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-18-object-oriented-programming" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-object-oriented-programming&amp;lesson=18#term-object-oriented-programming" aria-label="Look up object-oriented programming in the programming glossary" title="Look up object-oriented programming in the programming glossary">object-oriented programming</a> <a class="glossary-chip" id="glossary-panel-origin-18-operator" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-operator&amp;lesson=18#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-18-override" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-override&amp;lesson=18#term-override" aria-label="Look up override in the programming glossary" title="Look up override in the programming glossary">override</a> <a class="glossary-chip" id="glossary-panel-origin-18-ownership" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-ownership&amp;lesson=18#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-18-parameter" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-parameter&amp;lesson=18#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-18-pointer" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-pointer&amp;lesson=18#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-18-polymorphism" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-polymorphism&amp;lesson=18#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">polymorphism</a> <a class="glossary-chip" id="glossary-panel-origin-18-precondition" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-precondition&amp;lesson=18#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> <a class="glossary-chip" id="glossary-panel-origin-18-procedural-programming" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-procedural-programming&amp;lesson=18#term-procedural-programming" aria-label="Look up procedural programming in the programming glossary" title="Look up procedural programming in the programming glossary">procedural programming</a> <a class="glossary-chip" id="glossary-panel-origin-18-program" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-program&amp;lesson=18#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-18-access-levels" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-access-levels&amp;lesson=18#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-18-pure-virtual-function" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-pure-virtual-function&amp;lesson=18#term-pure-virtual-function" aria-label="Look up pure virtual function in the programming glossary" title="Look up pure virtual function in the programming glossary">pure virtual function</a> <a class="glossary-chip" id="glossary-panel-origin-18-raii" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-raii&amp;lesson=18#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-chip" id="glossary-panel-origin-18-resource" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-resource&amp;lesson=18#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">resource</a> <a class="glossary-chip" id="glossary-panel-origin-18-rule-of-three-five-zero" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-rule-of-three-five-zero&amp;lesson=18#term-rule-of-three-five-zero" aria-label="Look up Rule of Three, Five and Zero in the programming glossary" title="Look up Rule of Three, Five and Zero in the programming glossary">Rule of Three, Five and Zero</a> <a class="glossary-chip" id="glossary-panel-origin-18-runtime" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-runtime&amp;lesson=18#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-18-scope" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-scope&amp;lesson=18#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-18-state" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-state&amp;lesson=18#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-18-static-keyword" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-static-keyword&amp;lesson=18#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> <a class="glossary-chip" id="glossary-panel-origin-18-static-polymorphism" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-static-polymorphism&amp;lesson=18#term-static-polymorphism" aria-label="Look up static polymorphism in the programming glossary" title="Look up static polymorphism in the programming glossary">static polymorphism</a> <a class="glossary-chip" id="glossary-panel-origin-18-stream" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-stream&amp;lesson=18#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-18-string" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-string&amp;lesson=18#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-18-string-view" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-string-view&amp;lesson=18#term-string-view" aria-label="Look up string_view in the programming glossary" title="Look up string_view in the programming glossary">string_view</a> <a class="glossary-chip" id="glossary-panel-origin-18-testing" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-testing&amp;lesson=18#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-18-type" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-type&amp;lesson=18#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-18-unit-test" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-unit-test&amp;lesson=18#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-18-value" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-value&amp;lesson=18#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-18-variable" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-variable&amp;lesson=18#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-18-vector" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-vector&amp;lesson=18#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a> <a class="glossary-chip" id="glossary-panel-origin-18-vtable" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-vtable&amp;lesson=18#term-vtable" aria-label="Look up vtable in the programming glossary" title="Look up vtable in the programming glossary">vtable</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="18">
+<img src="assets/images/lesson-art/lesson-18-classes-objects.png" alt="Abstract class scaffold producing several object instances with distinct encapsulated internal states." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p>&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-18-0001" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0001&amp;lesson=18#term-object-oriented-programming" aria-label="Look up object-oriented programming in the programming glossary" title="Look up object-oriented programming in the programming glossary">Object Orientation</a> in <a class="glossary-term" id="glossary-origin-18-0002" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0002&amp;lesson=18#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> — <a class="glossary-term" id="glossary-origin-18-0003" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0003&amp;lesson=18#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">Encapsulation</a>, Behaviour, and <a class="glossary-term" id="glossary-origin-18-0004" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0004&amp;lesson=18#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">State</a></h2>
+
+<p>
+<a class="glossary-term" id="glossary-origin-18-0005" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0005&amp;lesson=18#term-procedural-programming" aria-label="Look up procedural programming in the programming glossary" title="Look up procedural programming in the programming glossary">Procedural programming</a> puts <em><a class="glossary-term" id="glossary-origin-18-0006" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0006&amp;lesson=18#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">functions</a></em> at the centre: you call functions that accept <a class="glossary-term" id="glossary-origin-18-0007" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0007&amp;lesson=18#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameters</a> and return results; over time those calls mutate program state. 
+This works—but the language doesn’t natively <em>regulate</em> the state itself. <a class="glossary-term" id="glossary-origin-18-0008" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0008&amp;lesson=18#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">Bugs</a> thrive where state is misused.
+Object-oriented programming (OOP) answers this by coupling state with its allowed behaviours. An <strong><a class="glossary-term" id="glossary-origin-18-0009" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0009&amp;lesson=18#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a></strong> is a piece of state plus the only operations that may change it.
+</p>
+
+<p>
+C++ popularised OOP at industry scale. It is, however, a <strong>multi-paradigm</strong> language: you can (and often should) mix OO with generic, functional, and procedural styles. 
+Because C++ exposes low-level memory, you can also <em>circumvent</em> encapsulation—so good design and discipline really matter.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Where Should the State Live?</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste a procedural snippet; ask AI to propose object boundaries (what data to encapsulate, which <a class="glossary-term" id="glossary-origin-18-0010" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0010&amp;lesson=18#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">methods</a> expose behaviour).</li>
+      <li>Have AI list <a class="glossary-term" id="glossary-origin-18-0011" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0011&amp;lesson=18#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariants</a> (truths that must always hold) and draft <a class="glossary-term" id="glossary-origin-18-0012" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0012&amp;lesson=18#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit tests</a> to enforce them.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) From Procedural to Object-Oriented</h3>
+
+<p><strong>Procedural:</strong> functions operate on externally owned state.</p>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+void addNumber(std::vector&lt;int&gt;&amp; v, int x) { v.push_back(x); }
+void deleteNumber(std::vector&lt;int&gt;&gt;&amp; v, int x) {
+    v.erase(std::remove(v.begin(), v.end(), x), v.end());
+}
+void sortNumbers(std::vector&lt;int&gt;&amp; v) { std::sort(v.begin(), v.end()); }
+
+// ❌ Any caller can forget to call sort, or mutate v directly and break assumptions.
+</code></pre>
+
+<p><strong>Object-oriented:</strong> the object owns the state and <em>regulates</em> access through methods.</p>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;stdexcept&gt;
+
+class IntBag {
+public:
+    void add(int x) { data_.push_back(x); is_sorted_ = false; }
+    void remove(int x) {
+        data_.erase(std::remove(data_.begin(), data_.end(), x), data_.end());
+        // removing doesn't break sortedness if it was sorted before
+    }
+    void sort() { std::sort(data_.begin(), data_.end()); is_sorted_ = true; }
+
+    // Query operations (do not mutate state)
+    bool contains(int x) const {
+        return is_sorted_ ? std::binary_search(data_.begin(), data_.end(), x)
+                          : std::find(data_.begin(), data_.end(), x) != data_.end();
+    }
+    std::size_t size() const noexcept { return data_.size(); }
+    int at(std::size_t i) const { 
+        if (i &gt;= data_.size()) throw std::out_of_range("IntBag::at");
+        return data_[i];
+    }
+private:
+    std::vector&lt;int&gt; data_;
+    bool is_sorted_ = false;   // &lt;- invariant flag guarded by methods
+};
+</code></pre>
+
+<p>
+The invariant (<code>is_sorted_</code> correctly reflects ordering) is maintained solely by the methods, reducing misuse of state.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Invariant Designer</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to extract invariants from your <a class="glossary-term" id="glossary-origin-18-0013" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0013&amp;lesson=18#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a>, propose <code>assert</code>s, and generate <a class="glossary-term" id="glossary-origin-18-0014" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0014&amp;lesson=18#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a> to verify them after every mutating method.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) Classes, Methods, and <a class="glossary-term" id="glossary-origin-18-0015" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0015&amp;lesson=18#term-access-control" aria-label="Look up access control in the programming glossary" title="Look up access control in the programming glossary">Access Control</a></h3>
+
+<ul>
+  <li><strong>class</strong> &amp; <strong>struct</strong> are the same except default access: <code>class</code> is <em><a class="glossary-term" id="glossary-origin-18-0016" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0016&amp;lesson=18#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">private</a></em> by default; <code>struct</code> is <em>public</em>.</li>
+  <li>Use <strong>public</strong> for your <a class="glossary-term" id="glossary-origin-18-0017" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0017&amp;lesson=18#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> (behaviours), <strong>private</strong> for representation (state), and <strong>protected</strong> for <a class="glossary-term" id="glossary-origin-18-0018" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0018&amp;lesson=18#term-derived-class" aria-label="Look up derived class in the programming glossary" title="Look up derived class in the programming glossary">derived classes</a>.</li>
+  <li>Prefer keeping data members private; expose behaviour via methods. This is <strong>encapsulation</strong>.</li>
+</ul>
+
+<pre><code class="language-cpp">class Account {
+public:
+    explicit Account(double opening) : balance_{opening} {}
+    void deposit(double amt) { require(amt &gt; 0); balance_ += amt; }
+    void withdraw(double amt) { require(0 &lt; amt &amp;&amp; amt &lt;= balance_); balance_ -= amt; }
+    double balance() const noexcept { return balance_; }
+
+private:
+    double balance_{};
+    static void require(bool cond) { if (!cond) throw std::logic_error("precondition failed"); }
+};
+</code></pre>
+
+<p>
+Note the <strong><a class="glossary-term" id="glossary-origin-18-0019" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0019&amp;lesson=18#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">preconditions</a></strong> (simple “contracts”) that guard valid state transitions.
+</p>
+
+<hr>
+
+<h3>3) Construction, <a class="glossary-term" id="glossary-origin-18-0020" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0020&amp;lesson=18#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">Destruction</a>, and <a class="glossary-term" id="glossary-origin-18-0021" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0021&amp;lesson=18#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a></h3>
+
+<ul>
+  <li><a class="glossary-term" id="glossary-origin-18-0022" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0022&amp;lesson=18#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">Constructors</a> establish invariants; destructors release <a class="glossary-term" id="glossary-origin-18-0023" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0023&amp;lesson=18#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">resources</a> (files, memory). This is <strong>RAII</strong>.</li>
+  <li>Follow the <strong><a class="glossary-term" id="glossary-origin-18-0024" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0024&amp;lesson=18#term-rule-of-three-five-zero" aria-label="Look up Rule of Three, Five and Zero in the programming glossary" title="Look up Rule of Three, Five and Zero in the programming glossary">Rule of Zero</a></strong> where possible: rely on the defaults; use standard <a class="glossary-term" id="glossary-origin-18-0025" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0025&amp;lesson=18#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a> that manage resources for you.</li>
+</ul>
+
+<pre><code class="language-cpp">#include &lt;fstream&gt;
+#include &lt;string&gt;
+
+class LineReader {
+public:
+    explicit LineReader(std::string path) : f_(std::move(path)) {
+        if (!f_) throw std::runtime_error("open failed");
+    }
+    bool next(std::string&amp; out) { return static_cast(std::getline(f_, out)); }
+private:
+    std::ifstream f_;  // closed automatically in destructor
+};  // No custom destructor needed: Rule of Zero.
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Rule of Zero/Five Helper</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI whether your class should <a class="glossary-term" id="glossary-origin-18-0026" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0026&amp;lesson=18#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> copy/move/dtor or rely on defaults; get a suggested implementation if needed.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) <a class="glossary-term" id="glossary-origin-18-0027" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0027&amp;lesson=18#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">Interfaces</a> &amp; <a class="glossary-term" id="glossary-origin-18-0028" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0028&amp;lesson=18#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">Polymorphism</a> (<a class="glossary-term" id="glossary-origin-18-0029" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0029&amp;lesson=18#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">Runtime</a> vs <a class="glossary-term" id="glossary-origin-18-0030" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0030&amp;lesson=18#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">Compile-Time</a>)</h3>
+
+<p><strong>Runtime polymorphism</strong> via <em>virtual</em> functions:</p>
+<pre><code class="language-cpp">struct Sorter {
+    virtual ~Sorter() = default;
+    virtual void sort(std::vector&lt;int&gt;&amp;) const = 0;
+};
+
+struct QuickSort : Sorter {
+    void sort(std::vector&lt;int&gt;&amp; v) const override { std::sort(v.begin(), v.end()); }
+};
+
+void sort_with(const Sorter&amp; s, std::vector&lt;int&gt;&amp; v) { s.sort(v); } // dynamic dispatch
+</code></pre>
+
+<p><strong><a class="glossary-term" id="glossary-origin-18-0031" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0031&amp;lesson=18#term-static-polymorphism" aria-label="Look up static polymorphism in the programming glossary" title="Look up static polymorphism in the programming glossary">Compile-time polymorphism</a></strong> via <a class="glossary-term" id="glossary-origin-18-0032" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0032&amp;lesson=18#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">templates</a> (no <a class="glossary-term" id="glossary-origin-18-0033" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0033&amp;lesson=18#term-vtable" aria-label="Look up vtable in the programming glossary" title="Look up vtable in the programming glossary">vtable</a>; often faster, more inlinable):</p>
+<pre><code class="language-cpp">template &lt;typename Algo&gt;
+void sort_with(Algo algo, std::vector&lt;int&gt;&amp; v) { algo(v); }
+
+struct Quick {
+    void operator()(std::vector&lt;int&gt;&amp; v) const { std::sort(v.begin(), v.end()); }
+};
+</code></pre>
+
+<p>Choose based on needs: runtime substitution vs maximal performance/optimisation.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pick Polymorphism Style</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Describe your extensibility/perf <a class="glossary-term" id="glossary-origin-18-0034" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0034&amp;lesson=18#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">constraints</a>; AI will recommend virtual interfaces vs templates (or both via policy classes).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>5) Encapsulation Pitfalls (and how C++ lets you cheat)</h3>
+
+<ul>
+  <li><strong>Public data members:</strong> bypass invariants. Prefer private + methods.</li>
+  <li><strong>Leaking internal <a class="glossary-term" id="glossary-origin-18-0035" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0035&amp;lesson=18#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a>/<a class="glossary-term" id="glossary-origin-18-0036" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0036&amp;lesson=18#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointers</a>:</strong> gives external <a class="glossary-term" id="glossary-origin-18-0037" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0037&amp;lesson=18#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> a handle to mutate invariants.</li>
+  <li><strong><code>friend</code>:</strong> powerful but pierces encapsulation. Use sparingly for tightly coupled helpers or tests.</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-18-0038" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0038&amp;lesson=18#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">Const-correctness</a>:</strong> mark non-mutating methods <code>const</code>; avoid lying with <code>mutable</code>/<code>const_cast</code> unless justified.</li>
+</ul>
+
+<pre><code class="language-cpp">// ❌ Leaks internal state (any caller can mutate 'data_' arbitrarily)
+class Bad {
+public: std::vector&lt;int&gt;&amp; data() { return data_; }
+private: std::vector&lt;int&gt; data_;
+};
+</code></pre>
+
+<p><strong>Better:</strong> expose read-only views or controlled mutators.</p>
+<pre><code class="language-cpp">class Better {
+public:
+    std::size_t size() const noexcept { return data_.size(); }
+    int at(std::size_t i) const { return data_.at(i); }
+    void push(int x) { data_.push_back(x); }
+private:
+    std::vector&lt;int&gt; data_;
+};
+</code></pre>
+
+<hr>
+
+<h3>6) <a class="glossary-term" id="glossary-origin-18-0039" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0039&amp;lesson=18#term-composition" aria-label="Look up composition in the programming glossary" title="Look up composition in the programming glossary">Composition</a> &gt; <a class="glossary-term" id="glossary-origin-18-0040" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0040&amp;lesson=18#term-inheritance" aria-label="Look up inheritance in the programming glossary" title="Look up inheritance in the programming glossary">Inheritance</a> (most of the time)</h3>
+
+<p>
+Before subclassing, consider building objects by <em>composing</em> smaller ones. Composition is simpler, safer, and keeps hierarchies shallow.
+Reserve inheritance for “is-a” relationships with stable interfaces.
+</p>
+
+<pre><code class="language-cpp">class Logger { /* ... */ };
+class Repo   { /* ... */ };
+
+class Service {          // composed behaviour
+public:
+    Service(Logger log, Repo repo) : log_(std::move(log)), repo_(std::move(repo)) {}
+    void run();
+private:
+    Logger log_;
+    Repo   repo_;
+};
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Inherit or Compose?</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste a planned hierarchy; get a proposal to flatten with composition or define a minimal, stable base interface.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>7) Worked Example — A Sorted Set with Encapsulated State</h3>
+
+<p>We encapsulate a multiset that always remains sorted after insert/erase operations. External code cannot break the invariant.</p>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+class SortedSet {
+public:
+    bool insert(int x) {
+        auto it = std::lower_bound(v_.begin(), v_.end(), x);
+        if (it != v_.end() &amp;&amp; *it == x) return false; // already there
+        v_.insert(it, x);
+        return true;
+    }
+    bool erase(int x) {
+        auto it = std::lower_bound(v_.begin(), v_.end(), x);
+        if (it == v_.end() || *it != x) return false;
+        v_.erase(it);
+        return true;
+    }
+    bool contains(int x) const {
+        return std::binary_search(v_.begin(), v_.end(), x);
+    }
+    std::size_t size() const noexcept { return v_.size(); }
+    int at(std::size_t i) const { return v_.at(i); }
+
+private:
+    std::vector&lt;int&gt; v_;  // representation hidden; invariant: v_ is always sorted
+};
+</code></pre>
+
+<p>
+All mutations go through <code>insert</code>/<code>erase</code>; consumers get queries only. The representation (<a class="glossary-term" id="glossary-origin-18-0041" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0041&amp;lesson=18#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>) can change later without breaking users.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Representation Swap</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to trade <code>std::vector</code> for <code>std::set</code> or a B-tree while keeping the same public API; compare <a class="glossary-term" id="glossary-origin-18-0042" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0042&amp;lesson=18#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a> and performance.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) Mini Exercise — Refactor to an Object</h3>
+
+<p><strong>Task:</strong> You have these free functions:</p>
+<pre><code class="language-cpp">void open(File&amp; f, const std::string&amp; path);
+void write(File&amp; f, std::string_view bytes);
+void close(File&amp; f);
+</code></pre>
+
+<p>
+Refactor into a class that owns its resource (RAII), enforces valid call order (open → write* → close), and cannot be copied but can be moved.
+Add guard <a class="glossary-term" id="glossary-origin-18-0043" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0043&amp;lesson=18#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">conditions</a> and error handling. Then, sketch a <a class="glossary-term" id="glossary-origin-18-0044" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0044&amp;lesson=18#term-pure-virtual-function" aria-label="Look up pure virtual function in the programming glossary" title="Look up pure virtual function in the programming glossary">pure virtual</a> interface (<code>IFile</code>) to allow test doubles.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Starter Patch</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to generate a skeleton with RAII, deleted copy, defaulted move, and a matching test double interface.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li><strong>Encapsulate state</strong> and expose only behaviours that maintain invariants.</li>
+  <li><strong>Prefer composition</strong> and clear interfaces; use inheritance when you truly need runtime substitution.</li>
+  <li><strong>Use RAII</strong> to align <a class="glossary-term" id="glossary-origin-18-0045" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0045&amp;lesson=18#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> with <a class="glossary-term" id="glossary-origin-18-0046" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0046&amp;lesson=18#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a>; aim for the Rule of Zero.</li>
+  <li><strong>Keep representation private</strong>; don’t <a class="glossary-term" id="glossary-origin-18-0047" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0047&amp;lesson=18#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">leak</a> internal pointers/references that let callers corrupt your state.</li>
+  <li><strong>Choose polymorphism style</strong> (virtual vs templates) based on extensibility and performance needs.</li>
+  <li>Remember: C++ lets you bypass encapsulation—<em>design</em> is your guardrail.</li>
+</ul>
+        
+<!-- lesson-enhancement:18:start -->
+<section class="lesson-enhancement" id="classes-as-invariant-boundaries">
+<p class="lesson-enhancement-kicker">Advanced perspective: access control is useful only when the type accepts responsibility</p>
+<h2>A class earns its boundary by making invalid states or transitions harder to express</h2>
+<p>Putting <a class="glossary-term" id="glossary-origin-18-0048" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0048&amp;lesson=18#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variables</a> between <code>class</code> braces does not create a useful <a class="glossary-term" id="glossary-origin-18-0049" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0049&amp;lesson=18#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a>. Nor does changing <code>public</code> to <code>private</code> while supplying a setter for every field. The real test is whether the type takes responsibility for a coherent state model: what must be true after successful construction, which operations may change the state, which requests are rejected, and what remains true after rejection.</p>
+<p>An object has identity, state and lifetime. Its class definition describes the type shared by such objects; it does not create one universal object. Two <code>Account</code> objects can obey the same rules while holding different balances. An ordinary <code>int</code> is also an object, although its type is supplied by the language. We introduce a user-defined class when the <a class="glossary-term" id="glossary-origin-18-0050" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0050&amp;lesson=18#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> needs a responsibility that a collection of unrelated <a class="glossary-term" id="glossary-origin-18-0051" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0051&amp;lesson=18#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">values</a> and functions does not state clearly enough.</p>
+<table>
+<thead><tr><th>Design question</th><th>Evidence of a useful answer</th><th>Reassuring but insufficient substitute</th></tr></thead>
+<tbody>
+<tr><td>What states are valid?</td><td>A precise invariant that can be checked at construction and after mutation.</td><td>All fields are private.</td></tr>
+<tr><td>Which changes are permitted?</td><td>Operations named for domain behaviour with stated preconditions and outcomes.</td><td>A setter exists for each field.</td></tr>
+<tr><td>Who owns the state?</td><td>Copy, move, lifetime and aliasing policy match the model.</td><td>The class has a destructor, whether needed or not.</td></tr>
+<tr><td>Can representation change?</td><td>Callers depend on behaviour rather than internal <a class="glossary-term" id="glossary-origin-18-0052" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0052&amp;lesson=18#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">containers</a> or <a class="glossary-term" id="glossary-origin-18-0053" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0053&amp;lesson=18#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">addresses</a>.</td><td>The member names are hidden in a <a class="glossary-term" id="glossary-origin-18-0054" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0054&amp;lesson=18#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header</a>.</td></tr>
+</tbody>
+</table>
+
+<h3>Construction must either establish a usable object or fail</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+class Account {
+public:
+    explicit Account(int openingBalance) : balance_{openingBalance} {
+        if (openingBalance &lt; 0) {
+            throw std::invalid_argument{"opening balance cannot be negative"};
+        }
+    }
+
+    bool withdraw(int amount) {
+        if (amount &lt; 0 || amount &gt; balance_) {
+            return false;
+        }
+        balance_ -= amount;
+        return true;
+    }
+
+    int balance() const {
+        return balance_;
+    }
+
+private:
+    int balance_;
+};
+
+int main() {
+    Account account{100};
+    account.withdraw(30);
+    std::cout &lt;&lt; account.balance() &lt;&lt; '\n';
+}
+</code></pre>
+<p>A successful <code>Account</code> promises that <code>balance_ &gt;= 0</code>. Construction with 100 establishes that state. The withdrawal request is valid because 30 is non-negative and no greater than the current balance, so the state changes from 100 to 70 and the program prints 70.</p>
+<p>The constructor also exposes an important boundary in the word "invariant". With a negative <a class="glossary-term" id="glossary-origin-18-0055" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0055&amp;lesson=18#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a>, <code>balance_</code> is <a class="glossary-term" id="glossary-origin-18-0056" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0056&amp;lesson=18#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialised</a> before the constructor body detects the problem. The <a class="glossary-term" id="glossary-origin-18-0057" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0057&amp;lesson=18#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> prevents construction from completing, so no usable <code>Account</code> with a negative balance escapes to the caller. The externally promised invariant holds for every successfully constructed object. If a type requires the member never to contain a rejected value even during construction, validation must occur before that member is initialised, for example through a checked helper or factory. State the required boundary; do not pretend every class needs the stronger one.</p>
+<table>
+<thead><tr><th>Request</th><th>State before</th><th>Outcome</th><th>Required state after</th></tr></thead>
+<tbody>
+<tr><td>Construct with 100</td><td>No <code>Account</code> object.</td><td>Construction succeeds.</td><td>A live account with balance 100.</td></tr>
+<tr><td>Construct with -1</td><td>No <code>Account</code> object.</td><td>An exception reports the rejected argument.</td><td>No successfully constructed account escapes.</td></tr>
+<tr><td>Withdraw 30 from 100</td><td>Balance 100.</td><td>Returns <code>true</code>.</td><td>Balance 70.</td></tr>
+<tr><td>Withdraw 90 from 70</td><td>Balance 70.</td><td>Returns <code>false</code>.</td><td>Balance remains 70.</td></tr>
+<tr><td>Withdraw -5 from 70</td><td>Balance 70.</td><td>Returns <code>false</code>.</td><td>Balance remains 70.</td></tr>
+</tbody>
+</table>
+<p>The rejected cases matter as much as the accepted one. A method that returns <code>false</code> after partially changing the balance has not honoured the model. Tests should inspect both the reported outcome and the resulting state. The invariant is a relation over program states; a method name is not evidence that the relation survived.</p>
+
+<h3>Encapsulation controls transitions, not merely spelling</h3>
+<p><code>private</code> prevents an ordinary caller from writing <code>account.balance_ = -500;</code>. That closes one path. A member function can still write an invalid value, expose a mutable reference to the member, retain a <a class="glossary-term" id="glossary-origin-18-0058" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0058&amp;lesson=18#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling</a> alias or perform work that belongs to another component. Access control determines which code may name the representation directly. Encapsulation depends on what that privileged code actually permits.</p>
+<p>This is why <code>withdraw(amount)</code> describes more than <code>set_balance(value)</code>. The withdrawal operation receives a request, checks it against the current state and either performs one valid transition or rejects it without change. A general setter transfers the responsibility back to every caller. If the class accepts any value a caller chooses, the data is privately spelt but publicly controlled.</p>
+<table>
+<thead><tr><th>Interface choice</th><th>Responsibility kept by the class</th><th>Risk transferred to callers</th></tr></thead>
+<tbody>
+<tr><td><code>bool withdraw(int amount)</code></td><td>Checks amount and available balance; preserves state on rejection.</td><td>The caller decides how to respond to failure.</td></tr>
+<tr><td><code>void set_balance(int value)</code></td><td>Only whatever validation the setter explicitly performs.</td><td>The caller must understand which arbitrary states make sense.</td></tr>
+<tr><td><code>int balance() const</code></td><td>Exposes a value observation without a mutable path to the member.</td><td>The caller receives a snapshot, not <a class="glossary-term" id="glossary-origin-18-0059" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0059&amp;lesson=18#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> of internal state.</td></tr>
+<tr><td><code>int&amp; balance()</code></td><td>Very little after the reference escapes.</td><td>External code can mutate the representation without the class's checks.</td></tr>
+</tbody>
+</table>
+<p>The <code>const</code> on <code>balance()</code> allows the member to be called through a const account and prevents ordinary modification of that account through <code>this</code>. It supports the claim that this operation is an observation. It is not a moral guarantee: indirection, <a class="glossary-term" id="glossary-origin-18-0060" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0060&amp;lesson=18#term-global-variable" aria-label="Look up global variable in the programming glossary" title="Look up global variable in the programming glossary">global state</a> or carelessly used <code>mutable</code> data can still create externally visible effects. Review the behaviour as well as the qualifier.</p>
+
+<h3>Decide whether objects are values or entities</h3>
+<p>The <a class="glossary-term" id="glossary-origin-18-0061" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0061&amp;lesson=18#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> can copy this simple <code>Account</code> by copying its <a class="glossary-term" id="glossary-origin-18-0062" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0062&amp;lesson=18#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> member. Whether that operation is meaningful is a design question, not a mechanical one. If an account object represents a value-like snapshot, independent copies may be sensible. If it represents one continuing real-world identity, accidental duplication may violate the model even though every copied integer is valid.</p>
+<p>Ask what equality means, whether two objects may represent the same entity, and what copying is supposed to produce. Then make copy and move operations agree with that answer. Deleting copying is appropriate when duplication has no meaning or a unique resource forbids it. Default copying is appropriate when well-behaved members already express independent value semantics. A hand-written <a class="glossary-term" id="glossary-origin-18-0063" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0063&amp;lesson=18#term-copy-constructor" aria-label="Look up copy constructor in the programming glossary" title="Look up copy constructor in the programming glossary">copy constructor</a> is justified only when the type has a real policy to implement.</p>
+
+<h3>Representation privacy should buy freedom to change representation</h3>
+<p>A class that exposes its internal vector by mutable reference has published more than a convenience. It has published storage choice, <a class="glossary-term" id="glossary-origin-18-0064" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0064&amp;lesson=18#term-iterator-invalidation" aria-label="Look up iterator invalidation in the programming glossary" title="Look up iterator invalidation in the programming glossary">invalidation</a> behaviour and unrestricted mutation. Replacing the vector later may break callers even if the class's intended behaviour has not changed. Returning a read-only value, an operation-specific result or a carefully bounded view can preserve more design freedom.</p>
+<p>This does not mean every getter is wrong or every data member belongs behind a behavioural ceremony. A coordinate with two independently meaningful public values may be an honest open record. C++ permits both <code>struct</code> and <code>class</code> to have constructors, member functions, templates and inheritance. Their principal language differences are default member access and default base-class access: public for <code>struct</code>, private for <code>class</code>. The common convention of using <code>struct</code> for an open record and <code>class</code> for an invariant-protecting abstraction communicates intent; it is not a separate capability tier.</p>
+<table>
+<thead><tr><th>Question</th><th>Open record may fit when...</th><th>Invariant boundary may fit when...</th></tr></thead>
+<tbody>
+<tr><td>Are fields independently meaningful?</td><td>Callers legitimately read and replace them directly.</td><td>Fields form a relation that must be preserved.</td></tr>
+<tr><td>Are operations more stable than storage?</td><td>The representation is itself the intended interface.</td><td>Behaviour should survive a representation change.</td></tr>
+<tr><td>Can arbitrary mutation create nonsense?</td><td>No stronger validity rule is required.</td><td>Only selected transitions should be permitted.</td></tr>
+</tbody>
+</table>
+
+<h3>Composition and inheritance answer different substitution questions</h3>
+<p>Composition says that one object uses or owns another as part of its implementation. Inheritance says more than two types share fields: public inheritance presents a derived object where a base object is expected and therefore accepts the base interface's behavioural obligations. The phrase "is a" is a useful prompt, but it is not a completed substitution argument.</p>
+<p>If a <code>Team</code> owns a <code>std::vector&lt;Player&gt;</code>, composition already gives it managed storage, destruction, and defined copy and move behaviour inherited from its members. Unless the class adds a raw resource or a different identity policy, a hand-written destructor and copy constructor add code without adding meaning. This is the Rule of Zero: choose members that already own their responsibilities, then let generated special member functions express the composition.</p>
+<p>Runtime polymorphism is justified when callers must work through one stable interface while selecting implementations at runtime. Templates can express compile-time variation when concrete types may be known during compilation. "Virtual is slow" and "templates are fast" are proxies, not decisions. Substitution needs, ownership, <a class="glossary-term" id="glossary-origin-18-0065" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0065&amp;lesson=18#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> boundaries, code size, diagnostics and measured cost all belong in the judgement.</p>
+
+<div class="concept-panel">
+<p><strong>Correction to the earlier <code>LineReader</code> example:</strong> <code>static_cast&lt;std::getline(f_, out)&gt;</code> is ill-formed because the angle brackets must contain a type, while <code>std::getline(f_, out)</code> is an <a class="glossary-term" id="glossary-origin-18-0066" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0066&amp;lesson=18#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a>. The intended statement is <code>return static_cast&lt;bool&gt;(std::getline(f_, out));</code>. The read occurs, then the resulting <a class="glossary-term" id="glossary-origin-18-0067" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0067&amp;lesson=18#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> state is explicitly converted to the <code>bool</code> promised by the interface. The preserved source still illustrates ownership by an <code>ifstream</code>, but this correction must accompany any claim that the example compiles.</p>
+</div>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> ask for the invariant, transitions and escape routes</summary>
+<div>
+<p>When AI proposes a class, require one sentence describing every valid state and a table of every constructor and mutating operation. For each operation, record its precondition, success transition, failure report and state after failure. Then search for escape routes: public members, general setters, mutable references, aliases whose lifetime exceeds the object, friends and inherited access.</p>
+<p>Do not accept "encapsulated" because the fields are private or "RAII-compliant" because a destructor exists. Ask which resource is owned, which member releases it, what copying means and what happens when construction or an operation fails. The answer should let you derive tests. If it supplies only labels, it has described the costume of a class rather than its responsibility.</p>
+</div>
+</details>
+
+<h3>Transfer task: design the state model before designing the methods</h3>
+<p>Design an <code>InventoryItem</code> with <code>stock</code> and <code>reserved</code> quantities. Its invariant is <code>0 &lt;= reserved &amp;&amp; reserved &lt;= stock</code>. The system must receive stock, reserve an available quantity, cancel a reservation and <a class="glossary-term" id="glossary-origin-18-0068" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0068&amp;lesson=18#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> reserved items. For each operation, state the accepted inputs, the state transition on success and the unchanged state required on failure.</p>
+<p>Now decide whether callers need <code>set_stock</code>, <code>set_reserved</code>, neither or both. Decide whether copying an item duplicates an independent value or creates an impossible second representation of one inventory identity. Finally, list the minimum observations needed for tests without returning mutable references to the representation. Write the public interface only after those decisions. Otherwise the first draft of the methods will quietly become the specification.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>I would treat an <code>InventoryItem</code> as one continuing inventory identity, not as a freely copied arithmetic value. Every quantity-changing operation accepts a strictly positive quantity. Rejection is reported as a result and leaves both stored quantities unchanged.</p>
+<table>
+<thead><tr><th>Operation</th><th>Additional acceptance condition</th><th>Successful transition</th><th>Failure state</th></tr></thead>
+<tbody>
+<tr><td><code>receive(q)</code></td><td><code>q &gt; 0</code> and <code>stock + q</code> is representable.</td><td><code>stock' = stock + q</code>; <code>reserved' = reserved</code>.</td><td>Both values unchanged.</td></tr>
+<tr><td><code>reserve(q)</code></td><td><code>q &gt; 0</code> and <code>q &lt;= stock - reserved</code>.</td><td><code>reserved' = reserved + q</code>; <code>stock' = stock</code>.</td><td>Both values unchanged.</td></tr>
+<tr><td><code>cancel_reservation(q)</code></td><td><code>q &gt; 0</code> and <code>q &lt;= reserved</code>.</td><td><code>reserved' = reserved - q</code>; <code>stock' = stock</code>.</td><td>Both values unchanged.</td></tr>
+<tr><td><code>dispatch(q)</code></td><td><code>q &gt; 0</code> and <code>q &lt;= reserved</code>.</td><td><code>stock' = stock - q</code>; <code>reserved' = reserved - q</code>.</td><td>Both values unchanged.</td></tr>
+</tbody>
+</table>
+<p>Subtracting from both quantities during dispatch matters. Reducing only <code>reserved</code> would put dispatched stock back into the available quantity, while reducing only <code>stock</code> could make <code>reserved &gt; stock</code>. The successful transition preserves the invariant by construction.</p>
+<p>A suitable public boundary is:</p>
+<pre><code class="language-cpp">#include &lt;cstdint&gt;
+
+class InventoryItem {
+public:
+    using quantity_type = std::int64_t;
+
+    enum class Result {
+        applied,
+        non_positive_quantity,
+        insufficient_available,
+        exceeds_reserved,
+        quantity_overflow
+    };
+
+    explicit InventoryItem(quantity_type initial_stock);
+
+    InventoryItem(const InventoryItem&amp;) = delete;
+    InventoryItem&amp; operator=(const InventoryItem&amp;) = delete;
+    InventoryItem(InventoryItem&amp;&amp;) = delete;
+    InventoryItem&amp; operator=(InventoryItem&amp;&amp;) = delete;
+
+    [[nodiscard]] Result receive(quantity_type quantity) noexcept;
+    [[nodiscard]] Result reserve(quantity_type quantity) noexcept;
+    [[nodiscard]] Result cancel_reservation(quantity_type quantity) noexcept;
+    [[nodiscard]] Result dispatch(quantity_type quantity) noexcept;
+
+    [[nodiscard]] quantity_type stock() const noexcept;
+    [[nodiscard]] quantity_type reserved() const noexcept;
+    [[nodiscard]] quantity_type available() const noexcept;
+
+private:
+    quantity_type stock_ = 0;
+    quantity_type reserved_ = 0;
+};
+</code></pre>
+<p>The constructor accepts a non-negative initial stock and otherwise fails without creating an object. Neither <code>set_stock</code> nor <code>set_reserved</code> belongs in this interface. Each would let the caller bypass the relationship that the four named transitions protect.</p>
+<p>This design also deletes moves because it treats the object as a stable identity. A different system could define an independent <code>InventorySnapshot</code> value and make that value copyable. What it should not do is copy one live inventory identity merely because two integers are mechanically easy to copy.</p>
+<p>The minimum useful observations are <code>stock()</code>, <code>reserved()</code>, <code>available()</code> and the result returned by each attempted transition. Tests should cover construction at zero, every successful transition, zero and negative quantities, reserving more than is available, cancelling or dispatching more than is reserved, receiving beyond the numeric limit, and a rejected operation followed by checks that all three observations are unchanged. No mutable reference is needed to prove any of those behaviours.</p>
+</div>
+</details>
+
+<p>A class is not successful because it contains data and functions. It is successful when its constructors establish a usable state, its operations preserve the stated model, its failures leave a defined result, and its interface keeps callers from assuming responsibilities the type was created to own.</p>
+</section>
+<!-- lesson-enhancement:18:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-17.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">17. The Array</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-19.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">19. Inheritance</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

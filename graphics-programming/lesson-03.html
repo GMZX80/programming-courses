@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Give every pixel a direction and turn a rectangular grid into a view of three-dimensional space.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 03 - The Pinhole Camera</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="03" data-ray-stage="3" data-art-pattern="orbit">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 03 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html" aria-current="page"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 03</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">3. The Pinhole Camera</h1>
+            <p class="lesson-deck">Give every pixel a direction and turn a rectangular grid into a view of three-dimensional space.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-02.html">&larr; Lesson 02</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-04.html">Lesson 04 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>24 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-03-aspect-ratio" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-aspect-ratio&amp;lesson=03#term-aspect-ratio" aria-label="Look up aspect ratio in the graphics glossary" title="Look up aspect ratio in the graphics glossary">aspect ratio</a> <a class="glossary-chip" id="glossary-panel-origin-03-camera" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-camera&amp;lesson=03#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-03-camera-basis" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-camera-basis&amp;lesson=03#term-camera-basis" aria-label="Look up camera basis in the graphics glossary" title="Look up camera basis in the graphics glossary">camera basis</a> <a class="glossary-chip" id="glossary-panel-origin-03-cross-product" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-cross-product&amp;lesson=03#term-cross-product" aria-label="Look up cross product in the graphics glossary" title="Look up cross product in the graphics glossary">cross product</a> <a class="glossary-chip" id="glossary-panel-origin-03-direction" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-direction&amp;lesson=03#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-03-edge" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-edge&amp;lesson=03#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-03-field-of-view" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-field-of-view&amp;lesson=03#term-field-of-view" aria-label="Look up field of view in the graphics glossary" title="Look up field of view in the graphics glossary">field of view</a> <a class="glossary-chip" id="glossary-panel-origin-03-finite-precision" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-finite-precision&amp;lesson=03#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite precision</a> <a class="glossary-chip" id="glossary-panel-origin-03-image" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-image&amp;lesson=03#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-03-image-plane" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-image-plane&amp;lesson=03#term-image-plane" aria-label="Look up image plane in the graphics glossary" title="Look up image plane in the graphics glossary">image plane</a> <a class="glossary-chip" id="glossary-panel-origin-03-invocation" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-invocation&amp;lesson=03#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-03-javascript" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-javascript&amp;lesson=03#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> <a class="glossary-chip" id="glossary-panel-origin-03-normalise" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-normalise&amp;lesson=03#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-03-pixel" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-pixel&amp;lesson=03#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-03-plane" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-plane&amp;lesson=03#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> <a class="glossary-chip" id="glossary-panel-origin-03-point" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-point&amp;lesson=03#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-03-primary-ray" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-primary-ray&amp;lesson=03#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-03-raster" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-raster&amp;lesson=03#term-raster" aria-label="Look up raster in the graphics glossary" title="Look up raster in the graphics glossary">raster</a> <a class="glossary-chip" id="glossary-panel-origin-03-sample" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-sample&amp;lesson=03#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-03-scene" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-scene&amp;lesson=03#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-03-sphere" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-sphere&amp;lesson=03#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-03-triangle" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-triangle&amp;lesson=03#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> <a class="glossary-chip" id="glossary-panel-origin-03-vector" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-vector&amp;lesson=03#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> <a class="glossary-chip" id="glossary-panel-origin-03-viewport" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-viewport&amp;lesson=03#term-viewport" aria-label="Look up viewport in the graphics glossary" title="Look up viewport in the graphics glossary">viewport</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A <a class="glossary-term" id="glossary-origin-03-0001" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0001&amp;lesson=03#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> is sometimes treated as a box of familiar settings: position, target and <a class="glossary-term" id="glossary-origin-03-0002" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0002&amp;lesson=03#term-field-of-view" aria-label="Look up field of view in the graphics glossary" title="Look up field of view in the graphics glossary">field of view</a>. Enter the numbers, call a library function and a view appears. That convenience is useful after the camera model is understood. Here it would hide the main construction. A ray tracer needs one <a class="glossary-term" id="glossary-origin-03-0003" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0003&amp;lesson=03#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> for every <a class="glossary-term" id="glossary-origin-03-0004" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0004&amp;lesson=03#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-term" id="glossary-origin-03-0005" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0005&amp;lesson=03#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a>, and the camera is the rule that produces it.</p>
+<p>We shall use a pinhole camera. All <a class="glossary-term" id="glossary-origin-03-0006" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0006&amp;lesson=03#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary rays</a> begin at one origin and pass through chosen positions on a conceptual <a class="glossary-term" id="glossary-origin-03-0007" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0007&amp;lesson=03#term-viewport" aria-label="Look up viewport in the graphics glossary" title="Look up viewport in the graphics glossary">viewport</a>. There is no lens area and therefore no depth of field. The model is limited, but it isolates the relationship we need: a rectangular sample position becomes a direction in the camera's three-dimensional coordinate frame.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Construct perpendicular forward, right and up directions for a camera.</li>
+<li>Map a <a class="glossary-term" id="glossary-origin-03-0008" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0008&amp;lesson=03#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a>-centre sample to a <a class="glossary-term" id="glossary-origin-03-0009" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0009&amp;lesson=03#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> on the viewport and <a class="glossary-term" id="glossary-origin-03-0010" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0010&amp;lesson=03#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> the resulting primary direction.</li>
+<li>Explain how field of view and <a class="glossary-term" id="glossary-origin-03-0011" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0011&amp;lesson=03#term-aspect-ratio" aria-label="Look up aspect ratio in the graphics glossary" title="Look up aspect ratio in the graphics glossary">aspect ratio</a> alter the cone of generated directions.</li>
+</ul>
+</section>
+
+<h2>Construct the <a class="glossary-term" id="glossary-origin-03-0012" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0012&amp;lesson=03#term-camera-basis" aria-label="Look up camera basis in the graphics glossary" title="Look up camera basis in the graphics glossary">camera basis</a></h2>
+<p>Choose an origin <code>C</code>, a target point <code>T</code> and a reference direction called <code>worldUp</code>. The camera forward direction is the normalised displacement from origin to target. The right direction is perpendicular to forward and world up. A corrected up direction is then perpendicular to right and forward.</p>
+
+<pre><code class="language-js">const forward = normalise(subtract(target, origin));
+const right = normalise(cross(forward, worldUp));
+const up = cross(right, forward);
+</code></pre>
+
+<p>Why construct <code>up</code> again instead of using <code>worldUp</code> directly? The reference <a class="glossary-term" id="glossary-origin-03-0013" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0013&amp;lesson=03#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> expresses which way we would prefer the camera to roll. Unless the camera looks exactly level, it need not be perpendicular to forward. The corrected vector completes an orthonormal basis. If the three directions are unit length and pairwise perpendicular, each viewport displacement can be assembled without changing scale unpredictably.</p>
+
+<div class="calculation">
+<h3>Check the basis</h3>
+<p>For a valid camera frame, <code>dot(forward, right)</code>, <code>dot(forward, up)</code> and <code>dot(right, up)</code> should all be close to zero. Each vector length should be close to one. <a class="glossary-term" id="glossary-origin-03-0014" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0014&amp;lesson=03#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">Finite-precision</a> results may not be mathematically exact, so the check uses a small tolerance rather than equality to zero.</p>
+</div>
+
+<h2>Turn field of view into viewport size</h2>
+<p>The vertical field of view is an angle. Place the viewport one arbitrary unit in front of the camera. Half of its height and that unit distance form a right <a class="glossary-term" id="glossary-origin-03-0015" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0015&amp;lesson=03#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a>, so the half-height is the tangent of half the angle. The horizontal half-width is then scaled by the <a class="glossary-term" id="glossary-origin-03-0016" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0016&amp;lesson=03#term-raster" aria-label="Look up raster in the graphics glossary" title="Look up raster in the graphics glossary">raster</a> aspect ratio.</p>
+
+<p class="equation">halfHeight = tan(verticalFov / 2)</p>
+<p class="equation">halfWidth = aspectRatio × halfHeight</p>
+
+<p>A wider field of view increases these extents. The same number of pixels then spans a wider cone of directions, so objects appear smaller. This is not the camera moving backwards. Both changes may place more of the <a class="glossary-term" id="glossary-origin-03-0017" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0017&amp;lesson=03#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> in the image, but they do not produce the same perspective relationships.</p>
+
+<h2>Map one pixel centre</h2>
+<p>Let <code>x</code> and <code>y</code> identify a raster pixel. First map the centre to normalised image coordinates:</p>
+
+<pre><code class="language-js">const u = (x + 0.5) / width;
+const v = (y + 0.5) / height;
+</code></pre>
+
+<p><code>u</code> increases from zero to one across the image. Browser <code>v</code> increases downwards, while camera up should increase upwards. We therefore use <code>1 - 2v</code> for the vertical camera displacement and <code>2u - 1</code> for the horizontal displacement.</p>
+
+<pre><code class="language-js">const horizontal = scale(right, (2 * u - 1) * halfWidth);
+const vertical = scale(up, (1 - 2 * v) * halfHeight);
+const direction = normalise(add(forward, add(horizontal, vertical)));
+
+const ray = { origin, direction };
+</code></pre>
+
+<p>The centre sample of the centre pixel points close to <code>forward</code>. A top-right sample adds positive right and positive up. Every direction is normalised after those displacements are combined. We now have the ray equation from Lesson 2 and a repeatable way to supply its values for the whole raster.</p>
+
+<section class="ray-lab concept-lab stage-03-lab" data-ray-lab data-stage="3" aria-labelledby="ray-lab-title-03">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Camera construction laboratory</p><h2 id="ray-lab-title-03">Turn One Pixel into One Primary Ray</h2></div>
+        <p>Choose one pixel centre, place it on the camera&#x27;s image plane and calculate the unit direction from the fixed camera origin through that sample.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Change the pixel or the field of view. The selected sample and its primary direction update together.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 3 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Image-plane sample diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>1. Choose an image sample</strong><small>A 16 by 10 image plane with one selected pixel centre.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">A 16 by 10 image plane with one selected pixel centre.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Camera-ray construction diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>2. Construct its ray</strong><small>A pinhole camera, image plane and ray through the selected sample.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">A pinhole camera, image plane and ray through the selected sample.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Selected pixel</dt><dd><output data-camera-pixel>(12, 2)</output></dd></div><div><dt>Sample centre</dt><dd><output data-camera-sample>(12.5, 2.5)</output></dd></div><div><dt>Image-plane point</dt><dd><output data-camera-plane>Calculating</output></dd></div><div><dt>Unit direction D</dt><dd><output data-camera-direction>Calculating</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-camera-formula>Constructing the primary direction</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Inspect one camera ray before constructing thousands</h2>
+<p>There is still no geometry to see, so a coloured scene would have no defined meaning. Instead, the laboratory keeps the <a class="glossary-term" id="glossary-origin-03-0018" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0018&amp;lesson=03#term-image-plane" aria-label="Look up image plane in the graphics glossary" title="Look up image plane in the graphics glossary">image plane</a> visible. Select one pixel, use its centre as the sample position and follow that one position through the camera calculation. That field-of-view value determines both the size of the image plane and the resulting direction.</p>
+<p>Two diagrams describe one construction at different scales. A grid identifies which sample was chosen. The camera view shows the fixed origin, the image plane and the route through that sample. A numerical record then states the image-<a class="glossary-term" id="glossary-origin-03-0019" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0019&amp;lesson=03#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> position and normalised direction. This proves that the selected pixel obtains a finite primary direction. It does not prove that the direction meets an object. Lesson 4 supplies that geometric question.</p>
+
+<div class="worked-trace">
+<h3>Follow the centre of a 4 by 2 image</h3>
+<p>Pixel <code>(1, 0)</code> has <code>u = (1 + 0.5) / 4 = 0.375</code> and <code>v = (0 + 0.5) / 2 = 0.25</code>. Its horizontal factor is <code>2u - 1 = -0.25</code>, so it lies to the camera's left. Its vertical factor is <code>1 - 2v = 0.5</code>, so it lies above the camera centre. The final direction combines forward with those scaled basis vectors and is then normalised.</p>
+</div>
+
+<h2>Recognise the invalid camera</h2>
+<p>If the origin and target are the same point, their displacement is zero and there is no forward direction. If forward is parallel or anti-parallel to <code>worldUp</code>, their <a class="glossary-term" id="glossary-origin-03-0020" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0020&amp;lesson=03#term-cross-product" aria-label="Look up cross product in the graphics glossary" title="Look up cross product in the graphics glossary">cross product</a> is zero and there is no unique right direction. These are not merely numerical <a class="glossary-term" id="glossary-origin-03-0021" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0021&amp;lesson=03#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> cases. The supplied values do not define the requested frame.</p>
+<p>A careful camera constructor validates both conditions. Quietly inserting a default direction may produce an image, but that image no longer represents the stated camera. Failure near the cause is more useful than a field of <code>NaN</code> values discovered after thousands of pixels have been processed.</p>
+
+<div class="checkpoint">
+<h3>Predict the effect</h3>
+<p>The camera origin and target remain fixed. The vertical field of view changes from 40 degrees to 90 degrees. Do the centre direction and corner directions change in the same way?</p>
+<details class="reveal-answer"><summary>Reveal the reasoning</summary><div><p>The exact centre sample continues to point along <code>forward</code> because its horizontal and vertical offsets are zero. Corner samples use both viewport extents, which increase with the tangent of half the field of view. Their directions move further away from forward before normalisation. The visible cone widens around an unchanged centre direction.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Audit five primary rays</h2>
+<p>For a small raster, print the normalised directions for the centre and four corner samples. Check their lengths and expected signs in the camera basis. Then swap the cross-product operands used for <code>right</code>. Do not merely report that the image is mirrored. Explain why reversing the perpendicular direction reverses the horizontal mapping.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>A Vulkan shader can obtain an <a class="glossary-term" id="glossary-origin-03-0022" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0022&amp;lesson=03#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> coordinate and image size without a <a class="glossary-term" id="glossary-origin-03-0023" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0023&amp;lesson=03#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> loop. It will still need the same mapping from integer coordinate to sample position, the same aspect ratio and field-of-view calculation, and a camera basis supplied or constructed from scene data. The execution mechanism changes. The primary-ray contract does not.</p>
+</section>
+
+<p>Every sample can now ask a directed question from the camera. Lesson 4 gives that question a <a class="glossary-term" id="glossary-origin-03-0024" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0024&amp;lesson=03#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> equation and accepts only the pixels whose rays actually meet the surface.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-02.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">02. Vectors, Points and Rays</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-04.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">04. Meeting a Sphere</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

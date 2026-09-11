@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ignoring object-orientation when required">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 20 - 20. The Friend Function</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-20.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 20 - 20. The Friend Function">
+    <meta property="og:description" content="Ignoring object-orientation when required">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-20.html">
+</head>
+<body class="course-page lesson-page" data-lesson="20" data-art-pattern="flow" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 20 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html" aria-current="page"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 20</span>
+            </nav>
+            <p class="hero-kicker">Lesson 20 · 24 lesson course</p>
+            <h1 id="lesson-title">20. The Friend Function</h1>
+            <p class="lesson-deck">Ignoring object-orientation when required</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-19.html">← Lesson 19</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-21.html">Lesson 21 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>61 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-20-abstraction" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-abstraction&amp;lesson=20#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> <a class="glossary-chip" id="glossary-panel-origin-20-algorithm" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-algorithm&amp;lesson=20#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-20-api" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-api&amp;lesson=20#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-20-argument" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-argument&amp;lesson=20#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-20-assignment" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-assignment&amp;lesson=20#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-20-binary" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-binary&amp;lesson=20#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> <a class="glossary-chip" id="glossary-panel-origin-20-boolean" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-boolean&amp;lesson=20#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-20-cpp" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-cpp&amp;lesson=20#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-20-reference" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-reference&amp;lesson=20#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-20-template" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-template&amp;lesson=20#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">C++ template</a> <a class="glossary-chip" id="glossary-panel-origin-20-class" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-class&amp;lesson=20#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-20-class-template" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-class-template&amp;lesson=20#term-class-template" aria-label="Look up class template in the programming glossary" title="Look up class template in the programming glossary">class template</a> <a class="glossary-chip" id="glossary-panel-origin-20-code" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-code&amp;lesson=20#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-20-compile-time" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-compile-time&amp;lesson=20#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-20-compiler" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-compiler&amp;lesson=20#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-20-compiler-optimisation" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-compiler-optimisation&amp;lesson=20#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">compiler optimisation</a> <a class="glossary-chip" id="glossary-panel-origin-20-const-correctness" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-const-correctness&amp;lesson=20#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">const-correctness</a> <a class="glossary-chip" id="glossary-panel-origin-20-constructor" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-constructor&amp;lesson=20#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-20-conversion" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-conversion&amp;lesson=20#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-20-correctness" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-correctness&amp;lesson=20#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-20-declaration" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-declaration&amp;lesson=20#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-20-definition" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-definition&amp;lesson=20#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-20-derived-class" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-derived-class&amp;lesson=20#term-derived-class" aria-label="Look up derived class in the programming glossary" title="Look up derived class in the programming glossary">derived class</a> <a class="glossary-chip" id="glossary-panel-origin-20-dispatch" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-dispatch&amp;lesson=20#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-20-encapsulation" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-encapsulation&amp;lesson=20#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">encapsulation</a> <a class="glossary-chip" id="glossary-panel-origin-20-exception" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-exception&amp;lesson=20#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-20-friend-function" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-friend-function&amp;lesson=20#term-friend-function" aria-label="Look up friend function in the programming glossary" title="Look up friend function in the programming glossary">friend function</a> <a class="glossary-chip" id="glossary-panel-origin-20-function" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-function&amp;lesson=20#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-20-function-signature" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-function-signature&amp;lesson=20#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-20-function-template" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-function-template&amp;lesson=20#term-function-template" aria-label="Look up function template in the programming glossary" title="Look up function template in the programming glossary">function template</a> <a class="glossary-chip" id="glossary-panel-origin-20-implicit-conversion" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-implicit-conversion&amp;lesson=20#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversion</a> <a class="glossary-chip" id="glossary-panel-origin-20-include-directive" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-include-directive&amp;lesson=20#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-20-inheritance" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-inheritance&amp;lesson=20#term-inheritance" aria-label="Look up inheritance in the programming glossary" title="Look up inheritance in the programming glossary">inheritance</a> <a class="glossary-chip" id="glossary-panel-origin-20-inline" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-inline&amp;lesson=20#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a> <a class="glossary-chip" id="glossary-panel-origin-20-integer" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-integer&amp;lesson=20#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-20-interface" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-interface&amp;lesson=20#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-20-invariant" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-invariant&amp;lesson=20#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-20-lhs-rhs" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-lhs-rhs&amp;lesson=20#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">LHS and RHS</a> <a class="glossary-chip" id="glossary-panel-origin-20-lifetime" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-lifetime&amp;lesson=20#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-20-main-function" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-main-function&amp;lesson=20#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-20-method" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-method&amp;lesson=20#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">method</a> <a class="glossary-chip" id="glossary-panel-origin-20-namespace" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-namespace&amp;lesson=20#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">namespace</a> <a class="glossary-chip" id="glossary-panel-origin-20-noexcept" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-noexcept&amp;lesson=20#term-noexcept" aria-label="Look up noexcept in the programming glossary" title="Look up noexcept in the programming glossary">noexcept</a> <a class="glossary-chip" id="glossary-panel-origin-20-object" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-object&amp;lesson=20#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-20-object-oriented-programming" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-object-oriented-programming&amp;lesson=20#term-object-oriented-programming" aria-label="Look up object-oriented programming in the programming glossary" title="Look up object-oriented programming in the programming glossary">object-oriented programming</a> <a class="glossary-chip" id="glossary-panel-origin-20-operator" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-operator&amp;lesson=20#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-20-ownership" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-ownership&amp;lesson=20#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-20-parameter" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-parameter&amp;lesson=20#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-20-pointer" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-pointer&amp;lesson=20#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-20-postcondition" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-postcondition&amp;lesson=20#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postcondition</a> <a class="glossary-chip" id="glossary-panel-origin-20-precondition" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-precondition&amp;lesson=20#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> <a class="glossary-chip" id="glossary-panel-origin-20-access-levels" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-access-levels&amp;lesson=20#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-20-scope" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-scope&amp;lesson=20#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-20-specialisation" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-specialisation&amp;lesson=20#term-specialisation" aria-label="Look up specialisation in the programming glossary" title="Look up specialisation in the programming glossary">specialisation</a> <a class="glossary-chip" id="glossary-panel-origin-20-state" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-state&amp;lesson=20#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-20-stream" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-stream&amp;lesson=20#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-20-testing" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-testing&amp;lesson=20#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-20-translation-unit" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-translation-unit&amp;lesson=20#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation unit</a> <a class="glossary-chip" id="glossary-panel-origin-20-type" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-type&amp;lesson=20#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-20-value" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-value&amp;lesson=20#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-20-vector" href="glossary.html?from=lesson-20.html%23glossary-panel-origin-20-vector&amp;lesson=20#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="20">
+<img src="assets/images/lesson-art/lesson-20-friend-function.png" alt="Abstract controlled bridge granting selective access between the protected interiors of two objects." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p>&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<h2>Lesson: <code>friend</code> <a class="glossary-term" id="glossary-origin-20-0001" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0001&amp;lesson=20#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">Functions</a> — Surgical Access without Abandoning <a class="glossary-term" id="glossary-origin-20-0002" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0002&amp;lesson=20#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">Encapsulation</a></h2>
+
+<p>
+To a beginner, <a class="glossary-term" id="glossary-origin-20-0003" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0003&amp;lesson=20#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>’s <code>friend</code> can look anti–<a class="glossary-term" id="glossary-origin-20-0004" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0004&amp;lesson=20#term-object-oriented-programming" aria-label="Look up object-oriented programming in the programming glossary" title="Look up object-oriented programming in the programming glossary">object-oriented</a>: “a mechanism to let a global function access anything from a <a class="glossary-term" id="glossary-origin-20-0005" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0005&amp;lesson=20#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a>.”
+Used carelessly, it <em>is</em> dangerous. Used well, it’s a small, explicit hole in the wall that enables clean, symmetric <a class="glossary-term" id="glossary-origin-20-0006" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0006&amp;lesson=20#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">APIs</a>
+(e.g., comparisons, streaming) without turning data members <a class="glossary-term" id="glossary-origin-20-0007" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0007&amp;lesson=20#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public</a> or bloating class <a class="glossary-term" id="glossary-origin-20-0008" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0008&amp;lesson=20#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interfaces</a>.
+</p>
+
+<p style="padding:8px 12px;border-left:4px solid #0ea5e9;background:#f0f9ff;">
+<strong><a class="glossary-term" id="glossary-origin-20-0009" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0009&amp;lesson=20#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">Definition</a>:</strong> A <code>friend</code> function is a non-member that a class explicitly authorises to access its <em>private</em> and <em>protected</em> members.
+The function remains a <em>free</em> function (not a <a class="glossary-term" id="glossary-origin-20-0010" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0010&amp;lesson=20#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">method</a>).
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Should this be a <code>friend</code>?</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste your class and target function. Ask AI to classify: <em>member</em> vs <em>non-member non-friend</em> vs <em>non-member friend</em>, with justification.</li>
+      <li>Request a “minimum access” rewrite: smallest friend <a class="glossary-term" id="glossary-origin-20-0011" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0011&amp;lesson=20#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> surface, or alternative via public API.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) Why a Free Function Instead of a Method?</h3>
+<ul>
+  <li><strong>Symmetry:</strong> operations conceptually involving two operands (e.g., <code>lhs == rhs</code>, <code>lhs + rhs</code>, <code>ostream &lt;&lt; obj</code>) don’t have a natural “<a class="glossary-term" id="glossary-origin-20-0012" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0012&amp;lesson=20#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">owner</a>”.</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-20-0013" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0013&amp;lesson=20#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">Conversions</a>:</strong> a non-member <a class="glossary-term" id="glossary-origin-20-0014" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0014&amp;lesson=20#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> allows <a class="glossary-term" id="glossary-origin-20-0015" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0015&amp;lesson=20#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversions</a> on <em>both</em> operands; a member operator only on the <a class="glossary-term" id="glossary-origin-20-0016" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0016&amp;lesson=20#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">right-hand side</a>.</li>
+  <li><strong>Encapsulation:</strong> keep representation private; selectively grant access to specific helpers.</li>
+</ul>
+
+<hr>
+
+<h3>2) Basic Pattern — Granting a Function Access</h3>
+
+<pre><code class="language-cpp">class Box {
+public:
+    explicit Box(int w, int h): w_{w}, h_{h} {}
+    int width()  const noexcept { return w_; }
+    int height() const noexcept { return h_; }
+
+    // Friend declaration (not a member). Still declared in the surrounding namespace.
+    friend bool same_area(const Box&amp; a, const Box&amp; b);
+
+private:
+    int w_, h_;
+};
+
+// Definition (namespace scope). Has access due to 'friend'.
+bool same_area(const Box&amp; a, const Box&amp; b) {
+    return a.w_ * a.h_ == b.w_ * b.h_;
+}
+</code></pre>
+
+<p><em>Notes:</em> Declaring a friend inside the class does not make it a member. It only grants access.</p>
+
+<hr>
+
+<h3>3) Friends for Symmetric Operators</h3>
+
+<p><strong>Equality &amp; Ordering:</strong></p>
+<pre><code class="language-cpp">class Point {
+public:
+    Point(int x, int y): x_{x}, y_{y} {}
+    friend bool operator==(const Point&amp; a, const Point&amp; b) { return a.x_ == b.x_ &amp;&amp; a.y_ == b.y_; }
+    friend bool operator!=(const Point&amp; a, const Point&amp; b) { return !(a == b); }
+    // C++20: could use 'friend auto operator&lt;=&gt;(const Point&amp;, const Point&amp;) = default;'
+private:
+    int x_, y_;
+};
+</code></pre>
+
+<p><strong>Streaming:</strong> idiomatic “hidden friend” so ADL finds it:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+class Vec2 {
+public:
+    Vec2(float x, float y): x_{x}, y_{y} {}
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Vec2&amp; v) {
+        return os &lt;&lt; '(' &lt;&lt; v.x_ &lt;&lt; ',' &lt;&lt; v.y_ &lt;&lt; ')';
+    }
+private:
+    float x_, y_;
+};
+</code></pre>
+
+<p>
+Defining the friend inside the class makes it a <em>hidden friend</em> (not visible by unqualified lookup), but discoverable via ADL
+when you write <code>std::cout &lt;&lt; v</code>. This avoids polluting the surrounding <a class="glossary-term" id="glossary-origin-20-0017" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0017&amp;lesson=20#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">namespace</a>.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Operator Strategy</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI which operators should be members vs non-member friends for your <a class="glossary-term" id="glossary-origin-20-0018" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0018&amp;lesson=20#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> (with rules about symmetry &amp; conversions).</li>
+      <li>Request a C++20 rewrite using <code>= default</code> for <code>==</code>/<code>&lt;=&gt;</code>, if suitable.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) Friends Across Two (or More) Classes</h3>
+
+<p>Sometimes the <a class="glossary-term" id="glossary-origin-20-0019" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0019&amp;lesson=20#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> you want is a free function operating on multiple classes, each with private <a class="glossary-term" id="glossary-origin-20-0020" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0020&amp;lesson=20#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a>.</p>
+
+<pre><code class="language-cpp">struct Rgba; // fwd
+
+struct Gray {
+    explicit Gray(unsigned char v): v_{v} {}
+    friend bool equivalent(const Gray&amp; g, const Rgba&amp; c); // grant access
+private: unsigned char v_{};
+};
+
+struct Rgba {
+    unsigned char r{}, g{}, b{}, a{255};
+    friend bool equivalent(const Gray&amp; g, const Rgba&amp; c); // grant access
+};
+
+bool equivalent(const Gray&amp; g, const Rgba&amp; c) {
+    unsigned char luminance = static_cast&lt;unsigned char&gt;(0.2126*c.r + 0.7152*c.g + 0.0722*c.b);
+    return luminance == g.v_; // direct access to both representations
+}
+</code></pre>
+
+<p>
+Each class chooses to befriend <em>exactly</em> the function it needs. Friendship is <strong>not transitive</strong> and <strong>not <a class="glossary-term" id="glossary-origin-20-0021" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0021&amp;lesson=20#term-inheritance" aria-label="Look up inheritance in the programming glossary" title="Look up inheritance in the programming glossary">inherited</a></strong>.
+</p>
+
+<hr>
+
+<h3>5) Friend vs Member vs Non-member Non-friend (Decision Guide)</h3>
+
+<ul>
+  <li><strong>Member</strong> (method): operation conceptually belongs to the <a class="glossary-term" id="glossary-origin-20-0022" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0022&amp;lesson=20#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> (<code>obj.size()</code>), or needs virtual <a class="glossary-term" id="glossary-origin-20-0023" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0023&amp;lesson=20#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a>.</li>
+  <li><strong>Non-member, non-friend</strong>: can be implemented entirely via the public API; best for keeping encapsulation intact.</li>
+  <li><strong>Non-member, <em>friend</em></strong>: operation is symmetric or cross-type and cannot be implemented without private access (e.g., efficient comparisons, formatting, tight <a class="glossary-term" id="glossary-origin-20-0024" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0024&amp;lesson=20#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithms</a>).</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Minimise Friendship</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Have AI attempt a “no-friend” implementation first. If it fails or is inefficient, it will propose a narrow friend <a class="glossary-term" id="glossary-origin-20-0025" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0025&amp;lesson=20#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">signature</a>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) Friend Classes and <a class="glossary-term" id="glossary-origin-20-0026" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0026&amp;lesson=20#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">Templates</a> (use sparingly)</h3>
+
+<p><strong>Friend class:</strong> grants wide access; only for tightly coupled helpers (e.g., PIMPL, builders).</p>
+<pre><code class="language-cpp">class Engine {
+    friend class EngineTester; // test helper with privileged access
+    // ...
+};
+</code></pre>
+
+<p><strong>Templated friendships:</strong> befriend a <a class="glossary-term" id="glossary-origin-20-0027" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0027&amp;lesson=20#term-function-template" aria-label="Look up function template in the programming glossary" title="Look up function template in the programming glossary">function template</a> (hidden friend pattern), or an entire <a class="glossary-term" id="glossary-origin-20-0028" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0028&amp;lesson=20#term-class-template" aria-label="Look up class template in the programming glossary" title="Look up class template in the programming glossary">class template</a> parameterised on <code>T</code>.</p>
+<pre><code class="language-cpp">template&lt;class T&gt; class Box {
+    T value_;
+public:
+    explicit Box(T v): value_{v} {}
+    template&lt;class U&gt;
+    friend bool equal_type_agnostic(const Box&amp; a, const Box&lt;U&gt;&amp; b) {
+        return static_cast&lt;long double&gt;(a.value_) == static_cast&lt;long double&gt;(b.value_);
+    }
+};
+</code></pre>
+
+<hr>
+
+<h3>7) <a class="glossary-term" id="glossary-origin-20-0029" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0029&amp;lesson=20#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">Const-Correctness</a>, <a class="glossary-term" id="glossary-origin-20-0030" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0030&amp;lesson=20#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">Inline</a> &amp; Performance</h3>
+<ul>
+  <li>Friends respect <code>const</code>; they can’t mutate a <code>const</code> object unless the class exposes <code>mutable</code> or non-const members.</li>
+  <li>Defining a small friend inside the class makes it implicitly <code>inline</code>; the <a class="glossary-term" id="glossary-origin-20-0031" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0031&amp;lesson=20#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> may <a class="glossary-term" id="glossary-origin-20-0032" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0032&amp;lesson=20#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">optimise</a> it like a method.</li>
+</ul>
+
+<hr>
+
+<h3>8) Common Pitfalls (and how to avoid them)</h3>
+<ul>
+  <li><strong>Over-friending:</strong> don’t declare broad friend classes when a single <a class="glossary-term" id="glossary-origin-20-0033" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0033&amp;lesson=20#term-friend-function" aria-label="Look up friend function in the programming glossary" title="Look up friend function in the programming glossary">friend function</a> works.</li>
+  <li><strong>Leaking <a class="glossary-term" id="glossary-origin-20-0034" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0034&amp;lesson=20#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariants</a>:</strong> friends must honour the same invariants as methods; keep implementations small and obvious.</li>
+  <li><strong>Namespace clutter:</strong> prefer hidden friends for operators to avoid global pollution; rely on ADL.</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-20-0035" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0035&amp;lesson=20#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">Testing</a> shortcuts:</strong> making tests friends is acceptable, but consider public “observer” methods that don’t break encapsulation.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Invariant Guard</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to add asserts/<a class="glossary-term" id="glossary-origin-20-0036" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0036&amp;lesson=20#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">preconditions</a> in your friend implementations that mirror the class invariants.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>9) Worked Example — Building a Clean, Symmetric API</h3>
+
+<pre><code class="language-cpp">#include &lt;ostream&gt;
+#include &lt;stdexcept&gt;
+
+class Rational {
+public:
+    Rational(long n, long d) : num_{n}, den_{d} {
+        if (den_ == 0) throw std::invalid_argument("denominator 0");
+        normalise();
+    }
+
+    // Symmetric friends:
+    friend bool operator==(const Rational&amp; a, const Rational&amp; b) {
+        return a.num_ == b.num_ &amp;&amp; a.den_ == b.den_;
+    }
+    friend bool operator!=(const Rational&amp; a, const Rational&amp; b) { return !(a == b); }
+
+    friend Rational operator+(const Rational&amp; a, const Rational&amp; b) {
+        return Rational(a.num_*b.den_ + b.num_*a.den_, a.den_*b.den_);
+    }
+
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Rational&amp; r) {
+        return os &lt;&lt; r.num_ &lt;&lt; '/' &lt;&lt; r.den_;
+    }
+
+private:
+    long num_, den_;
+    void normalise(); // reduce fraction; keeps invariant
+};
+</code></pre>
+
+<p>Non-member, friend operators keep the type’s interface small, the representation private, and the API symmetric and natural.</p>
+
+<hr>
+
+<h3>10) Mini Exercises</h3>
+<ol>
+  <li><strong>Hidden friend <a class="glossary-term" id="glossary-origin-20-0037" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0037&amp;lesson=20#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a>:</strong> For class <code>Span{ptr,size}</code>, implement a hidden friend <code>operator&lt;&lt;</code> that prints <code>[p..p+size)</code> without exposing members.</li>
+  <li><strong>Two-type algorithm:</strong> Given <code>Matrix</code> and <code>Vector</code> with private layouts, implement a free <code>dot(Vector, Vector)</code> and a free <code>row(Matrix, i)</code> as friends where necessary; justify any friendship.</li>
+  <li><strong>Remove an unnecessary friend:</strong> Refactor a friend function to use public getters only; explain the trade-off (encapsulation vs performance).</li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Check My Friendship</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste your solutions; AI will flag over-broad friendship, missing ADL, and suggest a safer non-friend alternative if possible.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li><strong>Friendship is explicit and narrow:</strong> grant access to <em>specific</em> functions, not broad classes, whenever possible.</li>
+  <li><strong>Keep representation private:</strong> use friends to enable symmetric/free operations without exposing internals widely.</li>
+  <li><strong>Prefer non-member, non-friend</strong> when the public API suffices; use <code>friend</code> only when necessary for <a class="glossary-term" id="glossary-origin-20-0038" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0038&amp;lesson=20#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> or efficiency.</li>
+  <li><strong>Use hidden friends</strong> for operators (good ADL, minimal namespace clutter).</li>
+  <li><strong>Friendship isn’t inherited or transitive:</strong> every class must opt-in to every friend it needs.</li>
+  <li><strong>Respect invariants:</strong> friend <a class="glossary-term" id="glossary-origin-20-0039" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0039&amp;lesson=20#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> must maintain the same guarantees as methods.</li>
+</ul>
+        
+<!-- lesson-enhancement:20:start -->
+<section class="lesson-enhancement" id="friendship-as-narrow-access">
+<p class="lesson-enhancement-kicker">Advanced perspective: privileged access needs a narrower reason than convenience</p>
+<h2>A friend declaration should expose one necessary relationship, not compensate for a confused interface</h2>
+<p>A friend function is a non-member that a class explicitly authorises to access its private and protected members. The declaration changes access; it does not turn the function into a member, supply a <code>this</code> <a class="glossary-term" id="glossary-origin-20-0040" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0040&amp;lesson=20#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a>, make friendship reciprocal, pass the privilege to <a class="glossary-term" id="glossary-origin-20-0041" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0041&amp;lesson=20#term-derived-class" aria-label="Look up derived class in the programming glossary" title="Look up derived class in the programming glossary">derived classes</a> or extend it transitively to the friend's own friends.</p>
+<p>That definition is necessary, but it does not decide when friendship is good design. The operative question is why this operation needs representation access while remaining outside the class. If the public interface already expresses the operation clearly and efficiently enough, an ordinary non-member preserves the boundary. If the operation belongs to one object's responsibility, a member may say so directly. Friendship is justified only when a non-member relationship and narrow private access are both part of the real design.</p>
+<table>
+<thead><tr><th>Proposed reason</th><th>What it establishes</th><th>What remains unproved</th></tr></thead>
+<tbody>
+<tr><td>"The compiler says the member is private."</td><td>The current implementation lacks access.</td><td>That the operation should know the representation.</td></tr>
+<tr><td>"The operator has two operands."</td><td>A non-member may give the operands a symmetric interface.</td><td>That public observations are insufficient.</td></tr>
+<tr><td>"A friend avoids writing getters."</td><td>The function can reach fields directly.</td><td>That those fields form the correct long-term dependency.</td></tr>
+<tr><td>"This one function must preserve a cross-object invariant."</td><td>A specific privileged relationship may exist.</td><td>How narrow the granted signature can be and how it will be tested.</td></tr>
+</tbody>
+</table>
+
+<h3>A hidden friend remains a namespace function</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class Coordinate {
+public:
+    Coordinate(int x, int y) : x_{x}, y_{y} {}
+
+    friend bool same_position(const Coordinate&amp; left, const Coordinate&amp; right) {
+        return left.x_ == right.x_ &amp;&amp; left.y_ == right.y_;
+    }
+
+private:
+    int x_;
+    int y_;
+};
+
+int main() {
+    const Coordinate first{2, 5};
+    const Coordinate second{2, 5};
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; same_position(first, second) &lt;&lt; '\n';
+}
+</code></pre>
+<p><code>same_position</code> is defined inside the class definition, but it is not a member of <code>Coordinate</code>. Both operands are explicit <a class="glossary-term" id="glossary-origin-20-0042" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0042&amp;lesson=20#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameters</a>, there is no <code>this</code>, and the call uses ordinary function syntax. Its privilege is access to <code>x_</code> and <code>y_</code>; its identity remains that of a function in the surrounding namespace.</p>
+<p>Why does the unqualified call find it? A function first declared in this way is not made generally visible to ordinary unqualified lookup merely by the in-class friend definition. <a class="glossary-term" id="glossary-origin-20-0043" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0043&amp;lesson=20#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">Argument</a>-dependent lookup also searches functions associated with the argument types. Because both arguments are <code>Coordinate</code> objects, that lookup can find the hidden friend. The function compares 2 with 2 and 5 with 5, returns <code>true</code>, and <code>std::boolalpha</code> causes the word <code>true</code> to be printed.</p>
+<table>
+<thead><tr><th>Property</th><th>What the example establishes</th><th>Common mistaken conclusion</th></tr></thead>
+<tbody>
+<tr><td>Membership</td><td><code>same_position</code> is a non-member namespace function.</td><td>Defining it inside the class makes it a method.</td></tr>
+<tr><td>Access</td><td>The function may read the two private coordinate members.</td><td>All non-members in the namespace gain the same access.</td></tr>
+<tr><td>Lookup</td><td>ADL finds the function for <code>Coordinate</code> arguments.</td><td>The name becomes generally visible everywhere after the class definition.</td></tr>
+<tr><td>Constness</td><td>The two const <a class="glossary-term" id="glossary-origin-20-0044" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0044&amp;lesson=20#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> permit observation of the objects.</td><td>Friend status allows mutation through a const object.</td></tr>
+</tbody>
+</table>
+
+<h3>Select member, non-member or friend by responsibility</h3>
+<table>
+<thead><tr><th>Form</th><th>Natural model</th><th>Representation access</th><th>Pressure test</th></tr></thead>
+<tbody>
+<tr><td>Public member</td><td>One object is the receiver and the operation belongs to its behaviour.</td><td>Direct through <code>this</code>.</td><td>Would <code>object.operation()</code> state the responsibility honestly?</td></tr>
+<tr><td>Non-member, non-friend</td><td>All operands are explicit and the public contract is sufficient.</td><td>None beyond public access.</td><td>Can the implementation survive a representation change?</td></tr>
+<tr><td>Friend non-member</td><td>The operation is symmetric or cross-type and needs a narrow representation fact.</td><td>Exactly what the granting class permits.</td><td>Which private fact is necessary, and which invariant must the function respect?</td></tr>
+</tbody>
+</table>
+<p>An output operator often needs the stream as its left operand, which makes a non-member form natural. That does not automatically make it a friend. If public queries provide the complete printable state, the operator can be an ordinary client. A <a class="glossary-term" id="glossary-origin-20-0045" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0045&amp;lesson=20#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> comparison may likewise use public observations. Direct access can be useful where it avoids exposing representation solely for an operator, but the decision must name the dependency rather than repeat the word "idiomatic".</p>
+<p>Non-member <a class="glossary-term" id="glossary-origin-20-0046" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0046&amp;lesson=20#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> operators can also permit conversions on both operands where a member form would privilege the left-hand object. This supports symmetric arithmetic and comparison interfaces. It still does not mean every symmetric operator needs private access. Symmetry answers the member-versus-non-member question; representation needs answer the friend-versus-non-friend question.</p>
+
+<h3>Access is <a class="glossary-term" id="glossary-origin-20-0047" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0047&amp;lesson=20#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile-time</a> privilege, not exemption from the invariant</h3>
+<p>A friend can read and, when the object is non-const, modify private state within the rules of the language. It therefore joins the set of code that must preserve the class invariant. The compiler checks whether access is permitted; it does not check whether <a class="glossary-term" id="glossary-origin-20-0048" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0048&amp;lesson=20#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assigning</a> a particular combination of private values makes domain sense.</p>
+<p>This is why friendship should be reviewed with the class's <a class="glossary-term" id="glossary-origin-20-0049" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0049&amp;lesson=20#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructors</a> and mutating members. If a friend creates an invalid intermediate state that can escape, or retains an alias beyond the object's <a class="glossary-term" id="glossary-origin-20-0050" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0050&amp;lesson=20#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a>, the fact that the access was formally authorised offers no defence. Privilege identifies responsibility. It does not remove it.</p>
+<table>
+<thead><tr><th>Review point</th><th>Question</th><th>Evidence required</th></tr></thead>
+<tbody>
+<tr><td>Read access</td><td>Why can the public interface not express the needed observation?</td><td>A concrete representation fact or material interface cost.</td></tr>
+<tr><td>Write access</td><td>Which valid state transition may the friend perform?</td><td>Precondition, <a class="glossary-term" id="glossary-origin-20-0051" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0051&amp;lesson=20#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postcondition</a> and unchanged state on failure.</td></tr>
+<tr><td>Lifetime</td><td>Does the friend return or retain a reference to private storage?</td><td>An owner and validity interval that cover every use.</td></tr>
+<tr><td>Change impact</td><td>Which functions must change when the representation changes?</td><td>The friend set is small enough to inspect and update.</td></tr>
+</tbody>
+</table>
+
+<h3>A friend function is narrower than a friend class</h3>
+<p><code>friend class Inspector;</code> grants every member function of <code>Inspector</code> access to the granting class's private and protected members. That includes methods added later. If only one inspection operation requires access, befriending the entire class authorises more code than the current requirement names.</p>
+<p>A single friend function can express the narrower relationship. Sometimes two types are intentionally coupled so tightly that class friendship is accurate, such as an implementation helper whose whole responsibility depends on the representation. Even then, record the shared invariant and ownership model. "They are in the same subsystem" is an organisational fact, not an access policy.</p>
+<p>Friendship is neither inherited nor transitive. If <code>Inspector</code> is a friend of <code>Engine</code>, a class derived from <code>Inspector</code> does not acquire that friendship merely by inheritance, and an <code>Inspector</code> friend does not become an <code>Engine</code> friend. It is also not reciprocal: <code>Inspector</code> may access <code>Engine</code> only because <code>Engine</code> granted that direction.</p>
+
+<h3>Hidden friends limit lookup, not access responsibility</h3>
+<p>Placing an operator as a hidden friend can keep it associated with the operand type and make ADL the normal discovery route. Defining it in the class also makes the definition inline in the relevant language sense, allowing identical definitions across <a class="glossary-term" id="glossary-origin-20-0052" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0052&amp;lesson=20#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation units</a>. Neither property guarantees that the compiler will inline each call, and neither makes private coupling cheaper to maintain.</p>
+<p>Hidden friendship is particularly useful for operators that should participate when their type is an argument but should not become an unrelated candidate during ordinary namespace lookup. That is an overload-set decision. The function still needs a stable contract, correct constness and only the access its implementation genuinely requires.</p>
+
+<div class="concept-panel">
+<p><strong>Correction to the earlier cross-<a class="glossary-term" id="glossary-origin-20-0053" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0053&amp;lesson=20#term-specialisation" aria-label="Look up specialisation in the programming glossary" title="Look up specialisation in the programming glossary">specialisation</a> <code>Box</code> example:</strong> the friend defined for <code>Box&lt;T&gt;</code> can access the private state of that granting specialisation. It does not thereby gain private access to an arbitrary <code>Box&lt;U&gt;</code> used as the other operand; different class-template specialisations do not automatically share friendship. The attempted conversion of both values to <code>long double</code> imposes another unjustified assumption: a valid box element type need not support or preserve meaning through that conversion. The example therefore fails both its access claim and its alleged generality, and must remain a warning rather than code to imitate.</p>
+</div>
+
+<h3>Testing should normally observe the contract</h3>
+<p>Making a test fixture a friend can expose internal state quickly, but the test then depends on representation rather than solely on behaviour. Such tests may be justified for difficult low-level invariants or diagnostics. They should not replace contract tests that construct objects, perform public operations and observe promised results. A test suite that fails whenever two private members are reorganised can obstruct the very representation freedom encapsulation was meant to provide.</p>
+<p>Before befriending a test, ask whether a safe public observation is already part of the type's real contract. Do not add a production setter solely for tests; that damages the interface. Equally, do not grant a whole testing class private access when one focused diagnostic function or internal assertion would meet the genuine need.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> make the model attempt the no-friend design first</summary>
+<div>
+<p>Ask an AI system to implement the operation through the public interface and name any cost or missing fact. If it then proposes friendship, require the exact signature, the private representation fact being used, the invariant that must remain true and the lifetime of any returned alias. Reject friendship added merely to make an access error disappear.</p>
+<p>For a hidden friend, also require a lookup explanation. Which argument type makes ADL consider the function? Would a qualified or argument-free call still find it? For a friend class or template, list every specialisation or future member that actually receives access. The diagram should show the privilege that C++ grants, not the broader privilege the generated explanation happens to imagine.</p>
+</div>
+</details>
+
+<h3>Transfer task: justify each privilege separately</h3>
+<p>Design an <code>Interval</code> type whose invariant is <code>lower &lt;= upper</code>. The public interface already provides <code>lower()</code> and <code>upper()</code> value queries. You need an equality operator, an <code>overlaps(left, right)</code> operation, a stream output operator and a <code>merge</code> operation that returns a new interval when the inputs overlap.</p>
+<p>Classify each operation as a member, ordinary non-member or friend non-member. For every proposed friend, name the representation fact that the public queries cannot safely or adequately provide. Then consider a serialiser class with ten methods, only one of which needs exact private representation. Decide whether to befriend the class, befriend one function or expose a different stable operation. Your answer must preserve the interval invariant and explain how a later representation change affects each selected form.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>I will use closed <a class="glossary-term" id="glossary-origin-20-0054" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0054&amp;lesson=20#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> intervals, so two intervals that meet at one endpoint overlap. Construction is the only route by which the two endpoints enter the object, and it rejects <code>lower &gt; upper</code>.</p>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;optional&gt;
+#include &lt;ostream&gt;
+#include &lt;stdexcept&gt;
+
+class Interval {
+public:
+    Interval(int lower, int upper)
+        : lower_{lower}, upper_{upper}
+    {
+        if (lower &gt; upper) {
+            throw std::invalid_argument{"invalid interval"};
+        }
+    }
+
+    [[nodiscard]] int lower() const noexcept { return lower_; }
+    [[nodiscard]] int upper() const noexcept { return upper_; }
+
+private:
+    int lower_ = 0;
+    int upper_ = 0;
+};
+
+bool operator==(const Interval&amp; left, const Interval&amp; right) noexcept
+{
+    return left.lower() == right.lower()
+        &amp;&amp; left.upper() == right.upper();
+}
+
+bool overlaps(const Interval&amp; left, const Interval&amp; right) noexcept
+{
+    return left.lower() &lt;= right.upper()
+        &amp;&amp; right.lower() &lt;= left.upper();
+}
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const Interval&amp; value)
+{
+    return out &lt;&lt; '[' &lt;&lt; value.lower()
+               &lt;&lt; ", " &lt;&lt; value.upper() &lt;&lt; ']';
+}
+
+std::optional&lt;Interval&gt; merge(
+    const Interval&amp; left,
+    const Interval&amp; right)
+{
+    if (!overlaps(left, right)) {
+        return std::nullopt;
+    }
+
+    return Interval{
+        std::min(left.lower(), right.lower()),
+        std::max(left.upper(), right.upper())};
+}
+</code></pre>
+<p>All four operations are ordinary non-members. Equality is symmetric, overlap relates two equal-status operands, stream output has the stream as its left operand, and merge produces a third value rather than changing either input. None requires friendship because the public queries provide every semantic fact required. Granting private access would make these functions depend on storage without buying any capability.</p>
+<table>
+<thead><tr><th>Operation</th><th>Selected form</th><th>Effect of changing the representation</th></tr></thead>
+<tbody>
+<tr><td><code>operator==</code></td><td>Ordinary non-member.</td><td>Unchanged while <code>lower()</code> and <code>upper()</code> retain their meanings.</td></tr>
+<tr><td><code>overlaps</code></td><td>Ordinary non-member.</td><td>Unchanged for the same reason.</td></tr>
+<tr><td><code>operator&lt;&lt;</code></td><td>Ordinary non-member.</td><td>Its public format remains stable even if storage changes.</td></tr>
+<tr><td><code>merge</code></td><td>Ordinary non-member.</td><td>It continues to construct through the checked constructor.</td></tr>
+</tbody>
+</table>
+<p>For example, the class could later store a lower endpoint and a non-negative width. Only the constructor and the two queries would need to translate that representation. The four operations would continue to express the same interval behaviour and every merged result would still pass through the invariant check.</p>
+<p>I would not befriend the ten-method serialiser class. That would authorise nine methods which have no stated need. The better design is a stable class operation such as <code>to_record()</code> that returns a deliberate serialisation record containing the semantic endpoints. The wire format then depends on a published record, not on the current member layout. If exact storage access were genuinely unavoidable, one narrowly declared serialisation function could be a friend, but the resulting representation coupling should be documented and tested. Class-wide friendship is not justified by one exceptional operation.</p>
+</div>
+</details>
+
+<p>Friendship is a visible <a class="glossary-term" id="glossary-origin-20-0055" href="glossary.html?from=lesson-20.html%23glossary-origin-20-0055&amp;lesson=20#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> to an access boundary. Use it when the exception expresses a real non-member relationship that public behaviour cannot serve cleanly. If its only achievement is shorter typing around a private member, the code has gained privilege without gaining design.</p>
+</section>
+<!-- lesson-enhancement:20:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-19.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">19. Inheritance</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-21.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">21. Polymorphism</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

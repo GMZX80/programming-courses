@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Structuring your source code">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 07 - 7. Header Files</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-07.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 07 - 7. Header Files">
+    <meta property="og:description" content="Structuring your source code">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-07.html">
+</head>
+<body class="course-page lesson-page" data-lesson="07" data-art-pattern="grid" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 07 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html" aria-current="page"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 07</span>
+            </nav>
+            <p class="hero-kicker">Lesson 07 · 24 lesson course</p>
+            <h1 id="lesson-title">7. Header Files</h1>
+            <p class="lesson-deck">Structuring your source code</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-06.html">← Lesson 06</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-08.html">Lesson 08 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>55 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-07-api" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-api&amp;lesson=07#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-07-cpp" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-cpp&amp;lesson=07#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-07-reference" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-reference&amp;lesson=07#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-07-template" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-template&amp;lesson=07#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">C++ template</a> <a class="glossary-chip" id="glossary-panel-origin-07-circular-dependency" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-circular-dependency&amp;lesson=07#term-circular-dependency" aria-label="Look up circular dependency in the programming glossary" title="Look up circular dependency in the programming glossary">circular dependency</a> <a class="glossary-chip" id="glossary-panel-origin-07-class" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-class&amp;lesson=07#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-07-code" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-code&amp;lesson=07#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-07-compile-time" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-compile-time&amp;lesson=07#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-07-compiler" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-compiler&amp;lesson=07#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-07-constant" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-constant&amp;lesson=07#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> <a class="glossary-chip" id="glossary-panel-origin-07-correctness" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-correctness&amp;lesson=07#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-07-declaration" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-declaration&amp;lesson=07#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-07-definition" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-definition&amp;lesson=07#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-07-exception" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-exception&amp;lesson=07#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-07-expression" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-expression&amp;lesson=07#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-07-forward-declaration" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-forward-declaration&amp;lesson=07#term-forward-declaration" aria-label="Look up forward declaration in the programming glossary" title="Look up forward declaration in the programming glossary">forward declaration</a> <a class="glossary-chip" id="glossary-panel-origin-07-function" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-function&amp;lesson=07#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-07-function-signature" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-function-signature&amp;lesson=07#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-07-header-file" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-header-file&amp;lesson=07#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header file</a> <a class="glossary-chip" id="glossary-panel-origin-07-include-directive" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-include-directive&amp;lesson=07#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-07-include-guard" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-include-guard&amp;lesson=07#term-include-guard" aria-label="Look up include guard in the programming glossary" title="Look up include guard in the programming glossary">include guard</a> <a class="glossary-chip" id="glossary-panel-origin-07-inheritance" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-inheritance&amp;lesson=07#term-inheritance" aria-label="Look up inheritance in the programming glossary" title="Look up inheritance in the programming glossary">inheritance</a> <a class="glossary-chip" id="glossary-panel-origin-07-inline" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-inline&amp;lesson=07#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a> <a class="glossary-chip" id="glossary-panel-origin-07-instantiation" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-instantiation&amp;lesson=07#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">instantiation</a> <a class="glossary-chip" id="glossary-panel-origin-07-interface" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-interface&amp;lesson=07#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-07-library" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-library&amp;lesson=07#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> <a class="glossary-chip" id="glossary-panel-origin-07-linker" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-linker&amp;lesson=07#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">linker</a> <a class="glossary-chip" id="glossary-panel-origin-07-linker-error" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-linker-error&amp;lesson=07#term-linker-error" aria-label="Look up linker error in the programming glossary" title="Look up linker error in the programming glossary">linker error</a> <a class="glossary-chip" id="glossary-panel-origin-07-macro" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-macro&amp;lesson=07#term-macro" aria-label="Look up macro in the programming glossary" title="Look up macro in the programming glossary">macro</a> <a class="glossary-chip" id="glossary-panel-origin-07-main-function" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-main-function&amp;lesson=07#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-07-multiple-definition-error" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-multiple-definition-error&amp;lesson=07#term-multiple-definition-error" aria-label="Look up multiple definition error in the programming glossary" title="Look up multiple definition error in the programming glossary">multiple definition error</a> <a class="glossary-chip" id="glossary-panel-origin-07-object" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-object&amp;lesson=07#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-07-object-file" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-object-file&amp;lesson=07#term-object-file" aria-label="Look up object file in the programming glossary" title="Look up object file in the programming glossary">object file</a> <a class="glossary-chip" id="glossary-panel-origin-07-one-definition-rule" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-one-definition-rule&amp;lesson=07#term-one-definition-rule" aria-label="Look up One Definition Rule in the programming glossary" title="Look up One Definition Rule in the programming glossary">One Definition Rule</a> <a class="glossary-chip" id="glossary-panel-origin-07-pass-by-value" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-pass-by-value&amp;lesson=07#term-pass-by-value" aria-label="Look up pass by value in the programming glossary" title="Look up pass by value in the programming glossary">pass by value</a> <a class="glossary-chip" id="glossary-panel-origin-07-pointer" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-pointer&amp;lesson=07#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-07-pragma-once" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-pragma-once&amp;lesson=07#term-pragma-once" aria-label="Look up pragma once in the programming glossary" title="Look up pragma once in the programming glossary">pragma once</a> <a class="glossary-chip" id="glossary-panel-origin-07-precompiled-header" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-precompiled-header&amp;lesson=07#term-precompiled-header" aria-label="Look up precompiled header in the programming glossary" title="Look up precompiled header in the programming glossary">precompiled header</a> <a class="glossary-chip" id="glossary-panel-origin-07-preprocessor" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-preprocessor&amp;lesson=07#term-preprocessor" aria-label="Look up preprocessor in the programming glossary" title="Look up preprocessor in the programming glossary">preprocessor</a> <a class="glossary-chip" id="glossary-panel-origin-07-program" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-program&amp;lesson=07#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-07-access-levels" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-access-levels&amp;lesson=07#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-07-build" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-build&amp;lesson=07#term-build" aria-label="Look up software build in the programming glossary" title="Look up software build in the programming glossary">software build</a> <a class="glossary-chip" id="glossary-panel-origin-07-source-file" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-source-file&amp;lesson=07#term-source-file" aria-label="Look up source file in the programming glossary" title="Look up source file in the programming glossary">source file</a> <a class="glossary-chip" id="glossary-panel-origin-07-standard-library" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-standard-library&amp;lesson=07#term-standard-library" aria-label="Look up standard library in the programming glossary" title="Look up standard library in the programming glossary">standard library</a> <a class="glossary-chip" id="glossary-panel-origin-07-state" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-state&amp;lesson=07#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-07-string" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-string&amp;lesson=07#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-07-symbol" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-symbol&amp;lesson=07#term-symbol" aria-label="Look up symbol in the programming glossary" title="Look up symbol in the programming glossary">symbol</a> <a class="glossary-chip" id="glossary-panel-origin-07-testing" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-testing&amp;lesson=07#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-07-translation-unit" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-translation-unit&amp;lesson=07#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation unit</a> <a class="glossary-chip" id="glossary-panel-origin-07-type" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-type&amp;lesson=07#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-07-unit-test" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-unit-test&amp;lesson=07#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-07-using-directive" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-using-directive&amp;lesson=07#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">using directive</a> <a class="glossary-chip" id="glossary-panel-origin-07-value" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-value&amp;lesson=07#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-07-variable" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-variable&amp;lesson=07#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-07-vector" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-vector&amp;lesson=07#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="07">
+<img src="assets/images/lesson-art/lesson-07-header-files.png" alt="Abstract layered interface plates separating visible declarations from a protected implementation." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-07-0001" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0001&amp;lesson=07#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">Header Files</a>, Includes, and the <a class="glossary-term" id="glossary-origin-07-0002" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0002&amp;lesson=07#term-preprocessor" aria-label="Look up preprocessor in the programming glossary" title="Look up preprocessor in the programming glossary">Preprocessor</a> (<a class="glossary-term" id="glossary-origin-07-0003" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0003&amp;lesson=07#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+
+<p>
+Programmers organise large <a class="glossary-term" id="glossary-origin-07-0004" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0004&amp;lesson=07#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">programs</a> across <strong>multiple files</strong>. For example, one file may contain <a class="glossary-term" id="glossary-origin-07-0005" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0005&amp;lesson=07#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">functions</a> for loading photographs, while another contains functions for analysing them. If the analysis <a class="glossary-term" id="glossary-origin-07-0006" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0006&amp;lesson=07#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> needs the loader’s functions, we must <em><a class="glossary-term" id="glossary-origin-07-0007" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0007&amp;lesson=07#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">link</a></em> these files logically. In C++, this is done via <strong>header files</strong>: files that expose <em><a class="glossary-term" id="glossary-origin-07-0008" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0008&amp;lesson=07#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declarations</a></em> (<a class="glossary-term" id="glossary-origin-07-0009" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0009&amp;lesson=07#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a>, <a class="glossary-term" id="glossary-origin-07-0010" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0010&amp;lesson=07#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signatures</a>, <a class="glossary-term" id="glossary-origin-07-0011" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0011&amp;lesson=07#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constants</a>) for other <a class="glossary-term" id="glossary-origin-07-0012" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0012&amp;lesson=07#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation units</a> to use.
+</p>
+
+<hr>
+
+<h3>1) What is a Header File?</h3>
+
+<ul>
+  <li>A <strong>header (.h/.hpp)</strong> reiterates declarations (like <a class="glossary-term" id="glossary-origin-07-0013" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0013&amp;lesson=07#term-forward-declaration" aria-label="Look up forward declaration in the programming glossary" title="Look up forward declaration in the programming glossary">forward declarations</a>) so other files can call into code implemented elsewhere (<code>.cpp</code>).</li>
+  <li>Typical pattern: <code>mylib.h</code> (declarations) + <code>mylib.cpp</code> (<a class="glossary-term" id="glossary-origin-07-0014" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0014&amp;lesson=07#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definitions</a>).</li>
+  <li>Use headers when a simple forward declaration is <em>insufficient</em> (e.g., you need full type information, <a class="glossary-term" id="glossary-origin-07-0015" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0015&amp;lesson=07#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a>/<a class="glossary-term" id="glossary-origin-07-0016" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0016&amp;lesson=07#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">template</a> definitions, constants, or <a class="glossary-term" id="glossary-origin-07-0017" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0017&amp;lesson=07#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interfaces</a> used widely).</li>
+</ul>
+
+<pre><code class="language-cpp">// image_loader.h  (header: declarations only)
+#ifndef IMAGE_LOADER_H_INCLUDED
+#define IMAGE_LOADER_H_INCLUDED
+
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+std::vector&lt;unsigned char&gt; load_image(const std::string&amp; path);
+
+#endif // IMAGE_LOADER_H_INCLUDED
+</code></pre>
+
+<pre><code class="language-cpp">// image_loader.cpp (definitions)
+#include "image_loader.h"
+#include &lt;fstream&gt;
+// ... definition of load_image(...)
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Deciding Header vs Forward Declaration</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste your snippet; ask AI whether a <em>forward declaration</em> suffices or a <em>header include</em> is needed.</li>
+      <li>AI can split a monolithic file into <code>.h</code> (<a class="glossary-term" id="glossary-origin-07-0018" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0018&amp;lesson=07#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a>) and <code>.cpp</code> (implementation) with correct includes.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) <a class="glossary-term" id="glossary-origin-07-0019" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0019&amp;lesson=07#term-include-guard" aria-label="Look up include guard in the programming glossary" title="Look up include guard in the programming glossary">Include Guards</a> &amp; <code>#pragma once</code></h3>
+
+<p>
+The preprocessor runs <em>before</em> <a class="glossary-term" id="glossary-origin-07-0020" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0020&amp;lesson=07#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compilation</a> and processes directives beginning with <code>#</code>. To prevent multiple inclusion of the same header (which would cause redefinition errors), use an <strong>include guard</strong>:
+</p>
+
+<pre><code class="language-cpp">// add.h
+#ifndef ADD_H_INCLUDED
+#define ADD_H_INCLUDED
+
+int add(int a, int b);
+
+#endif // ADD_H_INCLUDED
+</code></pre>
+
+<p>Modern compilers often support <code>#pragma once</code> as a concise alternative:</p>
+
+<pre><code class="language-cpp">// add.h
+#pragma once
+int add(int a, int b);
+</code></pre>
+
+<p>
+<strong>Naming tip:</strong> Make guard names unique and consistent (e.g., <code>PROJECT_ADD_H_INCLUDED</code>).
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Auto-Guard Your Headers</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to add or normalise include guards across your project.</li>
+      <li>Have AI convert guards ↔ <code>#pragma once</code> depending on your toolchain policy.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>3) <code>#include</code> Paths: <code>"file.h"</code> vs <code>&lt;header&gt;</code></h3>
+
+<ul>
+  <li><code>#include "add.h"</code> — search current project paths first (your local headers).</li>
+  <li><code>#include &lt;iostream&gt;</code> — search compiler/<a class="glossary-term" id="glossary-origin-07-0021" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0021&amp;lesson=07#term-standard-library" aria-label="Look up standard library in the programming glossary" title="Look up standard library in the programming glossary">standard library</a> include paths (system or well-known <a class="glossary-term" id="glossary-origin-07-0022" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0022&amp;lesson=07#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">libraries</a>).</li>
+</ul>
+
+<p>
+Keep the <strong>order of includes irrelevant</strong> by writing self-sufficient headers:
+</p>
+
+<ul>
+  <li>Each header must include what it needs (no hidden dependence on include order).</li>
+  <li>Avoid <code>using namespace</code> in headers.</li>
+  <li>Prefer forward declarations to reduce heavy includes when possible.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Include What You Use</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Have AI audit a header for missing/extra includes and suggest forward declarations.</li>
+      <li>Ask AI to break cyclical dependencies by refactoring to interfaces or pimpl.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) Worked Example: Loading vs Analysing Photos</h3>
+
+<pre><code class="language-cpp">// photo_loader.h
+#pragma once
+#include &lt;string&gt;
+#include &lt;vector&gt;
+std::vector&lt;unsigned char&gt; load_photo(const std::string&amp; path);
+
+// photo_analyser.h
+#pragma once
+#include &lt;string&gt;
+double sharpness_score(const std::string&amp; path);
+
+// photo_analyser.cpp
+#include "photo_analyser.h"
+#include "photo_loader.h"    // we USE load_photo, so include its header
+
+double sharpness_score(const std::string&amp; path) {
+    auto pixels = load_photo(path);
+    // ... compute a score ...
+    return 0.0;
+}
+</code></pre>
+
+<p>
+Note that <code>photo_analyser.cpp</code> includes <code>photo_loader.h</code> because it <em>uses</em> its API. The analyser header <em>does not</em> include the loader header because it doesn’t expose that dependency in its own interface.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Minimise <a class="glossary-term" id="glossary-origin-07-0023" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0023&amp;lesson=07#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">Public</a> Dependencies</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to ensure headers expose only what’s necessary; move extras to <code>.cpp</code>.</li>
+      <li>AI can suggest pimpl to hide implementation details and cut <a class="glossary-term" id="glossary-origin-07-0024" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0024&amp;lesson=07#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>5) Forward Declarations vs Includes</h3>
+
+<p><strong>Use a forward declaration</strong> when you only need a name, not its size/layout:</p>
+
+<pre><code class="language-cpp">// ok to forward-declare a class
+class Image;
+
+void process(Image&amp;);  // we only use a reference; no full definition needed here
+</code></pre>
+
+<p><strong>Must include the header</strong> when you need the full definition:</p>
+
+<ul>
+  <li>Member <a class="glossary-term" id="glossary-origin-07-0025" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0025&amp;lesson=07#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variables</a> of that type</li>
+  <li><a class="glossary-term" id="glossary-origin-07-0026" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0026&amp;lesson=07#term-inheritance" aria-label="Look up inheritance in the programming glossary" title="Look up inheritance in the programming glossary">Inheritance</a> or by-<a class="glossary-term" id="glossary-origin-07-0027" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0027&amp;lesson=07#term-pass-by-value" aria-label="Look up pass by value in the programming glossary" title="Look up pass by value in the programming glossary">value parameters</a>/returns</li>
+  <li>Templates (definitions must be visible)</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Forward-Decl Decision Helper</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste a header; ask AI which includes can become forward declarations safely.</li>
+      <li>AI can check for <a class="glossary-term" id="glossary-origin-07-0028" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0028&amp;lesson=07#term-one-definition-rule" aria-label="Look up One Definition Rule in the programming glossary" title="Look up One Definition Rule in the programming glossary">ODR</a>/multiple definition risks after refactors.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) Interesting Cases &amp; Common Pitfalls</h3>
+
+<h4>A) <a class="glossary-term" id="glossary-origin-07-0029" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0029&amp;lesson=07#term-multiple-definition-error" aria-label="Look up multiple definition error in the programming glossary" title="Look up multiple definition error in the programming glossary">Multiple Definition Errors</a></h4>
+<pre><code class="language-cpp">// bad.h
+#pragma once
+int x = 42;        // ❌ definition in a header — each .cpp that includes this defines x again
+
+// fix: declaration in header, definition in one .cpp
+// good.h
+#pragma once
+extern int x;      // declaration only
+
+// good.cpp
+#include "good.h"
+int x = 42;        // single definition
+</code></pre>
+
+<h4>B) Inline Variables (C++17+) &amp; Constants</h4>
+<pre><code class="language-cpp">// header-only constants
+#pragma once
+inline constexpr int MaxSize = 1024; // ✅ safe to define in header (one definition rule friendly)
+</code></pre>
+
+<h4>C) Templates &amp; Header-Only Code</h4>
+<pre><code class="language-cpp">// templates must have definitions visible to all TUs
+#pragma once
+template &lt;typename T&gt;
+T add(T a, T b) { return a + b; } // definition stays in the header
+</code></pre>
+
+<h4>D) <a class="glossary-term" id="glossary-origin-07-0030" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0030&amp;lesson=07#term-circular-dependency" aria-label="Look up circular dependency in the programming glossary" title="Look up circular dependency in the programming glossary">Cyclic Includes</a></h4>
+<pre><code class="language-cpp">// A.h
+#pragma once
+class B;            // forward declaration
+class A { B* b; };  // ok: pointer only
+
+// B.h
+#pragma once
+#include "A.h"      // B needs full A? if not, prefer forward declare to break cycle
+class B { A* a; };
+</code></pre>
+
+<h4>E) <a class="glossary-term" id="glossary-origin-07-0031" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0031&amp;lesson=07#term-precompiled-header" aria-label="Look up precompiled header in the programming glossary" title="Look up precompiled header in the programming glossary">Precompiled Headers</a> (PCH)</h4>
+<p>
+Large projects sometimes use a precompiled header to speed <a class="glossary-term" id="glossary-origin-07-0032" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0032&amp;lesson=07#term-build" aria-label="Look up software build in the programming glossary" title="Look up software build in the programming glossary">builds</a> (e.g., <code>pch.h</code>), but keep headers clean: <em>include what you use</em>, don’t rely on PCH to smuggle dependencies.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Diagnose Build &amp; ODR Issues</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to explain <a class="glossary-term" id="glossary-origin-07-0033" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0033&amp;lesson=07#term-linker-error" aria-label="Look up linker error in the programming glossary" title="Look up linker error in the programming glossary">linker errors</a> (duplicate <a class="glossary-term" id="glossary-origin-07-0034" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0034&amp;lesson=07#term-symbol" aria-label="Look up symbol in the programming glossary" title="Look up symbol in the programming glossary">symbols</a>, unresolved externals) and propose header/definition fixes.</li>
+      <li>AI can produce an “include map” to show where heavy or cyclical headers are coming from.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>7) Mini Exercise — Fix the Header</h3>
+
+<p><strong>Problem:</strong> The following compiles slowly and sometimes fails to link.</p>
+<pre><code class="language-cpp">// bad_math.h
+#pragma once
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+int add(int a, int b) { return a + b; } // ❌ definition in header
+int mult(int a, int b);                  // declaration
+
+// bad_math.cpp
+#include "bad_math.h"
+int mult(int a, int b) { return a * b; }
+</code></pre>
+
+<p><strong>Target:</strong> Move <code>add</code> definition to <code>.cpp</code>, keep header clean and self-sufficient.</p>
+
+<pre><code class="language-cpp">// math.h
+#pragma once
+int add(int a, int b);
+int mult(int a, int b);
+
+// math.cpp
+#include "math.h"
+int add(int a, int b) { return a + b; }
+int mult(int a, int b) { return a * b; }
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Refactor Plan</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to propose a patch: move definitions out of headers, keep only declarations, add guards.</li>
+      <li>Have AI generate a quick <a class="glossary-term" id="glossary-origin-07-0035" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0035&amp;lesson=07#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> that includes <code>math.h</code> from multiple TUs to confirm no duplicate symbols.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) Summary Checklist</h3>
+
+<ul>
+  <li><strong>Headers expose declarations</strong>; definitions live in <code>.cpp</code> (except templates/inline/constexpr).</li>
+  <li><strong>Protect headers</strong> with include guards or <code>#pragma once</code>.</li>
+  <li><strong>Include what you use</strong>; make header order irrelevant.</li>
+  <li><strong>Avoid</strong> globals defined in headers; use <code>extern</code> or <code>inline constexpr</code> instead.</li>
+  <li><strong>Break cycles</strong> with forward declarations or pimpl.</li>
+  <li><strong>No <code>using namespace</code> in headers.</strong></li>
+</ul>
+
+<p><em>Here is a video of Graham having a go at using header files (look for the point he deletes the <code>#pragma once</code>!).</em></p>
+        
+<!-- lesson-enhancement:07:start -->
+<section class="lesson-enhancement" id="translation-unit-architecture">
+<p class="lesson-enhancement-kicker">Lesson 7 extension · follow the declaration through the build</p>
+<h2>Which translation unit knows the promise, and where is it kept?</h2>
+<p>Dividing a project into neatly named files is visible organisation. It is not yet evidence that the files form a <a class="glossary-term" id="glossary-origin-07-0036" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0036&amp;lesson=07#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correct program</a>. The stronger <a class="glossary-term" id="glossary-origin-07-0037" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0037&amp;lesson=07#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">test</a> is whether each separately compiled <a class="glossary-term" id="glossary-origin-07-0038" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0038&amp;lesson=07#term-source-file" aria-label="Look up source file in the programming glossary" title="Look up source file in the programming glossary">source file</a> sees the declarations it needs and whether the complete build supplies the required definitions without contradiction.</p>
+<p>An <code>#include</code> directive does not link a header to an implementation file. During preprocessing, the header's tokens become available within the including source. That result is compiled as one translation unit. Other source files are processed and compiled separately, and the linker later combines their <a class="glossary-term" id="glossary-origin-07-0039" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0039&amp;lesson=07#term-object-file" aria-label="Look up object file in the programming glossary" title="Look up object file in the programming glossary">object files</a> and resolves <a class="glossary-term" id="glossary-origin-07-0040" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0040&amp;lesson=07#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> between them.</p>
+<p>This model explains why adding a header can remove a compiler error while leaving a linker error untouched. The declaration may now be visible, so the compiler can check the call. If no linked object file contains the required definition, the program is still incomplete. Different stage, different evidence.</p>
+
+<h3>Build one function through three files</h3>
+<p>The header <a class="glossary-term" id="glossary-origin-07-0041" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0041&amp;lesson=07#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">states</a> the interface shared by its users:</p>
+<pre><code class="language-cpp">#ifndef CPP_PROGRAMMING_SCORE_H_INCLUDED
+#define CPP_PROGRAMMING_SCORE_H_INCLUDED
+
+int add_bonus(int score, int bonus);
+
+#endif
+</code></pre>
+<p>The implementation source includes that same declaration and supplies the ordinary function definition:</p>
+<pre><code class="language-cpp">#include "score.h"
+
+int add_bonus(int score, int bonus) {
+    return score + bonus;
+}
+</code></pre>
+<p>The application source includes the interface and calls the operation:</p>
+<pre><code class="language-cpp">#include "score.h"
+
+#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; add_bonus(40, 2) &lt;&lt; '\n';
+}
+</code></pre>
+<p>Preprocess and compile <code>score.cpp</code>, and one object file contains the definition of <code>add_bonus</code>. Preprocess and compile <code>main.cpp</code>, and another object file contains a reference to that operation after checking the call against the declaration from <code>score.h</code>. Link the two object files, and the reference can be matched to the definition.</p>
+<p>The header is not compiled once as a third implementation unit. Its guarded contents are processed inside <code>score.cpp</code>'s translation unit and again inside <code>main.cpp</code>'s translation unit. Both source files therefore check against the same written declaration, while only <code>score.cpp</code> supplies the ordinary definition.</p>
+<table>
+<thead><tr><th>Stage</th><th>Input being considered</th><th>What success establishes</th><th>Typical failure</th></tr></thead>
+<tbody>
+<tr><td>Preprocessing</td><td>One source file and its included headers</td><td>The required tokens can be formed for this translation unit</td><td>Missing header or malformed directive</td></tr>
+<tr><td>Compilation</td><td>One preprocessed translation unit</td><td>Names, types and <a class="glossary-term" id="glossary-origin-07-0042" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0042&amp;lesson=07#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expressions</a> are valid in that unit</td><td>Undeclared name or type error</td></tr>
+<tr><td>Linking</td><td>Object files and libraries</td><td>Required definitions can be assembled into a program</td><td>Undefined reference or multiple definition</td></tr>
+</tbody>
+</table>
+
+<h3>An include guard controls repetition within one translation unit</h3>
+<p>The <a class="glossary-term" id="glossary-origin-07-0043" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0043&amp;lesson=07#term-macro" aria-label="Look up macro in the programming glossary" title="Look up macro in the programming glossary">macro</a> guard in <code>score.h</code> prevents its guarded contents from being processed repeatedly during one translation unit's preprocessing. This matters when several include paths lead back to the same header. It does not make the header appear only once across the entire program. <code>main.cpp</code> and <code>score.cpp</code> each perform their own preprocessing.</p>
+<p>That boundary explains what guards can and cannot fix. A repeated <a class="glossary-term" id="glossary-origin-07-0044" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0044&amp;lesson=07#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> definition inside one translation unit may be prevented by the guard. An ordinary non-inline function definition placed in a guarded header can still be reproduced in several translation units, because each unit gets one copy. The guard has worked and the program may still violate the One Definition Rule.</p>
+<p><code>#pragma once</code> is a convenient and widely implemented alternative for preventing repeated processing of a header. It is not a directive required by the C++ standard. A conventional macro guard remains the portable course mechanism. Whichever form a project chooses, consistency is useful; neither form repairs a misplaced definition.</p>
+
+<h3>The interface must include what its own declarations require</h3>
+<p>A header should support its declarations without depending on a fortunate include order in some unrelated source file. If a declaration requires a complete standard-library type, include the standard header that provides it. Compiling a tiny source file that includes only the header is a practical test of that self-sufficiency.</p>
+<p>A forward declaration is appropriate when the incomplete type is sufficient for the declaration being written. A function declaration taking a class by reference can often name a forward-declared class. A data member stored by <a class="glossary-term" id="glossary-origin-07-0045" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0045&amp;lesson=07#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> requires the complete class definition because its size and layout must be known. The decision is not "fewer includes are always better". The decision is whether the interface needs the complete definition.</p>
+<p>The same restraint applies to definitions. An ordinary non-inline function usually belongs in one implementation source file. The <code>inline</code> rules permit suitable identical definitions in multiple translation units; the keyword does not promise that the compiler will substitute the body at each call. Template definitions are commonly kept visible in headers because their <a class="glossary-term" id="glossary-origin-07-0046" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0046&amp;lesson=07#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">instantiation</a> model requires that visibility. Lesson 23 will deal with that mechanism rather than using it as an <a class="glossary-term" id="glossary-origin-07-0047" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0047&amp;lesson=07#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> that obscures today's rule.</p>
+
+<h3>Classify the failure before changing the boundary</h3>
+<p>Remove <code>#include "score.h"</code> from <code>main.cpp</code> and the call has no declaration in sight. That is a compilation problem in the <code>main.cpp</code> translation unit. Restore the header but omit the object file built from <code>score.cpp</code>, and both source files may compile before the linker reports that the definition is missing. Move the function definition into the header and include it from both source files, and the build can acquire competing definitions.</p>
+<p>These failures may all mention <code>add_bonus</code>, but they do not ask for the same repair. Adding another include to an undefined-reference error does not manufacture the missing linked definition. Adding an include guard to an ordinary definition reproduced across translation units does not make that definition unique. Read the stage first, then account for the declaration and definition.</p>
+
+<h3>Dependencies are part of the design</h3>
+<p>Every include creates a source dependency. A large public header that exposes implementation details makes more translation units depend on those decisions and can increase the amount of code rebuilt after a change. Build time is visible, but it is still a consequence. The architectural question is whether callers genuinely need the exposed information.</p>
+<p>A cyclic include is likewise a symptom before it is a diagnosis. Forward declarations can break some textual cycles when incomplete types are sufficient. They cannot decide whether two components should know about each other. If type A's public interface requires type B and type B's public interface requires type A, draw both arrows and explain the responsibilities. The preprocessor can be made quiet while the dependency direction remains confused.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> classify the build stage before accepting a repair</summary>
+<div>
+<p>Give an AI tool the exact diagnostic, the build command and the three relevant files. Require it to identify the failed stage, the translation unit being compiled or the <a class="glossary-term" id="glossary-origin-07-0048" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0048&amp;lesson=07#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">objects</a> being linked, the visible declaration and the expected definition. Compare that account with the actual build inputs before applying a change. A proposal to add includes everywhere may remove one undeclared-name error while increasing coupling or creating a different definition problem. Finish with a clean build, because an incremental success can preserve stale evidence.</p>
+</div>
+</details>
+
+<h3>Run three deliberate failures</h3>
+<p>Use the three-file example and change one fact at a time. First remove the include from <code>main.cpp</code>. Next restore it and leave <code>score.cpp</code>'s object file out of the link. Finally place the ordinary definition in the header and include that header from both source files. Before each build, predict the first failing stage and the declaration or definition account that will be incomplete.</p>
+<p>Record the actual diagnostic beside the prediction, then restore the correct boundary and perform a clean build. If your explanation is only "the header was wrong", continue. State which translation unit saw which declaration, where the definition existed, and what the linker was asked to combine. Headers organise source, but their real value is that they make a shared promise available wherever that promise must be checked.</p>
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The precise wording of a diagnostic belongs to the compiler and linker used for the exercise. It should be copied from the actual build rather than invented. The stage and the declaration-definition account, however, can be predicted.</p>
+<table>
+<thead><tr><th>Change</th><th>First failing stage</th><th>Reason</th><th>Typical diagnostic category</th></tr></thead>
+<tbody>
+<tr><td>Remove <code>#include "score.h"</code> from <code>main.cpp</code></td><td>Compilation of the <code>main.cpp</code> translation unit</td><td>Unqualified lookup at the call has no visible declaration for <code>add_bonus</code>.</td><td><code>add_bonus</code> was not declared, or an equivalent compiler message</td></tr>
+<tr><td>Restore the include but omit the object built from <code>score.cpp</code> from the link</td><td>Linking</td><td><code>main.cpp</code> saw a valid declaration and compiled a reference, but the linker received no object containing the definition.</td><td>Undefined reference or unresolved external symbol</td></tr>
+<tr><td>Put the ordinary non-inline definition in the guarded header and include it from both source files</td><td>The program violates the One Definition Rule; a conventional build normally fails while linking</td><td>Each translation unit acquires its own externally linked definition. The include guard prevents repetition inside one translation unit, not across the program.</td><td>Multiple definition or already defined symbol</td></tr>
+</tbody>
+</table>
+<p>After restoring the correct boundary, <code>score.h</code> contains one declaration. Preprocessing makes that declaration visible in both translation units. The <code>score.cpp</code> translation unit sees the declaration and supplies the sole ordinary definition. The <code>main.cpp</code> translation unit sees the same declaration and contains a checked call that refers to the function.</p>
+<p>The linker is then asked to combine the object built from <code>main.cpp</code> with the object built from <code>score.cpp</code>. It can match the reference in the former to the definition in the latter. A clean build should succeed, and the example prints <code>42</code>.</p>
+<p>The third failure is not repaired by adding another guard. Marking a deliberately header-defined function <code>inline</code> changes the definition rules, but that would answer a different design question. This exercise requires one ordinary definition in the implementation source.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:07:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-06.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">06. Calling and Returning with Functions</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-08.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">08. Namespaces</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

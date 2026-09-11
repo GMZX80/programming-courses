@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An introduction to how a state is represented in programming">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 02 - 2. The Variable</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-02.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 02 - 2. The Variable">
+    <meta property="og:description" content="An introduction to how a state is represented in programming">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-02.html">
+</head>
+<body class="course-page lesson-page" data-lesson="02" data-art-pattern="cells" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 02 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html" aria-current="page"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 02</span>
+            </nav>
+            <p class="hero-kicker">Lesson 02 · 24 lesson course</p>
+            <h1 id="lesson-title">2. The Variable</h1>
+            <p class="lesson-deck">An introduction to how a state is represented in programming</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-01.html">← Lesson 01</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-03.html">Lesson 03 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>42 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-02-assignment" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-assignment&amp;lesson=02#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-02-boolean" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-boolean&amp;lesson=02#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-02-bug" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-bug&amp;lesson=02#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-02-cpp" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-cpp&amp;lesson=02#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-02-code" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-code&amp;lesson=02#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-02-compiler" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-compiler&amp;lesson=02#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-02-constant" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-constant&amp;lesson=02#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> <a class="glossary-chip" id="glossary-panel-origin-02-correctness" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-correctness&amp;lesson=02#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-02-cpu-register" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-cpu-register&amp;lesson=02#term-cpu-register" aria-label="Look up CPU register in the programming glossary" title="Look up CPU register in the programming glossary">CPU register</a> <a class="glossary-chip" id="glossary-panel-origin-02-debugger" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-debugger&amp;lesson=02#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a> <a class="glossary-chip" id="glossary-panel-origin-02-debugging" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-debugging&amp;lesson=02#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-02-declaration" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-declaration&amp;lesson=02#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-02-definition" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-definition&amp;lesson=02#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-02-expression" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-expression&amp;lesson=02#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-02-final-specifier" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-final-specifier&amp;lesson=02#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-02-function" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-function&amp;lesson=02#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-02-identifier" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-identifier&amp;lesson=02#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-02-include-directive" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-include-directive&amp;lesson=02#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-02-initialisation" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-initialisation&amp;lesson=02#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-02-integer" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-integer&amp;lesson=02#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-02-lhs-rhs" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-lhs-rhs&amp;lesson=02#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">LHS and RHS</a> <a class="glossary-chip" id="glossary-panel-origin-02-lifetime" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-lifetime&amp;lesson=02#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-02-local-variable" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-local-variable&amp;lesson=02#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local variable</a> <a class="glossary-chip" id="glossary-panel-origin-02-loop" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-loop&amp;lesson=02#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-02-main-function" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-main-function&amp;lesson=02#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-02-memory-leak" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-memory-leak&amp;lesson=02#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">memory leak</a> <a class="glossary-chip" id="glossary-panel-origin-02-object" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-object&amp;lesson=02#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-02-ownership" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-ownership&amp;lesson=02#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-02-program" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-program&amp;lesson=02#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-02-scope" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-scope&amp;lesson=02#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-02-sentinel" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-sentinel&amp;lesson=02#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel</a> <a class="glossary-chip" id="glossary-panel-origin-02-state" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-state&amp;lesson=02#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-02-stream" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-stream&amp;lesson=02#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-02-template-argument-deduction" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-template-argument-deduction&amp;lesson=02#term-template-argument-deduction" aria-label="Look up template argument deduction in the programming glossary" title="Look up template argument deduction in the programming glossary">template argument deduction</a> <a class="glossary-chip" id="glossary-panel-origin-02-testing" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-testing&amp;lesson=02#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-02-type" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-type&amp;lesson=02#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-02-undefined-behaviour" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-undefined-behaviour&amp;lesson=02#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a> <a class="glossary-chip" id="glossary-panel-origin-02-unit-test" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-unit-test&amp;lesson=02#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-02-using-directive" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-using-directive&amp;lesson=02#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">using directive</a> <a class="glossary-chip" id="glossary-panel-origin-02-value" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-value&amp;lesson=02#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-02-variable" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-variable&amp;lesson=02#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-02-watch-window" href="glossary.html?from=lesson-02.html%23glossary-panel-origin-02-watch-window&amp;lesson=02#term-watch-window" aria-label="Look up watch window in the programming glossary" title="Look up watch window in the programming glossary">watch window</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="02">
+<img src="assets/images/lesson-art/lesson-02-variable.png" alt="Abstract translucent vessel holding a luminous value that can change state." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<h2>Lesson: Understanding <a class="glossary-term" id="glossary-origin-02-0001" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0001&amp;lesson=02#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">Variables</a></h2>
+<p>A <strong>variable</strong> is an element of your <a class="glossary-term" id="glossary-origin-02-0002" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0002&amp;lesson=02#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> that represents some <a class="glossary-term" id="glossary-origin-02-0003" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0003&amp;lesson=02#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a>. This state may, and is expected to, change during the execution of your program. Variables are the moving parts of your program — where errors and <a class="glossary-term" id="glossary-origin-02-0004" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0004&amp;lesson=02#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bugs</a> often emerge. To use them effectively, you must understand both their purpose and their risks.</p>
+<p>There are a few rules to consider when creating variables:</p>
+<ul>
+    <li><strong>Only create them if required</strong> – The more variables you create, the more opportunity for failure, since each can be misused. Novice programmers often introduce unnecessary variables. You can usually tell when a variable is redundant if it appears on the <a class="glossary-term" id="glossary-origin-02-0005" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0005&amp;lesson=02#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">left-hand side</a> of an <a class="glossary-term" id="glossary-origin-02-0006" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0006&amp;lesson=02#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment operator</a> (<code>=</code>) only once (or not at all!).</li>
+    <li><strong>Give them meaningful <a class="glossary-term" id="glossary-origin-02-0007" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0007&amp;lesson=02#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifiers</a></strong> – An identifier is the name you assign to the variable. While many terms in a programming language are predefined, variable names are under your control. Clear, descriptive names reduce errors and make your program easier to understand.</li>
+    <li><strong>Variables are <a class="glossary-term" id="glossary-origin-02-0008" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0008&amp;lesson=02#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">source code</a> only</strong> – They exist as named elements in your code, but once <a class="glossary-term" id="glossary-origin-02-0009" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0009&amp;lesson=02#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiled</a> they are translated into memory locations and <a class="glossary-term" id="glossary-origin-02-0010" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0010&amp;lesson=02#term-cpu-register" aria-label="Look up CPU register in the programming glossary" title="Look up CPU register in the programming glossary">CPU registers</a>. Identifiers disappear during compilation. This means memory itself is “variable,” and even parts of your program not <a class="glossary-term" id="glossary-origin-02-0011" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0011&amp;lesson=02#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">defined</a> as variables can be overwritten by incorrect use of the ones you created.</li>
+    <li><strong>Variables define program <a class="glossary-term" id="glossary-origin-02-0012" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0012&amp;lesson=02#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a></strong> – Assuming a program compiles successfully and runs, errors occur only at the point of state changes — in other words, when variables are manipulated. This is why every variable you add is another opportunity for error. Use them sparingly and keep their <a class="glossary-term" id="glossary-origin-02-0013" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0013&amp;lesson=02#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> narrow.</li>
+</ul>
+<p>This is why variables are central to <a class="glossary-term" id="glossary-origin-02-0014" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0014&amp;lesson=02#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a>: they are the “pressure points” of your program. Managing them well leads to correctness, clarity, and performance.</p>
+<hr>
+<h3>Example: Variables in Action</h3>
+<p>Here’s a simple <a class="glossary-term" id="glossary-origin-02-0015" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0015&amp;lesson=02#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> program using variables correctly:</p>
+<pre><code class="language-cpp">
+// Calculate the average of three exam scores
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int score1 = 78;   // meaningful identifier
+    int score2 = 85;
+    int score3 = 92;
+
+    int sum = score1 + score2 + score3;   // variable with clear purpose
+    double average = sum / 3.0;           // avoid reusing "sum" incorrectly
+
+    cout &lt;&lt; "Average score: " &lt;&lt; average &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+<p>Notice that every variable has a purpose, a clear name, and is used more than once. If we had introduced an extra variable like <code>int temp = score1;</code> that was never used again, it would add confusion and risk without benefit.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Smarter Use of Variables</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li><strong>Code review:</strong> Ask AI to highlight variables that are created but used only once.</li>
+                    <li><strong>Naming help:</strong> AI can suggest clearer identifiers (e.g., <code>totalMarks</code> instead of <code>sum</code>).</li>
+                    <li><strong>Memory focus:</strong> AI can explain how each variable compiles down to memory/registers.</li>
+                    <li><strong>Debugging:</strong> Paste an error trace into AI and ask which variable transitions to watch first.</li>
+                </ul>
+</details>
+<hr>
+<h3>Debugging and Variables</h3>
+<p>Because errors occur when variables change, they become the focal point of debugging. Watching variables, setting breakpoints, and <a class="glossary-term" id="glossary-origin-02-0016" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0016&amp;lesson=02#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> edge cases all revolve around monitoring state. A good programmer treats variables as critical checkpoints in their program.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Debugging with Variables</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>AI can generate <em><a class="glossary-term" id="glossary-origin-02-0017" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0017&amp;lesson=02#term-watch-window" aria-label="Look up watch window in the programming glossary" title="Look up watch window in the programming glossary">watch lists</a></em> for your IDE (which variables to track and why).</li>
+                    <li>It can scaffold <a class="glossary-term" id="glossary-origin-02-0018" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0018&amp;lesson=02#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit tests</a> that drive variables into edge cases (e.g., division by zero, negatives).</li>
+                    <li>AI can narrate expected state transitions step by step, so you compare “expected” vs “actual.”</li>
+                </ul>
+</details>
+<hr>
+<h3>Deep Dive: Why Variables Matter</h3>
+<p>Think of variables not just as storage, but as the <em>moving parts</em> of your program. Errors almost always happen when <a class="glossary-term" id="glossary-origin-02-0019" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0019&amp;lesson=02#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">values</a> change. A well-chosen, well-placed variable acts like a clearly labeled valve in a system: easy to monitor, easy to repair. A poorly chosen variable is like an unmarked pipe — you don’t know what flows through it, and when it <a class="glossary-term" id="glossary-origin-02-0020" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0020&amp;lesson=02#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">leaks</a>, chaos ensues.</p>
+<p>As you progress, remember: <strong>fewer, clearer variables make debugging and reasoning much easier.<br></strong></p>
+<h3>Mini Exercise — Audit &amp; Refactor Your Variables</h3>
+
+<p><em>Goal:</em> practise spotting redundant variables, tightening scope, choosing clear identifiers, and debugging by watching state changes.</p>
+
+<ol style="list-style-type: upper-alpha;">
+  <li>
+    <strong>Spot the redundancies</strong><br>
+    In the snippet below, which variables are unnecessary or risky? Rewrite it with fewer, clearer variables.
+    <pre><code class="language-cpp">// Compute average and pass/fail (threshold 50)
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 78;        // exam 1
+    int b = 85;        // exam 2
+    int c = 92;        // exam 3
+    int tmp = a;       // &lt;-- suspicious
+    int total = 0;
+    total = a + b + c;
+    double avg;        // &lt;-- declared early, uninitialised
+    avg = total / 3.0;
+    bool t = true;     // &lt;-- defaulted, then overwritten
+    if (avg &lt; 50.0) { t = false; }
+    cout &lt;&lt; "Average: " &lt;&lt; avg &lt;&lt; "  passed? " &lt;&lt; (t ? "yes" : "no") &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+    <ul>
+      <li>List the variables to remove or rename and explain why.</li>
+      <li>Refactor so each variable has a clear purpose and is used &gt; 1 time (or make it <code>const</code> if it shouldn’t change).</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Name for intent</strong><br>
+    Improve the identifiers so the code reads like its intention (no comments needed).
+    <pre><code class="language-cpp">int x = 40; int y = 60; int z = x + y;
+double a1 = z / 2.0; // average?
+bool f = a1 &gt; 50.0;  // pass flag?
+</code></pre>
+    <ul>
+      <li>Rename variables to communicate meaning (e.g., <code>leftScore</code>, <code>rightScore</code>, <code>sum</code>, <code>average</code>, <code>passed</code>).</li>
+      <li>Mark values that shouldn’t change as <code>const</code>.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Tighten scope &amp; add <code>const</code></strong><br>
+    Move <a class="glossary-term" id="glossary-origin-02-0021" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0021&amp;lesson=02#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declarations</a> as close as possible to first use, and mark read-only variables as <code>const</code>.
+    <pre><code class="language-cpp">double average;
+int n; cin &gt;&gt; n;
+int sum = 0;
+for (int i = 0; i &lt; n; ++i) {
+    int v; cin &gt;&gt; v;
+    sum += v;
+}
+average = sum / static_cast&lt;double&gt;(n);
+cout &lt;&lt; "Average: " &lt;&lt; average &lt;&lt; "\n";
+</code></pre>
+    <ul>
+      <li>Which variables can be <code>const</code>?</li>
+      <li>Where can you narrow scope without hurting readability?</li>
+      <li>What edge case must you guard (hint: value of <code>n</code>)?</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Debug by watching state transitions</strong><br>
+    The following program occasionally prints the wrong “max”. Identify the bug and the exact variable transition where it happens. Fix it.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int maxVal;            // &lt;-- uninitialised
+    int count; cin &gt;&gt; count;
+    for (int i = 0; i &lt; count; ++i) {
+        int val; cin &gt;&gt; val;
+        if (val &gt; maxVal)  // compare against garbage on first iteration
+            maxVal = val;
+    }
+    cout &lt;&lt; "Max: " &lt;&lt; maxVal &lt;&lt; "\n";
+}
+</code></pre>
+    <ul>
+      <li>Propose two safe <a class="glossary-term" id="glossary-origin-02-0022" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0022&amp;lesson=02#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> strategies for <code>maxVal</code> (think: first element vs <a class="glossary-term" id="glossary-origin-02-0023" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0023&amp;lesson=02#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel</a>).</li>
+      <li>List a minimal “watch list” of variables for the <a class="glossary-term" id="glossary-origin-02-0024" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0024&amp;lesson=02#term-debugger" aria-label="Look up debugger in the programming glossary" title="Look up debugger in the programming glossary">debugger</a>, with why each matters.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Edge cases &amp; guards</strong><br>
+    Add robust checks so the program behaves predictably for:
+    <ul>
+      <li><code>n == 0</code> (no inputs): what should “average” be or what should the program report?</li>
+      <li>Negative inputs if they’re not expected: how should the program react?</li>
+    </ul>
+  </li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Variable Coach</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li><strong>Redundancy scan:</strong> “List variables assigned once or never read; suggest removals or merges.”</li>
+      <li><strong>Naming pass:</strong> “Propose clearer identifiers; explain each rename in terms of intent.”</li>
+      <li><strong>Scope/const pass:</strong> “Move declarations to first use and mark immutable variables <code>const</code>.”</li>
+      <li><strong>Debug plan:</strong> “Generate a watch list and expected state transitions for each <a class="glossary-term" id="glossary-origin-02-0025" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0025&amp;lesson=02#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> iteration.”</li>
+    </ul>
+</details>
+        
+<!-- lesson-enhancement:02:start -->
+<section class="lesson-enhancement" id="variables-as-state">
+<p class="lesson-enhancement-kicker">Lesson 2 extension · a variable must represent something</p>
+<h2>What does the variable remember?</h2>
+<p>I can recognise <code>int score{120};</code> as a variable declaration. That is useful, but it is not yet an understanding of the program. What does 120 mean? Which values are permitted? Who may change it, and which later decision will use it? A score, a frame number and a temperature could all be represented by an <code>int</code>, yet confusing one for another would still produce an inappropriate program. The declaration gives the compiler a <a class="glossary-term" id="glossary-origin-02-0026" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0026&amp;lesson=02#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a>. The program must give the value a meaning.</p>
+<p>This becomes particularly important when the source was written by somebody else or generated by a system. A plausible identifier and a type do not establish that the state model is correct. I still need to know where the value came from, which operations may change it, what must remain true after each change, and what will fail if the value is wrong. A variable remembers part of the program's state. It also creates a responsibility to account for every permitted transition.</p>
+
+<h3>A name is not the value</h3>
+<p>Consider <code>int score{120};</code>. Four related things are present, and muddling them produces muddled explanations. <code>score</code> is the identifier used in this scope. The type is <code>int</code>. An <a class="glossary-term" id="glossary-origin-02-0027" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0027&amp;lesson=02#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> of that type exists during execution, and the value currently held by that object is 120. A later assignment may replace 120 while the identifier and type remain unchanged. Therefore, saying that “the variable is 120” is convenient shorthand, but a programmer must be able to give the more precise account when correctness depends upon it.</p>
+<table>
+<thead><tr><th>Question</th><th>Answer for <code>int score{120};</code></th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>What is it called here?</td><td><code>score</code></td><td>The identifier lets source code refer to the object.</td></tr>
+<tr><td>What operations are permitted?</td><td>Those available for <code>int</code></td><td>The type constrains representation and valid operations.</td></tr>
+<tr><td>What exists during execution?</td><td>An <a class="glossary-term" id="glossary-origin-02-0028" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0028&amp;lesson=02#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> object</td><td>The object has storage and a <a class="glossary-term" id="glossary-origin-02-0029" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0029&amp;lesson=02#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a>.</td></tr>
+<tr><td>What does it currently hold?</td><td>120</td><td>The value is the state observed at this point in execution.</td></tr>
+</tbody>
+</table>
+<p>Initialisation supplies the first value as the object begins its lifetime. Assignment replaces the value of an object that already exists. Both examples contain an equals sign, which makes them look more alike than they are. Read the complete statement:</p>
+<pre><code class="language-cpp">int score{120};   // definition and initialisation
+score = 145;      // assignment to an existing object
+</code></pre>
+<p>A local fundamental object written as <code>int score;</code> has no initial value supplied by the programmer. In C++20, reading that indeterminate value can produce <a class="glossary-term" id="glossary-origin-02-0030" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0030&amp;lesson=02#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a>. The useful rule is straightforward: give a <a class="glossary-term" id="glossary-origin-02-0031" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0031&amp;lesson=02#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local variable</a> a meaningful first value at its definition. Hoping that every possible route through the program performs an assignment before the first read is not a substitute for establishing the initial state.</p>
+
+<h3>Follow the value through the program</h3>
+<p>The following program contains little syntax, but it has a complete state history. For each assignment, first evaluate the <a class="glossary-term" id="glossary-origin-02-0032" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0032&amp;lesson=02#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> on the right using the current values; only then replace the object named on the left. Read the assignment as a transition, not as an isolated line:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    int score{120};
+    const int collectedPoints{25};
+
+    score = score + collectedPoints;
+    std::cout &lt;&lt; "After collection: " &lt;&lt; score &lt;&lt; '\n';
+
+    const int penalty{10};
+    score = score - penalty;
+    std::cout &lt;&lt; "After penalty: " &lt;&lt; score &lt;&lt; '\n';
+}
+</code></pre>
+<table>
+<thead><tr><th>Point reached</th><th><code>score</code> before</th><th>Operation</th><th><code>score</code> after</th></tr></thead>
+<tbody>
+<tr><td>Initialisation</td><td>No score object</td><td>Begin with 120</td><td>120</td></tr>
+<tr><td>Collection</td><td>120</td><td>Add 25</td><td>145</td></tr>
+<tr><td>Penalty</td><td>145</td><td>Subtract 10</td><td>135</td></tr>
+</tbody>
+</table>
+<p>The two <a class="glossary-term" id="glossary-origin-02-0033" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0033&amp;lesson=02#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constants</a> provide inputs to the transitions. Marking them <code>const</code> records that these objects are not intended to change after initialisation. The mutable object is reserved for the state that genuinely evolves. This tells the reader more than declaring everything mutable merely because the language permits it.</p>
+<p>The expected output is <code>After collection: 145</code>, followed by <code>After penalty: 135</code>. What does that result prove? It supports the trace for these starting values and these two operations. It does not prove that a negative collection is rejected, that overflow is impossible or that every caller changes the score appropriately. If the output differs, the table gives us exact states to compare. Debugging becomes the search for the first transition at which the observed state leaves the required trace.</p>
+
+<h3>Who is allowed to change it?</h3>
+<p>A calculation does not need to be complicated to create a difficult state error. It is enough to let too many parts of the program change the same value. If five <a class="glossary-term" id="glossary-origin-02-0034" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0034&amp;lesson=02#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">functions</a> may alter a score, I must understand five sets of assumptions and every ordering in which those functions can run. Narrow scope, a meaningful identifier and a clear <a class="glossary-term" id="glossary-origin-02-0035" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0035&amp;lesson=02#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">owner</a> reduce the number of places in which the state can become wrong.</p>
+<p>The earlier suggestion that a variable assigned only once is necessarily redundant must therefore be used as a question, not a verdict. A named intermediate value may expose meaning, prevent repeated work or make a debugger trace easier to understand. Conversely, a value assigned many times may reveal confused responsibility. Count assignments if the count points towards something worth inspecting. Decide by asking whether the object represents a necessary value and whether its permitted changes are clear.</p>
+<p>Suppose the score starts at zero and the player collects ten points. I put a breakpoint on the assignment and watch the value become ten. Next I send an event that ought to be rejected. Does the score stay at ten? I then inspect the rendering function. It needs to read the score, but what requirement would justify letting it change the score? This investigation identifies the owner, the permitted transitions and the point at which a lower bound must be enforced. If the answer requires a hunt through five unrelated functions, responsibility for the state is not clear enough.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> obtain a trace, then challenge it</summary>
+<div>
+<p>An AI system can produce a value table quickly. Speed is the benefit; correctness is still the question. I give it a score that starts at zero, an accepted ten-point event and a twenty-point <a class="glossary-term" id="glossary-origin-02-0036" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0036&amp;lesson=02#term-template-argument-deduction" aria-label="Look up template argument deduction in the programming glossary" title="Look up template argument deduction in the programming glossary">deduction</a> that the requirement says must be refused. What value does it show after each line? I calculate the states from the C++, then observe the same transitions in the debugger. The requirement, the trace and the execution must agree. If they do not, the disagreement is useful: the instruction may be incomplete, the table may be wrong, or the program may not implement the requirement. The generated trace helps only when it gives me something precise to verify.</p>
+</div>
+</details>
+
+<h3>Test the state model</h3>
+<p>Take one short function from the exercises in this lesson. Choose a variable that changes and write down its intended meaning, initial value, permitted changes and required range. Predict its value after each statement before running the program. Then observe the same value in the debugger and locate the first difference, if one appears. Finally, identify one part of the program that may read the value but has no reason to change it. This is more demanding than recognising the declaration, which is precisely why it teaches more.</p>
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>I shall use the score example from this extension and follow <code>score</code>. It represents the player's current score. Its first value is 120, and this example permits two changes: add the collected 25 points, then subtract the 10-point penalty.</p>
+<table>
+<thead><tr><th>Statement reached</th><th>Relevant state</th><th><code>score</code> afterwards</th></tr></thead>
+<tbody>
+<tr><td><code>int score{120};</code></td><td>The score object begins its lifetime with its first value.</td><td>120</td></tr>
+<tr><td><code>const int collectedPoints{25};</code></td><td>A separate read-only input is established. It does not change <code>score</code>.</td><td>120</td></tr>
+<tr><td><code>score = score + collectedPoints;</code></td><td>The old score, 120, is read; 25 is added; the result replaces the old value.</td><td>145</td></tr>
+<tr><td>The first output statement</td><td>The <a class="glossary-term" id="glossary-origin-02-0037" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0037&amp;lesson=02#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> reads and reports the score. It does not own or change it.</td><td>145</td></tr>
+<tr><td><code>const int penalty{10};</code></td><td>A second read-only input is established.</td><td>145</td></tr>
+<tr><td><code>score = score - penalty;</code></td><td>The old score, 145, is read; 10 is subtracted; the result replaces the old value.</td><td>135</td></tr>
+<tr><td>The second output statement</td><td>The stream reports the <a class="glossary-term" id="glossary-origin-02-0038" href="glossary.html?from=lesson-02.html%23glossary-origin-02-0038&amp;lesson=02#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> score without changing it.</td><td>135</td></tr>
+</tbody>
+</table>
+<p>A debugger should therefore show the sequence 120, 145 and 135. If it does not, the useful observation is the first statement after which the watched value differs from this trace. That is where I would compare the current value, the input to the transition and the operation actually executed.</p>
+<p>The source does not state a complete permitted range, so the model answer must supply one rather than pretend that the type decided it. For this exercise I require <code>0 &lt;= score &amp;&amp; score &lt;= 1'000'000</code>. An event whose result would leave that range is rejected and <code>score</code> remains unchanged. C++ also requires the arithmetic result to remain representable by <code>int</code>; a different game may choose a different upper bound, but it must state and enforce that decision just as plainly.</p>
+<p>The output statements, and a rendering component in a larger program, have reason to read the score. They have no reason to change it. Reporting state is not ownership of that state.</p>
+</div>
+</details>
+<p>A variable should leave the reader able to say what is remembered, why it exists, who may change it and what must remain true. That account scales from a five-line example to a large engine. The number of variables grows. The responsibility to explain the state does not disappear with the size of the program.</p>
+</section>
+<!-- lesson-enhancement:02:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-01.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">01. The Appropriate Computer Programmer</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-03.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">03. Declaring &amp; Assigning Variables</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

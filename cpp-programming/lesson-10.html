@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Repeating code with conditions a known number of times">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 10 - 10. The For Loop</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-10.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 10 - 10. The For Loop">
+    <meta property="og:description" content="Repeating code with conditions a known number of times">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-10.html">
+</head>
+<body class="course-page lesson-page" data-lesson="10" data-art-pattern="orbit" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 10 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html" aria-current="page"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 10</span>
+            </nav>
+            <p class="hero-kicker">Lesson 10 · 24 lesson course</p>
+            <h1 id="lesson-title">10. The For Loop</h1>
+            <p class="lesson-deck">Repeating code with conditions a known number of times</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-09.html">← Lesson 09</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-11.html">Lesson 11 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>44 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-10-algorithm" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-algorithm&amp;lesson=10#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-10-argument" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-argument&amp;lesson=10#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-10-array" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-array&amp;lesson=10#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">array</a> <a class="glossary-chip" id="glossary-panel-origin-10-benchmark" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-benchmark&amp;lesson=10#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">benchmark</a> <a class="glossary-chip" id="glossary-panel-origin-10-branch" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-branch&amp;lesson=10#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branch</a> <a class="glossary-chip" id="glossary-panel-origin-10-cpp" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-cpp&amp;lesson=10#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-10-cache" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-cache&amp;lesson=10#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> <a class="glossary-chip" id="glossary-panel-origin-10-cache-locality" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-cache-locality&amp;lesson=10#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">cache locality</a> <a class="glossary-chip" id="glossary-panel-origin-10-code" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-code&amp;lesson=10#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-10-compile-time" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-compile-time&amp;lesson=10#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-10-compiler" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-compiler&amp;lesson=10#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-10-compiler-optimisation" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-compiler-optimisation&amp;lesson=10#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">compiler optimisation</a> <a class="glossary-chip" id="glossary-panel-origin-10-condition" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-condition&amp;lesson=10#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-10-constant" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-constant&amp;lesson=10#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> <a class="glossary-chip" id="glossary-panel-origin-10-control-flow" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-control-flow&amp;lesson=10#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a> <a class="glossary-chip" id="glossary-panel-origin-10-correctness" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-correctness&amp;lesson=10#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-10-cpu" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-cpu&amp;lesson=10#term-cpu" aria-label="Look up CPU in the programming glossary" title="Look up CPU in the programming glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-10-declaration" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-declaration&amp;lesson=10#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-10-expression" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-expression&amp;lesson=10#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-10-final-specifier" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-final-specifier&amp;lesson=10#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-10-for-loop" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-for-loop&amp;lesson=10#term-for-loop" aria-label="Look up for loop in the programming glossary" title="Look up for loop in the programming glossary">for loop</a> <a class="glossary-chip" id="glossary-panel-origin-10-function" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-function&amp;lesson=10#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-10-header-file" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-header-file&amp;lesson=10#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header file</a> <a class="glossary-chip" id="glossary-panel-origin-10-include-directive" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-include-directive&amp;lesson=10#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-10-infinite-loop" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-infinite-loop&amp;lesson=10#term-infinite-loop" aria-label="Look up infinite loop in the programming glossary" title="Look up infinite loop in the programming glossary">infinite loop</a> <a class="glossary-chip" id="glossary-panel-origin-10-initialisation" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-initialisation&amp;lesson=10#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-10-invariant" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-invariant&amp;lesson=10#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-10-loop" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-loop&amp;lesson=10#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-10-machine-code" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-machine-code&amp;lesson=10#term-machine-code" aria-label="Look up machine code in the programming glossary" title="Look up machine code in the programming glossary">machine code</a> <a class="glossary-chip" id="glossary-panel-origin-10-main-function" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-main-function&amp;lesson=10#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-10-postcondition" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-postcondition&amp;lesson=10#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postcondition</a> <a class="glossary-chip" id="glossary-panel-origin-10-profiler" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-profiler&amp;lesson=10#term-profiler" aria-label="Look up profiler in the programming glossary" title="Look up profiler in the programming glossary">profiler</a> <a class="glossary-chip" id="glossary-panel-origin-10-program" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-program&amp;lesson=10#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-10-runtime" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-runtime&amp;lesson=10#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-10-scope" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-scope&amp;lesson=10#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-10-sentinel" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-sentinel&amp;lesson=10#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel</a> <a class="glossary-chip" id="glossary-panel-origin-10-side-effect" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-side-effect&amp;lesson=10#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side effect</a> <a class="glossary-chip" id="glossary-panel-origin-10-state" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-state&amp;lesson=10#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-10-testing" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-testing&amp;lesson=10#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-10-unit-test" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-unit-test&amp;lesson=10#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-10-value" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-value&amp;lesson=10#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-10-variable" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-variable&amp;lesson=10#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-10-vector" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-vector&amp;lesson=10#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a> <a class="glossary-chip" id="glossary-panel-origin-10-virtual-memory" href="glossary.html?from=lesson-10.html%23glossary-panel-origin-10-virtual-memory&amp;lesson=10#term-virtual-memory" aria-label="Look up virtual memory in the programming glossary" title="Look up virtual memory in the programming glossary">virtual memory</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="10">
+<img src="assets/images/lesson-art/lesson-10-for-loop.png" alt="Abstract measured ring of repeated steps with one highlighted iteration position." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p style="text-align: left;">&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-10-0001" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0001&amp;lesson=10#term-for-loop" aria-label="Look up for loop in the programming glossary" title="Look up for loop in the programming glossary">For Loops</a>, <a class="glossary-term" id="glossary-origin-10-0002" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0002&amp;lesson=10#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">Flow Control</a> &amp; <a class="glossary-term" id="glossary-origin-10-0003" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0003&amp;lesson=10#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">Memory Locality</a> (<a class="glossary-term" id="glossary-origin-10-0004" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0004&amp;lesson=10#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+<p><strong>Flow control</strong> is how programmers alter the order of execution of statements. Under the hood, the <a class="glossary-term" id="glossary-origin-10-0005" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0005&amp;lesson=10#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> emits <em>jumps</em> in <a class="glossary-term" id="glossary-origin-10-0006" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0006&amp;lesson=10#term-machine-code" aria-label="Look up machine code in the programming glossary" title="Look up machine code in the programming glossary">machine code</a> so execution can repeat or skip instructions. While CPUs like to run instructions <em>serially</em> (for <a class="glossary-term" id="glossary-origin-10-0007" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0007&amp;lesson=10#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> friendliness), structured control flow (<a class="glossary-term" id="glossary-origin-10-0008" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0008&amp;lesson=10#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loops</a>, conditionals) is essential for real <a class="glossary-term" id="glossary-origin-10-0009" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0009&amp;lesson=10#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">programs</a>.</p>
+<hr>
+<h3>1) A Little Bit About Memory</h3>
+<p>Processes see a <strong><a class="glossary-term" id="glossary-origin-10-0010" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0010&amp;lesson=10#term-virtual-memory" aria-label="Look up virtual memory in the programming glossary" title="Look up virtual memory in the programming glossary">virtual address</a> space</strong> managed by the OS + MMU and mapped onto real hardware memory. Data might live:</p>
+<ul>
+<li>In the <strong><a class="glossary-term" id="glossary-origin-10-0011" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0011&amp;lesson=10#term-cpu" aria-label="Look up CPU in the programming glossary" title="Look up CPU in the programming glossary">CPU</a> caches</strong> (very fast, very small)</li>
+<li>In <strong>main memory</strong> (RAM, slower, large)</li>
+<li>On <strong>disk/swap</strong> (very slow, fallback)</li>
+</ul>
+<p>The system tries to keep the data you’ll need <em>near</em> the CPU. If <a class="glossary-term" id="glossary-origin-10-0012" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0012&amp;lesson=10#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> jumps around unpredictably, you can suffer cache misses and even <strong>page faults</strong> (RAM pages swapped in/out), which stall the CPU. Compilers often improve layout and simplify conditional paths, but your loop structure still matters for locality.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Make Loops Cache-Friendly</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Paste a loop; ask AI if iteration order matches memory layout (e.g., row-major vs column-major).</li>
+<li>Have AI suggest loop fusion/splitting or <code>reserve()</code>/<code>shrink_to_fit()</code> calls to reduce reallocations and jumps.</li>
+</ul>
+</details>
+<hr>
+<h3>2) The <code>for</code> Loop Shape</h3>
+<p>A canonical <code>for</code> loop has three parts: <em><a class="glossary-term" id="glossary-origin-10-0013" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0013&amp;lesson=10#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a></em>; <em><a class="glossary-term" id="glossary-origin-10-0014" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0014&amp;lesson=10#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a></em>; <em>iteration</em>. The condition is checked at the <strong>start</strong> of each iteration.</p>
+<pre><code class="language-cpp">for (int i = 0; i &lt; n; ++i) {     // init ; condition ; step
+    // loop body
+}
+</code></pre>
+<ul>
+<li>The <strong>control <a class="glossary-term" id="glossary-origin-10-0015" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0015&amp;lesson=10#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a></strong> (<code>i</code>) is usually <a class="glossary-term" id="glossary-origin-10-0016" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0016&amp;lesson=10#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declared</a> in the loop and lives only inside it (good scoping).</li>
+<li>Iterations should be known (or upper-bounded) at <a class="glossary-term" id="glossary-origin-10-0017" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0017&amp;lesson=10#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a>; compilers may <a class="glossary-term" id="glossary-origin-10-0018" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0018&amp;lesson=10#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">optimise</a> if the bound is known at <a class="glossary-term" id="glossary-origin-10-0019" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0019&amp;lesson=10#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a>.</li>
+<li>Follow a simple, monotonic sequence (<code>++i</code> is idiomatic).</li>
+</ul>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Specify Loop Contracts</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask AI to <a class="glossary-term" id="glossary-origin-10-0020" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0020&amp;lesson=10#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> your loop’s <a class="glossary-term" id="glossary-origin-10-0021" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0021&amp;lesson=10#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> (“what stays true each iteration”) and <a class="glossary-term" id="glossary-origin-10-0022" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0022&amp;lesson=10#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postcondition</a> (“what’s true when it ends”).</li>
+<li>Have AI convert a <code>while</code> loop to an equivalent <code>for</code> loop (or vice versa) and explain the differences.</li>
+</ul>
+</details>
+<hr>
+<h3>3) Pick the Right Loop</h3>
+<ul>
+<li><strong>for</strong>: fixed/countable iterations (indexing <a class="glossary-term" id="glossary-origin-10-0023" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0023&amp;lesson=10#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">arrays</a>/<a class="glossary-term" id="glossary-origin-10-0024" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0024&amp;lesson=10#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vectors</a>).</li>
+<li><strong>range-based for</strong>: iterate elements directly; simplest and safest.</li>
+<li><strong>while</strong>: <a class="glossary-term" id="glossary-origin-10-0025" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0025&amp;lesson=10#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel-controlled</a> input or loops with no clear count.</li>
+</ul>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;iostream&gt;
+int main() {
+    std::vector&lt;int&gt; v{1,2,3};
+
+    // index form (need indices)
+    for (std::size_t i = 0, n = v.size(); i &lt; n; ++i) {
+        v[i] *= 2;
+    }
+
+    // range-based form (prefer when index not needed)
+    for (int&amp; x : v) {
+        x *= 2;
+    }
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Convert to Safer Forms</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask AI to turn index loops into range-based loops where safe, and to keep index form only when needed.</li>
+<li>Have AI suggest using <a class="glossary-term" id="glossary-origin-10-0026" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0026&amp;lesson=10#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithms</a> (<code>std::for_each</code>, <code>std::transform</code>) when intent is “apply <a class="glossary-term" id="glossary-origin-10-0027" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0027&amp;lesson=10#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> to all”.</li>
+</ul>
+</details>
+<hr>
+<h3>4) The Classic Pitfall — Modifying the Control Variable</h3>
+<p>Never change the loop’s control variable from inside the body for unrelated reasons (especially via input). It risks <a class="glossary-term" id="glossary-origin-10-0028" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0028&amp;lesson=10#term-infinite-loop" aria-label="Look up infinite loop in the programming glossary" title="Look up infinite loop in the programming glossary">infinite loops</a> or skipped iterations.</p>
+<pre><code class="language-cpp">int x = 100;
+
+for (int y = 0; y &lt; x; ++y) {
+    std::cin &gt;&gt; y;                 // ❌ BAD: mutates control variable
+    std::cout &lt;&lt; x + y &lt;&lt; '\n';
+}
+</code></pre>
+<p><strong>Why it’s bad:</strong> the loop condition depends on <code>y</code>, and you’re changing <code>y</code> in a non-monotonic way based on user input — this can cause non-termination or surprising behaviour.</p>
+<p><strong>Better patterns:</strong></p>
+<pre><code class="language-cpp">// A) Separate the input from the control variable
+int x = 100;
+for (int y = 0; y &lt; x; ++y) {
+    int input{};
+    std::cin &gt;&gt; input;
+    std::cout &lt;&lt; x + input &lt;&lt; '\n';
+}
+
+// B) If the user controls loop length, use a while with a clear sentinel/condition
+int input{};
+while (std::cin &gt;&gt; input &amp;&amp; input != 0) {  // stop on 0 (sentinel)
+    std::cout &lt;&lt; "Result: " &lt;&lt; (100 + input) &lt;&lt; '\n';
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Prevent “Never-Ending” Loops</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Paste the loop; ask AI to identify which variable controls termination and whether it always progresses.</li>
+<li>Have AI propose a sentinel-based <code>while</code> or a bounded <code>for</code> with separate input variable.</li>
+</ul>
+</details>
+<hr>
+<h3>5) Common For-Loop Errors (and fixes)</h3>
+<ul>
+<li><strong>Off-by-one</strong>: using <code>&lt;=</code> instead of <code>&lt;</code> when indexing.</li>
+<li><strong>Signed/unsigned mismatch</strong>: compare <code>int i</code> with <code>size_t size</code> → prefer <code>size_t</code> for indices.</li>
+<li><strong>Changing the bound inside</strong> the loop (e.g., pushing to a vector you’re iterating by index without planning for growth).</li>
+<li><strong>Recomputing size</strong> in the condition when it can change; capture it first if appropriate.</li>
+</ul>
+<pre><code class="language-cpp">std::vector&lt;int&gt; v = {1,2,3};
+// ❌ off-by-one
+// for (size_t i = 0; i &lt;= v.size() - 1; ++i) { ... }
+
+for (size_t i = 0, n = v.size(); i &lt; n; ++i) { // ✅ capture size
+    // safe indexing
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Lint Your Loops</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask AI to scan for off-by-one risks, signed/unsigned compares, and bounds that change mid-loop.</li>
+<li>Have AI propose <a class="glossary-term" id="glossary-origin-10-0029" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0029&amp;lesson=10#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit tests</a> (empty, single-element, large sizes) to catch edge cases.</li>
+</ul>
+</details>
+<hr>
+<h3>6) Performance Notes (Beginners’ Edition)</h3>
+<ul>
+<li>Prefer <strong>contiguous</strong> data access (arrays, <code>std::vector</code>) and forward iteration.</li>
+<li>Keep the body small and predictable; avoid unnecessary <a class="glossary-term" id="glossary-origin-10-0030" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0030&amp;lesson=10#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branches</a> inside hot loops.</li>
+<li>If the iteration count is a compile-time <a class="glossary-term" id="glossary-origin-10-0031" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0031&amp;lesson=10#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> (<code>constexpr N</code>), compilers may unroll or vectorise.</li>
+</ul>
+<pre><code class="language-cpp">constexpr int N = 1024;
+int a[N];
+for (int i = 0; i &lt; N; ++i) { a[i] = i; } // compiler can unroll/vectorise
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Microbench &amp; Interpret</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Have AI generate a small <a class="glossary-term" id="glossary-origin-10-0032" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0032&amp;lesson=10#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">benchmark</a> (Google Benchmark) to compare two loop variants.</li>
+<li>Ask AI to explain <a class="glossary-term" id="glossary-origin-10-0033" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0033&amp;lesson=10#term-profiler" aria-label="Look up profiler in the programming glossary" title="Look up profiler in the programming glossary">profiler</a> output (hot lines, cache misses) in plain English.</li>
+</ul>
+</details>
+<hr>
+<h3>7) Worked Example — Sum of Even Numbers</h3>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    std::vector&lt;int&gt; v{1,2,3,4,5,6};
+
+    // Counted for
+    int sum = 0;
+    for (size_t i = 0, n = v.size(); i &lt; n; ++i) {
+        if (v[i] % 2 == 0) sum += v[i];
+    }
+    std::cout &lt;&lt; "sum=" &lt;&lt; sum &lt;&lt; '\n';
+
+    // Range-based for (clearer intent)
+    int sum2 = 0;
+    for (int x : v) {
+        if ((x &amp; 1) == 0) sum2 += x;
+    }
+    std::cout &lt;&lt; "sum2=" &lt;&lt; sum2 &lt;&lt; '\n';
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — From Loops to Algorithms</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask AI to rewrite as <code>std::accumulate</code>/<code>std::ranges</code> pipeline and to comment the trade-offs.</li>
+</ul>
+</details>
+<hr>
+<h3>8) Mini Exercise — Fix the Loop</h3>
+<p><strong>Problem:</strong> The user should enter numbers; print <code>100 + input</code> until the user enters 0. The current code is wrong:</p>
+<pre><code class="language-cpp">int x = 100;
+for (int y = 0; y &lt; x; ++y) {
+    std::cin &gt;&gt; y;                   // ❌
+    std::cout &lt;&lt; x + y &lt;&lt; '\n';
+}
+</code></pre>
+<p><strong>Target (one possible fix):</strong></p>
+<pre><code class="language-cpp">int x = 100;
+for (int input = 0; std::cin &gt;&gt; input &amp;&amp; input != 0; ) {
+    std::cout &lt;&lt; x + input &lt;&lt; '\n';
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Repair Recipe</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask AI to identify the control variable and propose a loop where the control and input are separate.</li>
+<li>Have AI generate <a class="glossary-term" id="glossary-origin-10-0034" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0034&amp;lesson=10#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a>: empty input, single <a class="glossary-term" id="glossary-origin-10-0035" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0035&amp;lesson=10#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a>, long sequence, invalid input handling.</li>
+</ul>
+</details>
+<hr>
+<h3>Summary Checklist</h3>
+<ul>
+<li>Use <strong>for</strong> when iteration count is known; <strong>range-based for</strong> when you just need elements; <strong>while</strong> for sentinel input.</li>
+<li>Keep the <strong>control variable</strong> monotonic and separate from user inputs or <a class="glossary-term" id="glossary-origin-10-0036" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0036&amp;lesson=10#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side effects</a>.</li>
+<li>Prefer <strong>&lt;</strong> to <strong>&lt;=</strong> for index bounds; use <strong><code>size_t</code></strong> for sizes/indices.</li>
+<li>Maximise <strong>locality</strong>: contiguous data, simple branches, predictable strides.</li>
+<li>Let the compiler optimise; write clear loops first, then measure.</li>
+</ul>
+        
+<!-- lesson-enhancement:10:start -->
+<section class="lesson-enhancement" id="for-loop-reasoning">
+<p class="lesson-enhancement-kicker">Advanced perspective: counted iteration and invariants</p>
+<h2>A <code>for</code> loop describes a controlled sequence of states</h2>
+<p>A loop that prints the expected answer once may still contain the wrong bound, the wrong update or an accidental dependence on the data used for that run. The operative test is whether its initial state, continuation condition, body and update jointly describe the required sequence. Each part has a job. If you cannot account for the state at the boundary between two iterations, the <a class="glossary-term" id="glossary-origin-10-0037" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0037&amp;lesson=10#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> answer is weaker evidence than it appears.</p>
+<p>The three <a class="glossary-term" id="glossary-origin-10-0038" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0038&amp;lesson=10#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expressions</a> in a conventional <code>for</code> <a class="glossary-term" id="glossary-origin-10-0039" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0039&amp;lesson=10#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header</a> gather the control policy into one visible place. That is why the form is useful for counted work. The syntax itself does not promise a known number of iterations, or even termination. Those properties must follow from the actual values and transitions.</p>
+
+<h3>Execution order is the first thing to get right</h3>
+<table>
+<thead><tr><th>Part</th><th>When it runs</th><th>Question it must answer</th></tr></thead>
+<tbody>
+<tr><td>Initialisation</td><td>Once, before the first condition test</td><td>What is the first candidate state?</td></tr>
+<tr><td>Condition</td><td>Before every possible execution of the body</td><td>Is the current candidate still inside the required range?</td></tr>
+<tr><td>Body</td><td>Only when the condition is true</td><td>What work belongs to this candidate?</td></tr>
+<tr><td>Update</td><td>After a completed body and before the next test</td><td>How does the control state move towards the next candidate and, eventually, the end?</td></tr>
+</tbody>
+</table>
+<p>The order is therefore: initialise, test, execute the body, update, test again. The initialisation does not repeat. The update does not happen before the first body. When the condition is false, the body and update are skipped and execution continues after the loop. A <code>continue</code> statement inside a <code>for</code> loop also leads to the update before the next condition test; it does not jump directly to the condition.</p>
+<p>When the control variable is declared in the initialisation, it is available to the condition, the body and the update. It is not available after the <code>for</code> statement has finished. That <a class="glossary-term" id="glossary-origin-10-0040" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0040&amp;lesson=10#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> is useful evidence: the name exists for the policy it controls, then disappears.</p>
+
+<h3>Trace control state and useful state separately</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    int sum{0};
+
+    for (int value{2}; value &lt;= 10; value += 2) {
+        sum += value;
+    }
+
+    std::cout &lt;&lt; "Sum: " &lt;&lt; sum &lt;&lt; '\n';
+}
+</code></pre>
+<p>Here, <code>value</code> controls the sequence and <code>sum</code> records the work already completed. Confusing those roles is dangerous. The loop must advance <code>value</code> even though the calculation of interest is stored in <code>sum</code>.</p>
+<table>
+<thead><tr><th>Condition test with <code>value</code></th><th><code>sum</code> before the body</th><th>Body effect</th><th>State after update</th></tr></thead>
+<tbody>
+<tr><td>2, true</td><td>0</td><td>Add 2, giving 2</td><td><code>value</code> becomes 4</td></tr>
+<tr><td>4, true</td><td>2</td><td>Add 4, giving 6</td><td><code>value</code> becomes 6</td></tr>
+<tr><td>6, true</td><td>6</td><td>Add 6, giving 12</td><td><code>value</code> becomes 8</td></tr>
+<tr><td>8, true</td><td>12</td><td>Add 8, giving 20</td><td><code>value</code> becomes 10</td></tr>
+<tr><td>10, true</td><td>20</td><td>Add 10, giving 30</td><td><code>value</code> becomes 12</td></tr>
+<tr><td>12, false</td><td>30</td><td>Body is not executed</td><td>Update is not executed</td></tr>
+</tbody>
+</table>
+<p>The output is <code>Sum: 30</code> followed by a newline. More importantly, the trace explains why. Before each condition test, <code>sum</code> is the total of the required even values that are less than <code>value</code>. This statement is the loop invariant.</p>
+<p>It is true initially: no required value is less than 2, and the sum is zero. If it is true when the condition admits the current value, the body adds that value and the update moves to the next even candidate, so the statement is true again. At exit, <code>value</code> is 12 and the condition is false. The invariant then tells us that all required even values through 10 have been included. Initial truth, preservation and a useful exit condition turn the trace into a <a class="glossary-term" id="glossary-origin-10-0041" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0041&amp;lesson=10#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-term" id="glossary-origin-10-0042" href="glossary.html?from=lesson-10.html%23glossary-origin-10-0042&amp;lesson=10#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a>.</p>
+
+<h3>A bound is correct only in relation to the intended range</h3>
+<p>The use of <code>&lt;=</code> in this program is deliberate because 10 belongs to the required arithmetic range. Replacing it with <code>&lt;</code> would omit 10 and produce 20. This is not an argument that inclusive bounds are generally safer. It shows that a comparison has no meaning in isolation from the range it represents.</p>
+<p>Indices usually describe a different range. If a sequence contains <code>count</code> elements, its valid indices are normally zero through <code>count - 1</code>. The half-open form <code>0 &lt;= index &amp;&amp; index &lt; count</code> states that contract directly. It also handles an empty sequence: when <code>count</code> is zero, the first test fails and the body does not run.</p>
+<table>
+<thead><tr><th>Change to the worked loop</th><th>Observed sequence</th><th>Judgement</th></tr></thead>
+<tbody>
+<tr><td><code>value &lt; 10</code></td><td>2, 4, 6, 8</td><td>Terminates, but omits a required endpoint.</td></tr>
+<tr><td><code>value &lt;= 12</code></td><td>2, 4, 6, 8, 10, 12</td><td>Terminates, but admits a value outside the requirement.</td></tr>
+<tr><td><code>value += 4</code></td><td>2, 6, 10</td><td>Stays inside the bound, but no longer visits every required even value.</td></tr>
+<tr><td>No update to <code>value</code></td><td>2 repeatedly</td><td>The condition does not progress towards false, so the intended termination argument fails.</td></tr>
+</tbody>
+</table>
+<p>This is why counting the number of body executions is only one check. A loop can execute five times and still visit the wrong five values. The actual sequence is the evidence.</p>
+
+<h3>Separate the invariant, progress and exit claim</h3>
+<p>Three questions expose most defects in a counted loop. What must be true whenever the condition is tested? Which state change moves the loop towards termination? What does the false condition establish when the loop exits? An invariant without progress can describe an endless loop. Progress without the right invariant can terminate after doing the wrong work. A false condition that says nothing useful about completed work cannot justify the result on its own.</p>
+<p>Modifying the control variable inside the body deserves special suspicion because it creates a second update policy away from the header. It is not forbidden by C++, and there are specialised loops where it is intentional. However, if the body reads user input into the control variable, the next candidate and the termination argument now depend on arbitrary input. A separate input variable keeps the counted policy inspectable.</p>
+<p>A range-based <code>for</code> loop is often clearer when the requirement is simply to process every element and the position has no separate meaning. A conventional counted loop remains appropriate when the index is part of the result, a subrange is required or the step itself matters. Choose the form that makes the required state visible. Familiar syntax is not the criterion.</p>
+
+<h3>Performance follows correctness, not the other way round</h3>
+<p>Iteration order can affect performance because data representation and access pattern influence locality. That claim does not rescue an unsafe bound, and it does not prove that a short benchmark predicts the complete application. Establish the visited range and state transitions first. If performance is material, measure the real workload and interpret the result in the context of its data size, layout, compiler settings and machine.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> demand the states, not a reassuring verdict</summary>
+<div>
+<p>When an AI system proposes or reviews a loop, ask for the initial state, the first three condition tests, the final successful test and the first failed test. Require it to name the control variable, state the invariant and identify the progress step. Then compare those claims with the source. A conventional-looking header can still visit the wrong range, and a confident claim that the loop is safe is not a trace.</p>
+</div>
+</details>
+
+<h3>Prove a small change before you run it</h3>
+<p>Change the upper endpoint of the worked requirement from 10 to 14. Before editing the condition, predict every admitted value, every value of <code>sum</code> after the body and the first failed condition test.</p>
+<p>Then test a half-open index loop with sequence lengths zero, one and five. For each length, write the candidate indices before running the program. If the body executes for an index equal to the length, the boundary is wrong. Stop at the first failed test, inspect the state and explain the exit claim. That discipline scales beyond this example because it tests the loop's argument, not your confidence in its appearance.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The final sum should be 56, but reaching 56 is not the whole task: your trace must show why 2, 4, 6, 8, 10, 12 and 14 are each included once.</p>
+<p>The new endpoint belongs to the required range, so the changed loop condition is <code>value &lt;= 14</code>:</p>
+<pre><code class="language-cpp">int sum{0};
+
+for (int value{2}; value &lt;= 14; value += 2) {
+    sum += value;
+}
+</code></pre>
+<table>
+<thead><tr><th>Condition test</th><th><code>sum</code> before the body</th><th><code>sum</code> after the body</th><th>Next value</th></tr></thead>
+<tbody>
+<tr><td><code>2 &lt;= 14</code>, true</td><td>0</td><td>2</td><td>4</td></tr>
+<tr><td><code>4 &lt;= 14</code>, true</td><td>2</td><td>6</td><td>6</td></tr>
+<tr><td><code>6 &lt;= 14</code>, true</td><td>6</td><td>12</td><td>8</td></tr>
+<tr><td><code>8 &lt;= 14</code>, true</td><td>12</td><td>20</td><td>10</td></tr>
+<tr><td><code>10 &lt;= 14</code>, true</td><td>20</td><td>30</td><td>12</td></tr>
+<tr><td><code>12 &lt;= 14</code>, true</td><td>30</td><td>42</td><td>14</td></tr>
+<tr><td><code>14 &lt;= 14</code>, true</td><td>42</td><td>56</td><td>16</td></tr>
+<tr><td><code>16 &lt;= 14</code>, false</td><td>56</td><td>Body not entered</td><td>No update</td></tr>
+</tbody>
+</table>
+<p>Before each test, <code>sum</code> is the total of the required even values from 2 up to, but not including, <code>value</code>. The body preserves that statement by adding the current value, and the update advances to the next even candidate. The failed test at 16 establishes that every required value through 14 has been admitted once. The value 56 is therefore explained by the state transitions rather than accepted because it appeared on one run.</p>
+<p>A half-open index loop has a different boundary:</p>
+<pre><code class="language-cpp">for (std::size_t index{0}; index &lt; length; ++index) {
+    // Use the element at index.
+}
+</code></pre>
+<table>
+<thead><tr><th>Length</th><th>Indices admitted to the body</th><th>First failed test</th><th>Exit claim</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>None</td><td><code>0 &lt; 0</code></td><td>An empty sequence has no valid index.</td></tr>
+<tr><td>1</td><td>0</td><td><code>1 &lt; 1</code></td><td>The only valid index was visited once.</td></tr>
+<tr><td>5</td><td>0, 1, 2, 3, 4</td><td><code>5 &lt; 5</code></td><td>Every valid index was visited once.</td></tr>
+</tbody>
+</table>
+<p>In every case, the candidate equal to <code>length</code> is tested and rejected before the body. That is the evidence that the loop does not step outside the sequence.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:10:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-09.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">09. &quot;Hello, World&quot;, (good night Vienna)</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-11.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">11. The While (and Do) Loops</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

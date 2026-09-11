@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Avoiding naming conflicts in your programs">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 08 - 8. Namespaces</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-08.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 08 - 8. Namespaces">
+    <meta property="og:description" content="Avoiding naming conflicts in your programs">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-08.html">
+</head>
+<body class="course-page lesson-page" data-lesson="08" data-art-pattern="cells" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 08 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html" aria-current="page"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 08</span>
+            </nav>
+            <p class="hero-kicker">Lesson 08 · 24 lesson course</p>
+            <h1 id="lesson-title">8. Namespaces</h1>
+            <p class="lesson-deck">Avoiding naming conflicts in your programs</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-07.html">← Lesson 07</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-09.html">Lesson 09 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>64 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-08-api" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-api&amp;lesson=08#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-08-argument" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-argument&amp;lesson=08#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-08-assignment" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-assignment&amp;lesson=08#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-08-block" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-block&amp;lesson=08#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-08-cpp" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-cpp&amp;lesson=08#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-08-reference" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-reference&amp;lesson=08#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-08-call-site" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-call-site&amp;lesson=08#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> <a class="glossary-chip" id="glossary-panel-origin-08-cast" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-cast&amp;lesson=08#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a> <a class="glossary-chip" id="glossary-panel-origin-08-class" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-class&amp;lesson=08#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-08-code" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-code&amp;lesson=08#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-08-compile-time" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-compile-time&amp;lesson=08#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-08-compiler" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-compiler&amp;lesson=08#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-08-concept" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-concept&amp;lesson=08#term-concept" aria-label="Look up concept in the programming glossary" title="Look up concept in the programming glossary">concept</a> <a class="glossary-chip" id="glossary-panel-origin-08-condition" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-condition&amp;lesson=08#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-08-conversion" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-conversion&amp;lesson=08#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-08-cpu" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-cpu&amp;lesson=08#term-cpu" aria-label="Look up CPU in the programming glossary" title="Look up CPU in the programming glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-08-declaration" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-declaration&amp;lesson=08#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-08-definition" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-definition&amp;lesson=08#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-08-executable" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-executable&amp;lesson=08#term-executable" aria-label="Look up executable in the programming glossary" title="Look up executable in the programming glossary">executable</a> <a class="glossary-chip" id="glossary-panel-origin-08-external-linkage" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-external-linkage&amp;lesson=08#term-external-linkage" aria-label="Look up external linkage in the programming glossary" title="Look up external linkage in the programming glossary">external linkage</a> <a class="glossary-chip" id="glossary-panel-origin-08-final-specifier" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-final-specifier&amp;lesson=08#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-08-function" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-function&amp;lesson=08#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-08-function-signature" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-function-signature&amp;lesson=08#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-08-global-variable" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-global-variable&amp;lesson=08#term-global-variable" aria-label="Look up global variable in the programming glossary" title="Look up global variable in the programming glossary">global variable</a> <a class="glossary-chip" id="glossary-panel-origin-08-header-file" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-header-file&amp;lesson=08#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header file</a> <a class="glossary-chip" id="glossary-panel-origin-08-identifier" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-identifier&amp;lesson=08#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-08-include-directive" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-include-directive&amp;lesson=08#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-08-inline" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-inline&amp;lesson=08#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a> <a class="glossary-chip" id="glossary-panel-origin-08-input-output" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-input-output&amp;lesson=08#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">input/output</a> <a class="glossary-chip" id="glossary-panel-origin-08-integer" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-integer&amp;lesson=08#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-08-interface" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-interface&amp;lesson=08#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-08-internal-linkage" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-internal-linkage&amp;lesson=08#term-internal-linkage" aria-label="Look up internal linkage in the programming glossary" title="Look up internal linkage in the programming glossary">internal linkage</a> <a class="glossary-chip" id="glossary-panel-origin-08-library" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-library&amp;lesson=08#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> <a class="glossary-chip" id="glossary-panel-origin-08-linker" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-linker&amp;lesson=08#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">linker</a> <a class="glossary-chip" id="glossary-panel-origin-08-linker-error" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-linker-error&amp;lesson=08#term-linker-error" aria-label="Look up linker error in the programming glossary" title="Look up linker error in the programming glossary">linker error</a> <a class="glossary-chip" id="glossary-panel-origin-08-main-function" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-main-function&amp;lesson=08#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-08-multiple-definition-error" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-multiple-definition-error&amp;lesson=08#term-multiple-definition-error" aria-label="Look up multiple definition error in the programming glossary" title="Look up multiple definition error in the programming glossary">multiple definition error</a> <a class="glossary-chip" id="glossary-panel-origin-08-namespace" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-namespace&amp;lesson=08#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">namespace</a> <a class="glossary-chip" id="glossary-panel-origin-08-namespace-alias" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-namespace-alias&amp;lesson=08#term-namespace-alias" aria-label="Look up namespace alias in the programming glossary" title="Look up namespace alias in the programming glossary">namespace alias</a> <a class="glossary-chip" id="glossary-panel-origin-08-object" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-object&amp;lesson=08#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-08-object-file" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-object-file&amp;lesson=08#term-object-file" aria-label="Look up object file in the programming glossary" title="Look up object file in the programming glossary">object file</a> <a class="glossary-chip" id="glossary-panel-origin-08-one-definition-rule" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-one-definition-rule&amp;lesson=08#term-one-definition-rule" aria-label="Look up One Definition Rule in the programming glossary" title="Look up One Definition Rule in the programming glossary">One Definition Rule</a> <a class="glossary-chip" id="glossary-panel-origin-08-overload-resolution" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-overload-resolution&amp;lesson=08#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload resolution</a> <a class="glossary-chip" id="glossary-panel-origin-08-ownership" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-ownership&amp;lesson=08#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-08-pragma-once" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-pragma-once&amp;lesson=08#term-pragma-once" aria-label="Look up pragma once in the programming glossary" title="Look up pragma once in the programming glossary">pragma once</a> <a class="glossary-chip" id="glossary-panel-origin-08-program" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-program&amp;lesson=08#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-08-access-levels" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-access-levels&amp;lesson=08#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-08-runtime" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-runtime&amp;lesson=08#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-08-scope" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-scope&amp;lesson=08#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-08-source-file" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-source-file&amp;lesson=08#term-source-file" aria-label="Look up source file in the programming glossary" title="Look up source file in the programming glossary">source file</a> <a class="glossary-chip" id="glossary-panel-origin-08-state" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-state&amp;lesson=08#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-08-static-keyword" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-static-keyword&amp;lesson=08#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> <a class="glossary-chip" id="glossary-panel-origin-08-string" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-string&amp;lesson=08#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-08-switch-statement" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-switch-statement&amp;lesson=08#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch statement</a> <a class="glossary-chip" id="glossary-panel-origin-08-symbol" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-symbol&amp;lesson=08#term-symbol" aria-label="Look up symbol in the programming glossary" title="Look up symbol in the programming glossary">symbol</a> <a class="glossary-chip" id="glossary-panel-origin-08-testing" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-testing&amp;lesson=08#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-08-translation-unit" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-translation-unit&amp;lesson=08#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation unit</a> <a class="glossary-chip" id="glossary-panel-origin-08-type" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-type&amp;lesson=08#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-08-unnamed-namespace" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-unnamed-namespace&amp;lesson=08#term-unnamed-namespace" aria-label="Look up unnamed namespace in the programming glossary" title="Look up unnamed namespace in the programming glossary">unnamed namespace</a> <a class="glossary-chip" id="glossary-panel-origin-08-using-declaration" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-using-declaration&amp;lesson=08#term-using-declaration" aria-label="Look up using declaration in the programming glossary" title="Look up using declaration in the programming glossary">using declaration</a> <a class="glossary-chip" id="glossary-panel-origin-08-using-directive" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-using-directive&amp;lesson=08#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">using directive</a> <a class="glossary-chip" id="glossary-panel-origin-08-value" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-value&amp;lesson=08#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-08-variable" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-variable&amp;lesson=08#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-08-vector" href="glossary.html?from=lesson-08.html%23glossary-panel-origin-08-vector&amp;lesson=08#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="08">
+<img src="assets/images/lesson-art/lesson-08-namespaces.png" alt="Abstract matching symbols safely separated inside distinct translucent domains." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+<p>&nbsp;</p>
+
+<p style="text-align: center;">&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-08-0001" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0001&amp;lesson=08#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">Namespaces</a> &amp; Name Conflicts (<a class="glossary-term" id="glossary-origin-08-0002" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0002&amp;lesson=08#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+
+<p>
+Namespaces prevent <strong>name conflicts</strong>—situations where two or more <a class="glossary-term" id="glossary-origin-08-0003" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0003&amp;lesson=08#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifiers</a> collide in the same visible <a class="glossary-term" id="glossary-origin-08-0004" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0004&amp;lesson=08#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a>. 
+Conflicts can happen <em>inside a <a class="glossary-term" id="glossary-origin-08-0005" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0005&amp;lesson=08#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a></em> (between <code>{}</code>) or at <em>namespace scope</em> (often called “global scope” when the namespace is the unnamed global one).
+Large <a class="glossary-term" id="glossary-origin-08-0006" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0006&amp;lesson=08#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">programs</a> spread across multiple files intensify this problem; namespaces are the primary tool to keep names distinct and your design modular.
+</p>
+
+<hr>
+
+<h3>1) Where Conflicts Come From</h3>
+
+<ul>
+  <li><strong>Block (local) scope:</strong> <a class="glossary-term" id="glossary-origin-08-0007" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0007&amp;lesson=08#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declarations</a> inside <code>{}</code>. The <a class="glossary-term" id="glossary-origin-08-0008" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0008&amp;lesson=08#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> flags duplicates immediately.</li>
+  <li><strong>Namespace (global) scope:</strong> declarations outside any <a class="glossary-term" id="glossary-origin-08-0009" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0009&amp;lesson=08#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a>/<a class="glossary-term" id="glossary-origin-08-0010" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0010&amp;lesson=08#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a>. Multiple files can accidentally introduce the same name.</li>
+  <li><strong>Across <a class="glossary-term" id="glossary-origin-08-0011" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0011&amp;lesson=08#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation units</a> (TUs):</strong> each <code>.cpp</code> compiles independently to an <a class="glossary-term" id="glossary-origin-08-0012" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0012&amp;lesson=08#term-object-file" aria-label="Look up object file in the programming glossary" title="Look up object file in the programming glossary">object file</a>; conflicts often only appear at <em><a class="glossary-term" id="glossary-origin-08-0013" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0013&amp;lesson=08#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">link</a> time</em> when object files are combined.</li>
+</ul>
+
+<pre><code class="language-cpp">// compile-time conflict in one block
+void f() {
+  int value = 0;
+  int value = 1; // ❌ redeclaration in the same scope
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Conflict Radar</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Paste compiler/<a class="glossary-term" id="glossary-origin-08-0014" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0014&amp;lesson=08#term-linker-error" aria-label="Look up linker error in the programming glossary" title="Look up linker error in the programming glossary">linker errors</a>; ask AI to classify: same-scope compile error vs cross-file link error.</li>
+    <li>Have AI list visible scopes for a given identifier and suggest renaming or namespacing plans.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>2) The Role of the Linker (Why “it built but won’t link”)</h3>
+
+<p>
+Each <code>.cpp</code> compiles into an object file. The <strong>linker</strong> then resolves <a class="glossary-term" id="glossary-origin-08-0015" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0015&amp;lesson=08#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> between them. 
+Conflicts that slip past individual compilation (e.g., two files <a class="glossary-term" id="glossary-origin-08-0016" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0016&amp;lesson=08#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> the same <a class="glossary-term" id="glossary-origin-08-0017" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0017&amp;lesson=08#term-global-variable" aria-label="Look up global variable in the programming glossary" title="Look up global variable in the programming glossary">global name</a>) are caught at link time.
+</p>
+
+<pre><code class="language-cpp">// a.cpp
+int counter = 0;
+
+// b.cpp
+int counter = 0;      // ❌ multiple definition at link stage
+
+// main.cpp
+int main(){ return counter; }
+</code></pre>
+
+<p><strong>Fix:</strong> declare in a <a class="glossary-term" id="glossary-origin-08-0018" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0018&amp;lesson=08#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header</a> with <code>extern</code>, define in exactly one <code>.cpp</code>.</p>
+
+<pre><code class="language-cpp">// counter.h
+#pragma once
+extern int counter;
+
+// counter.cpp
+#include "counter.h"
+int counter = 0;  // single definition
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Heal <a class="glossary-term" id="glossary-origin-08-0019" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0019&amp;lesson=08#term-one-definition-rule" aria-label="Look up One Definition Rule in the programming glossary" title="Look up One Definition Rule in the programming glossary">ODR</a> Violations</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to rewrite globals as <code>extern</code> + single definition, or as <code>inline constexpr</code> (C++17+) where appropriate.</li>
+    <li>AI can produce a “who-defines-this” map to find <a class="glossary-term" id="glossary-origin-08-0020" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0020&amp;lesson=08#term-multiple-definition-error" aria-label="Look up multiple definition error in the programming glossary" title="Look up multiple definition error in the programming glossary">duplicate definitions</a> quickly.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>3) Namespaces: The Shield Against Collisions</h3>
+
+<p>
+Namespaces group related declarations to avoid clashes and to communicate design. Use <code>namespace mylib { ... }</code> to wrap functions, classes, <a class="glossary-term" id="glossary-origin-08-0021" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0021&amp;lesson=08#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variables</a>.
+</p>
+
+<pre><code class="language-cpp">namespace img {
+  void load();
+}
+
+namespace analyze {
+  void load();     // different meaning in a different namespace
+}
+
+int main() {
+  img::load();
+  analyze::load();
+}
+</code></pre>
+
+<p>
+You can nest namespaces, alias them, and use <a class="glossary-term" id="glossary-origin-08-0022" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0022&amp;lesson=08#term-unnamed-namespace" aria-label="Look up unnamed namespace in the programming glossary" title="Look up unnamed namespace in the programming glossary">anonymous namespaces</a> to limit visibility to a single translation unit.
+</p>
+
+<pre><code class="language-cpp">// Nested &amp; alias
+namespace mylib { namespace io { void save(); } }
+namespace io = mylib::io;  // alias
+// ...
+io::save();
+
+// Anonymous (internal linkage — only this .cpp sees it)
+namespace {
+  void helper_only_in_this_file();
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Design Your Namespace Layout</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Describe your modules; ask AI to propose a namespace tree and file layout.</li>
+    <li>Have AI add <em>anonymous namespaces</em> for TU-only helpers to avoid leaking <a class="glossary-term" id="glossary-origin-08-0023" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0023&amp;lesson=08#term-symbol" aria-label="Look up symbol in the programming glossary" title="Look up symbol in the programming glossary">symbols</a>.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>4) “Using” Declarations vs “<a class="glossary-term" id="glossary-origin-08-0024" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0024&amp;lesson=08#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">Using namespace</a>”</h3>
+
+<ul>
+  <li><strong>Prefer qualified names</strong>: <code>std::string</code>, <code>img::load()</code>.</li>
+  <li><strong>OK in .cpp (sparingly):</strong> <code>using std::string;</code> to shorten one or two <a class="glossary-term" id="glossary-origin-08-0025" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0025&amp;lesson=08#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a>.</li>
+  <li><strong>Avoid in headers:</strong> <code>using namespace std;</code> in headers pollutes every includer’s scope and invites collisions.</li>
+</ul>
+
+<pre><code class="language-cpp">// Good in .cpp, targeted
+using std::string;
+string name = "Graham";
+
+// Avoid in headers:
+//// using namespace std;  // ❌ pollutes all includers
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Decontaminate Headers</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to remove <code>using namespace</code> from headers and replace with qualified names or narrow <code>using</code> declarations.</li>
+    <li>AI can flag accidental <a class="glossary-term" id="glossary-origin-08-0026" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0026&amp;lesson=08#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> pollution and propose safer <a class="glossary-term" id="glossary-origin-08-0027" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0027&amp;lesson=08#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">signatures</a>.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>5) Switching Implementations via <a class="glossary-term" id="glossary-origin-08-0028" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0028&amp;lesson=08#term-namespace-alias" aria-label="Look up namespace alias in the programming glossary" title="Look up namespace alias in the programming glossary">Namespace Alias</a></h3>
+
+<p>
+You can swap entire implementations without changing <a class="glossary-term" id="glossary-origin-08-0029" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0029&amp;lesson=08#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call sites</a> by aliasing a namespace. Useful for <a class="glossary-term" id="glossary-origin-08-0030" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0030&amp;lesson=08#term-cpu" aria-label="Look up CPU in the programming glossary" title="Look up CPU in the programming glossary">CPU</a> vs GPU, mock vs production, platform variants, etc.
+</p>
+
+<pre><code class="language-cpp">namespace math_cpu {
+  double dot(const std::vector&lt;double&gt;&amp;a, const std::vector&lt;double&gt;&amp;b);
+}
+namespace math_gpu {
+  double dot(const std::vector&lt;double&gt;&amp;a, const std::vector&lt;double&gt;&amp;b);
+}
+
+// Choose at build time:
+#if defined(USE_GPU)
+  namespace math = math_gpu;
+#else
+  namespace math = math_cpu;
+#endif
+
+// Client code:
+double s = math::dot(a, b); // binding chosen by alias
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Hot-Swap Implementations</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to create CPU/GPU (or mock/prod) pairs with identical APIs and a single alias <a class="glossary-term" id="glossary-origin-08-0031" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0031&amp;lesson=08#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch</a>.</li>
+    <li>AI can generate minimal build flags (CMake) to toggle the alias cleanly.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>6) Typical Beginner Link Errors</h3>
+
+<h4>A) Multiple <code>main</code> Functions</h4>
+<p>Compiling two “toy” programs at once produces two <code>main</code>s → link error.</p>
+<pre><code class="language-cpp">// main_a.cpp
+int main(){ return 0; }
+
+// main_b.cpp
+int main(){ return 0; } // ❌ multiple definition of 'main'
+</code></pre>
+<p><strong>Fix:</strong> build one <a class="glossary-term" id="glossary-origin-08-0032" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0032&amp;lesson=08#term-executable" aria-label="Look up executable in the programming glossary" title="Look up executable in the programming glossary">executable</a> per main; or exclude extra mains from the target.</p>
+
+<h4>B) Missing <code>main</code></h4>
+<p>All files are <a class="glossary-term" id="glossary-origin-08-0033" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0033&amp;lesson=08#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">libraries</a> (no <code>main</code>) → “undefined reference to main”. Add one, or build as a library target.</p>
+
+<h4>C) Global Name Collisions</h4>
+<p>Two different libraries export the same un-namespaced symbol (e.g., <code>init</code>). Wrap your <a class="glossary-term" id="glossary-origin-08-0034" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0034&amp;lesson=08#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> in a unique namespace.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Target Hygiene</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Provide your file list; AI can propose separate targets (executables vs libraries) and <a class="glossary-term" id="glossary-origin-08-0035" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0035&amp;lesson=08#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assign</a> each <code>main.cpp</code> correctly.</li>
+    <li>AI can rename fragile global symbols and wrap them in your project namespace.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>7) Anonymous Namespaces vs <code>static</code> (<a class="glossary-term" id="glossary-origin-08-0036" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0036&amp;lesson=08#term-internal-linkage" aria-label="Look up internal linkage in the programming glossary" title="Look up internal linkage in the programming glossary">Internal Linkage</a>)</h3>
+
+<p>
+For file-local helpers, prefer an <strong>anonymous namespace</strong> (modern C++) to give internal linkage and avoid exporting symbols:
+</p>
+
+<pre><code class="language-cpp">// file.cpp
+namespace { 
+  void helper() {}     // only visible in this translation unit
+}
+</code></pre>
+
+<p>
+The old C-style alternative is <code>static</code> at namespace scope:
+</p>
+
+<pre><code class="language-cpp">static void helper2() {} // also internal linkage; prefer anonymous namespace in C++
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Make Symbols <a class="glossary-term" id="glossary-origin-08-0037" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0037&amp;lesson=08#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">Private</a> by Default</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI to mark helper functions TU-local (anonymous namespace) and expose only API in headers.</li>
+    <li>AI can generate a report of exported vs internal symbols for your build.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>8) Mini Exercise — Tame the Collisions</h3>
+
+<p><strong>Problem:</strong> Two utilities define <code>init()</code> and <code>log()</code> globally; they collide when linked together.</p>
+<pre><code class="language-cpp">// util_a.cpp
+void init(){}
+void log(const char*){}
+
+// util_b.cpp
+void init(){}              // ❌ collides
+void log(const char*){}    // ❌ collides
+</code></pre>
+
+<p><strong>Target:</strong> Move both into properly named namespaces and export a small, distinct API.</p>
+
+<pre><code class="language-cpp">// util_a.cpp
+namespace app { namespace a {
+  void init(){}
+  void log(const char*){}
+}}
+
+// util_b.cpp
+namespace app { namespace b {
+  void init(){}
+  void log(const char*){}
+}}
+</code></pre>
+
+<p>Call sites must qualify: <code>app::a::init(); app::b::init();</code></p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Refactor Plan</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+    <li>Ask AI for a patch that wraps conflicting globals in scoped namespaces and updates all call sites.</li>
+    <li>Have AI generate a quick <a class="glossary-term" id="glossary-origin-08-0038" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0038&amp;lesson=08#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">test</a> build to confirm no duplicate symbols remain.</li>
+  </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li>Wrap your code in a <strong>project namespace</strong>; avoid leaking globals.</li>
+  <li>Use <strong>qualified names</strong> or narrow <code>using</code> declarations; never <code>using namespace</code> in headers.</li>
+  <li>One definition rule: declare in headers (<code>extern</code> for <a class="glossary-term" id="glossary-origin-08-0039" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0039&amp;lesson=08#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">objects</a>), define in exactly one <code>.cpp</code>.</li>
+  <li>Anonymous namespaces (or <code>static</code>) for file-local helpers.</li>
+  <li>Expect link-time diagnostics for cross-file conflicts; fix by namespacing or unifying definitions.</li>
+  <li>Use namespace aliases to <strong>swap implementations</strong> (CPU/GPU, mock/prod) without changing call sites.</li>
+</ul>
+        
+<!-- lesson-enhancement:08:start -->
+<section class="lesson-enhancement" id="namespaces-and-lookup">
+<p class="lesson-enhancement-kicker">Lesson 8 extension · names acquire meaning where lookup occurs</p>
+<h2>Which declaration does this name denote here?</h2>
+<p>Avoiding a collision is the visible benefit of a namespace. It is not the whole criterion. A useful namespace lets a caller <a class="glossary-term" id="glossary-origin-08-0040" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0040&amp;lesson=08#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> which component owns a name and lets a reader follow that meaning without searching the project for every declaration with the same spelling.</p>
+<p>Namespace braces do not execute, allocate storage or create a <a class="glossary-term" id="glossary-origin-08-0041" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0041&amp;lesson=08#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> object. They contribute to the identity and lookup of names. A function can therefore be called <code>update</code> in two components without pretending that both operations mean the same thing. The qualification records the missing information.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+namespace physics {
+int update(int frame) {
+    return frame + 1;
+}
+}
+
+namespace rendering {
+int update(int frame) {
+    return frame + 2;
+}
+}
+
+int main() {
+    std::cout &lt;&lt; physics::update(10) &lt;&lt; '\n';
+    std::cout &lt;&lt; rendering::update(10) &lt;&lt; '\n';
+}
+</code></pre>
+<p>In <code>physics::update(10)</code>, qualified lookup searches for <code>update</code> as a member of <code>physics</code>. That function returns 11. The next statement names <code>rendering::update</code> and returns 12. The repeated <a class="glossary-term" id="glossary-origin-08-0042" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0042&amp;lesson=08#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> name is not a defect to be eliminated. Each component offers an operation appropriate to its domain, while the caller states which domain it requires.</p>
+<p>This also gives a design test that the compiler cannot complete. C++ can confirm that <code>physics::update</code> denotes a callable declaration. It cannot decide whether updating physics is the responsibility the program should invoke at this point. Qualification makes the <a class="glossary-term" id="glossary-origin-08-0043" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0043&amp;lesson=08#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> claim visible enough for a reviewer to challenge.</p>
+
+<h3>Lookup, linkage and linking answer different questions</h3>
+<table>
+<thead><tr><th>Question</th><th>Relevant <a class="glossary-term" id="glossary-origin-08-0044" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0044&amp;lesson=08#term-concept" aria-label="Look up concept in the programming glossary" title="Look up concept in the programming glossary">concept</a></th><th>Evidence from failure</th></tr></thead>
+<tbody>
+<tr><td>Which declaration does this name denote at this point?</td><td>Name lookup</td><td>The name is undeclared or several candidates are ambiguous</td></tr>
+<tr><td>Can declarations in different places denote the same entity?</td><td>Linkage</td><td>The intended program identity is internal, external or absent</td></tr>
+<tr><td>Do the built units supply every required definition?</td><td>Linking</td><td>An undefined reference or competing definitions remain</td></tr>
+</tbody>
+</table>
+<p>These questions interact, but "namespace problem" is not a useful diagnosis for all three. A qualified call may identify exactly the intended declaration and still fail at link time because no built object supplies its definition. Conversely, two <a class="glossary-term" id="glossary-origin-08-0045" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0045&amp;lesson=08#term-source-file" aria-label="Look up source file in the programming glossary" title="Look up source file in the programming glossary">source files</a> can compile separately and later contribute competing external definitions. The spelling of the namespace did not cause either missing or duplicated implementation.</p>
+<p>Compilation of the example proves that each qualified call found a viable declaration and that the local definitions are valid in the translation unit. If the definitions were moved elsewhere and omitted from the link, qualification would remain correct while the completed program remained impossible to form. Correct lookup is necessary; it is not a substitute for the definition account from Lesson 7.</p>
+
+<h3>Make every reduction in qualification deliberate</h3>
+<p>A <a class="glossary-term" id="glossary-origin-08-0046" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0046&amp;lesson=08#term-using-declaration" aria-label="Look up using declaration in the programming glossary" title="Look up using declaration in the programming glossary">using declaration</a> selects a particular name:</p>
+<pre><code class="language-cpp">using physics::update;
+
+const int nextFrame{update(10)};
+</code></pre>
+<p>Within its scope, unqualified lookup can now find the selected <code>physics::update</code>. The declaration can be useful where one domain is already obvious and repeated qualification would obscure the operation. Its scope should still be narrow enough that a reader can find the choice without inspecting distant files.</p>
+<p>A using directive such as <code>using namespace physics;</code> makes namespace members available for unqualified lookup more broadly. It does not copy the namespace contents, import runtime code or make a program faster. It changes the candidate names that lookup may consider. If another directive makes <code>rendering::update</code> available as well, <code>update(10)</code> no longer states enough information and <a class="glossary-term" id="glossary-origin-08-0047" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0047&amp;lesson=08#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload resolution</a> can face two equally suitable candidates.</p>
+<p>A using directive in a header is particularly intrusive. Every translation unit that includes the header receives the lookup effect in the surrounding context. A call can become ambiguous because of a decision made by a header the caller did not choose directly. Explicit qualification or a narrow using declaration in an implementation scope keeps the policy nearer the call that depends on it.</p>
+<p>A successful unqualified call after adding a broad directive proves only that lookup and overload resolution found a candidate. It does not prove that the intended component was selected. If removing <code>physics::</code> makes the code harder to review, the saved characters were not an improvement.</p>
+
+<h3>An alias changes the route, not the destination</h3>
+<p>A namespace alias gives another name to an existing namespace:</p>
+<pre><code class="language-cpp">namespace engine_physics = company::engine::physics;
+
+const auto nextFrame = engine_physics::update(currentFrame);
+</code></pre>
+<p>The alias does not copy declarations or create a second namespace object. <code>engine_physics::update</code> still denotes the member in <code>company::engine::physics</code>. The shorter route is useful when the original qualification is long and the alias remains clear in its local context.</p>
+<p>An alias may also expose a selected implementation behind one name, but that choice is policy. If it is repeated through many source files, reviewers must reconstruct the selection from scattered declarations. Put the decision at a boundary where its meaning and build <a class="glossary-term" id="glossary-origin-08-0048" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0048&amp;lesson=08#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">conditions</a> can be inspected. Concision should not make ownership invisible.</p>
+
+<h3>Translation-unit-local names solve a different problem</h3>
+<p>An unnamed namespace at namespace scope gives its members internal linkage. I use it for helpers and state that belong only to the current translation unit and should not become part of the program-wide external <a class="glossary-term" id="glossary-origin-08-0049" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0049&amp;lesson=08#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a>. This is a decision about name identity across translation units.</p>
+<p>Do not attach properties it does not provide. An unnamed namespace does not make mutable state thread-safe, does not create object-style privacy and does not prevent code in the same translation unit from naming its members where lookup permits. It says that another translation unit cannot refer to the same entity through <a class="glossary-term" id="glossary-origin-08-0050" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0050&amp;lesson=08#term-external-linkage" aria-label="Look up external linkage in the programming glossary" title="Look up external linkage in the programming glossary">external linkage</a>.</p>
+<p>Nested named namespaces serve organisation rather than internal linkage. Their depth should correspond to stable domains or components. Another <code>::</code> is cheap to type and expensive to justify if it merely collects unrelated declarations. A deep path can reveal a useful ownership chain; it can also decorate a boundary that nobody can explain.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> require the lookup path and the build stage</summary>
+<div>
+<p>Suppose both <code>audio::play</code> and <code>animation::play</code> exist. Generated code adds <code>using namespace audio;</code> and the diagnostic disappears. Require the tool to list the declarations visible before and after that directive, the candidate selected by the repaired call and the reason that component is intended. Replace the directive with explicit qualification in a reduced example, then compile and link it. An undeclared or ambiguous name is lookup evidence; a missing selected definition is linker evidence. A repair that cannot name the failed stage is still guessing.</p>
+</div>
+</details>
+
+<h3>Run the lookup in three scopes</h3>
+<p>Use the <code>physics</code> and <code>rendering</code> example. First replace a qualified call with <code>update(10)</code> and add no using declaration. Predict what unqualified lookup can see. Next add <code>using physics::update;</code> in the smallest practical scope and predict the selected operation. Finally add <code>using rendering::update;</code> beside it and predict why the same call no longer states a unique choice.</p>
+<p>For each version, record the declarations visible at the call, the compiler result and the operation the program requirement actually intends. Then create one different failure by declaring <code>physics::update</code> without linking its definition. The qualified name is now unambiguous, yet the program still fails. If your diagnosis changes from lookup to linking at the correct point, the namespace model is doing useful work.</p>
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>This model answer assumes that the requirement is to perform the physics update represented by the original first call. If the requirement instead calls for rendering, the correct qualification must change with it. Compilation cannot decide that policy.</p>
+<table>
+<thead><tr><th>Version</th><th>Declarations found by the call</th><th>Compiler result</th><th>Required operation</th></tr></thead>
+<tbody>
+<tr><td><code>update(10)</code> with no using declaration</td><td>Unqualified lookup in <code>main</code> does not search inside <code>physics</code> or <code>rendering</code>. The <code>int</code> <a class="glossary-term" id="glossary-origin-08-0051" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0051&amp;lesson=08#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> supplies no associated user namespace for argument-dependent lookup.</td><td>The call fails to compile because no declaration called <code>update</code> is found in the relevant lookup set.</td><td>The requirement still says physics, but the source no longer names it.</td></tr>
+<tr><td>A local <code>using physics::update;</code> followed by <code>update(10)</code></td><td><code>physics::update(int)</code> is made available to unqualified lookup in that scope.</td><td>The call compiles and selects the physics operation, which returns 11 for this example.</td><td>Physics, now selected by the local using declaration.</td></tr>
+<tr><td>Local using declarations for both namespace functions</td><td>Both <code>physics::update(int)</code> and <code>rendering::update(int)</code> are candidates.</td><td>The call is ambiguous. Both candidates accept the <a class="glossary-term" id="glossary-origin-08-0052" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0052&amp;lesson=08#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> argument with equally good <a class="glossary-term" id="glossary-origin-08-0053" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0053&amp;lesson=08#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> sequences.</td><td>Physics remains the requirement, but the unqualified spelling no longer states a unique choice.</td></tr>
+</tbody>
+</table>
+<p>The clearest repair for the final version is not a <a class="glossary-term" id="glossary-origin-08-0054" href="glossary.html?from=lesson-08.html%23glossary-origin-08-0054&amp;lesson=08#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a>. It is to restore the ownership information at the call:</p>
+<pre><code class="language-cpp">const int nextFrame{physics::update(10)};
+</code></pre>
+<h4>A different failure at a different stage</h4>
+<pre><code class="language-cpp">namespace physics {
+int update(int frame); // declaration only
+}
+
+int main() {
+    const int nextFrame{physics::update(10)};
+    return nextFrame == 11 ? 0 : 1;
+}
+</code></pre>
+<p>Here qualified lookup succeeds and the call can be type-checked. If no linked object supplies the definition of <code>physics::update(int)</code>, compilation of this translation unit succeeds but the link fails with an undefined-reference or unresolved-external diagnostic. The selected name is unambiguous. The missing evidence is its definition.</p>
+<p>The diagnosis therefore changes at the correct point: no using declaration produces a lookup failure, two equally suitable declarations produce ambiguity, and one selected declaration without a linked definition produces a link failure.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:08:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-07.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">07. Header Files</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-09.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">09. &quot;Hello, World&quot;, (good night Vienna)</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

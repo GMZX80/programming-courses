@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Keep linear sample sums in a floating-point image and reset them whenever the represented scene changes.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 26 - Accumulate Samples Without Losing the Average</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="26" data-ray-stage="26" data-art-pattern="cells">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 26 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html" aria-current="page"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 26</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">26. Accumulate Samples Without Losing the Average</h1>
+            <p class="lesson-deck">Keep linear sample sums in a floating-point image and reset them whenever the represented scene changes.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-25.html">&larr; Lesson 25</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-27.html">Lesson 27 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>38 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-26-acceleration-structure" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-acceleration-structure&amp;lesson=26#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structure</a> <a class="glossary-chip" id="glossary-panel-origin-26-accumulation-image" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-accumulation-image&amp;lesson=26#term-accumulation-image" aria-label="Look up accumulation image in the graphics glossary" title="Look up accumulation image in the graphics glossary">accumulation image</a> <a class="glossary-chip" id="glossary-panel-origin-26-anti-aliasing" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-anti-aliasing&amp;lesson=26#term-anti-aliasing" aria-label="Look up anti-aliasing in the graphics glossary" title="Look up anti-aliasing in the graphics glossary">anti-aliasing</a> <a class="glossary-chip" id="glossary-panel-origin-26-average" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-average&amp;lesson=26#term-average" aria-label="Look up average in the graphics glossary" title="Look up average in the graphics glossary">average</a> <a class="glossary-chip" id="glossary-panel-origin-26-camera" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-camera&amp;lesson=26#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-26-compute-pipeline" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-compute-pipeline&amp;lesson=26#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> <a class="glossary-chip" id="glossary-panel-origin-26-compute-shader" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-compute-shader&amp;lesson=26#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-26-cpu" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-cpu&amp;lesson=26#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-26-descriptor-binding" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-descriptor-binding&amp;lesson=26#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor binding</a> <a class="glossary-chip" id="glossary-panel-origin-26-deterministic-random-number" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-deterministic-random-number&amp;lesson=26#term-deterministic-random-number" aria-label="Look up deterministic random number in the graphics glossary" title="Look up deterministic random number in the graphics glossary">deterministic random number</a> <a class="glossary-chip" id="glossary-panel-origin-26-device-local-memory" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-device-local-memory&amp;lesson=26#term-device-local-memory" aria-label="Look up device-local memory in the graphics glossary" title="Look up device-local memory in the graphics glossary">device-local memory</a> <a class="glossary-chip" id="glossary-panel-origin-26-dispatch" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-dispatch&amp;lesson=26#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-26-display-encoding" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-display-encoding&amp;lesson=26#term-display-encoding" aria-label="Look up display encoding in the graphics glossary" title="Look up display encoding in the graphics glossary">display encoding</a> <a class="glossary-chip" id="glossary-panel-origin-26-field-of-view" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-field-of-view&amp;lesson=26#term-field-of-view" aria-label="Look up field of view in the graphics glossary" title="Look up field of view in the graphics glossary">field of view</a> <a class="glossary-chip" id="glossary-panel-origin-26-floating-point" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-floating-point&amp;lesson=26#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> <a class="glossary-chip" id="glossary-panel-origin-26-format-features" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-format-features&amp;lesson=26#term-format-features" aria-label="Look up format features in the graphics glossary" title="Look up format features in the graphics glossary">format features</a> <a class="glossary-chip" id="glossary-panel-origin-26-frames-in-flight" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-frames-in-flight&amp;lesson=26#term-frames-in-flight" aria-label="Look up frames in flight in the graphics glossary" title="Look up frames in flight in the graphics glossary">frames in flight</a> <a class="glossary-chip" id="glossary-panel-origin-26-gpu" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-gpu&amp;lesson=26#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-26-hit" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-hit&amp;lesson=26#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-26-image" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-image&amp;lesson=26#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-26-image-format" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-image-format&amp;lesson=26#term-image-format" aria-label="Look up image format in the graphics glossary" title="Look up image format in the graphics glossary">image format</a> <a class="glossary-chip" id="glossary-panel-origin-26-image-view" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-image-view&amp;lesson=26#term-image-view" aria-label="Look up image view in the graphics glossary" title="Look up image view in the graphics glossary">image view</a> <a class="glossary-chip" id="glossary-panel-origin-26-invocation" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-invocation&amp;lesson=26#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-26-linear-colour" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-linear-colour&amp;lesson=26#term-linear-colour" aria-label="Look up linear colour in the graphics glossary" title="Look up linear colour in the graphics glossary">linear colour</a> <a class="glossary-chip" id="glossary-panel-origin-26-material" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-material&amp;lesson=26#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-26-memory-dependency" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-memory-dependency&amp;lesson=26#term-memory-dependency" aria-label="Look up memory dependency in the graphics glossary" title="Look up memory dependency in the graphics glossary">memory dependency</a> <a class="glossary-chip" id="glossary-panel-origin-26-physical-device" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-physical-device&amp;lesson=26#term-physical-device" aria-label="Look up physical device in the graphics glossary" title="Look up physical device in the graphics glossary">physical device</a> <a class="glossary-chip" id="glossary-panel-origin-26-pipeline-barrier" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-pipeline-barrier&amp;lesson=26#term-pipeline-barrier" aria-label="Look up pipeline barrier in the graphics glossary" title="Look up pipeline barrier in the graphics glossary">pipeline barrier</a> <a class="glossary-chip" id="glossary-panel-origin-26-pixel" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-pixel&amp;lesson=26#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-26-queue" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-queue&amp;lesson=26#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> <a class="glossary-chip" id="glossary-panel-origin-26-radiance" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-radiance&amp;lesson=26#term-radiance" aria-label="Look up radiance in the graphics glossary" title="Look up radiance in the graphics glossary">radiance</a> <a class="glossary-chip" id="glossary-panel-origin-26-sample" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-sample&amp;lesson=26#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-26-sample-index" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-sample-index&amp;lesson=26#term-sample-index" aria-label="Look up sample index in the graphics glossary" title="Look up sample index in the graphics glossary">sample index</a> <a class="glossary-chip" id="glossary-panel-origin-26-scene" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-scene&amp;lesson=26#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-26-semaphore" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-semaphore&amp;lesson=26#term-semaphore" aria-label="Look up semaphore in the graphics glossary" title="Look up semaphore in the graphics glossary">semaphore</a> <a class="glossary-chip" id="glossary-panel-origin-26-storage-image" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-storage-image&amp;lesson=26#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> <a class="glossary-chip" id="glossary-panel-origin-26-temporal-accumulation" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-temporal-accumulation&amp;lesson=26#term-temporal-accumulation" aria-label="Look up temporal accumulation in the graphics glossary" title="Look up temporal accumulation in the graphics glossary">temporal accumulation</a> <a class="glossary-chip" id="glossary-panel-origin-26-triangle" href="glossary.html?from=lesson-26.html%23glossary-panel-origin-26-triangle&amp;lesson=26#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p><a class="glossary-term" id="glossary-origin-26-0001" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0001&amp;lesson=26#term-anti-aliasing" aria-label="Look up anti-aliasing in the graphics glossary" title="Look up anti-aliasing in the graphics glossary">Anti-aliasing</a> does not appear because Vulkan uses more threads. It appears when the renderer asks more than one question inside a <a class="glossary-term" id="glossary-origin-26-0002" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0002&amp;lesson=26#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> and combines the answers correctly. Lesson 13 established that principle by hand. The compute renderer must now give every <a class="glossary-term" id="glossary-origin-26-0003" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0003&amp;lesson=26#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> a reproducible position, preserve a running estimate in <a class="glossary-term" id="glossary-origin-26-0004" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0004&amp;lesson=26#term-linear-colour" aria-label="Look up linear colour in the graphics glossary" title="Look up linear colour in the graphics glossary">linear colour</a> and discard history whenever the <a class="glossary-term" id="glossary-origin-26-0005" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0005&amp;lesson=26#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> or <a class="glossary-term" id="glossary-origin-26-0006" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0006&amp;lesson=26#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> changes.</p>
+<p>The <a class="glossary-term" id="glossary-origin-26-0007" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0007&amp;lesson=26#term-accumulation-image" aria-label="Look up accumulation image in the graphics glossary" title="Look up accumulation image in the graphics glossary">accumulation image</a> and display <a class="glossary-term" id="glossary-origin-26-0008" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0008&amp;lesson=26#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> must remain separate. The former stores <a class="glossary-term" id="glossary-origin-26-0009" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0009&amp;lesson=26#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> history; the latter contains the current encoded presentation result. Treating an 8-bit display pixel as the running total would lose information at every update.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Generate a deterministic sub-pixel offset from pixel coordinates and <a class="glossary-term" id="glossary-origin-26-0010" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0010&amp;lesson=26#term-sample-index" aria-label="Look up sample index in the graphics glossary" title="Look up sample index in the graphics glossary">sample index</a>.</li>
+<li>Update a floating-point running sum and count without applying <a class="glossary-term" id="glossary-origin-26-0011" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0011&amp;lesson=26#term-display-encoding" aria-label="Look up display encoding in the graphics glossary" title="Look up display encoding in the graphics glossary">display encoding</a> to stored history.</li>
+<li>State which changes invalidate accumulation and which Vulkan dependency protects each update.</li>
+</ul>
+</section>
+
+<h2>Create a second <a class="glossary-term" id="glossary-origin-26-0012" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0012&amp;lesson=26#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a></h2>
+<p>Create an accumulation image with a floating-point format supported for storage-image use, such as <code>VK_FORMAT_R32G32B32A32_SFLOAT</code> when the selected device reports the required <a class="glossary-term" id="glossary-origin-26-0013" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0013&amp;lesson=26#term-format-features" aria-label="Look up format features in the graphics glossary" title="Look up format features in the graphics glossary">format features</a>. Its extent matches the traced output. Give it storage and transfer-destination usage so it can be cleared, allocate compatible <a class="glossary-term" id="glossary-origin-26-0014" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0014&amp;lesson=26#term-device-local-memory" aria-label="Look up device-local memory in the graphics glossary" title="Look up device-local memory in the graphics glossary">device-local memory</a>, create an <a class="glossary-term" id="glossary-origin-26-0015" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0015&amp;lesson=26#term-image-view" aria-label="Look up image view in the graphics glossary" title="Look up image view in the graphics glossary">image view</a> and add a storage-image <a class="glossary-term" id="glossary-origin-26-0016" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0016&amp;lesson=26#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor binding</a>.</p>
+<p>The existing display image remains the encoded result copied to presentation. The accumulation image stays in <code>VK_IMAGE_LAYOUT_GENERAL</code> while the <a class="glossary-term" id="glossary-origin-26-0017" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0017&amp;lesson=26#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> reads and writes it. Initialise it to zero before the first sample sequence and after every invalidation.</p>
+
+<pre><code class="language-cpp">VkDescriptorImageInfo accumulationDescriptor{
+    .sampler = VK_NULL_HANDLE,
+    .imageView = accumulationView,
+    .imageLayout = VK_IMAGE_LAYOUT_GENERAL
+};
+
+// A new storage-image binding in the existing set.
+VkWriteDescriptorSet accumulationWrite{
+    .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+    .dstSet = descriptorSet,
+    .dstBinding = 7,
+    .descriptorCount = 1,
+    .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
+    .pImageInfo = &amp;accumulationDescriptor
+};</code></pre>
+
+<p>Do not assume every format can be used for every image operation. Query the <a class="glossary-term" id="glossary-origin-26-0018" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0018&amp;lesson=26#term-physical-device" aria-label="Look up physical device in the graphics glossary" title="Look up physical device in the graphics glossary">physical device</a>'s format properties and check the features required by the chosen tiling and use.</p>
+
+<h2>Make the sample index part of the input</h2>
+<p>A small integer hash can produce two repeatable values for this teaching renderer. The exact sequence is less important than the contract: pixel coordinates and sample index determine the offset, and repeating the same state repeats the same sample.</p>
+
+<pre><code class="language-glsl">uint mixBits(uint value) {
+    value ^= value &gt;&gt; 16;
+    value *= 0x7feb352du;
+    value ^= value &gt;&gt; 15;
+    value *= 0x846ca68bu;
+    value ^= value &gt;&gt; 16;
+    return value;
+}
+
+float unitFloat(uint value) {
+    return float(value &amp; 0x00ffffffu) / 16777216.0;
+}
+
+vec2 sampleOffset(uvec2 pixel, uint sampleIndex) {
+    uint seed = mixBits(pixel.x ^ (pixel.y * 0x9e3779b9u) ^
+                        (sampleIndex * 0x85ebca6bu));
+    return vec2(unitFloat(seed), unitFloat(mixBits(seed + 1u)));
+}</code></pre>
+
+<p>The offset lies in [0, 1) for each component and replaces the fixed centre offset of (0.5, 0.5). A production sampler deserves stronger statistical analysis; this hash is an inspectable source of deterministic variation, not a claim of optimal distribution.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-26">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-26">How Sample History Becomes a Valid <a class="glossary-term" id="glossary-origin-26-0019" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0019&amp;lesson=26#term-average" aria-label="Look up average in the graphics glossary" title="Look up average in the graphics glossary">Average</a></h2>
+        <p>Accumulation is an account of compatible sample sums and counts. It remains valid only while the camera, scene and sampling question remain unchanged.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>Each pixel stores a linear sum and the number of compatible samples contributing to it. A new <a class="glossary-term" id="glossary-origin-26-0020" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0020&amp;lesson=26#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> adds sample colours to the sum and increments the count; display uses their quotient. Camera, geometry, <a class="glossary-term" id="glossary-origin-26-0021" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0021&amp;lesson=26#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a>, light or sampling changes invalidate that history, so a scene revision clears the accumulation state before the next write.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>For one pixel, retain the sample offset, linear sample colour, previous sum and count, updated sum and count, and displayed mean. Repeat the sequence from a cleared image and require the same deterministic values. Then change one scene input and establish that the reset occurs before new samples are mixed with the old question.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>Four samples per dispatch over four compatible dispatches produce a count of 16 for each pixel. The image still contains the same number of stored pixels. More samples refine the value attached to a pixel; they do not enlarge the image extent.</p>
+        <p class="vulkan-account-formula"><code>pixel average = accumulated linear sum ÷ accumulated sample count</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> A smoother image establishes neither an unbiased sampler nor a valid history. The retained sum, count, sample sequence and reset evidence decide whether the displayed average has the meaning claimed for it.</p>
+</section>
+
+<h2>Accumulate a sum with its count</h2>
+<p>Let <code>sampleIndex</code> count completed prior samples for the same pixel history. If <code>previousSum</code> contains their linear sum and <code>sampleColour</code> is the new linear estimate, update both the sum and its count:</p>
+
+<pre><code class="language-glsl">vec4 stored = imageLoad(accumulationImage, pixel);
+vec3 previousSum = stored.xyz;
+float previousCount = stored.w;
+
+vec3 newSum = previousSum + sampleColour;
+float newCount = previousCount + 1.0;
+vec3 newMean = newSum / newCount;
+
+imageStore(accumulationImage, pixel, vec4(newSum, newCount));
+
+vec3 displayColour = pow(max(newMean, vec3(0.0)),
+                         vec3(1.0 / 2.2));
+imageStore(outputImage, pixel, vec4(displayColour, 1.0));</code></pre>
+
+<p>Storing count in alpha makes each pixel record self-describing during debugging. If all pixels always receive exactly one sample per dispatch, a uniform global count is also valid. Do not combine a global numerator with per-pixel counts or vice versa, and do not mistake the stored sum for the display value.</p>
+<p>The sample path returns linear <a class="glossary-term" id="glossary-origin-26-0022" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0022&amp;lesson=26#term-radiance" aria-label="Look up radiance in the graphics glossary" title="Look up radiance in the graphics glossary">radiance</a>. Display encoding occurs only for <code>outputImage</code>. Encoding each sample before averaging produces a different and biased result.</p>
+
+<div class="worked-trace">
+<h3>Update a running mean</h3>
+<p>A pixel's first three linear red-channel samples are 0.2, 0.8 and 0.5. After two samples the stored sum is 1.0 with count 2, so the displayed mean is 0.5. The third update stores sum 1.5 and count 3, again displaying 0.5. If the stored value 1.0 were treated as an already averaged colour, the history would appear twice as bright. The value and its interpretation are one contract.</p>
+</div>
+
+<h2>State the image dependency between dispatches</h2>
+<p>A later dispatch reads the accumulation image written by the earlier dispatch. Between them, establish a compute-to-compute <a class="glossary-term" id="glossary-origin-26-0023" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0023&amp;lesson=26#term-memory-dependency" aria-label="Look up memory dependency in the graphics glossary" title="Look up memory dependency in the graphics glossary">memory dependency</a> with storage write as the source access and storage read/write as the destination access. The layout may remain <code>GENERAL</code>; a layout transition is not required merely to make prior writes visible.</p>
+
+<pre><code class="language-cpp">VkImageMemoryBarrier2 accumulateAgain{
+    .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2,
+    .srcStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,
+    .srcAccessMask = VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT,
+    .dstStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,
+    .dstAccessMask = VK_ACCESS_2_SHADER_STORAGE_READ_BIT |
+                     VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT,
+    .oldLayout = VK_IMAGE_LAYOUT_GENERAL,
+    .newLayout = VK_IMAGE_LAYOUT_GENERAL,
+    .image = accumulationImage,
+    .subresourceRange = colourRange
+};</code></pre>
+
+<p>If several samples are traced inside one <a class="glossary-term" id="glossary-origin-26-0024" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0024&amp;lesson=26#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> and only one mean is written at the end, no cross-dispatch barrier is needed between those private calculations. The dependency follows actual resource access, not a ritual after every arithmetic operation.</p>
+
+<h2>Reset history when its question changes</h2>
+<p>Camera position, orientation, <a class="glossary-term" id="glossary-origin-26-0025" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0025&amp;lesson=26#term-field-of-view" aria-label="Look up field of view in the graphics glossary" title="Look up field of view in the graphics glossary">field of view</a>, image extent, geometry, materials, lights, bounce policy and sampling policy all affect the estimate. Changing any of them invalidates the accumulated mean. Record a clear-to-zero operation for the accumulation image, transition or synchronize it correctly for the clear, and set the sample index back to zero.</p>
+<p>A renderer can maintain a monotonically increasing scene revision. The accumulation controller records the revision used for the current history; a mismatch requests one reset before the next dispatch. This is less fragile than remembering to reset in every user-interface callback.</p>
+
+<h2>Do not confuse samples with <a class="glossary-term" id="glossary-origin-26-0026" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0026&amp;lesson=26#term-frames-in-flight" aria-label="Look up frames in flight in the graphics glossary" title="Look up frames in flight in the graphics glossary">frames in flight</a></h2>
+<p>A sample count describes statistical history for a pixel. Frames in flight describe how many submissions and presentation resources the <a class="glossary-term" id="glossary-origin-26-0027" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0027&amp;lesson=26#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> and <a class="glossary-term" id="glossary-origin-26-0028" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0028&amp;lesson=26#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> may be processing concurrently. Increasing one does not automatically increase the other.</p>
+<p>If two in-flight submissions both read and update the same accumulation image without ordering, the mean has a data race. The simple course implementation serialises accumulation updates with <a class="glossary-term" id="glossary-origin-26-0029" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0029&amp;lesson=26#term-semaphore" aria-label="Look up semaphore in the graphics glossary" title="Look up semaphore in the graphics glossary">semaphores</a> and the stated image dependency, or uses one accumulation target per in-flight frame and combines them deliberately. Never rely on apparent <a class="glossary-term" id="glossary-origin-26-0030" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0030&amp;lesson=26#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> order across unrelated submissions without the appropriate synchronization.</p>
+
+<div class="checkpoint">
+<h3>Move the camera after 64 samples</h3>
+<p>The camera moves one centimetre. Should sample 65 be averaged into the existing history?</p>
+<div class="worked-answer"><h4>The answer</h4><p>No. The camera now asks different rays, so the previous 64 samples estimate a different image. Clear the accumulation image and begin the new camera state at sample zero. Retaining the history would produce ghosting, not additional accuracy.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> storage-image operations and <a class="glossary-term" id="glossary-origin-26-0031" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0031&amp;lesson=26#term-image-format" aria-label="Look up image format in the graphics glossary" title="Look up image format in the graphics glossary">image formats</a> are defined in the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/textures.html">image operations chapter</a>, with memory dependencies defined by the <a href="https://docs.vulkan.org/spec/latest/chapters/synchronization.html">synchronization chapter</a>.</p>
+
+<section class="transfer-task">
+<h2>Prove the accumulation arithmetic</h2>
+<p>For one selected pixel, record the first eight offsets, linear sample colours, stored sums, counts and displayed means. Recalculate every running value independently on the CPU. Repeat the render from a cleared image and establish that the sequence is identical. Then change only the light position and demonstrate that the scene revision clears the history before the next write. Finally, disable the reset deliberately in a debug build and capture the resulting stale mixture so that its cause is recognisable.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this tracer as the reference route</h2>
+<p>Retain the <a class="glossary-term" id="glossary-origin-26-0032" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0032&amp;lesson=26#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a>, explicit primitive loops, counters and accumulation path. Lesson 27 will introduce hardware <a class="glossary-term" id="glossary-origin-26-0033" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0033&amp;lesson=26#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structures</a> for <a class="glossary-term" id="glossary-origin-26-0034" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0034&amp;lesson=26#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> traversal, but it will compare their <a class="glossary-term" id="glossary-origin-26-0035" href="glossary.html?from=lesson-26.html%23glossary-origin-26-0035&amp;lesson=26#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> distances and identities against this route. Hardware traversal changes how candidates are found; it does not change the camera, interval, material, lighting or accumulation contracts.</p>
+</section>
+
+<p>Lessons 15 to 26 now form a complete Vulkan compute renderer whose major calculations remain visible in ordinary shader code. It is intentionally expensive, and that expense is useful: it provides a trusted reference against which acceleration can be judged. We are ready to ask the hardware for traversal help without surrendering the meaning of a ray.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-25.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">25. Secondary Rays Need Bounded State</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-27.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">27. Build BLAS and TLAS Before Asking Hardware</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

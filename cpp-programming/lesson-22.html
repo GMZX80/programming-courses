@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rephrasing functions to look like operators">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 22 - 22. Operator Overloading</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-22.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 22 - 22. Operator Overloading">
+    <meta property="og:description" content="Rephrasing functions to look like operators">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-22.html">
+</head>
+<body class="course-page lesson-page" data-lesson="22" data-art-pattern="orbit" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 22 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html" aria-current="page"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 22</span>
+            </nav>
+            <p class="hero-kicker">Lesson 22 · 24 lesson course</p>
+            <h1 id="lesson-title">22. Operator Overloading</h1>
+            <p class="lesson-deck">Rephrasing functions to look like operators</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-21.html">← Lesson 21</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-23.html">Lesson 23 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>65 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-22-address" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-address&amp;lesson=22#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-22-algorithm" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-algorithm&amp;lesson=22#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-22-api" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-api&amp;lesson=22#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-22-argument" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-argument&amp;lesson=22#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-22-assignment" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-assignment&amp;lesson=22#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-22-associativity" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-associativity&amp;lesson=22#term-associativity" aria-label="Look up associativity in the programming glossary" title="Look up associativity in the programming glossary">associativity</a> <a class="glossary-chip" id="glossary-panel-origin-22-binary" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-binary&amp;lesson=22#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> <a class="glossary-chip" id="glossary-panel-origin-22-boolean" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-boolean&amp;lesson=22#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-22-cpp" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-cpp&amp;lesson=22#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-22-cache" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-cache&amp;lesson=22#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> <a class="glossary-chip" id="glossary-panel-origin-22-call-site" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-call-site&amp;lesson=22#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> <a class="glossary-chip" id="glossary-panel-origin-22-class" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-class&amp;lesson=22#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-22-code" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-code&amp;lesson=22#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-22-compiler" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-compiler&amp;lesson=22#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-22-condition" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-condition&amp;lesson=22#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-22-const-correctness" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-const-correctness&amp;lesson=22#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">const-correctness</a> <a class="glossary-chip" id="glossary-panel-origin-22-constructor" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-constructor&amp;lesson=22#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-22-container" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-container&amp;lesson=22#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-22-conversion" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-conversion&amp;lesson=22#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-22-declaration" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-declaration&amp;lesson=22#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-22-definition" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-definition&amp;lesson=22#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-22-exception" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-exception&amp;lesson=22#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-22-explicit-conversion" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-explicit-conversion&amp;lesson=22#term-explicit-conversion" aria-label="Look up explicit conversion in the programming glossary" title="Look up explicit conversion in the programming glossary">explicit conversion</a> <a class="glossary-chip" id="glossary-panel-origin-22-expression" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-expression&amp;lesson=22#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-22-final-specifier" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-final-specifier&amp;lesson=22#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-22-function" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-function&amp;lesson=22#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-22-function-call" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-function-call&amp;lesson=22#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function call</a> <a class="glossary-chip" id="glossary-panel-origin-22-function-signature" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-function-signature&amp;lesson=22#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-22-identifier" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-identifier&amp;lesson=22#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-22-implicit-conversion" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-implicit-conversion&amp;lesson=22#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversion</a> <a class="glossary-chip" id="glossary-panel-origin-22-include-directive" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-include-directive&amp;lesson=22#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-22-initialisation" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-initialisation&amp;lesson=22#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-22-integer" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-integer&amp;lesson=22#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-22-interface" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-interface&amp;lesson=22#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-22-invariant" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-invariant&amp;lesson=22#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-22-lhs-rhs" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-lhs-rhs&amp;lesson=22#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">LHS and RHS</a> <a class="glossary-chip" id="glossary-panel-origin-22-library" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-library&amp;lesson=22#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> <a class="glossary-chip" id="glossary-panel-origin-22-main-function" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-main-function&amp;lesson=22#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-22-memory-leak" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-memory-leak&amp;lesson=22#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">memory leak</a> <a class="glossary-chip" id="glossary-panel-origin-22-method" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-method&amp;lesson=22#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">method</a> <a class="glossary-chip" id="glossary-panel-origin-22-namespace" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-namespace&amp;lesson=22#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">namespace</a> <a class="glossary-chip" id="glossary-panel-origin-22-new-delete" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-new-delete&amp;lesson=22#term-new-delete" aria-label="Look up new and delete in the programming glossary" title="Look up new and delete in the programming glossary">new and delete</a> <a class="glossary-chip" id="glossary-panel-origin-22-noexcept" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-noexcept&amp;lesson=22#term-noexcept" aria-label="Look up noexcept in the programming glossary" title="Look up noexcept in the programming glossary">noexcept</a> <a class="glossary-chip" id="glossary-panel-origin-22-object" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-object&amp;lesson=22#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-22-object-slicing" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-object-slicing&amp;lesson=22#term-object-slicing" aria-label="Look up object slicing in the programming glossary" title="Look up object slicing in the programming glossary">object slicing</a> <a class="glossary-chip" id="glossary-panel-origin-22-operator" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-operator&amp;lesson=22#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-22-operator-overloading" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-operator-overloading&amp;lesson=22#term-operator-overloading" aria-label="Look up operator overloading in the programming glossary" title="Look up operator overloading in the programming glossary">operator overloading</a> <a class="glossary-chip" id="glossary-panel-origin-22-overload-resolution" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-overload-resolution&amp;lesson=22#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload resolution</a> <a class="glossary-chip" id="glossary-panel-origin-22-parameter" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-parameter&amp;lesson=22#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-22-polymorphism" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-polymorphism&amp;lesson=22#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">polymorphism</a> <a class="glossary-chip" id="glossary-panel-origin-22-postfix-increment" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-postfix-increment&amp;lesson=22#term-postfix-increment" aria-label="Look up postfix increment in the programming glossary" title="Look up postfix increment in the programming glossary">postfix increment</a> <a class="glossary-chip" id="glossary-panel-origin-22-precedence" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-precedence&amp;lesson=22#term-precedence" aria-label="Look up precedence in the programming glossary" title="Look up precedence in the programming glossary">precedence</a> <a class="glossary-chip" id="glossary-panel-origin-22-access-levels" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-access-levels&amp;lesson=22#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-22-return-value" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-return-value&amp;lesson=22#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-22-short-circuit-evaluation" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-short-circuit-evaluation&amp;lesson=22#term-short-circuit-evaluation" aria-label="Look up short-circuit evaluation in the programming glossary" title="Look up short-circuit evaluation in the programming glossary">short-circuit evaluation</a> <a class="glossary-chip" id="glossary-panel-origin-22-state" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-state&amp;lesson=22#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-22-stream" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-stream&amp;lesson=22#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-22-stream-insertion-extraction" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-stream-insertion-extraction&amp;lesson=22#term-stream-insertion-extraction" aria-label="Look up stream insertion and extraction in the programming glossary" title="Look up stream insertion and extraction in the programming glossary">stream insertion and extraction</a> <a class="glossary-chip" id="glossary-panel-origin-22-string" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-string&amp;lesson=22#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-22-symbol" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-symbol&amp;lesson=22#term-symbol" aria-label="Look up symbol in the programming glossary" title="Look up symbol in the programming glossary">symbol</a> <a class="glossary-chip" id="glossary-panel-origin-22-testing" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-testing&amp;lesson=22#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-22-three-way-comparison" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-three-way-comparison&amp;lesson=22#term-three-way-comparison" aria-label="Look up three-way comparison in the programming glossary" title="Look up three-way comparison in the programming glossary">three-way comparison</a> <a class="glossary-chip" id="glossary-panel-origin-22-type" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-type&amp;lesson=22#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-22-unit-test" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-unit-test&amp;lesson=22#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-22-value" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-value&amp;lesson=22#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="22">
+<img src="assets/images/lesson-art/lesson-22-operator-overloading.png" alt="Abstract balanced operation combining two compatible objects into one intuitive result." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p style="text-align: left;">&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-22-0001" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0001&amp;lesson=22#term-operator-overloading" aria-label="Look up operator overloading in the programming glossary" title="Look up operator overloading in the programming glossary">Operator Overloading</a> in <a class="glossary-term" id="glossary-origin-22-0002" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0002&amp;lesson=22#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> — Intuitive <a class="glossary-term" id="glossary-origin-22-0003" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0003&amp;lesson=22#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">APIs</a>, Correct Semantics</h2>
+
+<p>
+Operator overloading lets you re-express a <a class="glossary-term" id="glossary-origin-22-0004" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0004&amp;lesson=22#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> so it can be used with <a class="glossary-term" id="glossary-origin-22-0005" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0005&amp;lesson=22#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> syntax.
+Instead of calling <code>add(a, b)</code> you can write <code>a + b</code>. The goal is to exploit a programmer’s <em>intuitive</em>
+understanding of operators without breaking expectations or <a class="glossary-term" id="glossary-origin-22-0006" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0006&amp;lesson=22#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariants</a>.
+</p>
+
+<p style="padding:8px 12px;border-left:4px solid #0ea5e9;background:#f0f9ff;">
+<strong>Principle:</strong> Only overload when the operator’s <em>conventional meaning</em> matches your <a class="glossary-term" id="glossary-origin-22-0007" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0007&amp;lesson=22#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a>’s semantics, and
+when it improves clarity. Keep behaviour unsurprising and mathematically/semantically consistent.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pick the Right <a class="glossary-term" id="glossary-origin-22-0008" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0008&amp;lesson=22#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">Signature</a></summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste your <a class="glossary-term" id="glossary-origin-22-0009" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0009&amp;lesson=22#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> and the operator you want. Ask AI: “member vs non-member vs friend?” with justification and exact signatures.</li>
+      <li>Request a rewrite that implements <code>op</code> in terms of the compound form (e.g., <code>+</code> via <code>+=</code>) for consistency.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) Member vs Non-member (and <code>friend</code>)</h3>
+
+<ul>
+  <li><strong>Member operator</strong> (<a class="glossary-term" id="glossary-origin-22-0010" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0010&amp;lesson=22#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">method</a>): one operand is <code>*this</code> (the <a class="glossary-term" id="glossary-origin-22-0011" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0011&amp;lesson=22#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">left-hand side</a>). Good for <code>operator[]</code>, <code>operator()</code>, <a class="glossary-term" id="glossary-origin-22-0012" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0012&amp;lesson=22#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> (<code>=</code>), <code>+=</code>, <code>++</code>, etc.</li>
+  <li><strong>Non-member operator</strong>: both operands are <a class="glossary-term" id="glossary-origin-22-0013" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0013&amp;lesson=22#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameters</a>. Best for <em>symmetric</em> <a class="glossary-term" id="glossary-origin-22-0014" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0014&amp;lesson=22#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> operators like <code>+</code>, <code>-</code>, <code>*</code>, comparisons, and <a class="glossary-term" id="glossary-origin-22-0015" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0015&amp;lesson=22#term-stream-insertion-extraction" aria-label="Look up stream insertion and extraction in the programming glossary" title="Look up stream insertion and extraction in the programming glossary">stream operators</a>.</li>
+  <li><strong><code>friend</code> non-member</strong>: when non-member is best (symmetry/ADL) but needs access to <a class="glossary-term" id="glossary-origin-22-0016" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0016&amp;lesson=22#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">private</a> <a class="glossary-term" id="glossary-origin-22-0017" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0017&amp;lesson=22#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a>. Grants surgical access without exposing members publicly.</li>
+</ul>
+
+<p><em>Key subtlety:</em> A <strong>member</strong> binary operator enables <a class="glossary-term" id="glossary-origin-22-0018" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0018&amp;lesson=22#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversions</a> only on the <em>right</em> operand; a <strong>non-member</strong> enables <a class="glossary-term" id="glossary-origin-22-0019" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0019&amp;lesson=22#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversions</a> on <em>both</em>.</p>
+
+<hr>
+
+<h3>2) Worked Example — <code>Time</code> with Normalisation (ideal for <code>+</code>)</h3>
+
+<p>We model time as hours/minutes with the invariant <code>0 ≤ minutes &lt; 60</code>.</p>
+
+<pre><code class="language-cpp">#include &lt;stdexcept&gt;
+#include &lt;iostream&gt;
+
+class Time {
+public:
+    Time(int h = 0, int m = 0) : hours_{h}, minutes_{m} { normalise(); }
+
+    // Compound form first: preferred for efficiency &amp; reuse
+    Time&amp; operator+=(const Time&amp; rhs) {
+        hours_   += rhs.hours_;
+        minutes_ += rhs.minutes_;
+        normalise();
+        return *this;
+    }
+
+    // Non-member + in terms of += (symmetric; allows implicit conversions on both sides)
+    friend Time operator+(Time lhs, const Time&amp; rhs) {
+        lhs += rhs;      // reuse compound
+        return lhs;      // return by value (NRVO/move)
+    }
+
+    // Hidden friend stream (ADL-friendly)
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Time&amp; t) {
+        return os &lt;&lt; t.hours_ &lt;&lt; "h " &lt;&lt; t.minutes_ &lt;&lt; "m";
+    }
+
+private:
+    int hours_{}, minutes_{};
+
+    void normalise() {
+        if (minutes_ &gt;= 60) { hours_ += minutes_ / 60; minutes_ %= 60; }
+        if (minutes_ &lt; 0)    { int borrow = ( -minutes_ + 59 ) / 60; hours_ -= borrow; minutes_ += 60 * borrow; }
+        // (Optional) enforce non-negative total time, etc.
+    }
+};
+</code></pre>
+
+<p>
+Why non-member <code>operator+</code>? It provides symmetry and allows conversions on both operands. We implement <code>+</code> using <code>+=</code>
+to keep logic in one place.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — State Invariants &amp; <a class="glossary-term" id="glossary-origin-22-0020" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0020&amp;lesson=22#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">Tests</a></summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to extract invariants (e.g., <code>0 ≤ minutes &lt; 60</code>) and generate <a class="glossary-term" id="glossary-origin-22-0021" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0021&amp;lesson=22#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit tests</a> for <code>+=</code>/<code>+</code> (including carry/borrow cases).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>3) Making LHS &amp; RHS Equally Flexible (the “friend” angle)</h3>
+
+<p>
+If you implement <code>operator+(Time)</code> as a <em>member</em>, only the right operand can use implicit conversion. To support
+<code>lhs + rhs</code> where <em>either</em> side might require conversion (e.g., adding <code>int minutes</code>), use a non-member. If it needs private access,
+<a class="glossary-term" id="glossary-origin-22-0022" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0022&amp;lesson=22#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declare</a> it as a <code>friend</code> inside the class: narrow, explicit permission.
+</p>
+
+<pre><code class="language-cpp">class Minutes {
+public:
+    explicit Minutes(int m): m_{m} {}
+    int count() const noexcept { return m_; }
+private:
+    int m_;
+};
+
+class Time2 {
+public:
+    Time2(int h, int m): h_{h}, m_{m} { normalise(); }
+
+    // Allow Time2 + Minutes and Minutes + Time2 symmetrically:
+    friend Time2 operator+(Time2 lhs, Minutes rhs) { lhs.m_ += rhs.count(); lhs.normalise(); return lhs; }
+    friend Time2 operator+(Minutes lhs, Time2 rhs) { rhs.m_ += lhs.count(); rhs.normalise(); return rhs; }
+
+private:
+    int h_{}, m_{};
+    void normalise(){ /* as before */ }
+};
+</code></pre>
+
+<hr>
+
+<h3>4) Comparison &amp; Ordering (C++20+) — keep it consistent</h3>
+
+<p>Either <a class="glossary-term" id="glossary-origin-22-0023" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0023&amp;lesson=22#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> equality and ordering manually or use defaults when your representation matches semantics.</p>
+
+<pre><code class="language-cpp">class Point {
+public:
+    Point(int x, int y): x_{x}, y_{y} {}
+
+    // Equality (hidden friend)
+    friend bool operator==(const Point&amp; a, const Point&amp; b) = default; // C++20: compares x_, y_
+
+    // Three-way comparison (spaceship) gives &lt;, &gt;, ≤, ≥ for free if meaningful
+    friend auto operator&lt;=&gt;(const Point&amp;, const Point&amp;) = default;
+
+private:
+    int x_, y_;
+};
+</code></pre>
+
+<p><em>Rule:</em> If you define <code>==</code>, ensure it agrees with your ordering and with hashing (if you later provide a hash).</p>
+
+<hr>
+
+<h3>5) Stream Operators — idiomatic non-members (often hidden friends)</h3>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class Vec2 {
+public:
+    Vec2(float x, float y): x_{x}, y_{y} {}
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Vec2&amp; v) {
+        return os &lt;&lt; '(' &lt;&lt; v.x_ &lt;&lt; ',' &lt;&lt; v.y_ &lt;&lt; ')';
+    }
+    friend std::istream&amp; operator&gt;&gt;(std::istream&amp; is, Vec2&amp; v) {
+        char ch; return (is &gt;&gt; ch &gt;&gt; v.x_ &gt;&gt; ch &gt;&gt; v.y_ &gt;&gt; ch);
+    }
+private:
+    float x_, y_;
+};
+</code></pre>
+
+<p>Define inside the class for “hidden friend” behaviour so ADL finds it with <code>std::cout &lt;&lt; v</code> without polluting <a class="glossary-term" id="glossary-origin-22-0024" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0024&amp;lesson=22#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">namespaces</a>.</p>
+
+<hr>
+
+<h3>6) Arithmetic Family — implement once, reuse everywhere</h3>
+
+<p>Implement the compound form first, then derive the pure form.</p>
+
+<pre><code class="language-cpp">class BigInt {
+public:
+    BigInt&amp; operator+=(const BigInt&amp; rhs) { /* ... */ return *this; }
+    friend BigInt operator+(BigInt lhs, const BigInt&amp; rhs) { lhs += rhs; return lhs; }
+
+    BigInt&amp; operator-=(const BigInt&amp; rhs) { /* ... */ return *this; }
+    friend BigInt operator-(BigInt lhs, const BigInt&amp; rhs) { lhs -= rhs; return lhs; }
+};
+</code></pre>
+
+<hr>
+
+<h3>7) Prefix vs <a class="glossary-term" id="glossary-origin-22-0025" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0025&amp;lesson=22#term-postfix-increment" aria-label="Look up postfix increment in the programming glossary" title="Look up postfix increment in the programming glossary">Postfix Increment</a> (form matters)</h3>
+
+<pre><code class="language-cpp">class Counter {
+public:
+    Counter&amp; operator++()    { ++n_; return *this; }     // prefix: cheap, returns reference
+    Counter   operator++(int) { Counter tmp = *this; ++*this; return tmp; } // postfix: returns old value
+private:
+    int n_{};
+};
+</code></pre>
+
+<p>Use prefix (<code>++x</code>) when you don’t need the old <a class="glossary-term" id="glossary-origin-22-0026" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0026&amp;lesson=22#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a>; it avoids a copy.</p>
+
+<hr>
+
+<h3>8) Conversions &amp; Surprises — be explicit</h3>
+
+<ul>
+  <li>Prefer <code>explicit</code> single-<a class="glossary-term" id="glossary-origin-22-0027" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0027&amp;lesson=22#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-term" id="glossary-origin-22-0028" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0028&amp;lesson=22#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructors</a> to avoid unintended implicit conversions.</li>
+  <li>Prefer <a class="glossary-term" id="glossary-origin-22-0029" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0029&amp;lesson=22#term-explicit-conversion" aria-label="Look up explicit conversion in the programming glossary" title="Look up explicit conversion in the programming glossary">explicit conversion</a> operators (<code>explicit operator bool() const</code>) for clarity.</li>
+</ul>
+
+<pre><code class="language-cpp">class Money {
+public:
+    explicit Money(long cents): c_{cents} {}
+    // explicit operator double() const; // consider carefully; may lose precision
+private: long c_;
+};
+</code></pre>
+
+<hr>
+
+<h3>9) Common Pitfalls (and how to avoid them)</h3>
+
+<ul>
+  <li><strong>Breaking intuition:</strong> Don’t make <code>+</code> mutate, or <code>==</code> perform fuzzy comparisons unless documented.</li>
+  <li><strong>Overloading the wrong operators:</strong> Avoid <code>&amp;&amp;</code>, <code>||</code>, <code>,</code>, <code>::</code>, and <code>?:</code>. They don’t <a class="glossary-term" id="glossary-origin-22-0030" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0030&amp;lesson=22#term-short-circuit-evaluation" aria-label="Look up short-circuit evaluation in the programming glossary" title="Look up short-circuit evaluation in the programming glossary">short-circuit</a> or can’t be overloaded meaningfully.</li>
+  <li><strong>Inconsistent families:</strong> If you provide <code>+=</code>, also provide <code>+</code> (via <code>+=</code>). If you provide <code>==</code>, consider <code>&lt;=&gt;</code> or consistent ordering.</li>
+  <li><strong>Asymmetry &amp; <a class="glossary-term" id="glossary-origin-22-0031" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0031&amp;lesson=22#term-object-slicing" aria-label="Look up object slicing in the programming glossary" title="Look up object slicing in the programming glossary">slicing</a>:</strong> Member <code>operator+(T)</code> restricts LHS conversions; prefer non-member. Don’t store <a class="glossary-term" id="glossary-origin-22-0032" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0032&amp;lesson=22#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">polymorphic</a> types by value.</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-22-0033" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0033&amp;lesson=22#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">Const-correctness</a>:</strong> Read-only operators on logically-const <a class="glossary-term" id="glossary-origin-22-0034" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0034&amp;lesson=22#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">objects</a> should be <code>const</code> (e.g., <code>operator[]() const</code> variant).</li>
+  <li><strong>Leaking invariants:</strong> Keep representation private; use hidden friends or getters. Test the invariants after each operator.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Operator Lint</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to check for broken semantics (mutating <code>+</code>, missing <code>const</code>, asymmetric conversions, missing <code>virtual</code> dtor in streamed polymorphic types).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>10) Mini Exercise — Triangle (friend + symmetry)</h3>
+
+<p>Starting point: your note suggested:</p>
+<pre><code class="language-cpp">class Triangle {
+public:
+    // ...
+    friend Triangle operator+(Triangle a, Triangle b); // combine edges/angles with proper normalisation
+private:
+    // private measures here
+};
+</code></pre>
+
+<p><strong>Task:</strong> Implement <code>+=</code> (normalise perimeter/angles), then implement <code>operator+</code> via <code>+=</code>.
+Add <code>==</code> and a hidden friend <code>operator&lt;&lt;</code>. Explain why non-member friends are appropriate (symmetry + private access).</p>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li>Overload only when behaviour matches the operator’s conventional meaning and improves clarity.</li>
+  <li>Prefer <strong>non-member</strong> binary operators for symmetry; make them <strong>friends</strong> only if private access is required.</li>
+  <li>Implement compound forms (<code>+=</code>, <code>-=</code>, …) first; derive pure forms (<code>+</code>, <code>-</code>) from them.</li>
+  <li>Keep invariants intact (e.g., normalise minutes to <code>[0,60)</code>); test carry/borrow and edge cases.</li>
+  <li>Use hidden friends for streaming and comparators; consider C++20 <code>= default</code> for <code>==</code>/<code>&lt;=&gt;</code> where valid.</li>
+  <li>Be explicit with conversions to avoid surprises; ensure const-correctness.</li>
+  <li>Avoid overloading operators with misleading semantics or broken short-circuit expectations.</li>
+</ul>
+        
+<!-- lesson-enhancement:22:start -->
+<section class="lesson-enhancement" id="operators-as-semantic-interfaces">
+<p class="lesson-enhancement-kicker">Advanced perspective: familiar syntax borrows expectations from the language</p>
+<h2>An operator overload is successful only when its compact spelling tells the truth</h2>
+<p>Operator overloading lets a user-defined type participate in familiar C++ <a class="glossary-term" id="glossary-origin-22-0035" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0035&amp;lesson=22#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expressions</a>. It does not let the type redesign the grammar. <a class="glossary-term" id="glossary-origin-22-0036" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0036&amp;lesson=22#term-precedence" aria-label="Look up precedence in the programming glossary" title="Look up precedence in the programming glossary">Precedence</a>, <a class="glossary-term" id="glossary-origin-22-0037" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0037&amp;lesson=22#term-associativity" aria-label="Look up associativity in the programming glossary" title="Look up associativity in the programming glossary">associativity</a> and the number of operands are fixed, <a class="glossary-term" id="glossary-origin-22-0038" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0038&amp;lesson=22#term-new-delete" aria-label="Look up new and delete in the programming glossary" title="Look up new and delete in the programming glossary">new operator</a> <a class="glossary-term" id="glossary-origin-22-0039" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0039&amp;lesson=22#term-symbol" aria-label="Look up symbol in the programming glossary" title="Look up symbol in the programming glossary">symbols</a> cannot be invented, and at least one operand must involve a user-defined type. The <a class="glossary-term" id="glossary-origin-22-0040" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0040&amp;lesson=22#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> checks whether an overload is legal and selectable. It does not decide whether <code>left + right</code> has an honest meaning in the domain.</p>
+<p>The compact syntax therefore carries a debt. A reader expects <code>+</code> to produce a value without unexpectedly modifying its operands, <code>+=</code> to modify its left operand, <code>==</code> to express a coherent equality relation, and stream extraction to report failure without leaving a half-read object. If the type needs a paragraph of <a class="glossary-term" id="glossary-origin-22-0041" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0041&amp;lesson=22#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exceptions</a> every time an operator appears, a named function may be the clearer <a class="glossary-term" id="glossary-origin-22-0042" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0042&amp;lesson=22#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a>.</p>
+<table>
+<thead><tr><th>Operator claim</th><th>Expectation borrowed by the syntax</th><th>Question the type must answer</th></tr></thead>
+<tbody>
+<tr><td><code>a + b</code></td><td>Produces a result while leaving ordinary value operands unchanged.</td><td>What domain value is the sum, and is it closed over the type?</td></tr>
+<tr><td><code>a += b</code></td><td>Updates <code>a</code> and supports conventional chaining.</td><td>Does every valid update preserve the invariant?</td></tr>
+<tr><td><code>a == b</code></td><td>Reports a stable notion of value equality.</td><td>Which state contributes to equality, and is the relation coherent?</td></tr>
+<tr><td><code>stream &gt;&gt; value</code></td><td>Parses one representation and communicates failure through the <a class="glossary-term" id="glossary-origin-22-0043" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0043&amp;lesson=22#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a>.</td><td>Can invalid or incomplete input leave <code>value</code> unchanged?</td></tr>
+</tbody>
+</table>
+
+<h3>Implement the mutating rule once, then derive the value operation</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+class Time {
+public:
+    explicit Time(int minutes) : minutes_{minutes} {}
+
+    Time&amp; operator+=(const Time&amp; other) {
+        minutes_ += other.minutes_;
+        return *this;
+    }
+
+    int minutes() const {
+        return minutes_;
+    }
+
+    friend Time operator+(Time left, const Time&amp; right) {
+        left += right;
+        return left;
+    }
+
+private:
+    int minutes_;
+};
+
+int main() {
+    const Time first{40};
+    const Time second{35};
+    const Time total{first + second};
+    std::cout &lt;&lt; total.minutes() &lt;&lt; '\n';
+}
+</code></pre>
+<p><code>operator+=</code> modifies its left object and returns that same object by reference. The return supports conventional expressions such as <code>(a += b) += c</code> without creating a replacement <code>Time</code>. The operation's one state rule is visible in one place.</p>
+<p><code>operator+</code> is a non-member friend whose left operand is taken by value. That parameter is a copy of <code>first</code>. The function applies the established compound operation to the copy and returns the resulting value. Consequently, <code>first</code> remains 40, <code>second</code> remains 35, and <code>total</code> receives 75. The implementation relationship mirrors the semantic relationship: addition behaves like a non-mutating value form of compound addition.</p>
+<table>
+<thead><tr><th>Stage</th><th><code>first</code></th><th><code>second</code></th><th>Local <code>left</code></th><th><code>total</code></th></tr></thead>
+<tbody>
+<tr><td>Before <code>operator+</code></td><td>40</td><td>35</td><td>Not yet created.</td><td>Not yet <a class="glossary-term" id="glossary-origin-22-0044" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0044&amp;lesson=22#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialised</a>.</td></tr>
+<tr><td>On entry</td><td>40</td><td>35</td><td>Copy holding 40.</td><td>Not yet initialised.</td></tr>
+<tr><td>After <code>left += right</code></td><td>40</td><td>35</td><td>75.</td><td>Not yet initialised.</td></tr>
+<tr><td>After return</td><td>40</td><td>35</td><td>Its <a class="glossary-term" id="glossary-origin-22-0045" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0045&amp;lesson=22#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">returned value</a> has been used.</td><td>75.</td></tr>
+</tbody>
+</table>
+<p>The pattern is useful where <code>+=</code> and <code>+</code> genuinely share one rule. It is not a quota that every type must satisfy. If the compound operation has different validity or performance requirements, state those differences rather than forcing <a class="glossary-term" id="glossary-origin-22-0046" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0046&amp;lesson=22#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> reuse to dictate semantics.</p>
+
+<h3>Decide what the type represents before deciding what the symbol means</h3>
+<p>The name <code>Time</code> is deliberately ambiguous. If it represents a duration measured in minutes, adding two values can make sense and 75 is a straightforward result. If it represents a time of day, adding two clock readings is not an obvious operation. A time of day plus a duration may be meaningful, perhaps with wraparound or a date transition, but that is a different type relationship.</p>
+<p>This distinction changes the interface. One undifferentiated <code>Time + Time</code> overload can hide whether the operands are durations, points on a timeline or clock readings. Stronger domain types can prevent nonsense before an operator body runs. Syntax should follow the model. It should not be used to avoid choosing one.</p>
+<table>
+<thead><tr><th>Possible model</th><th>Potentially meaningful operation</th><th>Question that must be settled</th></tr></thead>
+<tbody>
+<tr><td>Duration</td><td>Duration plus duration.</td><td>Range, overflow and unit policy.</td></tr>
+<tr><td>Time of day</td><td>Time of day plus duration.</td><td>Wraparound, date context and invalid values.</td></tr>
+<tr><td>Time point</td><td>Time point minus time point gives duration.</td><td>Clock, epoch and precision.</td></tr>
+<tr><td>Time point plus time point</td><td>No generally obvious value operation.</td><td>Whether a named domain operation exists at all.</td></tr>
+</tbody>
+</table>
+
+<h3>Member, non-member and friend answer separate questions</h3>
+<p>Some operators must be members, including assignment, subscript, <a class="glossary-term" id="glossary-origin-22-0047" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0047&amp;lesson=22#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function call</a> and member access through <code>-&gt;</code>. For a symmetric binary operation such as value addition or equality, a non-member often treats both operands more evenly and allows relevant implicit conversions to be considered on either side. A member binary operator fixes the left operand as the object on which the member is invoked.</p>
+<p>Non-member does not automatically mean friend. If public operations can implement the operator without weakening clarity or efficiency, an ordinary non-member preserves representation independence. Friendship is justified only when the non-member relationship is right and narrow private access is genuinely necessary. These are two decisions, not one combined slogan.</p>
+
+<h3>Equality and ordering must describe the domain, not merely the member list</h3>
+<p>A useful equality relation is expected to be reflexive, symmetric and transitive. If <code>a == b</code>, code commonly expects them to be interchangeable for the observations that define value identity. Approximate floating-point comparison can be useful for a named numerical test, but embedding a context-dependent tolerance in <code>operator==</code> can break transitivity and make <a class="glossary-term" id="glossary-origin-22-0048" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0048&amp;lesson=22#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">containers</a> or <a class="glossary-term" id="glossary-origin-22-0049" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0049&amp;lesson=22#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithms</a> behave unexpectedly.</p>
+<p>Defaulted equality and <a class="glossary-term" id="glossary-origin-22-0050" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0050&amp;lesson=22#term-three-way-comparison" aria-label="Look up three-way comparison in the programming glossary" title="Look up three-way comparison in the programming glossary">three-way comparison</a> can remove repetitive member-wise code when member order and comparison already express the intended value semantics. They compare the relevant subobjects in their language-defined order and may be unavailable when those subobjects cannot supply the required comparisons. They do not decide whether a <a class="glossary-term" id="glossary-origin-22-0051" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0051&amp;lesson=22#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a>, <a class="glossary-term" id="glossary-origin-22-0052" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0052&amp;lesson=22#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a>, timestamp or spelling variation belongs to value identity.</p>
+<table>
+<thead><tr><th>Property</th><th>Question for the type</th><th>Failure example</th></tr></thead>
+<tbody>
+<tr><td>Equality</td><td>Which observations make two values interchangeable?</td><td>Including a cache makes equal domain values compare unequal.</td></tr>
+<tr><td>Ordering</td><td>Is the relation total, weak or partial for the domain?</td><td>Inventing an arbitrary order merely because sorting syntax is available.</td></tr>
+<tr><td>Consistency</td><td>Does equality agree with ordering and any hash definition?</td><td>Two equal values produce different hashes or distinct ordering positions.</td></tr>
+</tbody>
+</table>
+
+<h3>Input should commit only after the representation is complete</h3>
+<p>A stream insertion operator conventionally returns the stream by reference, allowing chained output and preserving the stream's accumulated state. It may be an ordinary non-member using public observations or a hidden friend when narrow representation access is justified.</p>
+<p>Extraction is more dangerous because it mutates. Read components and delimiter characters into local temporary values, validate the entire representation, and assign to the target only after success. If the second coordinate or closing delimiter is absent, the stream should report failure and the object should retain its previous invariant-satisfying value. Directly extracting into members can leave the first member changed before a later read fails.</p>
+<p>This is a transaction in miniature: parse, validate, then commit. The same pattern applies beyond streams whenever one logical update depends on several fallible steps.</p>
+
+<h3>Legal syntax can still remove behaviour readers depend upon</h3>
+<p>The operators <code>.</code>, <code>.*</code>, <code>::</code> and <code>?:</code> cannot be overloaded. Other operators are overloadable but lose special built-in behaviour. User-defined <code>&amp;&amp;</code> and <code>||</code> do not provide the built-in short-circuit guarantee; both operands participate in the function-call evaluation needed for the overload. Code that expects the right operand to be skipped can therefore become invalid or expensive.</p>
+<p>Overloading the comma operator, <a class="glossary-term" id="glossary-origin-22-0053" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0053&amp;lesson=22#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a>-of or other low-level-looking syntax may likewise make ordinary reading unreliable. A domain can occasionally justify unusual notation, especially in a carefully constrained <a class="glossary-term" id="glossary-origin-22-0054" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0054&amp;lesson=22#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a>. The burden of proof is high because the operator's spelling already tells experienced readers a story.</p>
+
+<h3>Conversions alter <a class="glossary-term" id="glossary-origin-22-0055" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0055&amp;lesson=22#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload selection</a> before the chosen function begins</h3>
+<p>A single-argument constructor or conversion operator can make additional overloads viable. That convenience can also make an unrelated expression compile by silently creating a temporary domain value. Mark conversions <code>explicit</code> when automatic conversion would hide cost, lose information or make operator selection surprising.</p>
+<p>An explicit <code>operator bool</code> can still participate in the language's contextual <a class="glossary-term" id="glossary-origin-22-0056" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0056&amp;lesson=22#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> uses, such as an <code>if</code> <a class="glossary-term" id="glossary-origin-22-0057" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0057&amp;lesson=22#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a>, while resisting broad arithmetic conversion. The decision is not "explicit is always safer". The decision is which implicit interpretations belong to the type's contract and which should require visible intent.</p>
+
+<div class="concept-panel">
+<p><strong>Corrections to the earlier operator examples:</strong> the preserved <code>Vec2</code> extraction reads arbitrary delimiter characters and writes directly into members before the complete input has been validated. A robust form reads coordinates and separators into local temporaries, checks the full syntax, and commits to <code>Vec2</code> only on success. The Triangle exercise also assumes that <code>Triangle + Triangle</code> has an obvious domain meaning. It does not. Combining vertices, edge lengths, areas or transformations would describe different operations, some of which may not produce a valid triangle. Treat the task as an interface challenge, not an instruction to invent arithmetic for the sake of using <code>friend</code>.</p>
+</div>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> require a semantic table before requesting signatures</summary>
+<div>
+<p>Ask an AI system to state what each operand represents, whether either operand changes, the result type, invalid-input policy, invariant and algebraic properties. Generate boundary cases that challenge those claims. Only then ask for member, non-member or friend signatures and for one operation to be implemented in terms of another.</p>
+<p>Check overload resolution separately. Which conversions are considered on the left and right? Does a defaulted comparison include every intended identity field and exclude incidental state? Does an overloaded logical operator lose short-circuiting? A compiling overload family is evidence that the syntax is legal, not that the family is coherent.</p>
+</div>
+</details>
+
+<h3>Transfer task: decide whether the symbol deserves the behaviour</h3>
+<p>Design a <code>Percentage</code> type whose valid values lie from 0 to 100. A proposal defines <code>a + b</code> as a saturating sum capped at 100, <code>a += b</code> with the same rule, approximate equality within one percentage point, and implicit conversion to <code>int</code>. For each choice, list the expectation a reader brings from the operator and the place where the proposal meets or breaks it.</p>
+<p>Produce two designs. One may retain operators, but it must state the invariant, mutation rules, equality relation and conversion policy precisely. The other should replace misleading syntax with names such as <code>capped_add</code> or <code>is_within</code>. Add a stream extraction plan that leaves the target unchanged for <code>101</code>, missing digits or trailing invalid syntax. Choose between the designs by clarity of the resulting <a class="glossary-term" id="glossary-origin-22-0058" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0058&amp;lesson=22#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call sites</a>, not by which one demonstrates more overloads.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The proposed operators borrow expectations which are not equally defensible:</p>
+<table>
+<thead><tr><th>Choice</th><th>Ordinary expectation</th><th>Assessment</th></tr></thead>
+<tbody>
+<tr><td><code>a + b</code></td><td>Produces a new sum without changing either operand.</td><td>It preserves non-mutation and is closed over the type, but <code>60 + 60 == 100</code> silently discards part of the mathematical sum. Saturation must be an explicit type policy, not an accidental implementation detail.</td></tr>
+<tr><td><code>a += b</code></td><td>Changes <code>a</code> consistently with <code>a = a + b</code>.</td><td>It meets that relationship if it uses exactly the same cap. The hidden saturation remains the question.</td></tr>
+<tr><td>Approximate <code>==</code></td><td>Defines an equivalence relation suitable for ordinary equality reasoning.</td><td>It fails. With a one-point tolerance, 0 equals 1 and 1 equals 2, while 0 does not equal 2. Equality is no longer transitive.</td></tr>
+<tr><td>Implicit <code>int</code></td><td>Permits an unsurprising, meaning-preserving interpretation wherever an <a class="glossary-term" id="glossary-origin-22-0059" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0059&amp;lesson=22#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> is accepted.</td><td>The numeric value is exact, but the conversion <a class="glossary-term" id="glossary-origin-22-0060" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0060&amp;lesson=22#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">leaks</a> the domain into unrelated arithmetic and changes overload selection. A named query or explicit conversion is clearer.</td></tr>
+</tbody>
+</table>
+<h4>Design one: operators are part of a stated saturating policy</h4>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;stdexcept&gt;
+
+class Percentage {
+public:
+    explicit Percentage(int value) : value_{value}
+    {
+        if (value &lt; 0 || value &gt; 100) {
+            throw std::out_of_range{"percentage must be in [0, 100]"};
+        }
+    }
+
+    Percentage&amp; operator+=(Percentage other) noexcept
+    {
+        value_ = std::min(100, value_ + other.value_);
+        return *this;
+    }
+
+    [[nodiscard]] int value() const noexcept { return value_; }
+    explicit operator int() const noexcept { return value_; }
+
+    bool operator==(const Percentage&amp;) const = default;
+
+private:
+    int value_ = 0;
+};
+
+Percentage operator+(Percentage left, Percentage right) noexcept
+{
+    left += right;
+    return left;
+}
+</code></pre>
+<p>The invariant is always <code>0 &lt;= value &amp;&amp; value &lt;= 100</code>. Addition never mutates its operands; compound addition mutates only the left operand; both saturate at 100. Equality is exact equality of the represented percentage, and integer conversion requires visible intent. This design is coherent, although a name such as <code>SaturatingPercentage</code> would make its unusual arithmetic policy easier to discover.</p>
+<h4>Design two: name the policy that changes the arithmetic</h4>
+<p>Keep checked construction, <code>value()</code>, exact <code>operator==</code> and no implicit conversion. Remove <code>operator+</code> and <code>operator+=</code>. Provide <code>capped_add(left, right)</code> for saturation and <code>is_within(left, right, tolerance)</code> for a tolerance test. The calls then state the two facts which the original operators concealed:</p>
+<pre><code class="language-cpp">const Percentage combined = capped_add(tax, surcharge);
+
+if (is_within(measured, expected, 1)) {
+    // close enough for this particular decision
+}
+</code></pre>
+<p><code>is_within</code> is a predicate for one decision, not a replacement equality relation. Its tolerance must be non-negative, and the subtraction should be performed in a type which cannot overflow for the permitted range.</p>
+<h4>Extraction: parse, validate, then commit</h4>
+<p>Suppose the accepted token is one or more decimal digits with an optional <a class="glossary-term" id="glossary-origin-22-0061" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0061&amp;lesson=22#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> percent sign. Read one complete token, remove only that permitted final sign, require every remaining character to form the integer, validate the range, and assign only then:</p>
+<pre><code class="language-cpp">#include &lt;charconv&gt;
+#include &lt;ios&gt;
+#include &lt;istream&gt;
+#include &lt;string&gt;
+#include &lt;system_error&gt;
+
+std::istream&amp; operator&gt;&gt;(std::istream&amp; in, Percentage&amp; target)
+{
+    std::string token;
+    if (!(in &gt;&gt; token)) {
+        return in;
+    }
+
+    if (token.ends_with('%')) {
+        token.pop_back();
+    }
+
+    int candidate = 0;
+    const char* first = token.data();
+    const char* last = first + token.size();
+    const auto [next, error] = std::from_chars(first, last, candidate);
+
+    if (token.empty()
+        || token.find_first_not_of("0123456789") != std::string::npos
+        || error != std::errc{}
+        || next != last
+        || candidate &lt; 0
+        || candidate &gt; 100) {
+        in.setstate(std::ios::failbit);
+        return in;
+    }
+
+    target = Percentage{candidate};
+    return in;
+}
+</code></pre>
+<p><code>101</code>, <code>%</code> and <code>40%x</code> all set <code>failbit</code> and leave the previous target untouched. I would select the named-operation design. <code>capped_add(a, b)</code> makes loss visible, while <code>is_within(a, b, 1)</code> prevents a local tolerance rule from pretending to be equality for the whole type.</p>
+</div>
+</details>
+
+<p>An operator overload succeeds when a reader can transfer ordinary C++ expectations to the user-defined type and remain correct. Compact syntax is valuable after the semantics are settled. Before that, it merely makes uncertainty shorter.</p>
+</section>
+<!-- lesson-enhancement:22:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-21.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">21. Polymorphism</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-23.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">23. Templates</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

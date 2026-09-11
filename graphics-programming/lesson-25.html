@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Replace recursive control flow with an explicit per-invocation path loop, throughput and termination rule.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 25 - Secondary Rays Need Bounded State</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="25" data-ray-stage="25" data-art-pattern="branch">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 25 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html" aria-current="page"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 25</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">25. Secondary Rays Need Bounded State</h1>
+            <p class="lesson-deck">Replace recursive control flow with an explicit per-invocation path loop, throughput and termination rule.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-24.html">&larr; Lesson 24</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-26.html">Lesson 26 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>29 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-25-atomic-operation" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-atomic-operation&amp;lesson=25#term-atomic-operation" aria-label="Look up atomic operation in the graphics glossary" title="Look up atomic operation in the graphics glossary">atomic operation</a> <a class="glossary-chip" id="glossary-panel-origin-25-bounce-limit" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-bounce-limit&amp;lesson=25#term-bounce-limit" aria-label="Look up bounce limit in the graphics glossary" title="Look up bounce limit in the graphics glossary">bounce limit</a> <a class="glossary-chip" id="glossary-panel-origin-25-compute-pipeline" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-compute-pipeline&amp;lesson=25#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> <a class="glossary-chip" id="glossary-panel-origin-25-compute-shader" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-compute-shader&amp;lesson=25#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-25-control-flow-divergence" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-control-flow-divergence&amp;lesson=25#term-control-flow-divergence" aria-label="Look up control-flow divergence in the graphics glossary" title="Look up control-flow divergence in the graphics glossary">control-flow divergence</a> <a class="glossary-chip" id="glossary-panel-origin-25-cpu" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-cpu&amp;lesson=25#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-25-diffuse" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-diffuse&amp;lesson=25#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> <a class="glossary-chip" id="glossary-panel-origin-25-direction" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-direction&amp;lesson=25#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-25-dispatch" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-dispatch&amp;lesson=25#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-25-glsl" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-glsl&amp;lesson=25#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <a class="glossary-chip" id="glossary-panel-origin-25-gpu" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-gpu&amp;lesson=25#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-25-hit" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-hit&amp;lesson=25#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-25-invocation" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-invocation&amp;lesson=25#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-25-material" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-material&amp;lesson=25#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-25-normalise" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-normalise&amp;lesson=25#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-25-path-state" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-path-state&amp;lesson=25#term-path-state" aria-label="Look up path state in the graphics glossary" title="Look up path state in the graphics glossary">path state</a> <a class="glossary-chip" id="glossary-panel-origin-25-pixel" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-pixel&amp;lesson=25#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-25-point" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-point&amp;lesson=25#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-25-primary-ray" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-primary-ray&amp;lesson=25#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-25-queue" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-queue&amp;lesson=25#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> <a class="glossary-chip" id="glossary-panel-origin-25-radiance" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-radiance&amp;lesson=25#term-radiance" aria-label="Look up radiance in the graphics glossary" title="Look up radiance in the graphics glossary">radiance</a> <a class="glossary-chip" id="glossary-panel-origin-25-recursion" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-recursion&amp;lesson=25#term-recursion" aria-label="Look up recursion in the graphics glossary" title="Look up recursion in the graphics glossary">recursion</a> <a class="glossary-chip" id="glossary-panel-origin-25-reflection" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-reflection&amp;lesson=25#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-25-sample" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-sample&amp;lesson=25#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-25-secondary-ray" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-secondary-ray&amp;lesson=25#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary ray</a> <a class="glossary-chip" id="glossary-panel-origin-25-shader-storage-buffer" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-shader-storage-buffer&amp;lesson=25#term-shader-storage-buffer" aria-label="Look up shader storage buffer in the graphics glossary" title="Look up shader storage buffer in the graphics glossary">shader storage buffer</a> <a class="glossary-chip" id="glossary-panel-origin-25-surface-normal" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-surface-normal&amp;lesson=25#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-25-termination" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-termination&amp;lesson=25#term-termination" aria-label="Look up termination in the graphics glossary" title="Look up termination in the graphics glossary">termination</a> <a class="glossary-chip" id="glossary-panel-origin-25-throughput" href="glossary.html?from=lesson-25.html%23glossary-panel-origin-25-throughput&amp;lesson=25#term-throughput" aria-label="Look up throughput in the graphics glossary" title="Look up throughput in the graphics glossary">throughput</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A mirror does not require the <a class="glossary-term" id="glossary-origin-25-0001" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0001&amp;lesson=25#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> to call itself. It requires the result of one <a class="glossary-term" id="glossary-origin-25-0002" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0002&amp;lesson=25#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> to become the origin and <a class="glossary-term" id="glossary-origin-25-0003" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0003&amp;lesson=25#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> of another query. On the <a class="glossary-term" id="glossary-origin-25-0004" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0004&amp;lesson=25#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a>, Lesson 11 expressed that sequence recursively because the source read naturally. In a compute <a class="glossary-term" id="glossary-origin-25-0005" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0005&amp;lesson=25#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a>, a small explicit loop makes the same state and its stopping conditions visible.</p>
+<p>Trace one continuation per bounce. A reflective <a class="glossary-term" id="glossary-origin-25-0006" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0006&amp;lesson=25#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> chooses the reflected direction; a <a class="glossary-term" id="glossary-origin-25-0007" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0007&amp;lesson=25#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> material terminates and contributes local light. This is not yet a full path tracer because it does not randomly <a class="glossary-term" id="glossary-origin-25-0008" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0008&amp;lesson=25#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> a distribution of diffuse directions. It is a bounded secondary-ray renderer whose state can be inspected after every bounce.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Represent the current ray, accumulated <a class="glossary-term" id="glossary-origin-25-0009" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0009&amp;lesson=25#term-radiance" aria-label="Look up radiance in the graphics glossary" title="Look up radiance in the graphics glossary">radiance</a> and remaining <a class="glossary-term" id="glossary-origin-25-0010" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0010&amp;lesson=25#term-throughput" aria-label="Look up throughput in the graphics glossary" title="Look up throughput in the graphics glossary">throughput</a> as per-invocation <a class="glossary-term" id="glossary-origin-25-0011" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0011&amp;lesson=25#term-path-state" aria-label="Look up path state in the graphics glossary" title="Look up path state in the graphics glossary">path state</a>.</li>
+<li>Generate a reflected ray with a deliberate origin offset and maximum bounce count.</li>
+<li>Explain why one continuation fits a simple loop while branching rays require a different work strategy.</li>
+</ul>
+</section>
+
+<h2>Keep path state private to one invocation</h2>
+<p>Each output sample begins with a <a class="glossary-term" id="glossary-origin-25-0012" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0012&amp;lesson=25#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">camera ray</a>. Initialise radiance to zero and throughput to one. Radiance is light already accumulated for the sample; throughput is the multiplier carried to future contributions.</p>
+
+<pre><code class="language-glsl">struct PathState {
+    Ray ray;
+    vec3 radiance;
+    vec3 throughput;
+    uint bounce;
+};
+
+PathState path;
+path.ray = makePrimaryRay(gl_GlobalInvocationID.xy);
+path.radiance = vec3(0.0);
+path.throughput = vec3(1.0);
+path.bounce = 0u;</code></pre>
+
+<p>This state is local to the shader invocation. It does not require a <a class="glossary-term" id="glossary-origin-25-0013" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0013&amp;lesson=25#term-shader-storage-buffer" aria-label="Look up shader storage buffer in the graphics glossary" title="Look up shader storage buffer in the graphics glossary">storage buffer</a> or <a class="glossary-term" id="glossary-origin-25-0014" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0014&amp;lesson=25#term-atomic-operation" aria-label="Look up atomic operation in the graphics glossary" title="Look up atomic operation in the graphics glossary">atomic operation</a> while one invocation traces one sample from start to finish. A storage <a class="glossary-term" id="glossary-origin-25-0015" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0015&amp;lesson=25#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> becomes relevant when paths are split or scheduled across multiple <a class="glossary-term" id="glossary-origin-25-0016" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0016&amp;lesson=25#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatches</a>.</p>
+
+<h2>Give the material an explicit response</h2>
+<p>Use the material's spare fields for a <a class="glossary-term" id="glossary-origin-25-0017" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0017&amp;lesson=25#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> colour and strength. A teaching record might store base colour in one <code>vec4</code> and reflected colour plus reflectivity in another. Keep reflectivity between zero and one on the CPU before upload.</p>
+
+<pre><code class="language-glsl">struct MaterialGPU {
+    vec4 albedoRoughness;
+    vec4 reflectionColourStrength;
+};
+
+vec3 reflectedDirection = reflect(path.ray.direction, hit.normal);
+float strength = material.reflectionColourStrength.w;
+vec3 reflectionWeight =
+    material.reflectionColourStrength.xyz * strength;</code></pre>
+
+<p>The <a class="glossary-term" id="glossary-origin-25-0018" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0018&amp;lesson=25#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <code>reflect</code> operation expects the incident direction to <a class="glossary-term" id="glossary-origin-25-0019" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0019&amp;lesson=25#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> towards the surface, which our current ray direction does. The hit <a class="glossary-term" id="glossary-origin-25-0020" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0020&amp;lesson=25#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a> has already been faced against that direction. <a class="glossary-term" id="glossary-origin-25-0021" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0021&amp;lesson=25#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">Normalise</a> the result before using it as the next ray direction, even though ideal reflection of unit vectors should preserve length.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-25">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-25">How <a class="glossary-term" id="glossary-origin-25-0022" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0022&amp;lesson=25#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">Secondary Rays</a> Carry Bounded State</h2>
+        <p>An iterative shader path makes the current ray, accumulated radiance, throughput and stopping policy explicit for each invocation.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>Each invocation carries explicit path state: the current ray, accumulated radiance, throughput and bounce count. A hit may add local contribution and create the next ray. The loop stops on a miss, a stated depth limit or another deliberate contribution rule. This replaces recursive syntax; it does not remove the need for a bounded policy.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Trace one selected <a class="glossary-term" id="glossary-origin-25-0023" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0023&amp;lesson=25#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> as a table. Record the origin, direction, accepted hit, material weight, radiance contribution, throughput and <a class="glossary-term" id="glossary-origin-25-0024" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0024&amp;lesson=25#term-termination" aria-label="Look up termination in the graphics glossary" title="Look up termination in the graphics glossary">termination</a> reason for every iteration. This account shows which secondary rays were actually created rather than treating the maximum loop count as if every path reached it.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>With a reflection weight of one half, the carried throughput progresses from 1 to 0.5, 0.25 and 0.125 after three reflective interactions. A path that misses after the first reflection stops there even when the permitted maximum is much larger.</p>
+        <p class="vulkan-account-formula"><code>next throughput = current throughput × material weight</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> Increasing the <a class="glossary-term" id="glossary-origin-25-0025" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0025&amp;lesson=25#term-bounce-limit" aria-label="Look up bounce limit in the graphics glossary" title="Look up bounce limit in the graphics glossary">bounce limit</a> establishes only permission for more work. It does not prove that more rays are generated, that their contribution is useful or that divergent paths execute efficiently on the <a class="glossary-term" id="glossary-origin-25-0026" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0026&amp;lesson=25#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a>.</p>
+</section>
+
+<h2>Make the loop state the stopping policy</h2>
+
+<pre><code class="language-glsl">for (uint bounce = 0u; bounce &lt; control.maximumBounces; ++bounce) {
+    Hit hit = closestSceneHit(
+        path.ray, control.rayEpsilon, control.maximumDistance);
+
+    if (!hit.found) {
+        path.radiance += path.throughput * environment(path.ray.direction);
+        break;
+    }
+
+    MaterialGPU material = materials[hit.materialIndex];
+    vec3 local = visibleDirectLight(hit, path.ray, material);
+    float reflectivity = material.reflectionColourStrength.w;
+
+    path.radiance += path.throughput * (1.0 - reflectivity) * local;
+
+    if (reflectivity &lt;= 0.0) {
+        break;
+    }
+
+    path.throughput *=
+        reflectivity * material.reflectionColourStrength.xyz;
+
+    if (max(path.throughput.r,
+            max(path.throughput.g, path.throughput.b))
+        &lt; control.minimumThroughput) {
+        break;
+    }
+
+    path.ray.origin = hit.position + hit.normal * control.rayEpsilon;
+    path.ray.direction = normalize(
+        reflect(path.ray.direction, hit.normal));
+    path.bounce = bounce + 1u;
+}</code></pre>
+
+<p>There are four visible stopping conditions: maximum bounce count, a miss, a non-reflective material and negligible throughput. The throughput cutoff is an approximation and must be disabled when it interferes with correctness comparisons. The maximum bounce count remains necessary even in a corridor of perfect mirrors.</p>
+<p>The expression above divides local and reflected energy using one scalar reflectivity. It is a controlled teaching model, not a complete physically based material. What matters is that the weights are explicit and do not add unbounded energy at every bounce.</p>
+
+<h2>Offset on the outgoing side</h2>
+<p>For reflection, the next origin is displaced along the faced normal. More generally, choose the offset side from the outgoing direction:</p>
+
+<pre><code class="language-glsl">float side = dot(outgoingDirection, hit.normal) &gt; 0.0 ? 1.0 : -1.0;
+vec3 nextOrigin = hit.position +
+                  side * control.rayEpsilon * hit.normal;</code></pre>
+
+<p>This form will remain meaningful if transmission is later added. A refracted ray leaving through the opposite side should not be shifted back into the medium it is trying to leave. The offset addresses numerical representation; it is not a geometric thickness.</p>
+
+<div class="worked-trace">
+<h3>Follow throughput through two mirrors</h3>
+<p>Begin with throughput (1, 1, 1). The first material has white reflection colour and strength 0.8, leaving throughput (0.8, 0.8, 0.8). The second has reflection colour (1, 0.5, 0.25) and strength 0.5, leaving (0.4, 0.2, 0.1). An environment value (0.1, 0.2, 0.4) reached after that second bounce contributes (0.04, 0.04, 0.04) to radiance. The equality of the final channels is a consequence of those particular products, not a greyscale conversion.</p>
+</div>
+
+<h2>Understand the cost of different path lengths</h2>
+<p>Some invocations miss on the primary ray. Others traverse several mirror bounces, and each hit may launch a shadow query. Neighbouring invocations can therefore remain in the loop for different numbers of iterations. This <a class="glossary-term" id="glossary-origin-25-0027" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0027&amp;lesson=25#term-control-flow-divergence" aria-label="Look up control-flow divergence in the graphics glossary" title="Look up control-flow divergence in the graphics glossary">control-flow divergence</a> is expected. A maximum of four does not mean every sample performs four bounces.</p>
+<p>Add counters for paths terminated by miss, material, throughput and bounce limit. Those categories reveal the actual stopping policy. As before, atomic counters are observers that may disturb timing. They should not affect the colour path.</p>
+
+<h2>Recognise where the simple loop ends</h2>
+<p>One incoming state produces at most one outgoing state in this shader. If a glass surface needs both a reflected ray and a refracted ray from the same hit, a single loop cannot follow both simultaneously without duplicating state. There are several honest choices: select one continuation stochastically with a compensating weight, maintain a small per-invocation stack, or append new paths to a work queue for later dispatches.</p>
+<p>Do not silently calculate both colours with unbounded recursive calls and assume the GPU will schedule them efficiently. The work topology has changed from a chain into a tree. This lesson deliberately stays with a chain so that every state transition remains visible.</p>
+
+<div class="checkpoint">
+<h3>Terminate a weak path</h3>
+<p>The minimum throughput is 0.02, and the current throughput is (0.018, 0.005, 0.001). Does the loop continue?</p>
+<div class="worked-answer"><h4>The answer</h4><p>No. The largest component is 0.018, below the stated cutoff, so this approximate policy terminates the path. For a correctness reference, set the cutoff to zero and rely on the finite bounce limit instead.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> compute invocations and their execution model are defined by the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/shaders.html">shader chapter</a>; <a class="glossary-term" id="glossary-origin-25-0028" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0028&amp;lesson=25#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> creation is covered by the <a href="https://docs.vulkan.org/spec/latest/chapters/pipelines.html">pipeline chapter</a>.</p>
+
+<section class="transfer-task">
+<h2>Record the state of one path</h2>
+<p>Choose a pixel that reflects at least twice. Write one debug record per bounce containing origin, direction, hit distance, normal, material index, throughput and radiance after the update. Recalculate the reflected directions and component-wise throughput products on the CPU. Then set the maximum bounce count to zero, one, two and four and identify precisely which contributions appear at each setting. Finally, lower the throughput cutoff until it changes no selected reference pixel at the recorded precision.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry bounded paths into sampling</h2>
+<p>Retain the explicit path state and deterministic bounce limit. Lesson 26 will launch several slightly different primary samples for each pixel and accumulate their linear radiance. Secondary work belongs inside each sample; accumulation combines completed sample estimates rather than mixing partial path states.</p>
+</section>
+
+<p>The compute renderer now allows one visibility answer to create the next question without hiding that process behind <a class="glossary-term" id="glossary-origin-25-0029" href="glossary.html?from=lesson-25.html%23glossary-origin-25-0029&amp;lesson=25#term-recursion" aria-label="Look up recursion in the graphics glossary" title="Look up recursion in the graphics glossary">recursion</a>. Radiance records what has arrived, throughput records what future light can still contribute, and the loop states exactly why work stops. The next problem is not another geometric feature but estimation: one central camera ray is still only one sample of a pixel.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-24.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">24. Triangles Need a Buffer Contract</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-26.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">26. Accumulate Samples Without Losing the Average</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

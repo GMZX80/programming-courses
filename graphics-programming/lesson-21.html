@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Place several sphere records in shader storage and retain the smallest valid intersection independently of record order.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 21 - Scene Buffers and the Closest Hit</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="21" data-ray-stage="21" data-art-pattern="branch">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 21 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html" aria-current="page"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 21</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">21. Scene Buffers and the Closest Hit</h1>
+            <p class="lesson-deck">Place several sphere records in shader storage and retain the smallest valid intersection independently of record order.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-20.html">&larr; Lesson 20</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-22.html">Lesson 22 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>41 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-21-atomic-operation" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-atomic-operation&amp;lesson=21#term-atomic-operation" aria-label="Look up atomic operation in the graphics glossary" title="Look up atomic operation in the graphics glossary">atomic operation</a> <a class="glossary-chip" id="glossary-panel-origin-21-buffer" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-buffer&amp;lesson=21#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-21-c" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-c&amp;lesson=21#term-c" aria-label="Look up C++ in the graphics glossary" title="Look up C++ in the graphics glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-21-closest-hit" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-closest-hit&amp;lesson=21#term-closest-hit" aria-label="Look up closest hit in the graphics glossary" title="Look up closest hit in the graphics glossary">closest hit</a> <a class="glossary-chip" id="glossary-panel-origin-21-compute-shader" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-compute-shader&amp;lesson=21#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-21-cpu" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-cpu&amp;lesson=21#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-21-descriptor" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-descriptor&amp;lesson=21#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> <a class="glossary-chip" id="glossary-panel-origin-21-descriptor-binding" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-descriptor-binding&amp;lesson=21#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor binding</a> <a class="glossary-chip" id="glossary-panel-origin-21-descriptor-set" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-descriptor-set&amp;lesson=21#term-descriptor-set" aria-label="Look up descriptor set in the graphics glossary" title="Look up descriptor set in the graphics glossary">descriptor set</a> <a class="glossary-chip" id="glossary-panel-origin-21-descriptor-set-layout" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-descriptor-set-layout&amp;lesson=21#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a> <a class="glossary-chip" id="glossary-panel-origin-21-device-local-memory" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-device-local-memory&amp;lesson=21#term-device-local-memory" aria-label="Look up device-local memory in the graphics glossary" title="Look up device-local memory in the graphics glossary">device-local memory</a> <a class="glossary-chip" id="glossary-panel-origin-21-edge" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-edge&amp;lesson=21#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-21-flush-mapped-memory" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-flush-mapped-memory&amp;lesson=21#term-flush-mapped-memory" aria-label="Look up flush mapped memory in the graphics glossary" title="Look up flush mapped memory in the graphics glossary">flush mapped memory</a> <a class="glossary-chip" id="glossary-panel-origin-21-glsl" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-glsl&amp;lesson=21#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <a class="glossary-chip" id="glossary-panel-origin-21-gpu" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-gpu&amp;lesson=21#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-21-hit" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-hit&amp;lesson=21#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-21-hit-record" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-hit-record&amp;lesson=21#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> <a class="glossary-chip" id="glossary-panel-origin-21-host" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-host&amp;lesson=21#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-21-image" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-image&amp;lesson=21#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-21-invocation" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-invocation&amp;lesson=21#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-21-material" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-material&amp;lesson=21#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-21-maximum-distance" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-maximum-distance&amp;lesson=21#term-maximum-distance" aria-label="Look up maximum distance in the graphics glossary" title="Look up maximum distance in the graphics glossary">maximum distance</a> <a class="glossary-chip" id="glossary-panel-origin-21-memory-mapping" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-memory-mapping&amp;lesson=21#term-memory-mapping" aria-label="Look up memory mapping in the graphics glossary" title="Look up memory mapping in the graphics glossary">memory mapping</a> <a class="glossary-chip" id="glossary-panel-origin-21-memory-requirements" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-memory-requirements&amp;lesson=21#term-memory-requirements" aria-label="Look up memory requirements in the graphics glossary" title="Look up memory requirements in the graphics glossary">memory requirements</a> <a class="glossary-chip" id="glossary-panel-origin-21-padding" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-padding&amp;lesson=21#term-padding" aria-label="Look up padding in the graphics glossary" title="Look up padding in the graphics glossary">padding</a> <a class="glossary-chip" id="glossary-panel-origin-21-pipeline-barrier" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-pipeline-barrier&amp;lesson=21#term-pipeline-barrier" aria-label="Look up pipeline barrier in the graphics glossary" title="Look up pipeline barrier in the graphics glossary">pipeline barrier</a> <a class="glossary-chip" id="glossary-panel-origin-21-pixel" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-pixel&amp;lesson=21#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-21-primary-ray" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-primary-ray&amp;lesson=21#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-21-primitive-test" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-primitive-test&amp;lesson=21#term-primitive-test" aria-label="Look up primitive test in the graphics glossary" title="Look up primitive test in the graphics glossary">primitive test</a> <a class="glossary-chip" id="glossary-panel-origin-21-queue" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-queue&amp;lesson=21#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> <a class="glossary-chip" id="glossary-panel-origin-21-ray-parameter" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-ray-parameter&amp;lesson=21#term-ray-parameter" aria-label="Look up ray parameter in the graphics glossary" title="Look up ray parameter in the graphics glossary">ray parameter</a> <a class="glossary-chip" id="glossary-panel-origin-21-scene" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-scene&amp;lesson=21#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-21-shader-storage-buffer" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-shader-storage-buffer&amp;lesson=21#term-shader-storage-buffer" aria-label="Look up shader storage buffer in the graphics glossary" title="Look up shader storage buffer in the graphics glossary">shader storage buffer</a> <a class="glossary-chip" id="glossary-panel-origin-21-shadow-ray" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-shadow-ray&amp;lesson=21#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> <a class="glossary-chip" id="glossary-panel-origin-21-sphere" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-sphere&amp;lesson=21#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-21-staging-buffer" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-staging-buffer&amp;lesson=21#term-staging-buffer" aria-label="Look up staging buffer in the graphics glossary" title="Look up staging buffer in the graphics glossary">staging buffer</a> <a class="glossary-chip" id="glossary-panel-origin-21-std430" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-std430&amp;lesson=21#term-std430" aria-label="Look up std430 in the graphics glossary" title="Look up std430 in the graphics glossary">std430</a> <a class="glossary-chip" id="glossary-panel-origin-21-stride" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-stride&amp;lesson=21#term-stride" aria-label="Look up stride in the graphics glossary" title="Look up stride in the graphics glossary">stride</a> <a class="glossary-chip" id="glossary-panel-origin-21-transfer-operation" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-transfer-operation&amp;lesson=21#term-transfer-operation" aria-label="Look up transfer operation in the graphics glossary" title="Look up transfer operation in the graphics glossary">transfer operation</a> <a class="glossary-chip" id="glossary-panel-origin-21-triangle" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-triangle&amp;lesson=21#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> <a class="glossary-chip" id="glossary-panel-origin-21-vector" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-vector&amp;lesson=21#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>One <a class="glossary-term" id="glossary-origin-21-0001" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0001&amp;lesson=21#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> proved that the shader can reproduce the manual equation. A <a class="glossary-term" id="glossary-origin-21-0002" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0002&amp;lesson=21#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> begins when the same shader can inspect several records and preserve the nearest valid answer. That apparently modest change introduces three Vulkan responsibilities at once: the <a class="glossary-term" id="glossary-origin-21-0003" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0003&amp;lesson=21#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> representation, the shader representation and the transfer that places identical bytes where the shader will read them.</p>
+<p>Use a <a class="glossary-term" id="glossary-origin-21-0004" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0004&amp;lesson=21#term-shader-storage-buffer" aria-label="Look up shader storage buffer in the graphics glossary" title="Look up shader storage buffer in the graphics glossary">shader storage buffer</a> rather than one push-constant record. The <a class="glossary-term" id="glossary-origin-21-0005" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0005&amp;lesson=21#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> holds an array of spheres, and every <a class="glossary-term" id="glossary-origin-21-0006" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0006&amp;lesson=21#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> reads that same array while tracing a different <a class="glossary-term" id="glossary-origin-21-0007" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0007&amp;lesson=21#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a>. No invocation modifies the scene. The only reduction is private to the invocation: each accepted <a class="glossary-term" id="glossary-origin-21-0008" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0008&amp;lesson=21#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> shortens the remaining interval.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Define one sphere record whose <a class="glossary-term" id="glossary-origin-21-0009" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0009&amp;lesson=21#term-c" aria-label="Look up C++ in the graphics glossary" title="Look up C++ in the graphics glossary">C++</a> size and <a class="glossary-term" id="glossary-origin-21-0010" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0010&amp;lesson=21#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <code>std430</code> <a class="glossary-term" id="glossary-origin-21-0011" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0011&amp;lesson=21#term-stride" aria-label="Look up stride in the graphics glossary" title="Look up stride in the graphics glossary">stride</a> agree.</li>
+<li>Upload immutable scene data through a <a class="glossary-term" id="glossary-origin-21-0012" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0012&amp;lesson=21#term-staging-buffer" aria-label="Look up staging buffer in the graphics glossary" title="Look up staging buffer in the graphics glossary">staging buffer</a> and bind it as a storage buffer.</li>
+<li>Show why changing the order of sphere records cannot change the closest visible surface.</li>
+</ul>
+</section>
+
+<h2>Give the record a boring shape</h2>
+<p>A sphere requires a centre and radius. A single four-component <a class="glossary-term" id="glossary-origin-21-0013" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0013&amp;lesson=21#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> provides all four values without hidden <a class="glossary-term" id="glossary-origin-21-0014" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0014&amp;lesson=21#term-padding" aria-label="Look up padding in the graphics glossary" title="Look up padding in the graphics glossary">padding</a> between members. We shall add a separate <a class="glossary-term" id="glossary-origin-21-0015" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0015&amp;lesson=21#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> index in Lesson 22 rather than prematurely making this record clever.</p>
+
+<pre><code class="language-cpp">struct alignas(16) SphereGPU {
+    float centreX;
+    float centreY;
+    float centreZ;
+    float radius;
+};
+
+static_assert(sizeof(SphereGPU) == 16);
+static_assert(alignof(SphereGPU) == 16);
+
+const std::array&lt;SphereGPU, 3&gt; spheres{{
+    { 0.0f, -0.1f, -3.0f, 0.9f },
+    {-1.2f,  0.1f, -4.2f, 1.0f },
+    { 1.3f,  0.2f, -4.8f, 1.2f }
+}};</code></pre>
+
+<p>The matching shader declaration is equally plain:</p>
+
+<pre><code class="language-glsl">struct SphereGPU {
+    vec4 centreRadius;
+};
+
+layout(std430, set = 0, binding = 2) readonly buffer SphereBuffer {
+    SphereGPU spheres[];
+} scene;
+
+layout(push_constant) uniform TraceControl {
+    uint sphereCount;
+} control;</code></pre>
+
+<p>The <code>readonly</code> qualifier communicates that this shader does not alter the scene. It is not a replacement for correct <a class="glossary-term" id="glossary-origin-21-0016" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0016&amp;lesson=21#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> use, but it narrows what the source claims. The count is supplied separately because an unsized shader array does not tell the algorithm how many meaningful records the application uploaded.</p>
+
+<h2>Ask the device what the buffer requires</h2>
+<p>Create the device-local scene buffer with storage-buffer and transfer-destination usage. As with the <a class="glossary-term" id="glossary-origin-21-0017" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0017&amp;lesson=21#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> in Lesson 16, creation produces an object with <a class="glossary-term" id="glossary-origin-21-0018" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0018&amp;lesson=21#term-memory-requirements" aria-label="Look up memory requirements in the graphics glossary" title="Look up memory requirements in the graphics glossary">memory requirements</a> rather than storage. Query those requirements, select a compatible <a class="glossary-term" id="glossary-origin-21-0019" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0019&amp;lesson=21#term-device-local-memory" aria-label="Look up device-local memory in the graphics glossary" title="Look up device-local memory in the graphics glossary">device-local memory</a> type, allocate and bind it. The allocation may contain several suballocated resources in a mature renderer; our first implementation may use one allocation so that the ownership remains inspectable.</p>
+
+<pre><code class="language-cpp">VkBufferCreateInfo sceneInfo{
+    .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
+    .size = sizeof(spheres),
+    .usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
+             VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+    .sharingMode = VK_SHARING_MODE_EXCLUSIVE
+};
+
+vkCreateBuffer(device, &amp;sceneInfo, nullptr, &amp;sceneBuffer);
+
+VkMemoryRequirements requirements{};
+vkGetBufferMemoryRequirements(device, sceneBuffer, &amp;requirements);
+// Select a memory type allowed by requirements.memoryTypeBits.
+// Allocate at least requirements.size with the required alignment.
+vkBindBufferMemory(device, sceneBuffer, sceneMemory, 0);</code></pre>
+
+<p>Do not assume that <code>sizeof(spheres)</code> is the allocation size or that any device-local memory type is compatible. The requirements returned for the particular buffer settle both questions.</p>
+
+<h2>Stage the bytes deliberately</h2>
+<p>A host-visible staging buffer is the temporary source. Map its bound memory, copy the exact array bytes, flush the written range when the chosen memory is not host coherent, and unmap it. Record <code>vkCmdCopyBuffer</code> from staging to scene. A following <a class="glossary-term" id="glossary-origin-21-0020" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0020&amp;lesson=21#term-pipeline-barrier" aria-label="Look up pipeline barrier in the graphics glossary" title="Look up pipeline barrier in the graphics glossary">memory barrier</a> makes the transfer writes available and visible to <a class="glossary-term" id="glossary-origin-21-0021" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0021&amp;lesson=21#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> storage reads.</p>
+
+<pre><code class="language-cpp">VkBufferCopy copy{
+    .srcOffset = 0,
+    .dstOffset = 0,
+    .size = sizeof(spheres)
+};
+vkCmdCopyBuffer(commandBuffer, stagingBuffer, sceneBuffer, 1, &amp;copy);
+
+VkBufferMemoryBarrier2 ready{
+    .sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER_2,
+    .srcStageMask = VK_PIPELINE_STAGE_2_TRANSFER_BIT,
+    .srcAccessMask = VK_ACCESS_2_TRANSFER_WRITE_BIT,
+    .dstStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,
+    .dstAccessMask = VK_ACCESS_2_SHADER_STORAGE_READ_BIT,
+    .buffer = sceneBuffer,
+    .offset = 0,
+    .size = VK_WHOLE_SIZE
+};</code></pre>
+
+<p>Place that barrier in a <code>VkDependencyInfo</code> and record <code>vkCmdPipelineBarrier2</code>. Waiting for a <a class="glossary-term" id="glossary-origin-21-0022" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0022&amp;lesson=21#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> to become idle would also serialize the work, but it would conceal the actual producer and consumer and would be a poor default for every scene upload.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-21">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-21">How a Scene Buffer Still Produces the <a class="glossary-term" id="glossary-origin-21-0023" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0023&amp;lesson=21#term-closest-hit" aria-label="Look up closest hit in the graphics glossary" title="Look up closest hit in the graphics glossary">Closest Hit</a></h2>
+        <p>Scene records introduce a byte-layout and transfer contract, but visible-surface selection still retains the smallest valid <a class="glossary-term" id="glossary-origin-21-0024" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0024&amp;lesson=21#term-ray-parameter" aria-label="Look up ray parameter in the graphics glossary" title="Look up ray parameter in the graphics glossary">ray parameter</a> independently of record order.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>The host writes sphere records using the byte layout expected by the shader, transfers them into a storage buffer and makes those writes visible before compute reads. The shader examines each record and reduces valid candidates by shrinking the current <a class="glossary-term" id="glossary-origin-21-0025" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0025&amp;lesson=21#term-maximum-distance" aria-label="Look up maximum distance in the graphics glossary" title="Look up maximum distance in the graphics glossary">maximum distance</a> whenever a closer hit is accepted.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Establish the host member offsets, record stride, uploaded record count and descriptor range. For a selected ray, retain each candidate distance and the maximum interval after every accepted hit. Reverse the record order and repeat the account. The final identity and distance must remain the same even though the order of intermediate decisions changes.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>If the red sphere produces a valid near hit at 2.3 and the blue sphere produces one at 1.9, blue must be retained in either record order. Encountering red first merely shrinks the maximum to 2.3 before blue shrinks it again to 1.9.</p>
+        <p class="vulkan-account-formula"><code>closest = min(valid candidate t values)</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> Order-invariant selected cases establish the intended closest-hit reduction for those inputs. They do not prove that every uploaded record has the correct layout or that all <a class="glossary-term" id="glossary-origin-21-0026" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0026&amp;lesson=21#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> and overlapping cases have been covered.</p>
+</section>
+
+<h2>Add the third <a class="glossary-term" id="glossary-origin-21-0027" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0027&amp;lesson=21#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor binding</a></h2>
+<p>The <a class="glossary-term" id="glossary-origin-21-0028" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0028&amp;lesson=21#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a> gains binding 2 with type <code>VK_DESCRIPTOR_TYPE_STORAGE_BUFFER</code>, count one and compute-stage visibility. The pool must be large enough for the added descriptor. Update the allocated set with a <code>VkDescriptorBufferInfo</code> that covers the uploaded records.</p>
+
+<pre><code class="language-cpp">VkDescriptorBufferInfo sceneDescriptor{
+    .buffer = sceneBuffer,
+    .offset = 0,
+    .range = sizeof(spheres)
+};
+
+VkWriteDescriptorSet write{
+    .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+    .dstSet = descriptorSet,
+    .dstBinding = 2,
+    .descriptorCount = 1,
+    .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+    .pBufferInfo = &amp;sceneDescriptor
+};
+
+vkUpdateDescriptorSets(device, 1, &amp;write, 0, nullptr);</code></pre>
+
+<p>The buffer range and the count used by the shader must describe the same valid records. Supplying a count of ten for a three-record descriptor range is not a scene with seven empty spheres; it is an out-of-bounds read.</p>
+
+<h2>Shrink the interval as hits arrive</h2>
+
+<pre><code class="language-glsl">Hit closestSceneHit(Ray ray, float tMin, float tMax) {
+    Hit closest = noHit();
+    float closestDistance = tMax;
+
+    for (uint index = 0; index &lt; control.sphereCount; ++index) {
+        vec4 sphere = scene.spheres[index].centreRadius;
+        Hit candidate = intersectSphere(
+            ray, sphere.xyz, sphere.w, tMin, closestDistance);
+
+        if (candidate.found) {
+            closest = candidate;
+            closestDistance = candidate.t;
+        }
+    }
+    return closest;
+}</code></pre>
+
+<p>The key is not merely the final comparison. The current closest distance becomes the maximum for the next query. A farther root can then be rejected inside the primitive function. This is the <a class="glossary-term" id="glossary-origin-21-0029" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0029&amp;lesson=21#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> form of the invariant established in Lesson 5: after record <em>n</em>, the retained hit is the nearest valid hit among records zero through <em>n</em>.</p>
+<p>Every invocation owns its local <code>closest</code> and <code>closestDistance</code>. No <a class="glossary-term" id="glossary-origin-21-0030" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0030&amp;lesson=21#term-atomic-operation" aria-label="Look up atomic operation in the graphics glossary" title="Look up atomic operation in the graphics glossary">atomic operation</a> is required because neighbouring <a class="glossary-term" id="glossary-origin-21-0031" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0031&amp;lesson=21#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixels</a> are not competing to update one shared answer. They happen to inspect the same read-only records.</p>
+
+<div class="worked-trace">
+<h3>Trace an order change</h3>
+<p>Suppose a ray meets sphere A at distance 6.0 and sphere B at 2.5. In order A, B the first candidate sets the maximum to 6.0 and B then replaces it with 2.5. In order B, A the first candidate sets the maximum to 2.5; A is rejected because 6.0 is outside the shortened interval. Both orders retain B. If swapping records changes the selected colour, the shader has made record order part of visibility.</p>
+</div>
+
+<h2>Test record identity without confusing it with colour</h2>
+<p>Temporarily add a <code>uint primitiveIndex</code> to the private <a class="glossary-term" id="glossary-origin-21-0032" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0032&amp;lesson=21#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> and set it when a candidate is retained. Write an unmistakable diagnostic colour derived from that index. Move two spheres until their silhouettes overlap and inspect a pixel in the overlap. Then reverse the <a class="glossary-term" id="glossary-origin-21-0033" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0033&amp;lesson=21#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> array and update the buffer. The visible surface should remain the same physical sphere although its diagnostic index changes.</p>
+<p>For a stronger witness, read back the selected pixel's distance and centre. The index alone is not stable under reordering, and colour alone can be affected by later display conversion. The tuple <code>(found, t, centre, radius)</code> identifies what the shader actually retained.</p>
+
+<div class="checkpoint">
+<h3>Account for a farther candidate</h3>
+<p>The current closest distance is 3.2. The next sphere has valid roots 4.0 and 6.0. What does the primitive query return when it receives [0.001, 3.2]?</p>
+<div class="worked-answer"><h4>The answer</h4><p>It returns a miss for this interval. Both mathematical roots lie beyond the current maximum, so neither can replace the retained hit. The sphere exists, but it is not a closer visible answer for this ray.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> buffer creation and binding are defined by the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/resources.html">resource chapter</a>, while shader-side buffer layout and interface matching are covered by the <a href="https://docs.vulkan.org/guide/latest/mapping_data_to_shaders.html">mapping data to shaders guide</a>.</p>
+
+<section class="transfer-task">
+<h2>Prove that storage order is not visibility order</h2>
+<p>Create at least four overlapping spheres and record ten selected pixels containing different combinations of hits. Save each pixel's retained distance and sphere centre. Reverse the array, upload it again and repeat the record. The primitive indices may change, but every retained distance and physical sphere must agree within a stated tolerance. If one does not, reduce the scene to the two records that expose the disagreement and trace the interval after each loop iteration.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry geometry forward without smuggling in appearance</h2>
+<p>Retain the scene buffer, upload path and closest-hit loop. Lesson 22 will associate each geometry record with a material record and will introduce a light, but the geometry query will still report geometry rather than perform lighting internally. That separation lets a <a class="glossary-term" id="glossary-origin-21-0034" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0034&amp;lesson=21#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> ask only whether anything blocks an interval in Lesson 23.</p>
+</section>
+
+<p>The compute tracer now has a real scene in the limited but important sense that buffer order does not decide visibility. Each invocation asks every primitive and retains the closest permissible answer. The cost is still linear in the number of spheres. We accept that cost while building a trustworthy reference; Lesson 27 will replace exhaustive <a class="glossary-term" id="glossary-origin-21-0035" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0035&amp;lesson=21#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> traversal only after its contract is visible.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-20.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">20. Move the Sphere Equation into Compute</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-22.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">22. Materials and Light Remain Separate</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

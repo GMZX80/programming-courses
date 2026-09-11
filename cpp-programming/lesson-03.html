@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consideration of the basic state manipulation">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 03 - 3. Declaring &amp; Assigning Variables</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-03.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 03 - 3. Declaring &amp; Assigning Variables">
+    <meta property="og:description" content="Consideration of the basic state manipulation">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-03.html">
+</head>
+<body class="course-page lesson-page" data-lesson="03" data-art-pattern="flow" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 03 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html" aria-current="page"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 03</span>
+            </nav>
+            <p class="hero-kicker">Lesson 03 · 24 lesson course</p>
+            <h1 id="lesson-title">3. Declaring &amp; Assigning Variables</h1>
+            <p class="lesson-deck">Consideration of the basic state manipulation</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-02.html">← Lesson 02</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-04.html">Lesson 04 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>57 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-03-address" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-address&amp;lesson=03#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-03-assignment" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-assignment&amp;lesson=03#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-03-block" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-block&amp;lesson=03#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-03-boolean" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-boolean&amp;lesson=03#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-03-bug" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-bug&amp;lesson=03#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-03-cpp" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-cpp&amp;lesson=03#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-03-reference" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-reference&amp;lesson=03#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-03-class" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-class&amp;lesson=03#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-03-code" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-code&amp;lesson=03#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-03-compiler" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-compiler&amp;lesson=03#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-03-constructor" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-constructor&amp;lesson=03#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-03-container" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-container&amp;lesson=03#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-03-control-flow" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-control-flow&amp;lesson=03#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a> <a class="glossary-chip" id="glossary-panel-origin-03-conversion" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-conversion&amp;lesson=03#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-03-dangling-pointer" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-dangling-pointer&amp;lesson=03#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling pointer</a> <a class="glossary-chip" id="glossary-panel-origin-03-debugging" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-debugging&amp;lesson=03#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-03-declaration" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-declaration&amp;lesson=03#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-03-definition" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-definition&amp;lesson=03#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-03-destructor" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-destructor&amp;lesson=03#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructor</a> <a class="glossary-chip" id="glossary-panel-origin-03-dynamic-allocation" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-dynamic-allocation&amp;lesson=03#term-dynamic-allocation" aria-label="Look up dynamic allocation in the programming glossary" title="Look up dynamic allocation in the programming glossary">dynamic allocation</a> <a class="glossary-chip" id="glossary-panel-origin-03-expression" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-expression&amp;lesson=03#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-03-heap" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-heap&amp;lesson=03#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a> <a class="glossary-chip" id="glossary-panel-origin-03-identifier" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-identifier&amp;lesson=03#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-03-include-directive" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-include-directive&amp;lesson=03#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-03-initialisation" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-initialisation&amp;lesson=03#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-03-instantiation" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-instantiation&amp;lesson=03#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">instantiation</a> <a class="glossary-chip" id="glossary-panel-origin-03-integer" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-integer&amp;lesson=03#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-03-library" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-library&amp;lesson=03#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> <a class="glossary-chip" id="glossary-panel-origin-03-lifetime" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-lifetime&amp;lesson=03#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-03-local-variable" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-local-variable&amp;lesson=03#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local variable</a> <a class="glossary-chip" id="glossary-panel-origin-03-loop" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-loop&amp;lesson=03#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-03-main-function" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-main-function&amp;lesson=03#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-03-memory-allocation" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-memory-allocation&amp;lesson=03#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">memory allocation</a> <a class="glossary-chip" id="glossary-panel-origin-03-new-delete" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-new-delete&amp;lesson=03#term-new-delete" aria-label="Look up new and delete in the programming glossary" title="Look up new and delete in the programming glossary">new and delete</a> <a class="glossary-chip" id="glossary-panel-origin-03-object" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-object&amp;lesson=03#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-03-ownership" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-ownership&amp;lesson=03#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-03-pointer" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-pointer&amp;lesson=03#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-03-precondition" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-precondition&amp;lesson=03#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> <a class="glossary-chip" id="glossary-panel-origin-03-program" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-program&amp;lesson=03#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-03-raii" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-raii&amp;lesson=03#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-chip" id="glossary-panel-origin-03-raw-pointer" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-raw-pointer&amp;lesson=03#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointer</a> <a class="glossary-chip" id="glossary-panel-origin-03-runtime" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-runtime&amp;lesson=03#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-03-scope" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-scope&amp;lesson=03#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-03-smart-pointer" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-smart-pointer&amp;lesson=03#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> <a class="glossary-chip" id="glossary-panel-origin-03-stack" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-stack&amp;lesson=03#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> <a class="glossary-chip" id="glossary-panel-origin-03-state" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-state&amp;lesson=03#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-03-storage-duration" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-storage-duration&amp;lesson=03#term-storage-duration" aria-label="Look up storage duration in the programming glossary" title="Look up storage duration in the programming glossary">storage duration</a> <a class="glossary-chip" id="glossary-panel-origin-03-string" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-string&amp;lesson=03#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-03-test-case" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-test-case&amp;lesson=03#term-test-case" aria-label="Look up test case in the programming glossary" title="Look up test case in the programming glossary">test case</a> <a class="glossary-chip" id="glossary-panel-origin-03-testing" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-testing&amp;lesson=03#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-03-type" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-type&amp;lesson=03#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-03-undefined-behaviour" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-undefined-behaviour&amp;lesson=03#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a> <a class="glossary-chip" id="glossary-panel-origin-03-use-after-free" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-use-after-free&amp;lesson=03#term-use-after-free" aria-label="Look up use-after-free in the programming glossary" title="Look up use-after-free in the programming glossary">use-after-free</a> <a class="glossary-chip" id="glossary-panel-origin-03-using-directive" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-using-directive&amp;lesson=03#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">using directive</a> <a class="glossary-chip" id="glossary-panel-origin-03-value" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-value&amp;lesson=03#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-03-variable" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-variable&amp;lesson=03#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-03-vector" href="glossary.html?from=lesson-03.html%23glossary-panel-origin-03-vector&amp;lesson=03#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="03">
+<img src="assets/images/lesson-art/lesson-03-declare-assign.png" alt="Abstract sequence in which an empty variable container is created and then receives a luminous value." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+<p>&nbsp;</p>
+
+<h2>Lesson: The Lifecycle of a <a class="glossary-term" id="glossary-origin-03-0001" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0001&amp;lesson=03#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">Variable</a></h2>
+<p>Variables go through a <strong>lifecycle</strong> in your <a class="glossary-term" id="glossary-origin-03-0002" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0002&amp;lesson=03#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a>. Each stage reflects what the <a class="glossary-term" id="glossary-origin-03-0003" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0003&amp;lesson=03#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> is told to do, either explicitly in your <a class="glossary-term" id="glossary-origin-03-0004" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0004&amp;lesson=03#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">source code</a> or implicitly by the language. Understanding this lifecycle is essential for writing correct and efficient code.</p>
+<p>There are four distinct actions:</p>
+<ol>
+    <li><strong><a class="glossary-term" id="glossary-origin-03-0005" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0005&amp;lesson=03#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">Declaration</a></strong> – An <a class="glossary-term" id="glossary-origin-03-0006" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0006&amp;lesson=03#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> is associated with a particular <a class="glossary-term" id="glossary-origin-03-0007" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0007&amp;lesson=03#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a>.</li>
+    <li><strong><a class="glossary-term" id="glossary-origin-03-0008" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0008&amp;lesson=03#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">Instantiation</a></strong> – Memory is reserved for the identifier.</li>
+    <li><strong><a class="glossary-term" id="glossary-origin-03-0009" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0009&amp;lesson=03#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">Assignment</a></strong> – A <a class="glossary-term" id="glossary-origin-03-0010" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0010&amp;lesson=03#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> is placed into that memory.</li>
+    <li><strong>Release &amp; Deletion</strong> – Memory is freed, and the variable ceases to exist.</li>
+</ol>
+<p>For example, in <a class="glossary-term" id="glossary-origin-03-0011" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0011&amp;lesson=03#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>:</p>
+<pre><code class="language-cpp">int x;        // Declaration + Instantiation (memory reserved for an int)
+x = 5;        // Assignment (value written into memory)
+              // At end of scope, memory is released and x is deleted
+</code></pre>
+<p>These steps can be combined:</p>
+<pre><code class="language-cpp">int x = 5;    // Declaration + Instantiation + Assignment
+</code></pre>
+<p>The <strong>release</strong> of memory and <strong>deletion</strong> of the variable happen automatically when the program leaves the <a class="glossary-term" id="glossary-origin-03-0012" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0012&amp;lesson=03#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> in which the variable was declared (when the closing <code>}</code> is reached).</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Exploring Variable Lifecycle</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI to expand each lifecycle stage into multiple language examples (C++, Python, Java).</li>
+                    <li>Generate diagrams showing when variables exist in memory vs when they are freed.</li>
+                    <li>Use AI to explain <a class="glossary-term" id="glossary-origin-03-0013" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0013&amp;lesson=03#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> vs <a class="glossary-term" id="glossary-origin-03-0014" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0014&amp;lesson=03#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a> <a class="glossary-term" id="glossary-origin-03-0015" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0015&amp;lesson=03#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">allocation</a> in simple analogies.</li>
+                </ul>
+</details>
+<hr>
+<h3>Explicit vs Implicit Memory Management</h3>
+<p>In the example <code>int x;</code>:</p>
+<ul>
+    <li><strong>Declaration</strong> is explicit: you tell the compiler “x” is an <a class="glossary-term" id="glossary-origin-03-0016" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0016&amp;lesson=03#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a>.</li>
+    <li><strong>Instantiation</strong> (memory reservation) is implicit: the compiler automatically reserves memory.</li>
+    <li><strong>Release</strong> of memory is also implicit: when <code>x</code> goes out of <a class="glossary-term" id="glossary-origin-03-0017" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0017&amp;lesson=03#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a>, its memory is freed without you writing anything.</li>
+</ul>
+<p>This implicit behaviour prevents many errors, because the compiler enforces rules: you cannot use <code>x</code> after it is deleted.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Visualising Scope</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>AI can produce scope diagrams showing when variables are alive.</li>
+                    <li>Ask it to generate a timeline of <code>int x;</code> showing declaration → assignment → release.</li>
+                    <li>Have AI produce alternative examples where release is explicit (e.g., <code>new</code> and <code>delete</code> in C++).</li>
+                </ul>
+</details>
+<hr>
+<h3>Common Errors in the Lifecycle</h3>
+<p>Novice programmers often misuse variables at the wrong stage:</p>
+<ul>
+    <li><strong>Reading before instantiation</strong>: e.g., using <code>x</code> before giving it a value.</li>
+    <li><strong>Reading after release</strong>: e.g., trying to access <code>x</code> after the scope has ended.</li>
+</ul>
+<p>When a variable is declared and assigned properly, these errors are avoided. For example:</p>
+<pre><code class="language-cpp">// Bad: using x before assignment
+int x;
+cout &lt;&lt; x;   // undefined behaviour (uninitialised read)
+
+// Good: initialise immediately
+int x = 42;
+cout &lt;&lt; x;   // safe and correct
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — <a class="glossary-term" id="glossary-origin-03-0018" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0018&amp;lesson=03#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">Debugging</a> Lifecycle Errors</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Paste compiler errors into AI and ask it to explain in plain English why a variable is invalid at that point.</li>
+                    <li>Use AI to suggest safe initialisations (default values, <a class="glossary-term" id="glossary-origin-03-0019" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0019&amp;lesson=03#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructors</a>).</li>
+                    <li>AI can propose <a class="glossary-term" id="glossary-origin-03-0020" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0020&amp;lesson=03#term-test-case" aria-label="Look up test case in the programming glossary" title="Look up test case in the programming glossary">test cases</a> that deliberately break variable lifecycle rules, so you can see compiler/<a class="glossary-term" id="glossary-origin-03-0021" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0021&amp;lesson=03#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> errors in action.</li>
+                </ul>
+</details>
+<hr>
+<h3>Summary</h3>
+<p>Variables aren’t just “storage boxes.” They follow a strict lifecycle: declaration, instantiation, assignment, and release/deletion. Errors occur when you try to manipulate them outside of the correct stage. Good programmers respect this lifecycle, <a class="glossary-term" id="glossary-origin-03-0022" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0022&amp;lesson=03#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialise</a> variables carefully, and rely on scope to manage memory safely.</p>
+<h3>Mini Exercise — Trace, Fix, and Safeguard Variable Lifecycles</h3>
+
+<p><em>Goal:</em> practise identifying each lifecycle stage (Declaration → Instantiation → Assignment → Release/Deletion), fix common mistakes (use-before-init, use-after-release), and choose safe patterns (scope, <code>const</code>, <a class="glossary-term" id="glossary-origin-03-0023" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0023&amp;lesson=03#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a>).</p>
+
+<ol style="list-style-type: upper-alpha;">
+  <li>
+    <strong>Label the lifecycle</strong><br>
+    For each identifier below, mark where it is <em>declared</em>, <em>instantiated</em>, <em>assigned</em>, and <em>released/deleted</em>. Note stack vs heap.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int n;                    // 1)
+    if (true) {
+        int n = 3;            // 2) (shadows outer n)
+        int* p = new int(n);  // 3) pointer + heap object
+        *p += 1;              // 4)
+        cout &lt;&lt; *p &lt;&lt; "\n";
+        delete p;             // 5)
+    }                         // 6)
+    cout &lt;&lt; n &lt;&lt; "\n";        // 7)
+}
+</code></pre>
+    <ul>
+      <li>Explain what is released at (5) vs (6). What happens at (7) if outer <code>n</code> was never assigned?</li>
+      <li>Rewrite so outer <code>n</code> is safely initialised and no shadowing occurs.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Fix <a class="glossary-term" id="glossary-origin-03-0024" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0024&amp;lesson=03#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling</a> returns</strong><br>
+    Identify the lifecycle error(s). Refactor to a safe design (return by value, or use RAII like <code>std::unique_ptr</code>).
+    <pre><code class="language-cpp">int* makeVal() {
+    int x = 42;
+    return &amp;x;      // ❌ returns address of a dead stack variable
+}
+
+int&amp; pick(bool b) {
+    int a = 1, c = 2;
+    return b ? a : c;  // ❌ returns reference to dead locals
+}
+</code></pre>
+    <ul>
+      <li>Provide two fixes for <code>makeVal</code> (value-return and RAII <a class="glossary-term" id="glossary-origin-03-0025" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0025&amp;lesson=03#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a>).</li>
+      <li>Rewrite <code>pick</code> so it is safe and communicates <a class="glossary-term" id="glossary-origin-03-0026" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0026&amp;lesson=03#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> clearly.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Halt use-after-release &amp; mismatched delete</strong><br>
+    Find the <a class="glossary-term" id="glossary-origin-03-0027" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0027&amp;lesson=03#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bugs</a>, then rewrite using RAII <a class="glossary-term" id="glossary-origin-03-0028" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0028&amp;lesson=03#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">containers</a>.
+    <pre><code class="language-cpp">int main() {
+    int* p = new int{5};
+    delete p;
+    std::cout &lt;&lt; *p &lt;&lt; "\n";   // ❌ use-after-free
+
+    int* q = new int[3]{1,2,3};
+    delete q;                 // ❌ wrong deallocator (should be delete[])
+    // ...
+}
+</code></pre>
+    <ul>
+      <li>Correct the manual version (<code>delete[] q;</code>, nulling pointers, etc.).</li>
+      <li>Refactor to <code>std::unique_ptr&lt;int[]&gt;</code> or <code>std::vector&lt;int&gt;</code> so release is implicit.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Scope, shadowing, and <code>const</code></strong><br>
+    Eliminate shadowing and tighten scope. Mark immutable values <code>const</code>.
+    <pre><code class="language-cpp">int count = 10;
+for (int i = 0; i &lt; count; ++i) {
+    int count = i;    // ❌ shadows outer 'count'
+    // ...
+}
+</code></pre>
+    <ul>
+      <li>Rename variables to avoid shadowing; limit the <a class="glossary-term" id="glossary-origin-03-0029" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0029&amp;lesson=03#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> of <a class="glossary-term" id="glossary-origin-03-0030" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0030&amp;lesson=03#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a>-<a class="glossary-term" id="glossary-origin-03-0031" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0031&amp;lesson=03#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local variables</a>.</li>
+      <li>Which identifiers can be <code>const</code>, and why?</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Predict construction/<a class="glossary-term" id="glossary-origin-03-0032" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0032&amp;lesson=03#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destruction</a> (release points)</strong><br>
+    Predict the exact output order (line by line) and annotate where each <a class="glossary-term" id="glossary-origin-03-0033" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0033&amp;lesson=03#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> is destroyed.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+struct Trace {
+    std::string name;
+    Trace(std::string n): name(std::move(n)) { std::cout &lt;&lt; "+" &lt;&lt; name &lt;&lt; "\n"; }
+    ~Trace() { std::cout &lt;&lt; "-" &lt;&lt; name &lt;&lt; "\n"; }
+};
+
+int main(){
+    Trace a("a");
+    {
+        Trace b("b");
+        {
+            Trace c("c");
+        }
+    }
+}
+</code></pre>
+    <ul>
+      <li>Now add a heap allocation inside the inner block and manage it with <code>std::unique_ptr&lt;Trace&gt;</code>. When is the heap object released?</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Guard the lifecycle</strong><br>
+    Strengthen the examples with safe initialisation and checks.
+    <ul>
+      <li>Add a <a class="glossary-term" id="glossary-origin-03-0034" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0034&amp;lesson=03#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> for counts/lengths (e.g., handle <code>n == 0</code> before division).</li>
+      <li>Prefer initialising declarations (<code>int maxVal = std::numeric_limits&lt;int&gt;::min();</code> or “first-element” strategy).</li>
+      <li>Replace <a class="glossary-term" id="glossary-origin-03-0035" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0035&amp;lesson=03#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointers</a> with RAII; rely on scope to drive deletion.</li>
+    </ul>
+  </li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Lifecycle Coach</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li><strong>Timeline builder:</strong> “Annotate D→I→A→R for each identifier; separate pointer vs pointee lifecycles.”</li>
+      <li><strong>Scope map:</strong> “Draw which variables are alive at each brace level; highlight shadowing.”</li>
+      <li><strong>RAII refactor:</strong> “Replace raw <code>new/delete</code> with <code>std::unique_ptr</code> / <code>std::vector</code>; explain release points.”</li>
+      <li><strong>Sanitiser hints:</strong> “Suggest flags (e.g., <code>-fsanitize=address,undefined</code>) and minimal <a class="glossary-term" id="glossary-origin-03-0036" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0036&amp;lesson=03#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a> to catch <a class="glossary-term" id="glossary-origin-03-0037" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0037&amp;lesson=03#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">UB</a> early.”</li>
+    </ul>
+</details>
+        
+<!-- lesson-enhancement:03:start -->
+<section class="lesson-enhancement" id="precise-variable-lifecycle">
+<p class="lesson-enhancement-kicker">Lesson 3 extension · four events that must not be confused</p>
+<h2>When does the object begin, change and end?</h2>
+<p>I write <code>int count{4};</code> and the program works. A weak explanation says that a variable has been created. What does that tell me? It does not distinguish the name from the object, the first value from a later value, or a permitted use from an access after the lifetime has ended. C++ supplies more precise words because these events have different consequences: <em>declaration</em>, <em><a class="glossary-term" id="glossary-origin-03-0038" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0038&amp;lesson=03#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a></em>, <em>initialisation</em>, <em>assignment</em>, <em>scope</em>, <em><a class="glossary-term" id="glossary-origin-03-0039" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0039&amp;lesson=03#term-storage-duration" aria-label="Look up storage duration in the programming glossary" title="Look up storage duration in the programming glossary">storage duration</a></em> and <em>lifetime</em>.</p>
+<p>A declaration introduces or redeclares a name and supplies the information required for that declaration. A definition provides the entity being defined. For the ordinary local variable <code>int count{4};</code>, the same line is both a declaration and a definition. The object's lifetime begins, and initialisation establishes 4 as its first value. A later line, <code>count = 7;</code>, performs assignment upon the existing object. It changes the value; it does not create another <code>count</code>.</p>
+<table>
+<thead><tr><th>Source</th><th>Event</th><th>What a reviewer should say</th></tr></thead>
+<tbody>
+<tr><td><code>extern int total;</code></td><td>Declaration, not a definition of the object</td><td>The name and type are known here; a definition is required elsewhere.</td></tr>
+<tr><td><code>int total{0};</code></td><td>Definition and initialisation</td><td>An integer object begins its lifetime with value zero.</td></tr>
+<tr><td><code>total = 9;</code></td><td>Assignment</td><td>The existing object's value is replaced.</td></tr>
+<tr><td>Leaving its block</td><td>Lifetime ends</td><td>The local object may no longer be used.</td></tr>
+</tbody>
+</table>
+<p>The word <em>instantiation</em> is useful elsewhere in C++, particularly when templates are discussed. It is not needed to explain this ordinary local integer. The end of the block should not be described as deleting the variable either. <code>delete</code> is a C++ <a class="glossary-term" id="glossary-origin-03-0040" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0040&amp;lesson=03#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> with a particular role in <a class="glossary-term" id="glossary-origin-03-0041" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0041&amp;lesson=03#term-dynamic-allocation" aria-label="Look up dynamic allocation in the programming glossary" title="Look up dynamic allocation in the programming glossary">dynamic allocation</a>. For this automatic local object, control leaves the block and the lifetime ends. Using the wrong word hides the event that the program actually performs.</p>
+
+<h3>The first value is part of the definition</h3>
+<p>Initialisation is the point at which the object first acquires its value. For the fundamental types used here, the difference between supplying and omitting that first value is not decorative syntax. It decides whether a later read has a value the program is entitled to use. Consider these forms:</p>
+<pre><code class="language-cpp">int attempts{3};       // direct-list-initialisation
+int copies = attempts; // copy-initialisation
+int uninitialised;     // no initialiser for a local fundamental object
+</code></pre>
+<p>The braces on the first line reject narrowing <a class="glossary-term" id="glossary-origin-03-0042" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0042&amp;lesson=03#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversions</a> that another initialisation form may accept. That is useful, but punctuation is not the deciding question. What first value makes this object valid? If generated code introduces an uninitialised local fundamental object, trace every route to the first read. A write must occur on every route beforehand. In most designs the definition can <a class="glossary-term" id="glossary-origin-03-0043" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0043&amp;lesson=03#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> the valid starting value directly, removing a control-flow claim that would otherwise need to be proved.</p>
+<p>Later in the course, a <a class="glossary-term" id="glossary-origin-03-0044" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0044&amp;lesson=03#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> constructor may perform work and reject an invalid starting value. The principle is already visible in the integer. Initialisation is where the first valid state is established. Assignment acts upon an object that is already alive, so the new value must still satisfy whatever the program requires of that object.</p>
+
+<h3>Two objects, two lifetimes</h3>
+<p>The next program uses one object throughout <code>main</code> and a second object inside a nested block. The calculation joins their values for one statement, but it does not join their lifetimes:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    int remainingLives{3};
+    std::cout &lt;&lt; "Initially: " &lt;&lt; remainingLives &lt;&lt; '\n';
+
+    remainingLives = 2;
+    std::cout &lt;&lt; "After assignment: " &lt;&lt; remainingLives &lt;&lt; '\n';
+
+    {
+        const int bonusLives{1};
+        remainingLives = remainingLives + bonusLives;
+    }
+
+    std::cout &lt;&lt; "After the block: " &lt;&lt; remainingLives &lt;&lt; '\n';
+}
+</code></pre>
+<table>
+<thead><tr><th>Object</th><th>Scope</th><th>Lifetime</th><th>Value history</th></tr></thead>
+<tbody>
+<tr><td><code>remainingLives</code></td><td>The body of <code>main</code> after its declaration</td><td>From initialisation until <code>main</code> leaves</td><td>3, then 2, then 3</td></tr>
+<tr><td><code>bonusLives</code></td><td>The nested block after its declaration</td><td>From initialisation until the nested block leaves</td><td>Always 1</td></tr>
+</tbody>
+</table>
+<p>After the nested block, the name <code>bonusLives</code> is out of scope and its object is no longer alive. The value previously added to <code>remainingLives</code> remains because that assignment changed a different object whose lifetime continues. One expression used both values. It did not make one object depend upon the continued existence of the other.</p>
+<p>Scope and lifetime appear to line up neatly for these automatic local variables, which is precisely why the distinction is easy to miss. Scope is principally about where a name can be used in source code. Lifetime is about when the object exists during execution. Later lessons introduce <a class="glossary-term" id="glossary-origin-03-0045" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0045&amp;lesson=03#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> and dynamic storage, where a name or access path and the lifetime of the object reached through it no longer form such a simple pair.</p>
+
+<h3>A warning is evidence, not decoration</h3>
+<p>A compiler warning about possible use of an uninitialised variable is evidence that at least one control-flow path may reach a read before the program has established a usable value. Running the program once without visible failure does not remove that path. Trace from the definition to the read. Either provide a valid initial value, restructure the <a class="glossary-term" id="glossary-origin-03-0046" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0046&amp;lesson=03#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a> so every route establishes the value, or reject the invalid situation before the read can occur.</p>
+<p>A visible name does not, by itself, prove that the object reached through that name or another access path is alive. The distinction becomes critical when pointers and references are introduced. The questions established here continue to work: where does the lifetime begin, which operations occur while the object is alive, and at which exact event does further access become invalid?</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> make the trace name the event</summary>
+<div>
+<p>Ask an AI system to label each relevant line as declaration, definition, initialisation, read, assignment or lifetime end. If it calls ordinary local definition “instantiation” or calls block exit “delete”, the explanation has failed before its fluency can impress us. Compare the proposed trace with the source, the compiler diagnostics and an observed run. Agreement matters at the level of events: which object exists, which value it holds and whether the next access is valid.</p>
+</div>
+</details>
+
+<p>Test the terminology on three events: <code>int score{0};</code>, then <code>score = 10;</code>, then exit from the surrounding block.</p>
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The first event declares and defines the object, starts its lifetime and initialises its value. The second assigns a new value to that same object. The third ends its lifetime. Calling all three events “using a variable” may sound harmless, but it throws away the information needed to reason about an uninitialised read or an invalid access.</p>
+<table>
+<thead><tr><th>Event</th><th>Precise account</th><th>What it is not</th></tr></thead>
+<tbody>
+<tr><td><code>int score{0};</code></td><td>The name <code>score</code> is declared, the integer object is defined, its lifetime begins and direct-list-initialisation supplies zero as its first value.</td><td>It is not assignment to an object that was already alive.</td></tr>
+<tr><td><code>score = 10;</code></td><td>The existing object is assigned a new value. Its value changes from zero to ten while its identity, type and lifetime continue.</td><td>No second <code>score</code> object is defined or initialised.</td></tr>
+<tr><td>Exit from the block</td><td>The local name leaves scope and the automatic object's lifetime ends. Further access to that object would be invalid.</td><td>No <code>delete</code> expression is involved. This object was not created by a corresponding dynamic allocation.</td></tr>
+</tbody>
+</table>
+<p>The short source statements describe different events with different consequences. The terminology earns its place because it tells us whether an object exists, whether it has a usable value and whether the next access is permitted.</p>
+</div>
+</details>
+<p>A reliable lifecycle explanation identifies the object, its first valid state, every meaningful transition and the point at which further access is forbidden. That explanation remains useful whether the implementation was typed by the student, supplied by a <a class="glossary-term" id="glossary-origin-03-0047" href="glossary.html?from=lesson-03.html%23glossary-origin-03-0047&amp;lesson=03#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> or generated elsewhere.</p>
+</section>
+<!-- lesson-enhancement:03:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-02.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">02. The Variable</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-04.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">04. The Function</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

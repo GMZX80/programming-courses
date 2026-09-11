@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A safer way to “IF”">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 13 - 13. The Conditional Operator</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-13.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 13 - 13. The Conditional Operator">
+    <meta property="og:description" content="A safer way to “IF”">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-13.html">
+</head>
+<body class="course-page lesson-page" data-lesson="13" data-art-pattern="branch" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 13 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html" aria-current="page"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 13</span>
+            </nav>
+            <p class="hero-kicker">Lesson 13 · 24 lesson course</p>
+            <h1 id="lesson-title">13. The Conditional Operator</h1>
+            <p class="lesson-deck">A safer way to “IF”</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-12.html">← Lesson 12</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-14.html">Lesson 14 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>49 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-13-argument" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-argument&amp;lesson=13#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-13-assignment" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-assignment&amp;lesson=13#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-13-associativity" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-associativity&amp;lesson=13#term-associativity" aria-label="Look up associativity in the programming glossary" title="Look up associativity in the programming glossary">associativity</a> <a class="glossary-chip" id="glossary-panel-origin-13-block" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-block&amp;lesson=13#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-13-boolean" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-boolean&amp;lesson=13#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-13-branch" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-branch&amp;lesson=13#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branch</a> <a class="glossary-chip" id="glossary-panel-origin-13-cpp" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-cpp&amp;lesson=13#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-13-reference" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-reference&amp;lesson=13#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-13-cast" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-cast&amp;lesson=13#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a> <a class="glossary-chip" id="glossary-panel-origin-13-class" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-class&amp;lesson=13#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-13-code" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-code&amp;lesson=13#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-13-compile-time" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-compile-time&amp;lesson=13#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-13-compiler" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-compiler&amp;lesson=13#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-13-condition" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-condition&amp;lesson=13#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-13-conditional-operator" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-conditional-operator&amp;lesson=13#term-conditional-operator" aria-label="Look up conditional operator in the programming glossary" title="Look up conditional operator in the programming glossary">conditional operator</a> <a class="glossary-chip" id="glossary-panel-origin-13-constant" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-constant&amp;lesson=13#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> <a class="glossary-chip" id="glossary-panel-origin-13-conversion" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-conversion&amp;lesson=13#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-13-debugging" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-debugging&amp;lesson=13#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-13-declaration" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-declaration&amp;lesson=13#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-13-dereference-operator" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-dereference-operator&amp;lesson=13#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereference operator</a> <a class="glossary-chip" id="glossary-panel-origin-13-explicit-conversion" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-explicit-conversion&amp;lesson=13#term-explicit-conversion" aria-label="Look up explicit conversion in the programming glossary" title="Look up explicit conversion in the programming glossary">explicit conversion</a> <a class="glossary-chip" id="glossary-panel-origin-13-expression" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-expression&amp;lesson=13#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-13-final-specifier" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-final-specifier&amp;lesson=13#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-13-function" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-function&amp;lesson=13#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-13-function-call" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-function-call&amp;lesson=13#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function call</a> <a class="glossary-chip" id="glossary-panel-origin-13-if-statement" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-if-statement&amp;lesson=13#term-if-statement" aria-label="Look up if statement in the programming glossary" title="Look up if statement in the programming glossary">if statement</a> <a class="glossary-chip" id="glossary-panel-origin-13-implicit-conversion" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-implicit-conversion&amp;lesson=13#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversion</a> <a class="glossary-chip" id="glossary-panel-origin-13-include-directive" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-include-directive&amp;lesson=13#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-13-initialisation" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-initialisation&amp;lesson=13#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-13-integer" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-integer&amp;lesson=13#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-13-interface" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-interface&amp;lesson=13#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-13-lvalue" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-lvalue&amp;lesson=13#term-lvalue" aria-label="Look up lvalue in the programming glossary" title="Look up lvalue in the programming glossary">lvalue</a> <a class="glossary-chip" id="glossary-panel-origin-13-main-function" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-main-function&amp;lesson=13#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-13-object" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-object&amp;lesson=13#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-13-operator" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-operator&amp;lesson=13#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-13-pointer" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-pointer&amp;lesson=13#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-13-precedence" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-precedence&amp;lesson=13#term-precedence" aria-label="Look up precedence in the programming glossary" title="Look up precedence in the programming glossary">precedence</a> <a class="glossary-chip" id="glossary-panel-origin-13-program" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-program&amp;lesson=13#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-13-return-value" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-return-value&amp;lesson=13#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-13-runtime" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-runtime&amp;lesson=13#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-13-side-effect" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-side-effect&amp;lesson=13#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side effect</a> <a class="glossary-chip" id="glossary-panel-origin-13-state" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-state&amp;lesson=13#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-13-stream" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-stream&amp;lesson=13#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-13-string" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-string&amp;lesson=13#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-13-switch-statement" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-switch-statement&amp;lesson=13#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch statement</a> <a class="glossary-chip" id="glossary-panel-origin-13-testing" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-testing&amp;lesson=13#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-13-type" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-type&amp;lesson=13#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-13-value" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-value&amp;lesson=13#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-13-variable" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-variable&amp;lesson=13#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="13">
+<img src="assets/images/lesson-art/lesson-13-conditional-operator.png" alt="Abstract selector choosing between two alternatives and producing one result." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p>&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<h2>Lesson: The <a class="glossary-term" id="glossary-origin-13-0001" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0001&amp;lesson=13#term-conditional-operator" aria-label="Look up conditional operator in the programming glossary" title="Look up conditional operator in the programming glossary">Conditional (Ternary) Operator</a> <code>?:</code> in <a class="glossary-term" id="glossary-origin-13-0002" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0002&amp;lesson=13#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a></h2>
+
+<p>
+Programmers often write an <code>if</code>/<code>else</code> just to <a class="glossary-term" id="glossary-origin-13-0003" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0003&amp;lesson=13#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assign</a> one of two <a class="glossary-term" id="glossary-origin-13-0004" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0004&amp;lesson=13#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">values</a> to a <a class="glossary-term" id="glossary-origin-13-0005" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0005&amp;lesson=13#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a>. The <strong>conditional operator</strong> <code>?:</code> is an <em><a class="glossary-term" id="glossary-origin-13-0006" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0006&amp;lesson=13#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a></em> form of that pattern: it <em>evaluates</em> to one of two expressions, letting you write concise, substitution-friendly <a class="glossary-term" id="glossary-origin-13-0007" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0007&amp;lesson=13#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a>.
+</p>
+
+<hr>
+
+<h3>1) From <code>if</code>/<code>else</code> to <code>?:</code></h3>
+
+<p><strong><a class="glossary-term" id="glossary-origin-13-0008" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0008&amp;lesson=13#term-if-statement" aria-label="Look up if statement in the programming glossary" title="Look up if statement in the programming glossary">If/else</a> assignment:</strong></p>
+<pre><code class="language-cpp">int x = 1;
+int y = 2;
+
+if (x &gt; y) {
+    x = 2;
+} else {
+    x = 0;
+}
+</code></pre>
+
+<p><strong>Same logic with <code>?:</code> (expression that returns a value):</strong></p>
+<pre><code class="language-cpp">x = (x &gt; y ? 2 : 0);
+</code></pre>
+
+<p>
+Key idea: <code>(cond ? a : b)</code> <em>produces</em> either <code>a</code> or <code>b</code> (not <code>true/false</code>), so you can use it anywhere a value is expected.
+Only the chosen arm is evaluated (like an <code>if</code> <a class="glossary-term" id="glossary-origin-13-0009" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0009&amp;lesson=13#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branch</a>).
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Refactor If/Else to <code>?:</code></summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste a short <code>if</code>/<code>else</code> that sets one variable; ask AI to convert it to a safe <code>?:</code> form.</li>
+      <li>Have AI check both arms are <a class="glossary-term" id="glossary-origin-13-0010" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0010&amp;lesson=13#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side-effect</a> free (or explain the effects if not).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) Using <code>?:</code> Inside Larger Expressions</h3>
+
+<p>You can embed <code>?:</code> wherever a value is needed (<a class="glossary-term" id="glossary-origin-13-0011" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0011&amp;lesson=13#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">arguments</a>, initialisers, <a class="glossary-term" id="glossary-origin-13-0012" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0012&amp;lesson=13#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> expressions). Parenthesise to avoid <a class="glossary-term" id="glossary-origin-13-0013" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0013&amp;lesson=13#term-precedence" aria-label="Look up precedence in the programming glossary" title="Look up precedence in the programming glossary">precedence</a> surprises.</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main() {
+    int x = 3, y = 7;
+
+    // As a subexpression (note the parentheses with &lt;&lt;)
+    std::cout &lt;&lt; (x &gt; y ? x : y) &lt;&lt; " is greater.\n";
+
+    // As a function argument
+    auto choose = [](int a, int b){ return a + b; };
+    int z = choose( (x &gt; y ? x : y), 10 );
+
+    // As an initializer
+    const char* tag = (x % 2 == 0 ? "even" : "odd");
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Where to Use <code>?:</code></summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to review a line and suggest parentheses based on operator precedence (e.g., with <code>&lt;&lt;</code> or assignments).</li>
+      <li>Have AI propose an alternative (named <code>if</code>) if readability is worse with <code>?:</code>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>3) <a class="glossary-term" id="glossary-origin-13-0014" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0014&amp;lesson=13#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">Type</a> Rules &amp; <a class="glossary-term" id="glossary-origin-13-0015" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0015&amp;lesson=13#term-lvalue" aria-label="Look up lvalue in the programming glossary" title="Look up lvalue in the programming glossary">Lvalue</a> Behaviour (Practical Summary)</h3>
+
+<ul>
+  <li>Both arms should usually produce the <em>same type</em> (or compatible types). Mixed types trigger <a class="glossary-term" id="glossary-origin-13-0016" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0016&amp;lesson=13#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversions</a>; keep it obvious.</li>
+  <li>If both arms are <em>lvalues of the same type</em>, the whole <code>(cond ? a : b)</code> is an lvalue — you can assign through it:</li>
+</ul>
+
+<pre><code class="language-cpp">int a = 1, b = 2;
+(cond ? a : b) = 42;   // assigns to 'a' if cond, else to 'b'
+</code></pre>
+
+<ul>
+  <li>Only the selected arm is evaluated — good for avoiding expensive work on the other side.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Check Arm Types</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste a <code>?:</code>; ask AI to explain the resulting type and any <a class="glossary-term" id="glossary-origin-13-0017" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0017&amp;lesson=13#term-implicit-conversion" aria-label="Look up implicit conversion in the programming glossary" title="Look up implicit conversion in the programming glossary">implicit conversions</a>.</li>
+      <li>Have AI suggest explicit <a class="glossary-term" id="glossary-origin-13-0018" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0018&amp;lesson=13#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">casts</a> or overloads if the type is surprising.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) Precedence &amp; <a class="glossary-term" id="glossary-origin-13-0019" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0019&amp;lesson=13#term-associativity" aria-label="Look up associativity in the programming glossary" title="Look up associativity in the programming glossary">Associativity</a></h3>
+
+<ul>
+  <li><code>?:</code> has <em>lower</em> precedence than arithmetic, comparison, and <code>&lt;&lt;</code> — so use parentheses when mixing.</li>
+  <li><code>?:</code> is <em>right-associative</em>: <code>a ? b : c ? d : e</code> parses as <code>a ? b : (c ? d : e)</code>. Nested forms can be hard to read.</li>
+</ul>
+
+<pre><code class="language-cpp">// Parentheses clarify intent
+std::cout &lt;&lt; (ok ? "yes" : "no") &lt;&lt; '\n';
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Replace Nested <code>?:</code></summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to rewrite nested ternaries into a <code>switch</code> or simple <code>if</code>s with named predicates.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>5) Common Pitfalls (and fixes)</h3>
+
+<ul>
+  <li><strong>Side effects in arms:</strong> avoid <a class="glossary-term" id="glossary-origin-13-0020" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0020&amp;lesson=13#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">calling functions</a> with side effects in both arms; pick a clear <code>if</code> instead.</li>
+  <li><strong>Mixed types:</strong> e.g., <code>(cond ? 0 : "text")</code> leads to confusing conversions — make both arms the same type.</li>
+  <li><strong>Overuse:</strong> long or nested ternaries harm readability; prefer a small, obvious <code>if</code>.</li>
+</ul>
+
+<pre><code class="language-cpp">// ❌ unclear types
+auto v = (flag ? 0 : 1.5);      // becomes double; maybe surprising
+
+// ✅ make intent explicit
+double v2 = flag ? 0.0 : 1.5;
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — “Should This Be <code>?:</code>?”</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to apply a quick rubric: short, single assignment/result, both arms simple &amp; same type → OK; else prefer <code>if</code>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) Worked Examples</h3>
+
+<p><strong>Max of two (expression form):</strong></p>
+<pre><code class="language-cpp">int max2(int a, int b) {
+    return (a &gt; b ? a : b);
+}
+</code></pre>
+
+<p><strong>Choose formatter lazily (only one arm runs):</strong></p>
+<pre><code class="language-cpp">std::string format_short(), format_long();
+bool brief = /* ... */;
+
+std::string msg = (brief ? format_short() : format_long());
+</code></pre>
+
+<p><strong>Lvalue assignment through <code>?:</code> (advanced):</strong></p>
+<pre><code class="language-cpp">int left = 0, right = 0;
+bool toLeft = true;
+(toLeft ? left : right) += 10;  // mutates 'left' if true, else 'right'
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Suggest the Clearest Form</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Give AI your example; get both a <code>?:</code> version and an <code>if</code> version and choose the clearer one for teaching.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>7) Mini Exercise — Convert &amp; Embed</h3>
+
+<p><strong>A)</strong> Convert to <code>?:</code>:</p>
+<pre><code class="language-cpp">int score = /* ... */;
+std::string label;
+if (score &gt;= 50) {
+    label = "pass";
+} else {
+    label = "fail";
+}
+</code></pre>
+
+<p><strong>Target:</strong></p>
+<pre><code class="language-cpp">std::string label = (score &gt;= 50 ? "pass" : "fail");
+</code></pre>
+
+<p><strong>B)</strong> Use <code>?:</code> as a function argument:</p>
+<pre><code class="language-cpp">void log_level(const char*);
+bool verbose = /* ... */;
+log_level( verbose ? "debug" : "info" );
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Validate Conversions</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to verify your converted snippets preserve behaviour and types, and to flag any hidden side effects.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li>Use <code>?:</code> when selecting <strong>one of two values</strong> — especially for simple, single assignments or subexpressions.</li>
+  <li>Both arms should be <strong>simple and same-type</strong>; parenthesise when mixing with <code>&lt;&lt;</code> or assignments.</li>
+  <li>Only the chosen arm runs — leverage this to avoid expensive or unsafe work in the other arm.</li>
+  <li>Avoid nested/long ternaries; prefer <code>if</code> or <code>switch</code> when logic grows.</li>
+  <li>Remember: <code>?:</code> is an <em>expression</em>, not a statement — perfect for <strong>variable substitution</strong>.</li>
+</ul>
+        
+<!-- lesson-enhancement:13:start -->
+<section class="lesson-enhancement" id="conditional-expression-semantics">
+<p class="lesson-enhancement-kicker">Advanced perspective: compact choice without hidden meaning</p>
+<h2>The conditional operator produces a value</h2>
+<p>A short expression is not automatically a clear expression. The conditional operator earns its place when one uncomplicated decision supplies one value and the <a class="glossary-term" id="glossary-origin-13-0021" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0021&amp;lesson=13#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a>, true alternative and false alternative remain visible. Its compact size is only the proxy. The operative criterion is whether a reader can still account for selection, evaluation, result type and use.</p>
+<p>The form <code>condition ? second : third</code> has three operands. The first is contextually converted to <code>bool</code>. If it is true, the second operand is selected and evaluated. If it is false, the third operand is selected and evaluated. The whole conditional expression then provides the selected result to its surrounding expression.</p>
+
+<h3>An expression can supply a value where a statement cannot</h3>
+<p>Consider <code>const int larger = a &gt; b ? a : b;</code>. Read it in three parts: ask whether <code>a &gt; b</code>, select <code>a</code> when true, otherwise select <code>b</code>. The result initialises <code>larger</code>. An <code>if</code> statement can control assignments that achieve the same <a class="glossary-term" id="glossary-origin-13-0022" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0022&amp;lesson=13#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> <a class="glossary-term" id="glossary-origin-13-0023" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0023&amp;lesson=13#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a>, but the statement itself is not a value that can occupy the initializer position.</p>
+<table>
+<thead><tr><th>Requirement shape</th><th>Conditional expression</th><th><code>if</code> statement</th></tr></thead>
+<tbody>
+<tr><td>Choose one of two simple values for an initializer</td><td>Can express the choice directly in the initializer.</td><td>Usually requires the <a class="glossary-term" id="glossary-origin-13-0024" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0024&amp;lesson=13#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> to be <a class="glossary-term" id="glossary-origin-13-0025" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0025&amp;lesson=13#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declared</a> and then assigned on both paths.</td></tr>
+<tr><td>Choose one value as a function argument</td><td>Can occupy the argument position.</td><td>Requires the choice to be made before the call or the call to be repeated.</td></tr>
+<tr><td>Perform several statements with different effects</td><td>Can be forced into dense expressions, but the policy becomes difficult to inspect.</td><td>Gives each branch a visible statement <a class="glossary-term" id="glossary-origin-13-0026" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0026&amp;lesson=13#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a>.</td></tr>
+<tr><td>Explain why one path was selected</td><td>Suitable while the condition and alternatives remain uncomplicated.</td><td>Provides more room for names, diagnostics and comments when the decision needs them.</td></tr>
+</tbody>
+</table>
+<p>Translation between the two forms must preserve more than the final printed value. It must preserve which condition is evaluated, which alternative runs, the produced type, every side effect and the point at which those effects occur. Concision is not equivalence evidence.</p>
+
+<h3>Trace selection before discussing style</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+    const int requestedSpeed{140};
+    const int speedLimit{100};
+    const int appliedSpeed{requestedSpeed &lt; speedLimit ? requestedSpeed : speedLimit};
+
+    std::cout &lt;&lt; appliedSpeed &lt;&lt; '\n';
+}
+</code></pre>
+<table>
+<thead><tr><th>Step</th><th>Expression or state</th><th>Consequence</th></tr></thead>
+<tbody>
+<tr><td>Evaluate the condition</td><td><code>requestedSpeed &lt; speedLimit</code>, which is <code>140 &lt; 100</code></td><td>The condition is false.</td></tr>
+<tr><td>Select an alternative</td><td>The third operand, <code>speedLimit</code></td><td><code>requestedSpeed</code> is not the selected result.</td></tr>
+<tr><td>Produce the result</td><td>The selected value is 100</td><td>The conditional expression supplies 100.</td></tr>
+<tr><td><a class="glossary-term" id="glossary-origin-13-0027" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0027&amp;lesson=13#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">Initialise</a> the object</td><td><code>const int appliedSpeed{100}</code></td><td><code>appliedSpeed</code> holds 100.</td></tr>
+<tr><td>Observe the <a class="glossary-term" id="glossary-origin-13-0028" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0028&amp;lesson=13#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a></td><td>Output statement</td><td>The program prints <code>100</code> followed by a newline.</td></tr>
+</tbody>
+</table>
+<p>Only the selected second or third operand is evaluated. This is selected evaluation, not eager evaluation of all three operands from left to right. If the alternatives call <a class="glossary-term" id="glossary-origin-13-0029" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0029&amp;lesson=13#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">functions</a>, only the selected function is called. If one alternative would <a class="glossary-term" id="glossary-origin-13-0030" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0030&amp;lesson=13#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereference</a> a <a class="glossary-term" id="glossary-origin-13-0031" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0031&amp;lesson=13#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a>, placing a valid pointer check in the condition can prevent that alternative from being evaluated when the pointer is null.</p>
+<p>That property can protect a <a class="glossary-term" id="glossary-origin-13-0032" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0032&amp;lesson=13#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> operation; it cannot make an ill-formed alternative disappear from <a class="glossary-term" id="glossary-origin-13-0033" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0033&amp;lesson=13#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compilation</a>. In ordinary conditional expressions, both alternatives must participate in determining whether the program is well-formed and what result the expression can have. The unselected alternative is not evaluated at runtime, but it is still source the compiler must understand.</p>
+
+<h3>Runtime selection does not choose the result type</h3>
+<p>The program chooses an alternative at runtime, while the expression has one type determined at <a class="glossary-term" id="glossary-origin-13-0034" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0034&amp;lesson=13#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a>. The rule is not "the result has whichever type happened to be selected". Both the second and third operands participate in a sequence of type and value-category rules, including conversions where required.</p>
+<table>
+<thead><tr><th>Alternatives</th><th>Common introductory result</th><th>Point to retain</th></tr></thead>
+<tbody>
+<tr><td><code>condition ? 1 : 2</code></td><td><code>int</code></td><td>Both alternatives already have the same simple type.</td></tr>
+<tr><td><code>condition ? 1 : 2.5</code></td><td><code>double</code></td><td>The <a class="glossary-term" id="glossary-origin-13-0035" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0035&amp;lesson=13#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> alternative is converted as part of the arithmetic type rules.</td></tr>
+<tr><td><code>condition ? std::string{"yes"} : std::string{"no"}</code></td><td><code>std::string</code></td><td>Both alternatives explicitly supply the intended <a class="glossary-term" id="glossary-origin-13-0036" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0036&amp;lesson=13#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> type.</td></tr>
+<tr><td><code>condition ? "yes" : "no"</code></td><td>A pointer to <a class="glossary-term" id="glossary-origin-13-0037" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0037&amp;lesson=13#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> character data in this common case</td><td><a class="glossary-term" id="glossary-origin-13-0038" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0038&amp;lesson=13#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">String</a> literals do not by themselves make the result a <code>std::string</code>.</td></tr>
+</tbody>
+</table>
+<p>These examples are useful landmarks, not a replacement for the full C++ rules. Class conversions, <a class="glossary-term" id="glossary-origin-13-0039" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0039&amp;lesson=13#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a>, <code>void</code>, throwing expressions and value categories add cases that slogans cannot safely cover. For introductory code, alternatives of the same clear type make the contract easier to see. If a mixed expression matters, inspect the deduced type and required conversions instead of guessing from the branch taken in one run.</p>
+<p>A change from <code>condition ? 0 : 1.5</code> to <code>condition ? 0.0 : 1.5</code> may leave the resulting type unchanged while making the intended floating-point choice visible. An <a class="glossary-term" id="glossary-origin-13-0040" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0040&amp;lesson=13#term-explicit-conversion" aria-label="Look up explicit conversion in the programming glossary" title="Look up explicit conversion in the programming glossary">explicit cast</a> is not a decoration to silence surprise. Use it only when that conversion is part of the requirement and safe for the values involved.</p>
+
+<h3>Selected evaluation and hidden effects must be considered together</h3>
+<p>Suppose the alternatives are <code>brief ? format_short() : format_long()</code>. Only one formatter is called, which may be exactly the required lazy choice. However, if the calls update counters, write files or modify shared state, the expression also hides an effect behind a value selection. A reader must now verify both the produced value and the effect that did or did not occur.</p>
+<p>The <a class="glossary-term" id="glossary-origin-13-0041" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0041&amp;lesson=13#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> does not make effects wrong. It makes the cost of understanding them part of the decision about form. When each alternative is a simple value-producing operation with the same responsibility, the expression can be precise. When the alternatives perform different policies, an ordinary <code>if</code> gives those policies enough space to be named and tested.</p>
+
+<h3>Grouping is semantic, not cosmetic</h3>
+<p>The conditional operator associates from right to left. Therefore <code>a ? b : c ? d : e</code> is parsed as <code>a ? b : (c ? d : e)</code>. If <code>a</code> is true, <code>b</code> is selected and the nested condition is not evaluated. If <code>a</code> is false, <code>c</code> decides between <code>d</code> and <code>e</code>.</p>
+<p>Legal grouping can still be poor communication. Parentheses expose the parse, but they do not turn a compressed classification policy into an easy one. If a nested conditional needs indentation, comments or repeated rereading, the statement form has probably become the smaller explanation.</p>
+<pre><code class="language-cpp">std::cout &lt;&lt; (ok ? "yes" : "no") &lt;&lt; '\n';
+</code></pre>
+<p>The parentheses around the conditional result make the intended stream operand explicit. Without them, the surrounding operators and their precedence determine a different grouping from the one a casual reader may imagine. Do not rely on memory of a precedence table when a pair of parentheses can show the structure at the point of use.</p>
+
+<h3>A conditional expression can sometimes designate an object</h3>
+<p>When compatible lvalue alternatives satisfy the relevant rules, the conditional expression can itself be an lvalue. In <code>(chooseLeft ? left : right) = 5;</code>, the condition selects one object and the assignment modifies that object. The operator is not merely choosing a copied integer value in this case; it is selecting the destination.</p>
+<p>This can be useful, but it also conceals the mutation target inside punctuation. A named reference can expose the same decision: select <code>left</code> or <code>right</code> into a reference called <code>target</code>, then assign through <code>target</code>. The extra line is worthwhile when the name explains responsibility. Fewer characters are not fewer consequences.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> expand selection, evaluation and type</summary>
+<div>
+<p>Ask an AI system to rewrite a conditional expression as an equivalent <code>if</code>/<code>else</code> sequence. Require it to state the first operand's <a class="glossary-term" id="glossary-origin-13-0042" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0042&amp;lesson=13#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> result, the only alternative evaluated on each path, the result type and every side effect. Then compare the expanded form with the source and requirement. Keep the compact expression only when the explanation confirms equivalence and the compact form remains the clearer <a class="glossary-term" id="glossary-origin-13-0043" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0043&amp;lesson=13#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a>.</p>
+</div>
+</details>
+
+<h3>Use equal outputs to expose weak evidence</h3>
+<p>Run the speed example with requested speeds 80, 100 and 140 while the limit remains 100. Predict the condition result, selected operand and printed value for each case.</p>
+<p>That equality case matters. Output of 100 cannot prove which operand was selected because either operand would print 100. Replace each alternative temporarily with a separate value-producing function that records when it is called, then verify that only the false alternative runs at equality. Finally, expand the expression to an <code>if</code>/<code>else</code> initializer strategy and show that selection, type, effects and output remain equivalent. The exercise <a class="glossary-term" id="glossary-origin-13-0044" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0044&amp;lesson=13#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a> the operator's actual contract, not merely the number it happened to print.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>At 80, the requested speed is selected and printed. At 140, the limit is selected and printed. At 100, the condition is false and the limit operand is selected, although both operands contain the same value.</p>
+<table>
+<thead><tr><th>Requested speed</th><th>Condition</th><th>Selected operand</th><th>Printed value</th></tr></thead>
+<tbody>
+<tr><td>80</td><td><code>80 &lt; 100</code>, true</td><td><code>requestedSpeed</code></td><td>80</td></tr>
+<tr><td>100</td><td><code>100 &lt; 100</code>, false</td><td><code>speedLimit</code></td><td>100</td></tr>
+<tr><td>140</td><td><code>140 &lt; 100</code>, false</td><td><code>speedLimit</code></td><td>100</td></tr>
+</tbody>
+</table>
+<p>The equality row proves why output alone is weak evidence. Both stored values are 100, but the false condition selects only the third operand. The selected function can make that event observable:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int use_requested_speed(int value) {
+    std::cout &lt;&lt; "requested speed selected\n";
+    return value;
+}
+
+int use_speed_limit(int value) {
+    std::cout &lt;&lt; "speed limit selected\n";
+    return value;
+}
+
+int main() {
+    const int requestedSpeed{100};
+    const int speedLimit{100};
+    const int appliedSpeed{
+        requestedSpeed &lt; speedLimit
+            ? use_requested_speed(requestedSpeed)
+            : use_speed_limit(speedLimit)
+    };
+
+    std::cout &lt;&lt; appliedSpeed &lt;&lt; '\n';
+}
+</code></pre>
+<p>With both values equal to 100, this code records <code>speed limit selected</code>. It does not call <code>use_requested_speed</code>. Both alternatives return <code>int</code>, so the conditional expression also has type <code>int</code>.</p>
+<p>An ordinary <code>if</code>/<code>else</code> can be moved into a small value-producing function, preserving direct initialisation of the final <code>const int</code>:</p>
+<pre><code class="language-cpp">int choose_speed(int requestedSpeed, int speedLimit) {
+    if (requestedSpeed &lt; speedLimit) {
+        return use_requested_speed(requestedSpeed);
+    } else {
+        return use_speed_limit(speedLimit);
+    }
+}
+
+int main() {
+    const int requestedSpeed{100};
+    const int speedLimit{100};
+    const int appliedSpeed{choose_speed(requestedSpeed, speedLimit)};
+
+    std::cout &lt;&lt; appliedSpeed &lt;&lt; '\n';
+}
+</code></pre>
+<p>This second block replaces the first block's <code>main</code> while retaining the two recording functions above. For 80, 100 and 140, the same condition selects the same function, each path produces an <code>int</code>, and the final output is unchanged. The expanded spelling is equivalent because selection, type and effects agree, not simply because two runs happened to print 100.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:13:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-12.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">12. The IF Statement</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-14.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">14. Manipulating Memory</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

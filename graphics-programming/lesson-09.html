@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Introduce a second geometric primitive without changing the contract used by the rest of the renderer.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 09 - Planes and a Grounded Scene</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="09" data-ray-stage="9" data-art-pattern="flow">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 09 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html" aria-current="page"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 09</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">9. Planes and a Grounded Scene</h1>
+            <p class="lesson-deck">Introduce a second geometric primitive without changing the contract used by the rest of the renderer.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-08.html">&larr; Lesson 08</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-10.html">Lesson 10 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>26 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-09-checkerboard" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-checkerboard&amp;lesson=09#term-checkerboard" aria-label="Look up checkerboard in the graphics glossary" title="Look up checkerboard in the graphics glossary">checkerboard</a> <a class="glossary-chip" id="glossary-panel-origin-09-denominator" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-denominator&amp;lesson=09#term-denominator" aria-label="Look up denominator in the graphics glossary" title="Look up denominator in the graphics glossary">denominator</a> <a class="glossary-chip" id="glossary-panel-origin-09-direction" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-direction&amp;lesson=09#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-09-hit" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-hit&amp;lesson=09#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-09-hit-record" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-hit-record&amp;lesson=09#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> <a class="glossary-chip" id="glossary-panel-origin-09-image" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-image&amp;lesson=09#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-09-intersection" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-intersection&amp;lesson=09#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-09-invocation" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-invocation&amp;lesson=09#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-09-material" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-material&amp;lesson=09#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-09-mesh" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-mesh&amp;lesson=09#term-mesh" aria-label="Look up mesh in the graphics glossary" title="Look up mesh in the graphics glossary">mesh</a> <a class="glossary-chip" id="glossary-panel-origin-09-normalise" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-normalise&amp;lesson=09#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-09-origin-bias" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-origin-bias&amp;lesson=09#term-origin-bias" aria-label="Look up origin bias in the graphics glossary" title="Look up origin bias in the graphics glossary">origin bias</a> <a class="glossary-chip" id="glossary-panel-origin-09-parallel-ray" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-parallel-ray&amp;lesson=09#term-parallel-ray" aria-label="Look up parallel ray in the graphics glossary" title="Look up parallel ray in the graphics glossary">parallel ray</a> <a class="glossary-chip" id="glossary-panel-origin-09-pixel" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-pixel&amp;lesson=09#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-09-plane" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-plane&amp;lesson=09#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> <a class="glossary-chip" id="glossary-panel-origin-09-point" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-point&amp;lesson=09#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-09-procedural-material" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-procedural-material&amp;lesson=09#term-procedural-material" aria-label="Look up procedural material in the graphics glossary" title="Look up procedural material in the graphics glossary">procedural material</a> <a class="glossary-chip" id="glossary-panel-origin-09-quadratic" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-quadratic&amp;lesson=09#term-quadratic" aria-label="Look up quadratic in the graphics glossary" title="Look up quadratic in the graphics glossary">quadratic</a> <a class="glossary-chip" id="glossary-panel-origin-09-ray-interval" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-ray-interval&amp;lesson=09#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> <a class="glossary-chip" id="glossary-panel-origin-09-sample" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-sample&amp;lesson=09#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-09-scene" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-scene&amp;lesson=09#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-09-spatial-aliasing" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-spatial-aliasing&amp;lesson=09#term-spatial-aliasing" aria-label="Look up spatial aliasing in the graphics glossary" title="Look up spatial aliasing in the graphics glossary">spatial aliasing</a> <a class="glossary-chip" id="glossary-panel-origin-09-sphere" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-sphere&amp;lesson=09#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-09-surface-normal" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-surface-normal&amp;lesson=09#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-09-triangle" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-triangle&amp;lesson=09#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> <a class="glossary-chip" id="glossary-panel-origin-09-world-position" href="glossary.html?from=lesson-09.html%23glossary-panel-origin-09-world-position&amp;lesson=09#term-world-position" aria-label="Look up world position in the graphics glossary" title="Look up world position in the graphics glossary">world position</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A second primitive is a test of the renderer's structure. If adding a <a class="glossary-term" id="glossary-origin-09-0001" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0001&amp;lesson=09#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> requires a second shading route, a second shadow system and a new form of closest-<a class="glossary-term" id="glossary-origin-09-0002" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0002&amp;lesson=09#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> loop, the first design captured the <a class="glossary-term" id="glossary-origin-09-0003" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0003&amp;lesson=09#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> rather than the general problem. A plane should differ where its geometry differs and agree everywhere the <a class="glossary-term" id="glossary-origin-09-0004" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0004&amp;lesson=09#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> asks the same questions.</p>
+<p>We shall use an infinite plane as a ground surface. Its <a class="glossary-term" id="glossary-origin-09-0005" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0005&amp;lesson=09#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> is simpler than the sphere <a class="glossary-term" id="glossary-origin-09-0006" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0006&amp;lesson=09#term-quadratic" aria-label="Look up quadratic in the graphics glossary" title="Look up quadratic in the graphics glossary">quadratic</a>, but it has a new boundary: a ray can be parallel to the plane. The plane will return the same hit-record fields, and the existing lighting and shadow calculations will consume them without knowing which equation produced the record.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Derive a ray-plane distance from a <a class="glossary-term" id="glossary-origin-09-0007" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0007&amp;lesson=09#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> and unit <a class="glossary-term" id="glossary-origin-09-0008" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0008&amp;lesson=09#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a>.</li>
+<li>Reject parallel and out-of-interval results.</li>
+<li>Compute a <a class="glossary-term" id="glossary-origin-09-0009" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0009&amp;lesson=09#term-checkerboard" aria-label="Look up checkerboard in the graphics glossary" title="Look up checkerboard in the graphics glossary">checkerboard</a> from <a class="glossary-term" id="glossary-origin-09-0010" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0010&amp;lesson=09#term-world-position" aria-label="Look up world position in the graphics glossary" title="Look up world position in the graphics glossary">world position</a> while keeping it a <a class="glossary-term" id="glossary-origin-09-0011" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0011&amp;lesson=09#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> decision rather than an intersection decision.</li>
+</ul>
+</section>
+
+<h2>Define every point on the plane</h2>
+<p>A plane can be described by one point <code>Q</code> on it and a unit normal <code>N</code>. Any other point <code>P</code> belongs to the plane when its displacement from <code>Q</code> is perpendicular to the normal:</p>
+<p class="equation">(P − Q) · N = 0</p>
+<p>Substitute the ray point <code>P(t) = O + tD</code>:</p>
+<p class="equation">(O + tD − Q) · N = 0</p>
+<p>Collect the term containing <code>t</code> and solve:</p>
+<p class="equation">t = ((Q − O) · N) / (D · N)</p>
+
+<p>The <a class="glossary-term" id="glossary-origin-09-0012" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0012&amp;lesson=09#term-denominator" aria-label="Look up denominator in the graphics glossary" title="Look up denominator in the graphics glossary">denominator</a> measures how much the ray <a class="glossary-term" id="glossary-origin-09-0013" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0013&amp;lesson=09#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> approaches or leaves the plane along its normal. If it is zero, the ray is parallel. It either never meets the plane or lies within it, in which case there is no unique first intersection. Our visibility query reports no hit for both cases.</p>
+
+<pre><code class="language-js">function hitPlane(ray, plane, tMin, tMax) {
+    const denominator = dot(ray.direction, plane.normal);
+    if (Math.abs(denominator) &lt; 1e-7) {
+        return null;
+    }
+
+    const t = dot(
+        subtract(plane.point, ray.origin),
+        plane.normal
+    ) / denominator;
+
+    if (t &lt; tMin || t &gt; tMax) {
+        return null;
+    }
+
+    const position = pointOnRay(ray, t);
+    return makeHitRecord(ray, t, position, plane.normal, plane.material);
+}
+</code></pre>
+
+<p>The small denominator threshold protects the division from a ray that is nearly parallel. As with the <a class="glossary-term" id="glossary-origin-09-0014" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0014&amp;lesson=09#term-origin-bias" aria-label="Look up origin bias in the graphics glossary" title="Look up origin bias in the graphics glossary">shadow bias</a>, the value is a policy for this numerical scale, not a magic constant. A near-<a class="glossary-term" id="glossary-origin-09-0015" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0015&amp;lesson=09#term-parallel-ray" aria-label="Look up parallel ray in the graphics glossary" title="Look up parallel ray in the graphics glossary">parallel ray</a> may meet the infinite plane at a very large distance. The scene's maximum interval should also decide whether that distant result is useful.</p>
+
+<h2>Use the shared record</h2>
+<p>The plane supplies distance, position, oriented normal, face flag and material. The closest-hit loop compares its <code>t</code> with sphere results. The shadow traversal accepts it as an occluder. The lighting code reads the normal and material. None of those callers requires a plane-specific branch.</p>
+<p>This agreement is more valuable than making the primitive names look alike. It means each layer owns a stable criterion. Geometry decides whether and where. Scene traversal decides which valid result is nearest. Shading decides how the retained surface contributes. A shared <a class="glossary-term" id="glossary-origin-09-0016" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0016&amp;lesson=09#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> is the point at which those responsibilities meet.</p>
+
+<section class="ray-lab concept-lab stage-09-lab" data-ray-lab data-stage="9" aria-labelledby="ray-lab-title-09">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Plane and material laboratory</p><h2 id="ray-lab-title-09">Keep the Plane Fixed, Change the Checker</h2></div>
+        <p>Hold one plane hit constant while checker frequency changes only the material lookup made from the retained world position.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Change the checker frequency. The checker lookup and ground pattern change; the plane hit distance and normal remain fixed.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 9 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Plane-and-spheres image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Grounded scene</strong><small>A shared scene whose infinite plane uses a position-dependent checker material.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">A shared scene whose infinite plane uses a position-dependent checker material.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Plane-intersection diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>One plane hit</strong><small>A diagnostic ray, plane normal, calculated hit distance and checker-cell lookup.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">A diagnostic ray, plane normal, calculated hit distance and checker-cell lookup.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Denominator D · N</dt><dd><output data-plane-denominator>-0.707</output></dd></div><div><dt>Plane hit t</dt><dd><output data-plane-distance>2.828</output></dd></div><div><dt>Hit position P</dt><dd><output data-plane-position>(0.350, -1.000, -1.000)</output></dd></div><div><dt>Checker lookup</dt><dd><output data-plane-checker>Calculating</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-plane-formula>t = ((Q − O) · N) ÷ (D · N) = 2.828</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Make the material depend on position</h2>
+<p>An infinite plane with one constant colour provides little visual evidence of scale or orientation. We can calculate a checkerboard from the hit position. Multiply the world X and Z coordinates by a frequency, take the integer cell for each, add them and select one of two colours from the parity.</p>
+
+<pre><code class="language-js">function checkerAlbedo(position, frequency) {
+    const cellX = Math.floor(position[0] * frequency);
+    const cellZ = Math.floor(position[2] * frequency);
+    const even = Math.abs((cellX + cellZ) % 2) === 0;
+    return even ? [0.76, 0.75, 0.67] : [0.09, 0.13, 0.12];
+}
+</code></pre>
+
+<p>The plane equation does not change when the checker frequency changes. Only the material interpretation of the hit position changes. This makes the laboratory a direct test of the boundary we wanted: geometry remains fixed while a <a class="glossary-term" id="glossary-origin-09-0017" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0017&amp;lesson=09#term-procedural-material" aria-label="Look up procedural material in the graphics glossary" title="Look up procedural material in the graphics glossary">procedural material</a> produces a different pattern across the same records.</p>
+
+<div class="worked-trace">
+<h3>A downward ray meets the ground</h3>
+<p>Let the ground contain <code>Q = (0, -1, 0)</code> with <code>N = (0, 1, 0)</code>. A ray begins at <code>O = (0, 1, 0)</code> with direction <code>D = (0, -1, 0)</code>. The numerator is <code>(Q - O) · N = (0, -2, 0) · N = -2</code>. The denominator is <code>D · N = -1</code>. Their quotient is <code>t = 2</code>, giving position <code>(0, -1, 0)</code>.</p>
+</div>
+
+<h2>Do not let an infinite surface become infinite work</h2>
+<p>The plane extends without bound, but the <a class="glossary-term" id="glossary-origin-09-0018" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0018&amp;lesson=09#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> and <a class="glossary-term" id="glossary-origin-09-0019" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0019&amp;lesson=09#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> are finite. We do not iterate over plane points. One substitution produces the possible distance for a ray. This is a useful distinction between geometric extent and computational work. An infinite mathematical primitive can be cheaper to intersect than a finite <a class="glossary-term" id="glossary-origin-09-0020" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0020&amp;lesson=09#term-mesh" aria-label="Look up mesh in the graphics glossary" title="Look up mesh in the graphics glossary">mesh</a> containing thousands of <a class="glossary-term" id="glossary-origin-09-0021" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0021&amp;lesson=09#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangles</a>.</p>
+<p>Its visual extent can still create difficulties. At the horizon, checker cells become smaller than <a class="glossary-term" id="glossary-origin-09-0022" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0022&amp;lesson=09#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixels</a> and a single centre <a class="glossary-term" id="glossary-origin-09-0023" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0023&amp;lesson=09#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> produces severe <a class="glossary-term" id="glossary-origin-09-0024" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0024&amp;lesson=09#term-spatial-aliasing" aria-label="Look up spatial aliasing in the graphics glossary" title="Look up spatial aliasing in the graphics glossary">aliasing</a>. The intersection is correct for the chosen sample; the pixel estimate is inadequate for the rapidly changing material signal. Lesson 13 will make that necessary distinction explicit.</p>
+
+<div class="checkpoint">
+<h3>Classify the denominator</h3>
+<p>The plane normal is <code>(0, 1, 0)</code>. What happens for directions <code>(1, 0, 0)</code>, <code>(0, -1, 0)</code> and the <a class="glossary-term" id="glossary-origin-09-0025" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0025&amp;lesson=09#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalised</a> form of <code>(1, -0.000000001, 0)</code>?</p>
+<details class="reveal-answer"><summary>Reveal the decisions</summary><div><p>The first direction has denominator zero and is parallel. The second has denominator -1 and approaches the plane directly. The third has an extremely small negative denominator; mathematically it meets the infinite plane very far away, but the near-parallel threshold and finite ray maximum may reject it as numerically or operationally irrelevant.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Separate geometry from appearance</h2>
+<p>Add a second procedural material mode based on concentric rings in world XZ distance. Switch between rings and checks without changing <code>hitPlane</code>. Then deliberately place the pattern calculation inside the intersection function and list the new dependencies it creates. Restore the separation after the comparison.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>Procedural materials translate naturally to shader code because each <a class="glossary-term" id="glossary-origin-09-0026" href="glossary.html?from=lesson-09.html%23glossary-origin-09-0026&amp;lesson=09#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> can derive appearance from its hit position. The Vulkan implementation will need explicit coordinate-space and precision choices. The present division remains useful: an intersection supplies position and normal; material code interprets them. A procedural pattern should not alter whether geometry was hit.</p>
+</section>
+
+<p>The scene is now grounded and the renderer has survived a second primitive. Lesson 10 introduces the triangle, the finite primitive from which general polygonal meshes are normally assembled.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-08.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">08. Shadows and the Problem of Zero</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-10.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">10. Triangles and Barycentric Coordinates</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

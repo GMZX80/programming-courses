@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Describe triangle geometry and instances to Vulkan, build their acceleration structures and query them from compute.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 27 - Build BLAS and TLAS Before Asking Hardware</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="27" data-ray-stage="27" data-art-pattern="orbit">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 27 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html" aria-current="page"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 27</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">27. Build BLAS and TLAS Before Asking Hardware</h1>
+            <p class="lesson-deck">Describe triangle geometry and instances to Vulkan, build their acceleration structures and query them from compute.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-26.html">&larr; Lesson 26</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-28.html">Lesson 28 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>50 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-27-acceleration-structure" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-acceleration-structure&amp;lesson=27#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structure</a> <a class="glossary-chip" id="glossary-panel-origin-27-acceleration-structure-instance" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-acceleration-structure-instance&amp;lesson=27#term-acceleration-structure-instance" aria-label="Look up acceleration-structure instance in the graphics glossary" title="Look up acceleration-structure instance in the graphics glossary">acceleration-structure instance</a> <a class="glossary-chip" id="glossary-panel-origin-27-alignment" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-alignment&amp;lesson=27#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> <a class="glossary-chip" id="glossary-panel-origin-27-any-hit-shader" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-any-hit-shader&amp;lesson=27#term-any-hit-shader" aria-label="Look up any-hit shader in the graphics glossary" title="Look up any-hit shader in the graphics glossary">any-hit shader</a> <a class="glossary-chip" id="glossary-panel-origin-27-barycentric-coordinates" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-barycentric-coordinates&amp;lesson=27#term-barycentric-coordinates" aria-label="Look up barycentric coordinates in the graphics glossary" title="Look up barycentric coordinates in the graphics glossary">barycentric coordinates</a> <a class="glossary-chip" id="glossary-panel-origin-27-blas" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-blas&amp;lesson=27#term-blas" aria-label="Look up BLAS in the graphics glossary" title="Look up BLAS in the graphics glossary">BLAS</a> <a class="glossary-chip" id="glossary-panel-origin-27-bounded-ray" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-bounded-ray&amp;lesson=27#term-bounded-ray" aria-label="Look up bounded ray in the graphics glossary" title="Look up bounded ray in the graphics glossary">bounded ray</a> <a class="glossary-chip" id="glossary-panel-origin-27-buffer" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-buffer&amp;lesson=27#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-27-buffer-device-address" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-buffer-device-address&amp;lesson=27#term-buffer-device-address" aria-label="Look up buffer device address in the graphics glossary" title="Look up buffer device address in the graphics glossary">buffer device address</a> <a class="glossary-chip" id="glossary-panel-origin-27-camera" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-camera&amp;lesson=27#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-27-candidate-intersection" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-candidate-intersection&amp;lesson=27#term-candidate-intersection" aria-label="Look up candidate intersection in the graphics glossary" title="Look up candidate intersection in the graphics glossary">candidate intersection</a> <a class="glossary-chip" id="glossary-panel-origin-27-closest-hit-shader" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-closest-hit-shader&amp;lesson=27#term-closest-hit-shader" aria-label="Look up closest-hit shader in the graphics glossary" title="Look up closest-hit shader in the graphics glossary">closest-hit shader</a> <a class="glossary-chip" id="glossary-panel-origin-27-committed-intersection" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-committed-intersection&amp;lesson=27#term-committed-intersection" aria-label="Look up committed intersection in the graphics glossary" title="Look up committed intersection in the graphics glossary">committed intersection</a> <a class="glossary-chip" id="glossary-panel-origin-27-compute-pipeline" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-compute-pipeline&amp;lesson=27#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> <a class="glossary-chip" id="glossary-panel-origin-27-compute-shader" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-compute-shader&amp;lesson=27#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-27-descriptor" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-descriptor&amp;lesson=27#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> <a class="glossary-chip" id="glossary-panel-origin-27-descriptor-binding" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-descriptor-binding&amp;lesson=27#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor binding</a> <a class="glossary-chip" id="glossary-panel-origin-27-device-extension" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-device-extension&amp;lesson=27#term-device-extension" aria-label="Look up device extension in the graphics glossary" title="Look up device extension in the graphics glossary">device extension</a> <a class="glossary-chip" id="glossary-panel-origin-27-edge" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-edge&amp;lesson=27#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-27-extension-directive" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-extension-directive&amp;lesson=27#term-extension-directive" aria-label="Look up extension directive in the graphics glossary" title="Look up extension directive in the graphics glossary">extension directive</a> <a class="glossary-chip" id="glossary-panel-origin-27-floating-point" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-floating-point&amp;lesson=27#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> <a class="glossary-chip" id="glossary-panel-origin-27-glsl" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-glsl&amp;lesson=27#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <a class="glossary-chip" id="glossary-panel-origin-27-hit" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-hit&amp;lesson=27#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-27-host" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-host&amp;lesson=27#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-27-image" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-image&amp;lesson=27#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-27-index-buffer" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-index-buffer&amp;lesson=27#term-index-buffer" aria-label="Look up index buffer in the graphics glossary" title="Look up index buffer in the graphics glossary">index buffer</a> <a class="glossary-chip" id="glossary-panel-origin-27-instance-mask" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-instance-mask&amp;lesson=27#term-instance-mask" aria-label="Look up instance mask in the graphics glossary" title="Look up instance mask in the graphics glossary">instance mask</a> <a class="glossary-chip" id="glossary-panel-origin-27-instance-transform" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-instance-transform&amp;lesson=27#term-instance-transform" aria-label="Look up instance transform in the graphics glossary" title="Look up instance transform in the graphics glossary">instance transform</a> <a class="glossary-chip" id="glossary-panel-origin-27-intersection" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-intersection&amp;lesson=27#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-27-invocation" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-invocation&amp;lesson=27#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-27-material" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-material&amp;lesson=27#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-27-mesh" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-mesh&amp;lesson=27#term-mesh" aria-label="Look up mesh in the graphics glossary" title="Look up mesh in the graphics glossary">mesh</a> <a class="glossary-chip" id="glossary-panel-origin-27-opaque-geometry" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-opaque-geometry&amp;lesson=27#term-opaque-geometry" aria-label="Look up opaque geometry in the graphics glossary" title="Look up opaque geometry in the graphics glossary">opaque geometry</a> <a class="glossary-chip" id="glossary-panel-origin-27-pipeline-layout" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-pipeline-layout&amp;lesson=27#term-pipeline-layout" aria-label="Look up pipeline layout in the graphics glossary" title="Look up pipeline layout in the graphics glossary">pipeline layout</a> <a class="glossary-chip" id="glossary-panel-origin-27-pnext-chain" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-pnext-chain&amp;lesson=27#term-pnext-chain" aria-label="Look up pNext chain in the graphics glossary" title="Look up pNext chain in the graphics glossary">pNext chain</a> <a class="glossary-chip" id="glossary-panel-origin-27-primary-ray" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-primary-ray&amp;lesson=27#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-27-primitive-index" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-primitive-index&amp;lesson=27#term-primitive-index" aria-label="Look up primitive index in the graphics glossary" title="Look up primitive index in the graphics glossary">primitive index</a> <a class="glossary-chip" id="glossary-panel-origin-27-queue" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-queue&amp;lesson=27#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> <a class="glossary-chip" id="glossary-panel-origin-27-ray-flags" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-ray-flags&amp;lesson=27#term-ray-flags" aria-label="Look up ray flags in the graphics glossary" title="Look up ray flags in the graphics glossary">ray flags</a> <a class="glossary-chip" id="glossary-panel-origin-27-ray-query" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-ray-query&amp;lesson=27#term-ray-query" aria-label="Look up ray query in the graphics glossary" title="Look up ray query in the graphics glossary">ray query</a> <a class="glossary-chip" id="glossary-panel-origin-27-ray-tracing-pipeline" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-ray-tracing-pipeline&amp;lesson=27#term-ray-tracing-pipeline" aria-label="Look up ray tracing pipeline in the graphics glossary" title="Look up ray tracing pipeline in the graphics glossary">ray tracing pipeline</a> <a class="glossary-chip" id="glossary-panel-origin-27-scene" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-scene&amp;lesson=27#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-27-scratch-buffer" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-scratch-buffer&amp;lesson=27#term-scratch-buffer" aria-label="Look up scratch buffer in the graphics glossary" title="Look up scratch buffer in the graphics glossary">scratch buffer</a> <a class="glossary-chip" id="glossary-panel-origin-27-shader-built-in" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-shader-built-in&amp;lesson=27#term-shader-built-in" aria-label="Look up shader built-in in the graphics glossary" title="Look up shader built-in in the graphics glossary">shader built-in</a> <a class="glossary-chip" id="glossary-panel-origin-27-shader-stage" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-shader-stage&amp;lesson=27#term-shader-stage" aria-label="Look up shader stage in the graphics glossary" title="Look up shader stage in the graphics glossary">shader stage</a> <a class="glossary-chip" id="glossary-panel-origin-27-shadow-ray" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-shadow-ray&amp;lesson=27#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> <a class="glossary-chip" id="glossary-panel-origin-27-sphere" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-sphere&amp;lesson=27#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-27-storage-image" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-storage-image&amp;lesson=27#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> <a class="glossary-chip" id="glossary-panel-origin-27-tlas" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-tlas&amp;lesson=27#term-tlas" aria-label="Look up TLAS in the graphics glossary" title="Look up TLAS in the graphics glossary">TLAS</a> <a class="glossary-chip" id="glossary-panel-origin-27-triangle" href="glossary.html?from=lesson-27.html%23glossary-panel-origin-27-triangle&amp;lesson=27#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>Hardware ray tracing does not begin with a new lighting equation. It begins by reorganising geometry so that the device can reject large regions without testing every <a class="glossary-term" id="glossary-origin-27-0001" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0001&amp;lesson=27#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a>. Vulkan calls those organisations <a class="glossary-term" id="glossary-origin-27-0002" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0002&amp;lesson=27#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structures</a>. A <a class="glossary-term" id="glossary-origin-27-0003" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0003&amp;lesson=27#term-blas" aria-label="Look up BLAS in the graphics glossary" title="Look up BLAS in the graphics glossary">bottom-level acceleration structure</a> contains geometry; a <a class="glossary-term" id="glossary-origin-27-0004" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0004&amp;lesson=27#term-tlas" aria-label="Look up TLAS in the graphics glossary" title="Look up TLAS in the graphics glossary">top-level acceleration structure</a> contains instances that refer to bottom-level structures.</p>
+<p>A <a class="glossary-term" id="glossary-origin-27-0005" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0005&amp;lesson=27#term-ray-query" aria-label="Look up ray query in the graphics glossary" title="Look up ray query in the graphics glossary">ray query</a> from the <a class="glossary-term" id="glossary-origin-27-0006" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0006&amp;lesson=27#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> makes the first comparison narrow enough to audit. The <a class="glossary-term" id="glossary-origin-27-0007" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0007&amp;lesson=27#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a>, <a class="glossary-term" id="glossary-origin-27-0008" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0008&amp;lesson=27#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a>, <a class="glossary-term" id="glossary-origin-27-0009" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0009&amp;lesson=27#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-term" id="glossary-origin-27-0010" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0010&amp;lesson=27#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffers</a> and accumulation path remain familiar. Only the exhaustive triangle loop is replaced.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Enable acceleration-structure, buffer-device-address and ray-query support only after querying it.</li>
+<li>Build one triangle BLAS and an instancing TLAS with explicit scratch storage and dependencies.</li>
+<li>Run a <a class="glossary-term" id="glossary-origin-27-0011" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0011&amp;lesson=27#term-bounded-ray" aria-label="Look up bounded ray in the graphics glossary" title="Look up bounded ray in the graphics glossary">bounded ray</a> query and compare its committed result with the manual triangle traversal.</li>
+</ul>
+</section>
+
+<h2>Treat hardware support as a branch, not an assumption</h2>
+<p>The course baseline remains Vulkan 1.3, but ray-query support is optional. Enumerate <a class="glossary-term" id="glossary-origin-27-0012" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0012&amp;lesson=27#term-device-extension" aria-label="Look up device extension in the graphics glossary" title="Look up device extension in the graphics glossary">device extensions</a> and query a <a class="glossary-term" id="glossary-origin-27-0013" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0013&amp;lesson=27#term-pnext-chain" aria-label="Look up pNext chain in the graphics glossary" title="Look up pNext chain in the graphics glossary">feature chain</a> containing <code>VkPhysicalDeviceAccelerationStructureFeaturesKHR</code>, <code>VkPhysicalDeviceRayQueryFeaturesKHR</code> and the core buffer-device-address feature. Require the corresponding device extensions when they are not supplied by a promoted core feature, and enable only the fields that were reported true.</p>
+
+<pre><code class="language-cpp">VkPhysicalDeviceRayQueryFeaturesKHR rayQueryFeatures{
+    .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_QUERY_FEATURES_KHR
+};
+VkPhysicalDeviceAccelerationStructureFeaturesKHR asFeatures{
+    .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_FEATURES_KHR,
+    .pNext = &amp;rayQueryFeatures
+};
+VkPhysicalDeviceVulkan12Features vulkan12Features{
+    .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES,
+    .pNext = &amp;asFeatures
+};
+VkPhysicalDeviceFeatures2 features{
+    .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2,
+    .pNext = &amp;vulkan12Features
+};
+vkGetPhysicalDeviceFeatures2(physicalDevice, &amp;features);</code></pre>
+
+<p>For this route, require <code>bufferDeviceAddress</code>, <code>accelerationStructure</code> and <code>rayQuery</code>. If any are absent, keep the compute reference route available and explain the unsupported route in the user interface. Device selection should not fail merely because an optional teaching comparison is unavailable, unless the application was explicitly launched in hardware-only mode.</p>
+
+<h2>Give geometry a device address</h2>
+<p>The BLAS build input uses device addresses rather than <a class="glossary-term" id="glossary-origin-27-0014" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0014&amp;lesson=27#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor bindings</a>. Create position and <a class="glossary-term" id="glossary-origin-27-0015" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0015&amp;lesson=27#term-index-buffer" aria-label="Look up index buffer in the graphics glossary" title="Look up index buffer in the graphics glossary">index buffers</a> with acceleration-structure-build-input-read-only and shader-device-address usage in addition to the transfer use required by the upload path. Allocate their memory with the device-address allocation flag and retrieve addresses after binding.</p>
+
+<pre><code class="language-cpp">VkBufferDeviceAddressInfo addressInfo{
+    .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO,
+    .buffer = vertexBuffer
+};
+VkDeviceAddress vertexAddress =
+    vkGetBufferDeviceAddress(device, &amp;addressInfo);</code></pre>
+
+<p>The address is meaningful only while the bound resource and memory remain alive. Do not store it as a permanent asset identity or use a <a class="glossary-term" id="glossary-origin-27-0016" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0016&amp;lesson=27#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> pointer in its place.</p>
+
+<h2>Describe triangles to the BLAS builder</h2>
+
+<pre><code class="language-cpp">VkAccelerationStructureGeometryTrianglesDataKHR triangleData{
+    .sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_TRIANGLES_DATA_KHR,
+    .vertexFormat = VK_FORMAT_R32G32B32_SFLOAT,
+    .vertexData = {.deviceAddress = vertexAddress},
+    .vertexStride = sizeof(VertexGPU),
+    .maxVertex = vertexCount - 1,
+    .indexType = VK_INDEX_TYPE_UINT32,
+    .indexData = {.deviceAddress = indexAddress}
+};
+
+VkAccelerationStructureGeometryKHR geometry{
+    .sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR,
+    .geometryType = VK_GEOMETRY_TYPE_TRIANGLES_KHR,
+    .geometry = {.triangles = triangleData},
+    .flags = VK_GEOMETRY_OPAQUE_BIT_KHR
+};</code></pre>
+
+<p><a class="glossary-term" id="glossary-origin-27-0017" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0017&amp;lesson=27#term-opaque-geometry" aria-label="Look up opaque geometry in the graphics glossary" title="Look up opaque geometry in the graphics glossary">Opaque geometry</a> tells traversal that no <a class="glossary-term" id="glossary-origin-27-0018" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0018&amp;lesson=27#term-any-hit-shader" aria-label="Look up any-hit shader in the graphics glossary" title="Look up any-hit shader in the graphics glossary">any-hit shader</a> or candidate confirmation is required for opacity policy. Our triangle material is opaque, so this matches the <a class="glossary-term" id="glossary-origin-27-0019" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0019&amp;lesson=27#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a>. Do not use the flag for geometry whose alpha test is meant to reject <a class="glossary-term" id="glossary-origin-27-0020" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0020&amp;lesson=27#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersections</a>.</p>
+
+<h2>Query sizes before allocating the result</h2>
+<p>Fill a build-geometry info structure and call <code>vkGetAccelerationStructureBuildSizesKHR</code> with the primitive count. The returned sizes determine the acceleration-structure storage and scratch requirements. Create the result buffer with acceleration-structure-storage and shader-device-address use, then create the BLAS object over that buffer. Create a <a class="glossary-term" id="glossary-origin-27-0021" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0021&amp;lesson=27#term-scratch-buffer" aria-label="Look up scratch buffer in the graphics glossary" title="Look up scratch buffer in the graphics glossary">scratch buffer</a> with storage-buffer and shader-device-address use, respecting the device's reported scratch-address <a class="glossary-term" id="glossary-origin-27-0022" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0022&amp;lesson=27#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a>.</p>
+<p>The acceleration-structure object and its backing buffer are different lifetime responsibilities. Destroying the buffer while the BLAS remains in use invalidates the structure.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-27">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-27">How Geometry and Instances Become Traversal Data</h2>
+        <p>Bottom-level structures describe reusable geometry. The top-level structure describes where instances of that geometry are placed for traversal.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>A BLAS describes triangle geometry using device addresses and build ranges. A TLAS describes placed instances that reference those bottom-level structures and supply transforms, masks and application indices. Vulkan reports the storage and scratch requirements for each build. After the builds and their dependencies complete, a ray query can traverse the TLAS from a compute shader.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Retain the queried feature support, geometry descriptions, primitive counts, build sizes, scratch alignment and instance records. For selected rays, compare manual and ray-query miss or <a class="glossary-term" id="glossary-origin-27-0023" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0023&amp;lesson=27#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a>, distance, instance identity, <a class="glossary-term" id="glossary-origin-27-0024" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0024&amp;lesson=27#term-primitive-index" aria-label="Look up primitive index in the graphics glossary" title="Look up primitive index in the graphics glossary">primitive identity</a> and <a class="glossary-term" id="glossary-origin-27-0025" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0025&amp;lesson=27#term-barycentric-coordinates" aria-label="Look up barycentric coordinates in the graphics glossary" title="Look up barycentric coordinates in the graphics glossary">barycentric coordinates</a>. A completed build is preparation for that comparison, not a replacement for it.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>Two unique <a class="glossary-term" id="glossary-origin-27-0026" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0026&amp;lesson=27#term-mesh" aria-label="Look up mesh in the graphics glossary" title="Look up mesh in the graphics glossary">meshes</a> placed six times require two reusable BLAS objects and six <a class="glossary-term" id="glossary-origin-27-0027" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0027&amp;lesson=27#term-acceleration-structure-instance" aria-label="Look up acceleration-structure instance in the graphics glossary" title="Look up acceleration-structure instance in the graphics glossary">TLAS instance</a> records. Creating six BLAS copies would duplicate unchanged geometry. Creating only two TLAS records would lose four placements. Geometry and placement are related, but they are not the same count.</p>
+        <p class="vulkan-account-formula"><code>BLAS describes geometry; TLAS describes placed instances</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> A successful acceleration-structure build establishes that Vulkan accepted the supplied build description. It does not establish agreement with the manual tracer, and a triangle BLAS does not silently include analytic <a class="glossary-term" id="glossary-origin-27-0028" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0028&amp;lesson=27#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">spheres</a> that were never represented as triangles.</p>
+</section>
+
+<h2>Record the BLAS build</h2>
+
+<pre><code class="language-cpp">VkAccelerationStructureBuildRangeInfoKHR range{
+    .primitiveCount = triangleCount,
+    .primitiveOffset = 0,
+    .firstVertex = 0,
+    .transformOffset = 0
+};
+const VkAccelerationStructureBuildRangeInfoKHR* ranges[] = {&amp;range};
+
+buildInfo.mode = VK_BUILD_ACCELERATION_STRUCTURE_MODE_BUILD_KHR;
+buildInfo.dstAccelerationStructure = blas;
+buildInfo.scratchData.deviceAddress = scratchAddress;
+
+vkCmdBuildAccelerationStructuresKHR(
+    commandBuffer, 1, &amp;buildInfo, ranges);</code></pre>
+
+<p>The uploaded vertex and index writes must be visible to the acceleration-structure build stage before this command. If scratch storage is reused for a later build, make the earlier build's scratch writes available before reuse. A convenient <a class="glossary-term" id="glossary-origin-27-0029" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0029&amp;lesson=27#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a>-idle wait can prove an early prototype but should be replaced with a dependency that names the actual stages and accesses.</p>
+
+<h2>Make the TLAS contain instances</h2>
+<p>Obtain the BLAS device address with <code>vkGetAccelerationStructureDeviceAddressKHR</code>. Fill one or more <code>VkAccelerationStructureInstanceKHR</code> records. Each contains a 3-by-4 transform, a 24-bit custom index, an eight-bit visibility mask, a shader-binding-table record offset, flags and the referenced BLAS address.</p>
+
+<pre><code class="language-cpp">VkAccelerationStructureInstanceKHR instance{};
+instance.transform = objectToWorld3x4;
+instance.instanceCustomIndex = materialBase;
+instance.mask = 0xff;
+instance.instanceShaderBindingTableRecordOffset = 0;
+instance.flags = VK_GEOMETRY_INSTANCE_TRIANGLE_FACING_CULL_DISABLE_BIT_KHR;
+instance.accelerationStructureReference = blasAddress;</code></pre>
+
+<p>Upload the instance array to a device-addressable build-input buffer. Describe that address as <code>VK_GEOMETRY_TYPE_INSTANCES_KHR</code>, query TLAS sizes, allocate its result and scratch storage, create the TLAS and record its build. Establish a build-to-build dependency when the TLAS consumes a BLAS produced earlier in the command sequence.</p>
+
+<div class="worked-trace">
+<h3>Separate geometry from placement</h3>
+<p>One BLAS contains 200 triangles. Three TLAS instances refer to it with different transforms. The BLAS still contains 200 primitive records, while the TLAS contains three instance records. Moving one object changes an <a class="glossary-term" id="glossary-origin-27-0030" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0030&amp;lesson=27#term-instance-transform" aria-label="Look up instance transform in the graphics glossary" title="Look up instance transform in the graphics glossary">instance transform</a> and requires an appropriate TLAS update or rebuild; it does not require uploading three copies of the triangle vertices.</p>
+</div>
+
+<h2>Bind the TLAS as a <a class="glossary-term" id="glossary-origin-27-0031" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0031&amp;lesson=27#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a></h2>
+<p>Add a descriptor-set-layout binding of type <code>VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR</code> visible to the compute stage. The descriptor write uses <code>VkWriteDescriptorSetAccelerationStructureKHR</code> in the <code>pNext</code> chain of <code>VkWriteDescriptorSet</code>. Recreate the <a class="glossary-term" id="glossary-origin-27-0032" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0032&amp;lesson=27#term-pipeline-layout" aria-label="Look up pipeline layout in the graphics glossary" title="Look up pipeline layout in the graphics glossary">pipeline layout</a> and <a class="glossary-term" id="glossary-origin-27-0033" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0033&amp;lesson=27#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> if their set layout changed.</p>
+
+<h2>Ask a ray query from <a class="glossary-term" id="glossary-origin-27-0034" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0034&amp;lesson=27#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a></h2>
+
+<pre><code class="language-glsl">#extension GL_EXT_ray_query : require
+
+layout(set = 0, binding = 8) uniform accelerationStructureEXT topLevel;
+
+TriangleAnswer queryTriangles(Ray ray, float tMin, float tMax) {
+    rayQueryEXT query;
+    rayQueryInitializeEXT(
+        query,
+        topLevel,
+        gl_RayFlagsOpaqueEXT,
+        0xff,
+        ray.origin,
+        tMin,
+        ray.direction,
+        tMax);
+
+    while (rayQueryProceedEXT(query)) {
+        // Opaque triangles require no application confirmation here.
+    }
+
+    TriangleAnswer answer = noTriangleAnswer();
+    if (rayQueryGetIntersectionTypeEXT(query, true) != gl_RayQueryCommittedIntersectionNoneEXT) {
+        answer.found = true;
+        answer.t = rayQueryGetIntersectionTEXT(query, true);
+        answer.instanceIndex = rayQueryGetIntersectionInstanceCustomIndexEXT(query, true);
+        answer.primitiveIndex = rayQueryGetIntersectionPrimitiveIndexEXT(query, true);
+        vec2 bary = rayQueryGetIntersectionBarycentricsEXT(query, true);
+        answer.barycentric = vec3(1.0 - bary.x - bary.y, bary);
+    }
+    return answer;
+}</code></pre>
+
+<p>The <code>true</code> argument asks for the <a class="glossary-term" id="glossary-origin-27-0035" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0035&amp;lesson=27#term-committed-intersection" aria-label="Look up committed intersection in the graphics glossary" title="Look up committed intersection in the graphics glossary">committed intersection</a> after traversal. The query's minimum and maximum retain exactly the bounded meanings used by the manual functions. For a <a class="glossary-term" id="glossary-origin-27-0036" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0036&amp;lesson=27#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a>, use the light-distance maximum and stop according to an opaque any-hit policy; for a closest <a class="glossary-term" id="glossary-origin-27-0037" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0037&amp;lesson=27#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a>, inspect the committed answer.</p>
+
+<h2>Compare before replacing</h2>
+<p>Run the manual triangle loop and ray-query route on the same selected rays. Compare miss/hit, distance, instance identity, primitive identity and barycentric weights. Allow a stated <a class="glossary-term" id="glossary-origin-27-0038" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0038&amp;lesson=27#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> tolerance, especially at shared <a class="glossary-term" id="glossary-origin-27-0039" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0039&amp;lesson=27#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edges</a>, but do not accept a merely similar <a class="glossary-term" id="glossary-origin-27-0040" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0040&amp;lesson=27#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a>. Edge ownership can differ under precise intersection rules; classify those cases rather than hiding them in a large global tolerance.</p>
+<p>Keep spheres in the manual route for now or tessellate them deliberately before building. A triangle BLAS does not absorb analytic sphere equations automatically. The hardware route must state which geometry it actually represents.</p>
+
+<div class="checkpoint">
+<h3>Move one of four instances</h3>
+<p>Four TLAS instances refer to the same unchanged BLAS. One instance transform changes. Which structure contains the changed placement?</p>
+<div class="worked-answer"><h4>The answer</h4><p>The TLAS contains the instance transform, so its instance data and corresponding TLAS update or rebuild are affected. The shared BLAS geometry remains unchanged because its vertex and index data did not move in object space.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/accelstructures.html">acceleration-structure chapter</a> defines build inputs and lifetimes, while the <a href="https://docs.vulkan.org/spec/latest/chapters/raytraversal.html">ray-traversal chapter</a> defines ray-query behaviour.</p>
+
+<section class="transfer-task">
+<h2>Build an agreement table</h2>
+<p>Select at least twenty rays: clear misses, central hits, edge hits, overlapping instances and bounded shadow rays. Record the manual and ray-query hit flags, distances, primitive indices and barycentric weights. Classify every disagreement. Then change one instance transform, rebuild or update the TLAS as your chosen flags permit, and repeat only the affected cases. Keep this table as a regression test rather than deleting the manual route after the first matching picture.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry the same TLAS into a <a class="glossary-term" id="glossary-origin-27-0041" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0041&amp;lesson=27#term-ray-tracing-pipeline" aria-label="Look up ray tracing pipeline in the graphics glossary" title="Look up ray tracing pipeline in the graphics glossary">ray tracing pipeline</a></h2>
+<p>Retain the BLAS, TLAS, instance identities and agreement tests. Lesson 28 will bind the TLAS to dedicated ray-generation, miss and <a class="glossary-term" id="glossary-origin-27-0042" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0042&amp;lesson=27#term-closest-hit-shader" aria-label="Look up closest-hit shader in the graphics glossary" title="Look up closest-hit shader in the graphics glossary">closest-hit shader</a> stages. The acceleration structures do not change merely because traversal is launched with <code>vkCmdTraceRaysKHR</code> rather than from a compute <a class="glossary-term" id="glossary-origin-27-0043" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0043&amp;lesson=27#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a>.</p>
+</section>
+
+<p>Hardware traversal is now an audited implementation of the same interval question, not a black box substituted for understanding. The BLAS organises triangle geometry, the TLAS organises placed instances, and the ray query returns evidence that can be compared with the manual tracer. One final Vulkan route remains: make rays a pipeline operation with dedicated <a class="glossary-term" id="glossary-origin-27-0044" href="glossary.html?from=lesson-27.html%23glossary-origin-27-0044&amp;lesson=27#term-shader-stage" aria-label="Look up shader stage in the graphics glossary" title="Look up shader stage in the graphics glossary">shader stages</a>.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-26.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">26. Accumulate Samples Without Losing the Average</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-28.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">28. The Ray Tracing Pipeline and the Complete Renderer</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

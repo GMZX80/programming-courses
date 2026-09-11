@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#03100d">
+  <title>Lessons · Static Carnival</title>
+  <meta name="description" content="Programming and graphics courses by Graham Morgan. Understand program state and memory in C++, then construct a ray tracer and take the same ideas into Vulkan.">
+  <link rel="canonical" href="https://GMZX80.github.io/programming-courses/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lessons · Static Carnival">
+  <meta property="og:description" content="C++ Programming and Graphics Programming. Follow the computation, from memory to the image.">
+  <meta property="og:url" content="https://GMZX80.github.io/programming-courses/">
+  <link rel="icon" type="image/svg+xml" href="assets/mark.svg">
+  <link rel="stylesheet" href="assets/portal.css">
+</head>
+<body>
+  <a class="skip-link" href="#courses">Skip to courses</a>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Static Carnival lessons home">
+        <img src="assets/mark.svg" width="40" height="40" alt="">
+        <span>Static Carnival<span class="brand-subtitle">Lessons</span></span>
+      </a>
+      <span class="header-credit">Courses by Graham Morgan</span>
+    </header>
+    <main>
+      <section class="introduction" aria-labelledby="page-title">
+        <div class="intro-heading">
+          <p class="eyebrow"><span class="small-rule" aria-hidden="true"></span>Programming &amp; graphics</p>
+          <h1 id="page-title">Understand what the<br class="wide-break"> computer is <em>doing.</em></h1>
+        </div>
+        <div class="intro-copy">
+          <p>Writing the code is only part of the work. Where is the data? What changes when an instruction runs? Why does a pixel have that colour?</p>
+          <p>These courses follow the computation closely enough to answer those questions.</p>
+        </div>
+      </section>
+      <section class="course-section" id="courses" aria-labelledby="courses-title">
+        <div class="section-heading">
+          <h2 id="courses-title">Choose a course</h2>
+          <span>Read. Build. Inspect.</span>
+        </div>
+        <div class="course-grid">
+          <a class="course-card programming-card" href="cpp-programming/index.html" aria-labelledby="programming-title programming-link">
+            <div class="course-visual memory-visual" aria-hidden="true">
+              <div class="visual-topline"><span>01 / PROGRAMMING</span><span class="visual-symbol">C++</span></div>
+              <div class="memory-diagram">
+                <div class="memory-row"><span class="memory-label">before</span><div class="bits"><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span class="bit-change">0</span></div><span class="decimal">42</span></div>
+                <div class="instruction"><span class="instruction-line"></span><code>++value;</code><span class="instruction-line"></span></div>
+                <div class="memory-row"><span class="memory-label">after</span><div class="bits"><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span class="bit-change changed">1</span></div><span class="decimal">43</span></div>
+              </div>
+              <div class="visual-caption"><span class="status-dot"></span>One instruction. A change in state.</div>
+            </div>
+            <div class="course-copy">
+              <div class="course-meta"><span>24 lessons</span><span>Language &amp; memory</span></div>
+              <h3 id="programming-title">C++ Programming</h3>
+              <p>Follow the running program from variables and control flow to objects, ownership and templates. Examine how data is represented, who may change it and how long it remains valid.</p>
+              <div class="course-topics"><span>Program state</span><span>Memory</span><span>Ownership</span></div>
+              <div class="course-link"><span id="programming-link">Explore C++ Programming</span><span class="link-arrow" aria-hidden="true">↗</span></div>
+            </div>
+          </a>
+          <a class="course-card graphics-card" href="graphics-programming/index.html" aria-labelledby="graphics-title graphics-link">
+            <div class="course-visual ray-visual" aria-hidden="true">
+              <div class="visual-topline"><span>02 / GRAPHICS</span><span class="visual-symbol">RT</span></div>
+              <svg class="ray-diagram" viewBox="0 0 520 180" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#78f0b2" stroke-opacity=".08"/></pattern>
+                  <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="none" stroke="#f5b84b" stroke-width="1.2"/></marker>
+                </defs>
+                <path fill="url(#grid)" d="M0 0h520v180H0z"/>
+                <circle cx="360" cy="99" r="68" fill="#78f0b2" fill-opacity=".035" stroke="#78f0b2" stroke-width="1.5"/>
+                <ellipse cx="360" cy="99" rx="30" ry="68" fill="none" stroke="#78f0b2" stroke-opacity=".3"/>
+                <ellipse cx="360" cy="99" rx="68" ry="21" fill="none" stroke="#78f0b2" stroke-opacity=".3" transform="rotate(-18 360 99)"/>
+                <path d="M53 129L295 79" stroke="#f5b84b" stroke-width="2" marker-end="url(#arrow)"/>
+                <path d="M295 79L360 99" stroke="#78f0b2" stroke-opacity=".5" stroke-dasharray="4 5"/>
+                <circle cx="53" cy="129" r="5" fill="#f5b84b"/>
+                <circle cx="295" cy="79" r="5" fill="#f3eddf"/>
+                <circle cx="295" cy="79" r="12" fill="none" stroke="#f3eddf" stroke-opacity=".3"/>
+                <text x="39" y="158" fill="#c6d5cf">origin</text>
+                <text x="155" y="91" fill="#f5b84b">ray</text>
+                <text x="265" y="54" fill="#f3eddf">first hit</text>
+              </svg>
+              <div class="visual-caption"><span class="status-dot"></span>Trace the ray. Explain the pixel.</div>
+            </div>
+            <div class="course-copy">
+              <div class="course-meta"><span>28 lessons</span><span>Ray tracing &amp; Vulkan</span></div>
+              <h3 id="graphics-title">Graphics Programming</h3>
+              <p>Construct a ray tracer by hand, from the camera to intersections, lighting and sampling. Then take that understanding into Vulkan and make the GPU’s work explicit.</p>
+              <div class="course-topics"><span>14 ray-tracing lessons</span><span>14 Vulkan lessons</span></div>
+              <div class="course-link"><span id="graphics-link">Explore Graphics Programming</span><span class="link-arrow" aria-hidden="true">↗</span></div>
+            </div>
+          </a>
+        </div>
+      </section>
+      <aside class="starting-note" aria-label="Where to begin">
+        <span class="note-mark" aria-hidden="true">↳</span>
+        <p><strong>New to programming?</strong> Begin with C++. If you are comfortable with variables, functions and program state, start exploring how those ideas produce an image.</p>
+      </aside>
+      <!-- github-mirror:movie-link:start -->
+      <aside class="starting-note" aria-label="Lesson 1 movie"><span class="note-mark" aria-hidden="true">↳</span><p><strong>Lesson 1 movie.</strong> <a href="cpp-programming/lesson-01-movie.html">Watch the corrected full lecture</a> — 52:20, 46 slides and levelled sound.</p></aside>
+      <!-- github-mirror:movie-link:end -->
+    </main>
+    <footer class="site-footer"><span>Static Carnival <span aria-hidden="true">/</span> Graham Morgan</span><span>Programming, from the inside out. · <a href="hosting.html">Hosting and privacy</a></span></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Compute local illumination from the directions that meet at a surface point.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 07 - Light Is Another Direction</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="07" data-ray-stage="7" data-art-pattern="flow">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 07 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html" aria-current="page"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 07</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">7. Light Is Another Direction</h1>
+            <p class="lesson-deck">Compute local illumination from the directions that meet at a surface point.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-06.html">&larr; Lesson 06</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-08.html">Lesson 08 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>24 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-07-alignment" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-alignment&amp;lesson=07#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> <a class="glossary-chip" id="glossary-panel-origin-07-camera" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-camera&amp;lesson=07#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-07-coordinate-space" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-coordinate-space&amp;lesson=07#term-coordinate-space" aria-label="Look up coordinate space in the graphics glossary" title="Look up coordinate space in the graphics glossary">coordinate space</a> <a class="glossary-chip" id="glossary-panel-origin-07-diffuse" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-diffuse&amp;lesson=07#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> <a class="glossary-chip" id="glossary-panel-origin-07-direction" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-direction&amp;lesson=07#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-07-dot-product" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-dot-product&amp;lesson=07#term-dot-product" aria-label="Look up dot product in the graphics glossary" title="Look up dot product in the graphics glossary">dot product</a> <a class="glossary-chip" id="glossary-panel-origin-07-half-vector" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-half-vector&amp;lesson=07#term-half-vector" aria-label="Look up half vector in the graphics glossary" title="Look up half vector in the graphics glossary">half vector</a> <a class="glossary-chip" id="glossary-panel-origin-07-hit" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-hit&amp;lesson=07#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-07-invocation" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-invocation&amp;lesson=07#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-07-lambertian" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-lambertian&amp;lesson=07#term-lambertian" aria-label="Look up Lambertian in the graphics glossary" title="Look up Lambertian in the graphics glossary">Lambertian</a> <a class="glossary-chip" id="glossary-panel-origin-07-material" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-material&amp;lesson=07#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-07-normalise" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-normalise&amp;lesson=07#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-07-pixel" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-pixel&amp;lesson=07#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-07-point" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-point&amp;lesson=07#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-07-point-light" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-point-light&amp;lesson=07#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a> <a class="glossary-chip" id="glossary-panel-origin-07-primary-ray" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-primary-ray&amp;lesson=07#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-07-radiance" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-radiance&amp;lesson=07#term-radiance" aria-label="Look up radiance in the graphics glossary" title="Look up radiance in the graphics glossary">radiance</a> <a class="glossary-chip" id="glossary-panel-origin-07-reflection" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-reflection&amp;lesson=07#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-07-scene" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-scene&amp;lesson=07#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-07-shadow-ray" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-shadow-ray&amp;lesson=07#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> <a class="glossary-chip" id="glossary-panel-origin-07-specular" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-specular&amp;lesson=07#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> <a class="glossary-chip" id="glossary-panel-origin-07-sphere" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-sphere&amp;lesson=07#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-07-surface-normal" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-surface-normal&amp;lesson=07#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-07-vector" href="glossary.html?from=lesson-07.html%23glossary-panel-origin-07-vector&amp;lesson=07#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A surface does not become bright merely because a light exists somewhere in the <a class="glossary-term" id="glossary-origin-07-0001" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0001&amp;lesson=07#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a>. The light has a <a class="glossary-term" id="glossary-origin-07-0002" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0002&amp;lesson=07#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> and distance from the <a class="glossary-term" id="glossary-origin-07-0003" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0003&amp;lesson=07#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-term" id="glossary-origin-07-0004" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0004&amp;lesson=07#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a>; the surface has a <a class="glossary-term" id="glossary-origin-07-0005" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0005&amp;lesson=07#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a>; the <a class="glossary-term" id="glossary-origin-07-0006" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0006&amp;lesson=07#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> supplies a viewing direction. Local illumination is a calculation over those relationships. We shall use a deliberately compact point-light model so each term can be inspected before more complete light transport is attempted.</p>
+<p>The model is not a claim that real surfaces consist of one <a class="glossary-term" id="glossary-origin-07-0007" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0007&amp;lesson=07#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> term and one artificial highlight. It is a teaching instrument. It lets us separate broad orientation-dependent response from a narrower view-dependent response, then prepares the same directions used by shadow, <a class="glossary-term" id="glossary-origin-07-0008" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0008&amp;lesson=07#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> and transmission rays.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Construct unit light and view directions at a hit point.</li>
+<li>Calculate a clamped <a class="glossary-term" id="glossary-origin-07-0009" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0009&amp;lesson=07#term-lambertian" aria-label="Look up Lambertian in the graphics glossary" title="Look up Lambertian in the graphics glossary">Lambertian diffuse</a> term and a half-<a class="glossary-term" id="glossary-origin-07-0010" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0010&amp;lesson=07#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> <a class="glossary-term" id="glossary-origin-07-0011" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0011&amp;lesson=07#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> term.</li>
+<li>Explain what a locally lit <a class="glossary-term" id="glossary-origin-07-0012" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0012&amp;lesson=07#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> proves and why it does not yet prove that the light is visible.</li>
+</ul>
+</section>
+
+<h2>Construct the directions at the surface</h2>
+<p>Let <code>P</code> be the hit position and <code>Lpos</code> the point-light position. The displacement to the light gives both distance and direction. These must be obtained before <a class="glossary-term" id="glossary-origin-07-0013" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0013&amp;lesson=07#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalisation</a> because normalisation deliberately removes the magnitude.</p>
+
+<pre><code class="language-js">const toLight = subtract(light.position, hit.position);
+const lightDistance = length(toLight);
+const L = scale(toLight, 1 / lightDistance);
+const V = normalise(scale(ray.direction, -1));
+const N = hit.normal;
+</code></pre>
+
+<p><code>V</code> points from the surface back towards the <a class="glossary-term" id="glossary-origin-07-0014" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0014&amp;lesson=07#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">camera ray</a> origin. <code>N</code> already opposes the incoming ray because Lesson 6 oriented the record. <code>L</code> points from the surface to the light. Giving all three names prevents a common error in which a vector points in the opposite direction from the formula that consumes it.</p>
+
+<h2>Diffuse response measures projected orientation</h2>
+<p>An ideal Lambertian diffuse term is proportional to the cosine between the normal and light direction. For unit vectors that cosine is their <a class="glossary-term" id="glossary-origin-07-0015" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0015&amp;lesson=07#term-dot-product" aria-label="Look up dot product in the graphics glossary" title="Look up dot product in the graphics glossary">dot product</a>. Negative values mean the light lies behind the oriented surface and must not subtract colour, so the value is clamped to zero.</p>
+<p class="equation">diffuse = max(0, N · L)</p>
+
+<pre><code class="language-js">const diffuse = Math.max(0, dot(N, L));
+const diffuseColour = scale(hit.material.albedo, diffuse);
+</code></pre>
+
+<p>When the light is directly along the normal, the term is one. At a grazing angle it approaches zero. This produces the smooth variation that made the unlit <a class="glossary-term" id="glossary-origin-07-0016" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0016&amp;lesson=07#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> appear flat in Lesson 4. The gradient is not painted onto the circle. It comes from a different surface normal at each hit position.</p>
+
+<h2>A compact specular term uses the viewer</h2>
+<p>Diffuse appearance in this ideal model does not depend on the view direction. A specular highlight does. We shall use the normalised <a class="glossary-term" id="glossary-origin-07-0017" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0017&amp;lesson=07#term-half-vector" aria-label="Look up half vector in the graphics glossary" title="Look up half vector in the graphics glossary">half vector</a> between <code>L</code> and <code>V</code>, then raise its <a class="glossary-term" id="glossary-origin-07-0018" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0018&amp;lesson=07#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> with the normal to a <a class="glossary-term" id="glossary-origin-07-0019" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0019&amp;lesson=07#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> exponent.</p>
+<p class="equation">H = normalise(L + V)</p>
+<p class="equation">specular = max(0, N · H)<sup>shininess</sup></p>
+
+<pre><code class="language-js">const H = normalise(add(L, V));
+const specular = Math.pow(
+    Math.max(0, dot(N, H)),
+    hit.material.shininess
+) * hit.material.specular;
+</code></pre>
+
+<p>A larger exponent narrows the highlight around strong alignment. It does not make a material physically correct merely by looking glossy. The value is a parameter in this local model. Its purpose here is to make the view-light-normal relationship visible and to distinguish a broad diffuse response from a concentrated one.</p>
+
+<section class="ray-lab concept-lab stage-07-lab" data-ray-lab data-stage="7" aria-labelledby="ray-lab-title-07">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Local-lighting laboratory</p><h2 id="ray-lab-title-07">Separate Diffuse from Specular</h2></div>
+        <p>Move the light to change its direction, then change the exponent separately and account for the diffuse and specular calculations at one surface point.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Move the light to change L and the dot products. Change only the exponent to alter the final specular term while N · H stays fixed.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 7 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Local-lighting image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Shaded scene</strong><small>The same geometry shaded after moving the light or changing the specular exponent.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">The same geometry shaded after moving the light or changing the specular exponent.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Lighting-direction diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>One surface point</strong><small>The normal, light, view and half directions used at one diagnostic surface point.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">The normal, light, view and half directions used at one diagnostic surface point.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Unit light direction L</dt><dd><output data-light-direction>Calculating</output></dd></div><div><dt>Diffuse N · L</dt><dd><output data-light-diffuse>Calculating</output></dd></div><div><dt>Specular N · H</dt><dd><output data-light-half>Calculating</output></dd></div><div><dt>Specular term</dt><dd><output data-light-specular>Calculating</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-light-diffuse-formula>diffuse = max(0, N · L)</code></p><p><code data-light-specular-formula>specular = max(0, N · H)^s</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Distance is another part of the question</h2>
+<p>The light displacement had a length before we normalised it. A point source's irradiance falls with the square of distance in an unobstructed setting, so a simple attenuation uses <code>intensity / distance²</code>. Our laboratory clamps the result to keep a small teaching scene displayable when the light moves close to a surface.</p>
+
+<pre><code class="language-js">const attenuation = Math.min(
+    1.45,
+    light.intensity / (lightDistance * lightDistance)
+);
+
+const direct = add(
+    scale(diffuseColour, attenuation),
+    scale(light.colour, specular * attenuation)
+);
+</code></pre>
+
+<p>The clamp is an explicit display policy, not part of the inverse-square relationship. A more complete renderer would define units, exposure, source extent and a tone-mapping process rather than protecting the display at this point. We keep the compromise visible because unlabelled convenience quickly becomes false theory.</p>
+
+<div class="worked-trace">
+<h3>Compare three orientations</h3>
+<p>If <code>N · L = 1</code>, the diffuse factor is one. If the angle is 60 degrees, the factor is 0.5. If the light direction lies behind the surface and the dot product is -0.3, clamping gives zero. The last surface receives no direct diffuse contribution from this light under the model. It must not become negative or borrow light from the other side of the normal.</p>
+</div>
+
+<h2>The missing visibility test</h2>
+<p>Move the <a class="glossary-term" id="glossary-origin-07-0020" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0020&amp;lesson=07#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a> in the laboratory. The diffuse response moves and the highlight changes. Now place another sphere between the hit and the light. The current calculation still illuminates the surface because it considers direction and distance but never asks whether that route is blocked.</p>
+<p>This is the tempting success to challenge. A correctly shaped highlight demonstrates that several vectors and dot products are plausible. It does not demonstrate light visibility. Local illumination without a shadow query behaves as though every point light can see through every object. Lesson 8 repairs exactly that missing criterion with another ray.</p>
+
+<div class="checkpoint">
+<h3>Do the directional test</h3>
+<p><code>N = (0, 1, 0)</code>. One unit light direction is <code>(0, 1, 0)</code>; another is <code>(1, 0, 0)</code>; a third is <code>(0, -1, 0)</code>. What diffuse factor does each produce?</p>
+<details class="reveal-answer"><summary>Reveal the calculation</summary><div><p>The dot products are 1, 0 and -1. After clamping, the diffuse factors are 1, 0 and 0. The perpendicular light is at a grazing angle; the final light lies behind the oriented surface.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Separate the terms</h2>
+<p>Add diagnostic modes that display diffuse response alone, specular response alone and their combination. Move the light and camera separately. Identify one change that affects both terms and one that affects only the specular term in this model. Record the vectors and dot products for the centre of one sphere rather than relying on the picture.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>The dot products and half vector map directly to shader operations. Vulkan will require us to decide where camera, light and material data live and how shader <a class="glossary-term" id="glossary-origin-07-0021" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0021&amp;lesson=07#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocations</a> read them. Before those resource decisions, the values must agree on <a class="glossary-term" id="glossary-origin-07-0022" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0022&amp;lesson=07#term-coordinate-space" aria-label="Look up coordinate space in the graphics glossary" title="Look up coordinate space in the graphics glossary">coordinate space</a> and direction convention. A fast dot product between unrelated spaces remains wrong.</p>
+</section>
+
+<p>We can calculate how a visible light would affect a surface, but we have not established that it is visible. Lesson 8 sends a bounded <a class="glossary-term" id="glossary-origin-07-0023" href="glossary.html?from=lesson-07.html%23glossary-origin-07-0023&amp;lesson=07#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> from the hit point towards the light and confronts the zero-distance surface from which that ray begins.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-06.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">06. Normals and Surface Materials</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-08.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">08. Shadows and the Problem of Zero</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

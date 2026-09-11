@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creating program traces based on conditions">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 12 - 12. The IF Statement</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-12.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 12 - 12. The IF Statement">
+    <meta property="og:description" content="Creating program traces based on conditions">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-12.html">
+</head>
+<body class="course-page lesson-page" data-lesson="12" data-art-pattern="branch" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 12 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html" aria-current="page"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 12</span>
+            </nav>
+            <p class="hero-kicker">Lesson 12 · 24 lesson course</p>
+            <h1 id="lesson-title">12. The IF Statement</h1>
+            <p class="lesson-deck">Creating program traces based on conditions</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-11.html">← Lesson 11</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-13.html">Lesson 13 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>59 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-12-abstraction" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-abstraction&amp;lesson=12#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> <a class="glossary-chip" id="glossary-panel-origin-12-assignment" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-assignment&amp;lesson=12#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-12-block" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-block&amp;lesson=12#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-12-boolean" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-boolean&amp;lesson=12#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-12-branch" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-branch&amp;lesson=12#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branch</a> <a class="glossary-chip" id="glossary-panel-origin-12-bug" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-bug&amp;lesson=12#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-12-cpp" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-cpp&amp;lesson=12#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-12-cache" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-cache&amp;lesson=12#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> <a class="glossary-chip" id="glossary-panel-origin-12-cache-locality" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-cache-locality&amp;lesson=12#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">cache locality</a> <a class="glossary-chip" id="glossary-panel-origin-12-class" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-class&amp;lesson=12#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-12-code" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-code&amp;lesson=12#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-12-compile-time" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-compile-time&amp;lesson=12#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-12-compiler" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-compiler&amp;lesson=12#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-12-compiler-optimisation" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-compiler-optimisation&amp;lesson=12#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">compiler optimisation</a> <a class="glossary-chip" id="glossary-panel-origin-12-complexity" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-complexity&amp;lesson=12#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a> <a class="glossary-chip" id="glossary-panel-origin-12-condition" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-condition&amp;lesson=12#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-12-control-flow" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-control-flow&amp;lesson=12#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a> <a class="glossary-chip" id="glossary-panel-origin-12-conversion" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-conversion&amp;lesson=12#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-12-declaration" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-declaration&amp;lesson=12#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-12-definition" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-definition&amp;lesson=12#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-12-dereference-operator" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-dereference-operator&amp;lesson=12#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereference operator</a> <a class="glossary-chip" id="glossary-panel-origin-12-deterministic-algorithm" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-deterministic-algorithm&amp;lesson=12#term-deterministic-algorithm" aria-label="Look up deterministic algorithm in the programming glossary" title="Look up deterministic algorithm in the programming glossary">deterministic algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-12-dispatch" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-dispatch&amp;lesson=12#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-12-do-while-loop" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-do-while-loop&amp;lesson=12#term-do-while-loop" aria-label="Look up do-while loop in the programming glossary" title="Look up do-while loop in the programming glossary">do-while loop</a> <a class="glossary-chip" id="glossary-panel-origin-12-enumeration" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-enumeration&amp;lesson=12#term-enumeration" aria-label="Look up enumeration in the programming glossary" title="Look up enumeration in the programming glossary">enumeration</a> <a class="glossary-chip" id="glossary-panel-origin-12-evaluation-order" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-evaluation-order&amp;lesson=12#term-evaluation-order" aria-label="Look up evaluation order in the programming glossary" title="Look up evaluation order in the programming glossary">evaluation order</a> <a class="glossary-chip" id="glossary-panel-origin-12-expression" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-expression&amp;lesson=12#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-12-final-specifier" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-final-specifier&amp;lesson=12#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-12-for-loop" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-for-loop&amp;lesson=12#term-for-loop" aria-label="Look up for loop in the programming glossary" title="Look up for loop in the programming glossary">for loop</a> <a class="glossary-chip" id="glossary-panel-origin-12-function" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-function&amp;lesson=12#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-12-function-call" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-function-call&amp;lesson=12#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function call</a> <a class="glossary-chip" id="glossary-panel-origin-12-guard-clause" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-guard-clause&amp;lesson=12#term-guard-clause" aria-label="Look up guard clause in the programming glossary" title="Look up guard clause in the programming glossary">guard clause</a> <a class="glossary-chip" id="glossary-panel-origin-12-if-statement" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-if-statement&amp;lesson=12#term-if-statement" aria-label="Look up if statement in the programming glossary" title="Look up if statement in the programming glossary">if statement</a> <a class="glossary-chip" id="glossary-panel-origin-12-include-directive" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-include-directive&amp;lesson=12#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-12-input-output" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-input-output&amp;lesson=12#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">input/output</a> <a class="glossary-chip" id="glossary-panel-origin-12-integer" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-integer&amp;lesson=12#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-12-lhs-rhs" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-lhs-rhs&amp;lesson=12#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">LHS and RHS</a> <a class="glossary-chip" id="glossary-panel-origin-12-lookup-table" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-lookup-table&amp;lesson=12#term-lookup-table" aria-label="Look up lookup table in the programming glossary" title="Look up lookup table in the programming glossary">lookup table</a> <a class="glossary-chip" id="glossary-panel-origin-12-loop" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-loop&amp;lesson=12#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-12-main-function" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-main-function&amp;lesson=12#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-12-null-pointer" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-null-pointer&amp;lesson=12#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> <a class="glossary-chip" id="glossary-panel-origin-12-object" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-object&amp;lesson=12#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-12-operator" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-operator&amp;lesson=12#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-12-ownership" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-ownership&amp;lesson=12#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-12-pointer" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-pointer&amp;lesson=12#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-12-polymorphism" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-polymorphism&amp;lesson=12#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">polymorphism</a> <a class="glossary-chip" id="glossary-panel-origin-12-precondition" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-precondition&amp;lesson=12#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> <a class="glossary-chip" id="glossary-panel-origin-12-program" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-program&amp;lesson=12#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-12-return-value" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-return-value&amp;lesson=12#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-12-runtime" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-runtime&amp;lesson=12#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-12-short-circuit-evaluation" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-short-circuit-evaluation&amp;lesson=12#term-short-circuit-evaluation" aria-label="Look up short-circuit evaluation in the programming glossary" title="Look up short-circuit evaluation in the programming glossary">short-circuit evaluation</a> <a class="glossary-chip" id="glossary-panel-origin-12-side-effect" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-side-effect&amp;lesson=12#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side effect</a> <a class="glossary-chip" id="glossary-panel-origin-12-state" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-state&amp;lesson=12#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-12-string" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-string&amp;lesson=12#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-12-switch-statement" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-switch-statement&amp;lesson=12#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch statement</a> <a class="glossary-chip" id="glossary-panel-origin-12-test-case" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-test-case&amp;lesson=12#term-test-case" aria-label="Look up test case in the programming glossary" title="Look up test case in the programming glossary">test case</a> <a class="glossary-chip" id="glossary-panel-origin-12-testing" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-testing&amp;lesson=12#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-12-type" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-type&amp;lesson=12#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-12-value" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-value&amp;lesson=12#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="12">
+<img src="assets/images/lesson-art/lesson-12-if-statement.png" alt="Abstract execution path reaching a condition and branching into two possible outcomes." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p style="text-align: left;">&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-12-0001" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0001&amp;lesson=12#term-if-statement" aria-label="Look up if statement in the programming glossary" title="Look up if statement in the programming glossary">If Statements</a>, Determinism &amp; Safer <a class="glossary-term" id="glossary-origin-12-0002" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0002&amp;lesson=12#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">Control Flow</a> (<a class="glossary-term" id="glossary-origin-12-0003" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0003&amp;lesson=12#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+
+<p>
+<a class="glossary-term" id="glossary-origin-12-0004" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0004&amp;lesson=12#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">Program</a> flow in <a class="glossary-term" id="glossary-origin-12-0005" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0005&amp;lesson=12#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiled</a> languages is implemented with <strong>conditional jumps</strong>. <a class="glossary-term" id="glossary-origin-12-0006" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0006&amp;lesson=12#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">Loops</a> encode predictable jumps
+(reiterate to the top or fall through after the loop), which compilers can often <a class="glossary-term" id="glossary-origin-12-0007" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0007&amp;lesson=12#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">optimise</a> for <a class="glossary-term" id="glossary-origin-12-0008" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0008&amp;lesson=12#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">memory locality</a> and <a class="glossary-term" id="glossary-origin-12-0009" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0009&amp;lesson=12#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a>
+friendliness. <strong><a class="glossary-term" id="glossary-origin-12-0010" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0010&amp;lesson=12#term-for-loop" aria-label="Look up for loop in the programming glossary" title="Look up for loop in the programming glossary">For-loops</a></strong> are typically more <a class="glossary-term" id="glossary-origin-12-0011" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0011&amp;lesson=12#term-deterministic-algorithm" aria-label="Look up deterministic algorithm in the programming glossary" title="Look up deterministic algorithm in the programming glossary">deterministic</a> than <code>while</code>/<code>do-while</code>, so optimisers have an easier job.
+Still, some <a class="glossary-term" id="glossary-origin-12-0012" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0012&amp;lesson=12#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branching</a> can only be decided at <em><a class="glossary-term" id="glossary-origin-12-0013" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0013&amp;lesson=12#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a></em> — and that’s where <strong><code>if</code> statements</strong> enter the picture.
+</p>
+
+<p>
+But <code>if</code> is also the most <em>abused</em> construct in many codebases. Every <code>if</code> doubles the number of potential execution
+paths (traces), and subsequent <a class="glossary-term" id="glossary-origin-12-0014" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0014&amp;lesson=12#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> changes multiply those paths further — a <strong>state explosion</strong> that makes programs hard
+to reason about and <a class="glossary-term" id="glossary-origin-12-0015" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0015&amp;lesson=12#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">test</a>. The guiding principle: <strong>strive for determinism</strong> and use <code>if</code> only when there’s no clearer alternative.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — See Your Control-Flow</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste a <a class="glossary-term" id="glossary-origin-12-0016" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0016&amp;lesson=12#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a>; ask AI to sketch a control-flow graph (CFG) and list distinct traces.</li>
+      <li>Have AI mark which branches depend on external state (inputs, <a class="glossary-term" id="glossary-origin-12-0017" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0017&amp;lesson=12#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">I/O</a>) vs local state.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) What an <code>if</code> Does (and why it’s risky)</h3>
+
+<p>
+An <code>if</code> evaluates a <a class="glossary-term" id="glossary-origin-12-0018" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0018&amp;lesson=12#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">boolean</a> <a class="glossary-term" id="glossary-origin-12-0019" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0019&amp;lesson=12#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> and jumps accordingly. Each time the condition is reached, execution can diverge
+into at least two paths. Combine several <code>if</code>s (especially nested), and paths explode. This hurts readability, testability,
+and performance predictability.
+</p>
+
+<pre><code class="language-cpp">// Two branches → two traces
+if (ready()) {
+    process();
+} else {
+    wait();
+}
+</code></pre>
+
+<p>
+Add branching only when necessary. Prefer designs that reduce branching: structured loops with clear bounds, look-ups, or
+<a class="glossary-term" id="glossary-origin-12-0020" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0020&amp;lesson=12#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> through tables/<a class="glossary-term" id="glossary-origin-12-0021" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0021&amp;lesson=12#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">polymorphism</a>.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Reduce Branch Count</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to count branches in a function and propose a refactor target (e.g., ≤ 3 branches).</li>
+      <li>Have AI extract <a class="glossary-term" id="glossary-origin-12-0022" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0022&amp;lesson=12#term-guard-clause" aria-label="Look up guard clause in the programming glossary" title="Look up guard clause in the programming glossary">guard clauses</a> and early returns to flatten nesting.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) Golden Rules for Using <code>if</code></h3>
+
+<ul>
+  <li><strong>Use only if necessary.</strong> Prefer deterministic structures and data-driven patterns.</li>
+  <li><strong>Avoid nesting.</strong> Replace pyramids of doom with <em>guard clauses</em> or <code>switch</code> on discrete states.</li>
+  <li><strong>Limit per function.</strong> Too many <code>if</code>s in one <a class="glossary-term" id="glossary-origin-12-0023" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0023&amp;lesson=12#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> signals missing <a class="glossary-term" id="glossary-origin-12-0024" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0024&amp;lesson=12#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a>.</li>
+  <li><strong>Keep conditions simple.</strong> Avoid complex boolean salads with <code>&amp;&amp;</code>, <code>||</code>, and <code>!</code>; name sub-predicates.</li>
+</ul>
+
+<pre><code class="language-cpp">// ❌ Nested &amp; complex
+if (isOpen &amp;&amp; (user.role == Admin || (user.active &amp;&amp; !user.banned))) {
+    // ...
+}
+
+// ✅ Flatten with named predicates &amp; guard clauses
+bool canModerate = user.role == Admin || (user.active &amp;&amp; !user.banned);
+if (!isOpen) return;
+if (!canModerate) return;
+// ...
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Tame Boolean Logic</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to turn complex conditions into named predicates and apply De Morgan’s laws where useful.</li>
+      <li>Have AI generate a truth table or <a class="glossary-term" id="glossary-origin-12-0025" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0025&amp;lesson=12#term-test-case" aria-label="Look up test case in the programming glossary" title="Look up test case in the programming glossary">test cases</a> for each predicate.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>3) The Classic <a class="glossary-term" id="glossary-origin-12-0026" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0026&amp;lesson=12#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">Bug</a> — <code>=</code> vs <code>==</code> in Conditions</h3>
+
+<p>
+An <strong><a class="glossary-term" id="glossary-origin-12-0027" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0027&amp;lesson=12#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a></strong> (<code>=</code>) inside an <code>if</code> sets a <a class="glossary-term" id="glossary-origin-12-0028" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0028&amp;lesson=12#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> and yields that value, which then converts to <code>bool</code>.
+This often makes the condition <em>always true</em> (unless you assign zero/false).
+</p>
+
+<pre><code class="language-cpp">int x = 1;
+
+// ❌ Bug: uses assignment, not comparison
+if (x = 0) {               // assigns 0 to x, then tests 0 → false branch always taken
+    // never executes
+}
+
+// ✅ Fix: compare
+if (x == 0) { /* ... */ }
+</code></pre>
+
+<p>
+Protect yourself with compiler warnings and style: compare against literals on the left (<code>if (0 == x)</code>) or prefer explicit
+comparisons and linters. (Note: the OR <a class="glossary-term" id="glossary-origin-12-0029" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0029&amp;lesson=12#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> is <code>||</code>, not “II”.)
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Catch Assignment-in-<code>if</code></summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI for compiler flags and linter checks that warn on assignments in conditions and suggest rewrites.</li>
+      <li>Have AI scan a file for suspicious <code>if (x = ...)</code> patterns and auto-fix to <code>==</code> where appropriate.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) Prefer <code>switch</code> / Tables / Polymorphism over Long <code>if-else</code> Chains</h3>
+
+<p>
+When branching on discrete states, a <code>switch</code> or a <em><a class="glossary-term" id="glossary-origin-12-0030" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0030&amp;lesson=12#term-lookup-table" aria-label="Look up lookup table in the programming glossary" title="Look up lookup table in the programming glossary">dispatch table</a></em> is clearer and scales better than stacked <code>if</code>s.
+For behaviour that varies by <a class="glossary-term" id="glossary-origin-12-0031" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0031&amp;lesson=12#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a>, polymorphism sidesteps branching entirely.
+</p>
+
+<pre><code class="language-cpp">enum class Op { Add, Sub, Mul, Div };
+
+// ✅ switch over a closed set
+double apply(Op op, double a, double b) {
+    switch (op) {
+        case Op::Add: return a + b;
+        case Op::Sub: return a - b;
+        case Op::Mul: return a * b;
+        case Op::Div: return b != 0 ? a / b : 0; // guard
+    }
+    return 0;
+}
+</code></pre>
+
+<pre><code class="language-cpp">// ✅ table-driven dispatch
+#include &lt;functional&gt;
+#include &lt;unordered_map&gt;
+
+double add(double a, double b){ return a + b; }
+double sub(double a, double b){ return a - b; }
+
+const std::unordered_map&lt;char, std::function&lt;double(double,double)&gt;&gt; ops{
+    {'+', add}, {'-', sub}
+};
+
+double eval(char op, double a, double b) {
+    if (auto it = ops.find(op); it != ops.end()) return it-&gt;second(a,b);
+    return 0;
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Replace Chains with Tables</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste an if/else ladder; ask AI to generate a <code>switch</code> or dispatch map/polymorphic design.</li>
+      <li>Have AI estimate branch reduction and test impact.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>5) Early Returns &amp; Guard Clauses (Flatten the Pyramid)</h3>
+
+<pre><code class="language-cpp">// ❌ deeply nested
+bool handle(Request&amp; r) {
+    if (r.valid()) {
+        if (hasAuth(r)) {
+            if (save(r)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// ✅ early exits
+bool handle(Request&amp; r) {
+    if (!r.valid()) return false;
+    if (!hasAuth(r)) return false;
+    return save(r);
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Flatten Nesting</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to rewrite nested <code>if</code>s into guard clauses and to name intermediate predicates.</li>
+      <li>Have AI add clear failure messages at each guard.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) <a class="glossary-term" id="glossary-origin-12-0032" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0032&amp;lesson=12#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">Side Effects</a> &amp; <a class="glossary-term" id="glossary-origin-12-0033" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0033&amp;lesson=12#term-short-circuit-evaluation" aria-label="Look up short-circuit evaluation in the programming glossary" title="Look up short-circuit evaluation in the programming glossary">Short-Circuiting</a></h3>
+
+<p>
+<code>&amp;&amp;</code> and <code>||</code> short-circuit: the <a class="glossary-term" id="glossary-origin-12-0034" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0034&amp;lesson=12#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">right-hand side</a> may not run. Don’t hide side effects inside conditions you rely on later.
+</p>
+
+<pre><code class="language-cpp">// ❌ side effects in RHS can be skipped
+if (isOpen() &amp;&amp; init()) { start(); }  // if isOpen() is false, init() never runs
+
+// ✅ separate effects from tests
+bool ok = isOpen();
+if (ok) ok = init();
+if (ok) start();
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Make Conditions Pure</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to find <a class="glossary-term" id="glossary-origin-12-0035" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0035&amp;lesson=12#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function calls</a> with side effects used only as boolean tests; separate them into statements.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>7) Advanced: <a class="glossary-term" id="glossary-origin-12-0036" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0036&amp;lesson=12#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">Compile-Time</a> Branching Reduces Runtime Traces</h3>
+
+<p>
+Where possible, move decisions to compile time using templates or <code>constexpr if</code> (C++17+). This removes runtime branches.
+</p>
+
+<pre><code class="language-cpp">template &lt;typename T&gt;
+void print_num(T x) {
+    if constexpr (std::is_integral_v&lt;T&gt;) {
+        std::cout &lt;&lt; "int: " &lt;&lt; x &lt;&lt; '\n';
+    } else {
+        std::cout &lt;&lt; "other: " &lt;&lt; x &lt;&lt; '\n';
+    }
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Turn Runtime Branches into Compile-Time</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI which branches can be <code>constexpr</code> or templated, and have it refactor a sample.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) Worked Example — From Messy <code>if</code>s to Clear Logic</h3>
+
+<p><strong>Problem:</strong> hard-to-read, bug-prone branching:</p>
+<pre><code class="language-cpp">int status = 0;
+if (config.enabled = true) {                   // ❌ assignment, always true
+    if (user.role == "admin" || user.role == "root" || user.role == "owner") {
+        if (attempts &lt; 3 &amp;&amp; !locked) {
+            status = start();                  // may skip init()
+        }
+    }
+}
+</code></pre>
+
+<p><strong>Refactor:</strong> guard clauses, named predicates, fixed comparison:</p>
+<pre><code class="language-cpp">bool hasPriv(const User&amp; u) {
+    return u.role == "admin" || u.role == "root" || u.role == "owner";
+}
+
+int safeStart(const Config&amp; config, const User&amp; user, int attempts, bool locked) {
+    if (!config.enabled) return -1;            // fix: comparison
+    if (!hasPriv(user)) return -2;
+    if (attempts &gt;= 3 || locked) return -3;
+
+    if (!init()) return -4;                    // separate side effect
+    return start();
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Provide a Refactor Patch</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to produce a patch: fix <code>=</code> vs <code>==</code>, extract predicates, split effects, add guards.</li>
+      <li>Have AI generate tests to cover both branches of each predicate.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>9) Mini Exercise — Eliminate the Ladder</h3>
+
+<p><strong>Task:</strong> Replace this <code>if-else</code> ladder with a <code>switch</code> or dispatch table.</p>
+<pre><code class="language-cpp">std::string cmd; std::cin &gt;&gt; cmd;
+if (cmd == "add")      add();
+else if (cmd == "del") del();
+else if (cmd == "list") list();
+else std::cout &lt;&lt; "Unknown\n";
+</code></pre>
+
+<p><strong>Hint:</strong> map command <a class="glossary-term" id="glossary-origin-12-0037" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0037&amp;lesson=12#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">strings</a> to function <a class="glossary-term" id="glossary-origin-12-0038" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0038&amp;lesson=12#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointers</a> or use an <a class="glossary-term" id="glossary-origin-12-0039" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0039&amp;lesson=12#term-enumeration" aria-label="Look up enumeration in the programming glossary" title="Look up enumeration in the programming glossary">enum</a> + <code>switch</code>.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — From Ladder to Table</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to generate a <code>std::unordered_map&lt;std::string, std::function&lt;void()&gt;&gt;</code> solution and compare readability.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li><strong>Minimise branches.</strong> Prefer deterministic designs; loops with clear bounds beat ad-hoc <code>if</code>s.</li>
+  <li><strong>Flatten logic.</strong> Guard clauses &gt; nested <code>if</code>s.</li>
+  <li><strong>Name predicates.</strong> Keep conditions short; avoid boolean salad.</li>
+  <li><strong>Never</strong> use <code>=</code> where you mean <code>==</code>; keep conditions <em>pure</em> (no hidden side effects).</li>
+  <li><strong>Dispatch, don’t branch.</strong> Use <code>switch</code>, tables, or polymorphism for discrete choices.</li>
+  <li>Where possible, <strong>move decisions to compile time</strong> with <code>constexpr if</code>/templates.</li>
+</ul>
+
+<p><em>Optional: embed your video of Graham discussing if statements here.</em></p>
+        
+<!-- lesson-enhancement:12:start -->
+<section class="lesson-enhancement" id="branches-as-obligations">
+<p class="lesson-enhancement-kicker">Advanced perspective: decisions create paths to justify</p>
+<h2>An <code>if</code> statement selects behaviour from current state</h2>
+<p>An <code>if</code> statement is easy to recognise, but recognition is a poor test of a decision. The real work is to <a class="glossary-term" id="glossary-origin-12-0040" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0040&amp;lesson=12#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> the states admitted by each condition, the behaviour selected for those states and the evidence that competing branches are excluded where the requirement demands one outcome. <a class="glossary-term" id="glossary-origin-12-0041" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0041&amp;lesson=12#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">Code</a> that reaches the expected branch for one friendly input has proved very little.</p>
+<p>The condition is evaluated when control reaches the statement and is contextually converted to <code>bool</code>. If the result is true, the associated statement executes. If it is false, that statement is skipped and an associated <code>else</code>, if present, is selected. Nothing here is probabilistic. The current state and the <a class="glossary-term" id="glossary-origin-12-0042" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0042&amp;lesson=12#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> determine the path.</p>
+
+<h3>Begin with the value that the condition actually produces</h3>
+<table>
+<thead><tr><th>Condition source</th><th><a class="glossary-term" id="glossary-origin-12-0043" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0043&amp;lesson=12#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">Conversion</a> or result</th><th>Question to ask</th></tr></thead>
+<tbody>
+<tr><td>A comparison such as <code>health &lt; 25</code></td><td>The comparison directly produces <code>true</code> or <code>false</code>.</td><td>Does the boundary belong on this side of the comparison?</td></tr>
+<tr><td>An <a class="glossary-term" id="glossary-origin-12-0044" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0044&amp;lesson=12#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> expression</td><td>Zero converts to false; a nonzero value converts to true.</td><td>Was a truth test intended, or has a calculation been used accidentally?</td></tr>
+<tr><td>A pointer expression</td><td>A <a class="glossary-term" id="glossary-origin-12-0045" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0045&amp;lesson=12#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> converts to false; a non-null pointer converts to true.</td><td>Does non-null establish everything the later operation requires?</td></tr>
+<tr><td>An <a class="glossary-term" id="glossary-origin-12-0046" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0046&amp;lesson=12#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> with an appropriate conversion to <code>bool</code></td><td>The object's defined conversion supplies the condition result.</td><td>What state does that conversion represent?</td></tr>
+</tbody>
+</table>
+<p>This is why <code>if (x = 0)</code> can be well-formed C++. The assignment changes <code>x</code> to zero, the assignment expression yields a value and that value converts to false. With <code>if (x = 5)</code>, <code>x</code> becomes 5 and the condition is true. A compiler warning is valuable evidence that the code deserves inspection, but the repair is not automatically to replace every assignment with equality. First decide whether mutation belongs in the condition at all. If comparison was intended, write <code>==</code>; if deliberate acquisition or mutation was intended, make that purpose unmistakable.</p>
+
+<h3>Independent questions and exclusive choices are different programs</h3>
+<p>Separate <code>if</code> statements ask separate questions. More than one body may execute. An <code>if</code>, <code>else if</code>, <code>else</code> chain asks for one selection in order; once a condition is true, later conditions in that chain are not evaluated. The two shapes can contain the same predicates and still express different requirements.</p>
+<table>
+<thead><tr><th>Score</th><th><code>if (score &gt;= 50)</code></th><th>Separate <code>if (score &gt;= 70)</code></th><th><code>else if (score &gt;= 70)</code></th></tr></thead>
+<tbody>
+<tr><td>40</td><td>False</td><td>False</td><td>Evaluated and false, so neither branch is selected</td></tr>
+<tr><td>60</td><td>True</td><td>False</td><td>Not evaluated after the first branch</td></tr>
+<tr><td>80</td><td>True</td><td>True, so both independent bodies can run</td><td>Not evaluated after the first branch</td></tr>
+</tbody>
+</table>
+<p>If the requirement is to record every property that holds, independent tests may be correct. If the requirement is to assign exactly one grade, the predicates must be ordered or written so that one category is selected. Merely changing <code>if</code> to <code>else if</code> can suppress required behaviour, while leaving independent tests can execute incompatible actions. Syntax follows the decision model.</p>
+<p>An <code>else</code> is associated with the nearest preceding unmatched <code>if</code> permitted by the grammar. Indentation does not change that association. Braces make the intended statement boundaries visible and protect the structure when another line is added later. They are cheap evidence against a very expensive misunderstanding.</p>
+
+<h3>Predicate order defines the classification</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+const char* describe_health(int health) {
+    if (health &lt;= 0) {
+        return "defeated";
+    }
+    if (health &lt; 25) {
+        return "critical";
+    }
+    return "active";
+}
+
+int main() {
+    std::cout &lt;&lt; describe_health(80) &lt;&lt; '\n';
+    std::cout &lt;&lt; describe_health(10) &lt;&lt; '\n';
+    std::cout &lt;&lt; describe_health(0) &lt;&lt; '\n';
+}
+</code></pre>
+<p>The function contains two separate <code>if</code> statements, yet at most one label is returned. Each successful branch leaves the function immediately, so later tests cannot alter that result. This is a guard-clause form: handle a decisive case, return, then reason about the reduced set of states that remains.</p>
+<table>
+<thead><tr><th><code>health</code></th><th><code>health &lt;= 0</code></th><th><code>health &lt; 25</code></th><th>Returned label</th></tr></thead>
+<tbody>
+<tr><td>-1</td><td>True</td><td>Not evaluated</td><td><code>defeated</code></td></tr>
+<tr><td>0</td><td>True</td><td>Not evaluated</td><td><code>defeated</code></td></tr>
+<tr><td>1</td><td>False</td><td>True</td><td><code>critical</code></td></tr>
+<tr><td>24</td><td>False</td><td>True</td><td><code>critical</code></td></tr>
+<tr><td>25</td><td>False</td><td>False</td><td><code>active</code></td></tr>
+<tr><td>80</td><td>False</td><td>False</td><td><code>active</code></td></tr>
+</tbody>
+</table>
+<p>Move <code>health &lt; 25</code> above <code>health &lt;= 0</code> and the program still compiles. It also classifies zero and every negative value as <code>critical</code>, because the broader predicate returns before the exceptional case is reached. The order is therefore part of the contract, not a formatting choice.</p>
+<p>The table also exposes a requirement question the code cannot answer for us: is negative health a valid state that means defeated, or evidence of an earlier error? The source currently chooses the first policy. If the requirement chooses the second, another outcome and its evidence are needed. Do not smuggle that decision into a test case after the code has already been accepted.</p>
+
+<h3>Logical operators are ordered computations</h3>
+<p>The operators <code>&amp;&amp;</code> and <code>||</code> short-circuit from left to right. For <code>left &amp;&amp; right</code>, a false left operand decides the whole expression, so the right operand is not evaluated. For <code>left || right</code>, a true left operand decides the expression and the right operand is skipped.</p>
+<pre><code class="language-cpp">if (pointer != nullptr &amp;&amp; *pointer &gt; 0) {
+    // Dereference occurs only when the pointer is not null.
+}
+</code></pre>
+<p>The first operand is a <a class="glossary-term" id="glossary-origin-12-0047" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0047&amp;lesson=12#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> for the second. If <code>pointer</code> is null, the comparison is false and <a class="glossary-term" id="glossary-origin-12-0048" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0048&amp;lesson=12#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereferencing</a> is skipped. Reverse the operands and the dereference is attempted before the null check can protect it. The same facts appear in the expression, but their order changes whether the computation is valid.</p>
+<p>Short-circuiting can also skip a function call with side effects. Sometimes that is deliberate, as when acquisition should occur only after validation. Sometimes it hides work a programmer assumed would always happen. Read a compound predicate as an execution trace: which operand runs first, what result admits the next operand and what state may change along the way?</p>
+
+<h3>More branches increase obligations, not by a simple formula</h3>
+<p>It is tempting to count each <code>if</code> and <a class="glossary-term" id="glossary-origin-12-0049" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0049&amp;lesson=12#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declare</a> that the number of paths has doubled. Real control flow is constrained by returns, mutually exclusive predicates, state dependencies and loops. A branch count can draw attention to <a class="glossary-term" id="glossary-origin-12-0050" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0050&amp;lesson=12#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a>, but it cannot replace analysis of reachable states and meaningful outcomes.</p>
+<p>Tests should cover the equivalence <a class="glossary-term" id="glossary-origin-12-0051" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0051&amp;lesson=12#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">classes</a> and boundaries created by the predicates. For the health function, -1, 0, 1, 24 and 25 provide stronger evidence than five arbitrary positive values. They exercise both sides of each boundary and the ordering overlap. The ordinary value 80 remains useful, but it does not test the point at which behaviour changes.</p>
+<p>Guard clauses can make the same decisions easier to inspect by disposing of failed preconditions early. They do not automatically remove testing obligations or prove equivalence to nested code. For a refactor, trace each original outcome and show that the same input reaches the same effect and <a class="glossary-term" id="glossary-origin-12-0052" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0052&amp;lesson=12#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> afterwards. Reduced indentation is a benefit only when behaviour is preserved.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> require the literal decision table</summary>
+<div>
+<p>Ask an AI system to turn a branch sequence into a table containing each literal predicate, its <a class="glossary-term" id="glossary-origin-12-0053" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0053&amp;lesson=12#term-evaluation-order" aria-label="Look up evaluation order in the programming glossary" title="Look up evaluation order in the programming glossary">evaluation order</a>, boundary values and selected outcome. Reject a friendly paraphrase of what the function was probably meant to do. Add an overlap case, a case where no condition is true and any state that makes an operand unsafe. Then compare every row with the source. A polished summary can conceal an unreachable branch or a broader predicate placed too early.</p>
+</div>
+</details>
+
+<h3>Change the requirement, then earn the new branch</h3>
+<p>Extend the health requirement so that values above 100 are reported as <code>invalid</code>, while the existing three labels retain their present ranges. Before editing, write the complete decision table for -1, 0, 1, 24, 25, 100 and 101. Decide where the new predicate must appear and explain why a more general predicate cannot consume its state first.</p>
+<p>After implementing the change, compile and run those boundary cases. Then replace the guard-clause version with one explicit <code>if</code>, <code>else if</code>, <code>else</code> chain and repeat the table. The task is not to prefer one shape. It is to demonstrate equivalent selection, evaluation order and returned labels. If one row changes, the refactor changed the program, however tidy it looks.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The complete classification is: values above 100 are invalid, values at or below zero are defeated, values from 1 to 24 are critical, and values from 25 to 100 are active.</p>
+<table>
+<thead><tr><th><code>health</code></th><th><code>health &gt; 100</code></th><th><code>health &lt;= 0</code></th><th><code>health &lt; 25</code></th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>-1</td><td>False</td><td>True</td><td>Not evaluated</td><td><code>defeated</code></td></tr>
+<tr><td>0</td><td>False</td><td>True</td><td>Not evaluated</td><td><code>defeated</code></td></tr>
+<tr><td>1</td><td>False</td><td>False</td><td>True</td><td><code>critical</code></td></tr>
+<tr><td>24</td><td>False</td><td>False</td><td>True</td><td><code>critical</code></td></tr>
+<tr><td>25</td><td>False</td><td>False</td><td>False</td><td><code>active</code></td></tr>
+<tr><td>100</td><td>False</td><td>False</td><td>False</td><td><code>active</code></td></tr>
+<tr><td>101</td><td>True</td><td>Not evaluated</td><td>Not evaluated</td><td><code>invalid</code></td></tr>
+</tbody>
+</table>
+<p>A guard-clause implementation can make the new exceptional range visible first:</p>
+<pre><code class="language-cpp">const char* describe_health(int health) {
+    if (health &gt; 100) {
+        return "invalid";
+    }
+    if (health &lt;= 0) {
+        return "defeated";
+    }
+    if (health &lt; 25) {
+        return "critical";
+    }
+    return "active";
+}
+</code></pre>
+<p>The new guard does not strictly have to be the first test because its range does not overlap the two existing guards. It must, however, appear before the general <a class="glossary-term" id="glossary-origin-12-0054" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0054&amp;lesson=12#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> return. If control reaches <code>return "active"</code> first, 101 is consumed by a broader default and can no longer be reported as invalid.</p>
+<p>The explicit chain expresses the same ordered selection:</p>
+<pre><code class="language-cpp">const char* describe_health(int health) {
+    if (health &gt; 100) {
+        return "invalid";
+    } else if (health &lt;= 0) {
+        return "defeated";
+    } else if (health &lt; 25) {
+        return "critical";
+    } else {
+        return "active";
+    }
+}
+</code></pre>
+<p>Running the seven boundary cases must reproduce the same table for both functions. That equality of every selected label, including the two edges at 100 and 101, is the evidence that the change of shape preserved the program.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:12:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-11.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">11. The While (and Do) Loops</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-13.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">13. The Conditional Operator</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

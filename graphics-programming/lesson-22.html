@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Carry hit records and material indices into local lighting without allowing resource layout to merge their responsibilities.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 22 - Materials and Light Remain Separate</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="22" data-ray-stage="22" data-art-pattern="flow">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 22 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html" aria-current="page"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 22</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">22. Materials and Light Remain Separate</h1>
+            <p class="lesson-deck">Carry hit records and material indices into local lighting without allowing resource layout to merge their responsibilities.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-21.html">&larr; Lesson 21</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-23.html">Lesson 23 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>44 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-22-albedo" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-albedo&amp;lesson=22#term-albedo" aria-label="Look up albedo in the graphics glossary" title="Look up albedo in the graphics glossary">albedo</a> <a class="glossary-chip" id="glossary-panel-origin-22-alignment" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-alignment&amp;lesson=22#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> <a class="glossary-chip" id="glossary-panel-origin-22-buffer" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-buffer&amp;lesson=22#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-22-camera" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-camera&amp;lesson=22#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-22-candidate-intersection" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-candidate-intersection&amp;lesson=22#term-candidate-intersection" aria-label="Look up candidate intersection in the graphics glossary" title="Look up candidate intersection in the graphics glossary">candidate intersection</a> <a class="glossary-chip" id="glossary-panel-origin-22-cpu" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-cpu&amp;lesson=22#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> <a class="glossary-chip" id="glossary-panel-origin-22-descriptor" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-descriptor&amp;lesson=22#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> <a class="glossary-chip" id="glossary-panel-origin-22-descriptor-set-layout" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-descriptor-set-layout&amp;lesson=22#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a> <a class="glossary-chip" id="glossary-panel-origin-22-diffuse" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-diffuse&amp;lesson=22#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> <a class="glossary-chip" id="glossary-panel-origin-22-direction" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-direction&amp;lesson=22#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-22-display-encoding" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-display-encoding&amp;lesson=22#term-display-encoding" aria-label="Look up display encoding in the graphics glossary" title="Look up display encoding in the graphics glossary">display encoding</a> <a class="glossary-chip" id="glossary-panel-origin-22-dot-product" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-dot-product&amp;lesson=22#term-dot-product" aria-label="Look up dot product in the graphics glossary" title="Look up dot product in the graphics glossary">dot product</a> <a class="glossary-chip" id="glossary-panel-origin-22-floating-point" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-floating-point&amp;lesson=22#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> <a class="glossary-chip" id="glossary-panel-origin-22-glsl" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-glsl&amp;lesson=22#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <a class="glossary-chip" id="glossary-panel-origin-22-gpu" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-gpu&amp;lesson=22#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-22-hit" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-hit&amp;lesson=22#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-22-hit-record" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-hit-record&amp;lesson=22#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> <a class="glossary-chip" id="glossary-panel-origin-22-host" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-host&amp;lesson=22#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-22-image" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-image&amp;lesson=22#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-22-intersection" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-intersection&amp;lesson=22#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-22-invocation" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-invocation&amp;lesson=22#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-22-linear-colour" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-linear-colour&amp;lesson=22#term-linear-colour" aria-label="Look up linear colour in the graphics glossary" title="Look up linear colour in the graphics glossary">linear colour</a> <a class="glossary-chip" id="glossary-panel-origin-22-material" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-material&amp;lesson=22#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-22-normalise" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-normalise&amp;lesson=22#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-22-pixel" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-pixel&amp;lesson=22#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-22-point" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-point&amp;lesson=22#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-22-point-light" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-point-light&amp;lesson=22#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a> <a class="glossary-chip" id="glossary-panel-origin-22-primary-ray" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-primary-ray&amp;lesson=22#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-22-primitive-index" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-primitive-index&amp;lesson=22#term-primitive-index" aria-label="Look up primitive index in the graphics glossary" title="Look up primitive index in the graphics glossary">primitive index</a> <a class="glossary-chip" id="glossary-panel-origin-22-reflection" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-reflection&amp;lesson=22#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-22-refraction" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-refraction&amp;lesson=22#term-refraction" aria-label="Look up refraction in the graphics glossary" title="Look up refraction in the graphics glossary">refraction</a> <a class="glossary-chip" id="glossary-panel-origin-22-rgb" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-rgb&amp;lesson=22#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> <a class="glossary-chip" id="glossary-panel-origin-22-scene" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-scene&amp;lesson=22#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-22-secondary-ray" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-secondary-ray&amp;lesson=22#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary ray</a> <a class="glossary-chip" id="glossary-panel-origin-22-shadow-ray" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-shadow-ray&amp;lesson=22#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> <a class="glossary-chip" id="glossary-panel-origin-22-specular" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-specular&amp;lesson=22#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> <a class="glossary-chip" id="glossary-panel-origin-22-sphere" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-sphere&amp;lesson=22#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-22-srgb" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-srgb&amp;lesson=22#term-srgb" aria-label="Look up sRGB in the graphics glossary" title="Look up sRGB in the graphics glossary">sRGB</a> <a class="glossary-chip" id="glossary-panel-origin-22-storage-image" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-storage-image&amp;lesson=22#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> <a class="glossary-chip" id="glossary-panel-origin-22-surface-normal" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-surface-normal&amp;lesson=22#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-22-uniform-buffer" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-uniform-buffer&amp;lesson=22#term-uniform-buffer" aria-label="Look up uniform buffer in the graphics glossary" title="Look up uniform buffer in the graphics glossary">uniform buffer</a> <a class="glossary-chip" id="glossary-panel-origin-22-unorm" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-unorm&amp;lesson=22#term-unorm" aria-label="Look up UNORM in the graphics glossary" title="Look up UNORM in the graphics glossary">UNORM</a> <a class="glossary-chip" id="glossary-panel-origin-22-vector" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-vector&amp;lesson=22#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> <a class="glossary-chip" id="glossary-panel-origin-22-world-position" href="glossary.html?from=lesson-22.html%23glossary-panel-origin-22-world-position&amp;lesson=22#term-world-position" aria-label="Look up world position in the graphics glossary" title="Look up world position in the graphics glossary">world position</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A visible surface is not yet a lit surface. The closest-<a class="glossary-term" id="glossary-origin-22-0001" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0001&amp;lesson=22#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> query tells us where the ray arrived, which way the geometry faces and which primitive supplied the answer. Lighting requires different information: the surface's <a class="glossary-term" id="glossary-origin-22-0002" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0002&amp;lesson=22#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a>, the light's position and intensity, and the view <a class="glossary-term" id="glossary-origin-22-0003" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0003&amp;lesson=22#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a>. Keeping those responsibilities separate is more than tidiness. It lets the same geometry answer primary, shadow and secondary queries without accidentally performing the wrong shading work.</p>
+<p>The material table and light must therefore become shader-visible data. The local <a class="glossary-term" id="glossary-origin-22-0004" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0004&amp;lesson=22#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> and <a class="glossary-term" id="glossary-origin-22-0005" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0005&amp;lesson=22#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> model remains the one established in Lesson 7: calculate it in <a class="glossary-term" id="glossary-origin-22-0006" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0006&amp;lesson=22#term-linear-colour" aria-label="Look up linear colour in the graphics glossary" title="Look up linear colour in the graphics glossary">linear colour</a> and encode the result only when writing the display <a class="glossary-term" id="glossary-origin-22-0007" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0007&amp;lesson=22#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a>.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Associate a geometry record with a material index without embedding lighting in the <a class="glossary-term" id="glossary-origin-22-0008" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0008&amp;lesson=22#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> function.</li>
+<li>Reconstruct the light, <a class="glossary-term" id="glossary-origin-22-0009" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0009&amp;lesson=22#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a> and view directions at the accepted hit.</li>
+<li>Distinguish linear lighting values from the values encoded for display.</li>
+</ul>
+</section>
+
+<h2>Make geometry identify a material</h2>
+<p>Extend the <a class="glossary-term" id="glossary-origin-22-0010" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0010&amp;lesson=22#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> record to two 16-byte units. The first remains centre and radius. The second carries a material index in its first component and leaves three explicit spare fields. Using an unsigned <a class="glossary-term" id="glossary-origin-22-0011" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0011&amp;lesson=22#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> avoids asking <a class="glossary-term" id="glossary-origin-22-0012" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0012&amp;lesson=22#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> to reinterpret a <a class="glossary-term" id="glossary-origin-22-0013" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0013&amp;lesson=22#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> bit pattern.</p>
+
+<pre><code class="language-cpp">struct alignas(16) SphereGPU {
+    std::array&lt;float, 4&gt; centreRadius;
+    std::array&lt;std::uint32_t, 4&gt; metadata;
+};
+
+static_assert(sizeof(SphereGPU) == 32);
+
+struct alignas(16) MaterialGPU {
+    std::array&lt;float, 4&gt; albedoRoughness;
+    std::array&lt;float, 4&gt; specularPadding;
+};
+
+static_assert(sizeof(MaterialGPU) == 32);</code></pre>
+
+<p>For the local model, <code>albedoRoughness.xyz</code> stores diffuse reflectance, its w component may retain a future roughness value, and <code>specularPadding.x</code> stores specular strength. We will supply the exponent separately while investigating it. Explicit names on the <a class="glossary-term" id="glossary-origin-22-0014" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0014&amp;lesson=22#term-cpu" aria-label="Look up CPU in the graphics glossary" title="Look up CPU in the graphics glossary">CPU</a> are preferable in production; the arrays here make the byte layout plain.</p>
+
+<pre><code class="language-glsl">struct SphereGPU {
+    vec4 centreRadius;
+    uvec4 metadata;
+};
+
+struct MaterialGPU {
+    vec4 albedoRoughness;
+    vec4 specularPadding;
+};
+
+layout(std430, set = 0, binding = 3) readonly buffer MaterialBuffer {
+    MaterialGPU materials[];
+};</code></pre>
+
+<p>Add binding 3 to the <a class="glossary-term" id="glossary-origin-22-0015" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0015&amp;lesson=22#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a> and upload the material table by the same staged method used for spheres. Validate every material index on the CPU before upload. Bounds checking in shader code can provide a conspicuous error material during development, but it should not be the first time the application notices an invalid <a class="glossary-term" id="glossary-origin-22-0016" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0016&amp;lesson=22#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a>.</p>
+
+<h2>Let the <a class="glossary-term" id="glossary-origin-22-0017" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0017&amp;lesson=22#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> carry identity</h2>
+<p>The private <code>Hit</code> gains a material index. <code>intersectSphere</code> remains concerned with geometry; the scene loop assigns the index only when it retains that sphere.</p>
+
+<pre><code class="language-glsl">struct Hit {
+    bool found;
+    float t;
+    vec3 position;
+    vec3 normal;
+    uint materialIndex;
+};
+
+// Inside closestSceneHit, after candidate.found:
+candidate.materialIndex = scene.spheres[index].metadata.x;
+closest = candidate;
+closestDistance = candidate.t;</code></pre>
+
+<p>Do not copy the full material into every <a class="glossary-term" id="glossary-origin-22-0018" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0018&amp;lesson=22#term-candidate-intersection" aria-label="Look up candidate intersection in the graphics glossary" title="Look up candidate intersection in the graphics glossary">candidate hit</a>. A stable index is sufficient and keeps geometry records compact. The material is fetched once after the closest answer has been chosen.</p>
+
+<h2>Place one light in uniform data</h2>
+<p>Extend the <a class="glossary-term" id="glossary-origin-22-0019" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0019&amp;lesson=22#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-term" id="glossary-origin-22-0020" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0020&amp;lesson=22#term-uniform-buffer" aria-label="Look up uniform buffer in the graphics glossary" title="Look up uniform buffer in the graphics glossary">uniform buffer</a> with two <a class="glossary-term" id="glossary-origin-22-0021" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0021&amp;lesson=22#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">aligned</a> vectors: light position and an <a class="glossary-term" id="glossary-origin-22-0022" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0022&amp;lesson=22#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> intensity with a spare component. In a larger engine, camera and lighting data may have different update frequencies and therefore different <a class="glossary-term" id="glossary-origin-22-0023" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0023&amp;lesson=22#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffers</a>. One buffer is acceptable here because the objective is the relationship, not an allocation policy.</p>
+
+<pre><code class="language-cpp">struct alignas(16) SceneUniforms {
+    float cameraToWorld[16];
+    float projection[4];
+    float lightPosition[4];
+    float lightIntensity[4];
+    float cameraPosition[4];
+};</code></pre>
+
+<p>Check the offsets used by the <a class="glossary-term" id="glossary-origin-22-0024" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0024&amp;lesson=22#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> structure against the GLSL block. A matrix layout, three-component member or compiler packing assumption can shift all later values while leaving the <a class="glossary-term" id="glossary-origin-22-0025" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0025&amp;lesson=22#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> itself valid. During development, write the shader-observed light position into a debug <a class="glossary-term" id="glossary-origin-22-0026" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0026&amp;lesson=22#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> or buffer rather than diagnosing it from a strangely lit sphere.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-22">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-22">How Geometry, Material and Light Stay Separate</h2>
+        <p>The accepted hit identifies a surface. Material and light resources then supply different information for shading without changing that geometric result.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>Intersection establishes position, normal and material identity. Separate material and light resources then provide <a class="glossary-term" id="glossary-origin-22-0027" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0027&amp;lesson=22#term-albedo" aria-label="Look up albedo in the graphics glossary" title="Look up albedo in the graphics glossary">albedo</a>, specular controls and light position. The shader forms the surface-to-light and surface-to-camera directions and evaluates the local-light terms without rewriting the geometric hit.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Freeze one hit record and inspect the material index, material values, shader-observed light data and the individual ambient, diffuse and specular contributions. Work in linear colour until the display conversion. If a light move appears to change the stored normal or material index, the resource contract is wrong even when the final colour looks attractive.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>Moving a <a class="glossary-term" id="glossary-origin-22-0028" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0028&amp;lesson=22#term-point-light" aria-label="Look up point light in the graphics glossary" title="Look up point light in the graphics glossary">point light</a> changes the light direction and therefore the diffuse and specular terms. The accepted distance, <a class="glossary-term" id="glossary-origin-22-0029" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0029&amp;lesson=22#term-world-position" aria-label="Look up world position in the graphics glossary" title="Look up world position in the graphics glossary">world position</a>, normal and material index should remain unchanged. This separation makes a lighting fault distinguishable from an intersection fault.</p>
+        <p class="vulkan-account-formula"><code>radiance = ambient + visibility × (diffuse + specular)</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> A plausible final pixel colour does not establish correct buffer packing, direction <a class="glossary-term" id="glossary-origin-22-0030" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0030&amp;lesson=22#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalisation</a> or <a class="glossary-term" id="glossary-origin-22-0031" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0031&amp;lesson=22#term-display-encoding" aria-label="Look up display encoding in the graphics glossary" title="Look up display encoding in the graphics glossary">display encoding</a>. The separate inputs and contributions provide the evidence that the combined colour hides.</p>
+</section>
+
+<h2>Reconstruct the four directions</h2>
+<p>At the accepted position, form the unit normal <code>N</code>, unit direction <code>L</code> towards the light and unit direction <code>V</code> towards the camera. The incoming <a class="glossary-term" id="glossary-origin-22-0032" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0032&amp;lesson=22#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-term" id="glossary-origin-22-0033" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0033&amp;lesson=22#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">points</a> from the camera to the surface, so <code>V = normalize(-ray.direction)</code>. The <a class="glossary-term" id="glossary-origin-22-0034" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0034&amp;lesson=22#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> direction for a Phong-style specular term is obtained by reflecting <code>-L</code> around <code>N</code>.</p>
+
+<pre><code class="language-glsl">vec3 shadeLocal(Hit hit, Ray ray) {
+    MaterialGPU material = materials[hit.materialIndex];
+    vec3 albedo = material.albedoRoughness.xyz;
+
+    vec3 toLight = uniforms.lightPosition.xyz - hit.position;
+    float lightDistance = length(toLight);
+    vec3 L = toLight / lightDistance;
+    vec3 N = normalize(hit.normal);
+    vec3 V = normalize(-ray.direction);
+
+    float nDotL = max(dot(N, L), 0.0);
+    vec3 diffuse = albedo * nDotL;
+
+    vec3 reflectedLight = reflect(-L, N);
+    float specularAngle = max(dot(V, reflectedLight), 0.0);
+    float exponent = control.specularExponent;
+    float specular = material.specularPadding.x *
+                     pow(specularAngle, exponent);
+
+    vec3 incident = uniforms.lightIntensity.xyz;
+    vec3 ambient = 0.025 * albedo;
+    return ambient + incident * (diffuse + vec3(specular));
+}</code></pre>
+
+<p>This deliberately simple light has no inverse-square attenuation yet. Add attenuation only when its units and intensity are explained; otherwise the apparent improvement is merely a new arbitrary scale. The ambient term is likewise an explicit teaching approximation, not light transport from the environment.</p>
+
+<h2>Keep the normal on the correct side</h2>
+<p>A primary ray can strike the inside of geometry after the camera moves or once <a class="glossary-term" id="glossary-origin-22-0035" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0035&amp;lesson=22#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary rays</a> exist. Record whether the ray meets the outward-facing side:</p>
+
+<pre><code class="language-glsl">bool frontFace = dot(ray.direction, outwardNormal) &lt; 0.0;
+hit.normal = frontFace ? outwardNormal : -outwardNormal;</code></pre>
+
+<p>The normal then opposes the arriving ray. Store <code>frontFace</code> if later material behaviour needs to know which medium was entered. Merely flipping the normal without retaining that fact is insufficient for <a class="glossary-term" id="glossary-origin-22-0036" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0036&amp;lesson=22#term-refraction" aria-label="Look up refraction in the graphics glossary" title="Look up refraction in the graphics glossary">refraction</a>.</p>
+
+<h2>Encode only after lighting</h2>
+<p>The arithmetic above operates in linear colour. If the output image is an 8-bit <a class="glossary-term" id="glossary-origin-22-0037" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0037&amp;lesson=22#term-unorm" aria-label="Look up UNORM in the graphics glossary" title="Look up UNORM in the graphics glossary">UNORM</a> format and the presentation path does not perform an <a class="glossary-term" id="glossary-origin-22-0038" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0038&amp;lesson=22#term-srgb" aria-label="Look up sRGB in the graphics glossary" title="Look up sRGB in the graphics glossary">sRGB</a> conversion, apply an explicit linear-to-display approximation after clamping negative values. A simple teaching version uses a power of one over 2.2:</p>
+
+<pre><code class="language-glsl">vec3 linearColour = hit.found
+    ? shadeLocal(hit, ray)
+    : vec3(0.015, 0.025, 0.022);
+
+vec3 displayColour = pow(max(linearColour, vec3(0.0)),
+                         vec3(1.0 / 2.2));
+imageStore(outputImage, pixel, vec4(displayColour, 1.0));</code></pre>
+
+<p>Do not apply the power twice. If the <a class="glossary-term" id="glossary-origin-22-0039" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0039&amp;lesson=22#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> is copied into an sRGB-capable presentation path whose conversion you rely upon, document where encoding occurs and remove the shader conversion. The rule is one intentional encoding boundary.</p>
+
+<div class="worked-trace">
+<h3>Follow one diffuse term</h3>
+<p>At a hit, let <code>N = (0, 1, 0)</code> and the unit light direction be <code>L = (0.6, 0.8, 0)</code>. Their <a class="glossary-term" id="glossary-origin-22-0040" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0040&amp;lesson=22#term-dot-product" aria-label="Look up dot product in the graphics glossary" title="Look up dot product in the graphics glossary">dot product</a> is 0.8, so an albedo (0.5, 0.2, 0.1) contributes diffuse (0.4, 0.16, 0.08) before multiplying by light intensity. Moving the light below the surface makes the dot product negative; the maximum clamps it to zero. A negative diffuse value must not be rescued later by display encoding.</p>
+</div>
+
+<h2>Use diagnostic modes before admiring the picture</h2>
+<p>Retain selectable output modes for <a class="glossary-term" id="glossary-origin-22-0041" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0041&amp;lesson=22#term-primitive-index" aria-label="Look up primitive index in the graphics glossary" title="Look up primitive index in the graphics glossary">primitive index</a>, material index, normal, diffuse factor and specular factor. A beautiful combined image can conceal a material-buffer offset error because several mistakes produce plausible colours. A material-index view should contain flat, exact regions matching the retained primitive. A diffuse-factor view should vary with only <code>N dot L</code>. A specular-factor view should react strongly when the recorded exponent is changed.</p>
+<p>When the combined result disagrees with the manual scene, compare these intermediate quantities at one selected pixel. The <a class="glossary-term" id="glossary-origin-22-0042" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0042&amp;lesson=22#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> has not made the lighting model mysterious; it has made many evaluations simultaneous.</p>
+
+<div class="checkpoint">
+<h3>Separate the data responsibilities</h3>
+<p>A <a class="glossary-term" id="glossary-origin-22-0043" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0043&amp;lesson=22#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> finds a sphere. Should it fetch that sphere's red albedo before declaring the light blocked?</p>
+<div class="worked-answer"><h4>The answer</h4><p>No. A binary shadow query only needs to know whether any valid intersection occurs before the light. Material colour is irrelevant to that question. Transparent-shadow policies could later require material information, but that would be an explicit extension of the query.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> the Khronos <a href="https://docs.vulkan.org/spec/latest/chapters/interfaces.html">shader-interface chapter</a> defines resource-interface matching, and the <a href="https://docs.vulkan.org/guide/latest/mapping_data_to_shaders.html">data mapping guide</a> gives host and shader layout examples.</p>
+
+<section class="transfer-task">
+<h2>Audit one lit pixel numerically</h2>
+<p>Choose a pixel on each visible sphere. Read back its hit position, normal, material index, <code>N dot L</code>, specular angle and final linear RGB. Recalculate those values on the CPU from the same scene records. Change only the specular exponent and show which recorded values should remain unchanged. Then exchange two material indices without moving geometry and establish that visibility and hit distance remain fixed while appearance follows the material table.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry local shading into a visibility test</h2>
+<p>Retain the material and uniform buffers, front-face normal and linear lighting function. Lesson 23 will interrupt the light contribution with a bounded shadow query. The query will reuse the geometry functions but deliberately avoid the material fetch and local shading work until it knows whether the light is visible.</p>
+</section>
+
+<p>We now have the same local relationships as the manual tracer, expressed through Vulkan buffers and shader <a class="glossary-term" id="glossary-origin-22-0044" href="glossary.html?from=lesson-22.html%23glossary-origin-22-0044&amp;lesson=22#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocations</a>. Geometry chooses the hit, a material describes the surface, and the light supplies incident direction and intensity. The remaining flaw is obvious: every accepted point receives the light even when another primitive stands between them.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-21.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">21. Scene Buffers and the Closest Hit</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-23.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">23. A Shadow Query Is Still Bounded</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

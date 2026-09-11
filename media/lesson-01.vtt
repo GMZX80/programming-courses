@@ -1,0 +1,2944 @@
+WEBVTT
+
+NOTE Intended script with approximate chunk-local cue timing. Human subtitle review recommended.
+
+1
+00:00:00.160 --> 00:00:04.499
+Welcome. I am Professor Graham Morgan. This first lecture asks what
+
+2
+00:00:04.499 --> 00:00:08.837
+makes a computer program appropriate, and what a programmer must understand
+
+3
+00:00:08.837 --> 00:00:13.176
+before claiming that it is. A program can compile, run and
+
+4
+00:00:13.176 --> 00:00:17.120
+display an attractive result while still solving the wrong problem.
+
+5
+00:00:17.240 --> 00:00:21.699
+It might lose information, fail on an ordinary boundary case, or take
+
+6
+00:00:21.699 --> 00:00:25.786
+far too long when somebody supplies a realistic amount of data.
+
+7
+00:00:25.786 --> 00:00:29.873
+A successful demonstration is a useful beginning. We need to know
+
+8
+00:00:29.873 --> 00:00:33.960
+what that demonstration establishes. The
+lesson presents seven rules of programming.
+
+9
+00:00:34.080 --> 00:00:38.260
+We will treat them as connected questions about judgement, rather than
+
+10
+00:00:38.260 --> 00:00:42.440
+seven slogans to memorise. Some concern the computation itself. Others concern
+
+11
+00:00:42.440 --> 00:00:46.240
+the tools, colleagues and habits that make good work possible.
+
+12
+00:00:46.360 --> 00:00:50.819
+Together they ask whether you can explain your decisions and defend the
+
+13
+00:00:50.819 --> 00:00:54.906
+resulting program with evidence. This matters whether you write every line
+
+14
+00:00:54.906 --> 00:00:58.993
+yourself, adapt an existing library, or direct a system that generates
+
+15
+00:00:58.993 --> 00:01:03.080
+code. The origin of the implementation changes how you obtain it.
+
+16
+00:01:03.200 --> 00:01:05.612
+It does not remove the need to
+
+17
+00:01:05.612 --> 00:01:07.680
+decide whether it satisfies the requirement.
+
+18
+00:01:08.080 --> 00:01:12.091
+By the end, you should be able to do four things.
+
+19
+00:01:12.091 --> 00:01:16.102
+First, distinguish an observed result from a justified claim that a
+
+20
+00:01:16.102 --> 00:01:20.113
+program is appropriate. Second, explain a small computation through its state,
+
+21
+00:01:20.113 --> 00:01:23.760
+its permitted changes and the conditions that must remain true.
+
+22
+00:01:23.880 --> 00:01:28.020
+Third, propose complementary evidence for
+correctness and performance. Finally, use
+
+23
+00:01:28.020 --> 00:01:32.160
+the seven rules to evaluate a design decision, including its
+
+24
+00:01:32.160 --> 00:01:36.300
+effect on other programmers. You need only a basic idea
+
+25
+00:01:36.300 --> 00:01:40.440
+of a variable, a conditional choice and a repeated operation.
+
+26
+00:01:40.560 --> 00:01:44.023
+We will meet a short piece of C plus plus, but
+
+27
+00:01:44.023 --> 00:01:47.172
+this is not a syntax test. I will explain what
+
+28
+00:01:47.172 --> 00:01:50.320
+the operations mean before asking you to reason about them.
+
+29
+00:01:50.440 --> 00:01:54.505
+If you already know the language, concentrate on the assumptions that
+
+30
+00:01:54.505 --> 00:01:58.570
+make the reasoning valid. For
+more experienced students, the additional challenge
+
+31
+00:01:58.570 --> 00:02:02.265
+is to ask where each claim stops being justified. Could
+
+32
+00:02:02.265 --> 00:02:05.960
+the input range change? Could another component bypass the rule?
+
+33
+00:02:06.080 --> 00:02:09.765
+Would the same evidence support a stronger conclusion? Those
+
+34
+00:02:09.765 --> 00:02:13.040
+questions provide depth without requiring more elaborate notation.
+
+35
+00:02:13.440 --> 00:02:17.693
+Imagine a program that reads a collection of assessment marks and
+
+36
+00:02:17.693 --> 00:02:21.947
+reports the highest one. For a particular file it prints eighty.
+
+37
+00:02:21.947 --> 00:02:25.813
+That result may be correct. However, before accepting the program,
+
+38
+00:02:25.813 --> 00:02:29.680
+we need to know what inputs it promises to handle.
+
+39
+00:02:29.800 --> 00:02:33.800
+Can the file be empty? Are missing marks different from
+
+40
+00:02:33.800 --> 00:02:37.800
+zero? Are marks restricted to a particular range? Should malformed
+
+41
+00:02:37.800 --> 00:02:41.800
+input stop processing, or should the program report the offending
+
+42
+00:02:41.800 --> 00:02:45.400
+record and continue? These are decisions about the problem.
+
+43
+00:02:45.520 --> 00:02:50.109
+A compiler cannot infer the intended policy from a plausible implementation.
+
+44
+00:02:50.109 --> 00:02:54.697
+A test cannot assess a policy that nobody has specified. An
+
+45
+00:02:54.697 --> 00:02:58.869
+appropriate program meets explicit requirements
+under stated conditions, preserves the
+
+46
+00:02:58.869 --> 00:03:03.040
+rules governing its state, and operates within the resources available.
+
+47
+00:03:03.160 --> 00:03:07.098
+Its important responsibilities should also be understandable to the next
+
+48
+00:03:07.098 --> 00:03:11.037
+person who changes it. The appropriate level of assurance depends
+
+49
+00:03:11.037 --> 00:03:14.975
+on the consequences of failure. A throwaway experiment and a
+
+50
+00:03:14.975 --> 00:03:18.520
+system making important decisions need different amounts of evidence.
+
+51
+00:03:18.640 --> 00:03:21.840
+Neither gains correctness merely because its author feels confident.
+
+52
+00:03:22.240 --> 00:03:27.562
+Here is our route through the lesson. Rule one concerns timeliness:
+
+53
+00:03:27.562 --> 00:03:32.884
+can we estimate the cost of the computation? Rule two concerns
+
+54
+00:03:32.884 --> 00:03:37.722
+understanding: can we explain what the program actually does? Rule
+
+55
+00:03:37.722 --> 00:03:42.560
+three concerns evaluation: what automated
+and human evidence supports correctness?
+
+56
+00:03:42.680 --> 00:03:46.994
+These three are closely linked.
+Without understanding the computation, we struggle
+
+57
+00:03:46.994 --> 00:03:50.916
+both to estimate its cost and to decide what to
+
+58
+00:03:50.916 --> 00:03:54.838
+test. Rule four asks us to use existing code and
+
+59
+00:03:54.838 --> 00:03:58.760
+expertise. Rule five asks us to recognise value and worth.
+
+60
+00:03:58.880 --> 00:04:03.365
+Rule six concerns recognising and
+nurturing other programmers. These rules broaden
+
+61
+00:04:03.365 --> 00:04:07.443
+the view from one implementation to the work of a
+
+62
+00:04:07.443 --> 00:04:11.520
+team. Rule seven concerns the quality of the learning journey.
+
+63
+00:04:11.640 --> 00:04:16.384
+An exercise should leave you with a better model of computation, not
+
+64
+00:04:16.384 --> 00:04:20.732
+merely a working submission. The
+original lesson is deliberately forceful about
+
+65
+00:04:20.732 --> 00:04:25.080
+professional habits. We will preserve
+its demand for understanding and responsibility.
+
+66
+00:04:25.200 --> 00:04:29.787
+Where its earlier explanations need qualification, we will use the
+
+67
+00:04:29.787 --> 00:04:34.373
+more precise account in the lesson's later extension. Judgement includes
+
+68
+00:04:34.373 --> 00:04:38.960
+examining an explanation, even when it appears in teaching material.
+
+69
+00:04:39.400 --> 00:04:42.961
+Rule one asks you to be capable of estimating the timeliness
+
+70
+00:04:42.961 --> 00:04:46.522
+of your computation. Start by identifying the resource requirement. A game
+
+71
+00:04:46.522 --> 00:04:50.083
+may need work to finish within a frame budget. A batch
+
+72
+00:04:50.083 --> 00:04:53.320
+process may need to complete before the next working day.
+
+73
+00:04:53.440 --> 00:04:57.780
+An interactive service may need most responses to arrive within an
+
+74
+00:04:57.780 --> 00:05:02.120
+agreed interval. Saying that a program is fast leaves all of
+
+75
+00:05:02.120 --> 00:05:06.460
+this unspecified. Next identify the workload. The number of inputs matters,
+
+76
+00:05:06.460 --> 00:05:10.800
+but so may their arrangement, their distribution and the operations requested.
+
+77
+00:05:10.920 --> 00:05:14.979
+Searching once in a small list differs from repeatedly searching a large
+
+78
+00:05:14.979 --> 00:05:19.039
+collection that changes throughout execution. There
+are two questions to keep separate.
+
+79
+00:05:19.039 --> 00:05:22.760
+How does the amount of work grow as the input grows?
+
+80
+00:05:22.880 --> 00:05:27.433
+And does the actual implementation meet its time budget on the target
+
+81
+00:05:27.433 --> 00:05:31.986
+system? Analysis helps answer the first.
+Measurement helps answer the second. They
+
+82
+00:05:31.986 --> 00:05:36.160
+inform each other, but neither is a substitute for the other.
+
+83
+00:05:36.280 --> 00:05:39.118
+A favourable growth rate does not guarantee a useful
+
+84
+00:05:39.118 --> 00:05:41.640
+running time at the size you care about.
+
+85
+00:05:42.080 --> 00:05:46.101
+Consider finding the largest value in a nonempty list. Set
+
+86
+00:05:46.101 --> 00:05:50.121
+the candidate to the value of the first element. Compare
+
+87
+00:05:50.121 --> 00:05:54.142
+each remaining element with that candidate, replacing it when the
+
+88
+00:05:54.142 --> 00:05:57.760
+new value is larger. Ten elements require nine comparisons.
+
+89
+00:05:57.880 --> 00:06:02.280
+Ten thousand elements require nine thousand, nine hundred and ninety-nine
+
+90
+00:06:02.280 --> 00:06:06.680
+comparisons. The number of comparisons grows roughly in proportion to
+
+91
+00:06:06.680 --> 00:06:11.080
+the list length. Now consider a different task: compare every
+
+92
+00:06:11.080 --> 00:06:15.480
+pair of distinct elements once. Ten elements give forty-five pairs.
+
+93
+00:06:15.600 --> 00:06:19.920
+Ten thousand elements give just under fifty million pairs. The input
+
+94
+00:06:19.920 --> 00:06:24.240
+increased by a factor of one thousand. The number of pairs
+
+95
+00:06:24.240 --> 00:06:28.560
+increased by roughly a million. That difference can overwhelm a small
+
+96
+00:06:28.560 --> 00:06:32.880
+improvement in processor speed. These
+are operation counts, not measured seconds.
+
+97
+00:06:33.000 --> 00:06:37.331
+We have also compared two different tasks, so the second algorithm is
+
+98
+00:06:37.331 --> 00:06:41.300
+not a proposed replacement for finding a maximum. The example isolates
+
+99
+00:06:41.300 --> 00:06:45.270
+the effect of growth. Before choosing an algorithm, establish that it
+
+100
+00:06:45.270 --> 00:06:49.240
+solves the required problem. Only then is a performance comparison meaningful.
+
+101
+00:06:49.640 --> 00:06:53.240
+The phrase big oh describes an upper bound on how
+
+102
+00:06:53.240 --> 00:06:56.840
+work grows for sufficiently large inputs. For our maximum scan,
+
+103
+00:06:56.840 --> 00:07:00.440
+the number of comparisons is linear in the list length.
+
+104
+00:07:00.560 --> 00:07:04.658
+That statement does not tell us how many nanoseconds a comparison
+
+105
+00:07:04.658 --> 00:07:08.755
+takes, or whether reading the data dominates the calculation. It leaves
+
+106
+00:07:08.755 --> 00:07:12.480
+out machine-specific detail so that we can reason about scale.
+
+107
+00:07:12.600 --> 00:07:16.958
+When a requirement concerns elapsed time, we must put those
+
+108
+00:07:16.958 --> 00:07:21.316
+details back through a representative measurement. Specify the build, the
+
+109
+00:07:21.316 --> 00:07:25.238
+hardware and the workload. Explain whether the reported value
+
+110
+00:07:25.238 --> 00:07:29.160
+is an average, a worst observation, or a percentile.
+
+111
+00:07:29.280 --> 00:07:33.100
+For example, roughly ninety-five percent of observations are no slower
+
+112
+00:07:33.100 --> 00:07:36.920
+than a measured ninety-fifth percentile. This does not promise that
+
+113
+00:07:36.920 --> 00:07:40.740
+future requests will stay below it. The practical mistake is
+
+114
+00:07:40.740 --> 00:07:44.560
+to jump from one reassuring measurement to a universal claim.
+
+115
+00:07:44.680 --> 00:07:48.743
+A short run on convenient inputs may hide an expensive
+
+116
+00:07:48.743 --> 00:07:52.806
+case. Conversely, a theoretically better algorithm may have overheads that
+
+117
+00:07:52.806 --> 00:07:56.463
+matter for small inputs. Appropriate selection depends on the
+
+118
+00:07:56.463 --> 00:08:00.120
+range and conditions in which the program must work.
+
+119
+00:08:00.520 --> 00:08:05.235
+The lesson connects timeliness with P and N P. A decision problem
+
+120
+00:08:05.235 --> 00:08:09.556
+asks a yes-or-no question. Polynomial time means that work has an
+
+121
+00:08:09.556 --> 00:08:13.878
+upper bound given by a fixed power of the original input
+
+122
+00:08:13.878 --> 00:08:18.200
+length, with a constant multiplier. Linear and quadratic bounds are examples.
+
+123
+00:08:18.320 --> 00:08:22.613
+Polynomial does not mean simply proportional. P contains decision problems
+
+124
+00:08:22.613 --> 00:08:26.907
+solvable within such a bound by a deterministic algorithm: one
+
+125
+00:08:26.907 --> 00:08:31.200
+whose next step follows from its current state and instructions.
+
+126
+00:08:31.320 --> 00:08:36.717
+N P contains decision problems whose yes answers have certificates that a
+
+127
+00:08:36.717 --> 00:08:41.665
+deterministic algorithm can check in
+polynomial time. A certificate is supporting
+
+128
+00:08:41.665 --> 00:08:46.612
+information, such as a proposed
+arrangement satisfying stated constraints. Its length
+
+129
+00:08:46.612 --> 00:08:51.560
+must also have a polynomial bound in the original input length.
+
+130
+00:08:51.680 --> 00:08:55.823
+Those bounds concern the problem input, not an arbitrarily inflated
+
+131
+00:08:55.823 --> 00:08:59.551
+certificate. Every problem in P also belongs to N
+
+132
+00:08:59.551 --> 00:09:03.280
+P. Whether the two classes are equal remains unresolved.
+
+133
+00:09:03.400 --> 00:09:07.905
+N P does not mean non-polynomial, and nondeterminism in that
+
+134
+00:09:07.905 --> 00:09:12.411
+definition does not mean repeatedly making random guesses. Sorting already
+
+135
+00:09:12.411 --> 00:09:16.465
+has deterministic polynomial-time algorithms. Randomly rearranging a list does
+
+136
+00:09:16.465 --> 00:09:20.520
+not explain the distinction between P and N P.
+
+137
+00:09:20.640 --> 00:09:25.245
+Computability asks whether an algorithmic solution exists at all. Some general
+
+138
+00:09:25.245 --> 00:09:29.849
+questions about programs have no algorithmic solution. This is separate from
+
+139
+00:09:29.849 --> 00:09:34.454
+asking how expensive an available algorithm is. For today's practical rule,
+
+140
+00:09:34.454 --> 00:09:38.640
+remember that even polynomial growth does not guarantee useful speed.
+
+141
+00:09:39.040 --> 00:09:43.321
+Suppose our marks program must process the largest expected file
+
+142
+00:09:43.321 --> 00:09:47.174
+within two seconds on a specified machine. Two seconds
+
+143
+00:09:47.174 --> 00:09:51.027
+is an illustrative requirement for this example, not a
+
+144
+00:09:51.027 --> 00:09:54.880
+benchmark result. We can now design a useful experiment.
+
+145
+00:09:55.000 --> 00:09:59.358
+Generate inputs covering the expected
+size range, include realistic parsing costs,
+
+146
+00:09:59.358 --> 00:10:03.716
+and use the intended build
+configuration. Repeat measurements to see variability
+
+147
+00:10:03.716 --> 00:10:07.678
+rather than selecting the most attractive run. If the budget
+
+148
+00:10:07.678 --> 00:10:11.640
+is missed, a profiler can help identify where time goes.
+
+149
+00:10:11.760 --> 00:10:16.642
+Perhaps the maximum scan is negligible
+and file conversion dominates. Replacing a
+
+150
+00:10:16.642 --> 00:10:21.525
+comparison with a clever low-level trick would then address the wrong cost.
+
+151
+00:10:21.525 --> 00:10:26.000
+We should retain the original
+behaviour checks while changing the implementation.
+
+152
+00:10:26.120 --> 00:10:31.133
+An optimisation that returns the wrong mark more quickly has not satisfied
+
+153
+00:10:31.133 --> 00:10:35.729
+the requirement. After the change, compare the relevant workload again and
+
+154
+00:10:35.729 --> 00:10:40.324
+record the conditions. Rule one demands enough understanding to make an
+
+155
+00:10:40.324 --> 00:10:44.920
+estimate, and enough honesty to distinguish an estimate from a measurement.
+
+156
+00:10:45.040 --> 00:10:49.520
+It does not demand a fictitious exact prediction of every execution.
+
+157
+00:10:49.920 --> 00:10:53.407
+Consider this claim: the program processed one hundred marks instantly
+
+158
+00:10:53.407 --> 00:10:56.894
+on my laptop, so it will meet the requirement for
+
+159
+00:10:56.894 --> 00:11:00.382
+a million marks. What information is missing? Take thirty seconds
+
+160
+00:11:00.382 --> 00:11:03.520
+to identify at least two gaps before we continue.
+
+161
+00:11:33.920 --> 00:11:38.640
+We need the actual requirement, a model of growth and a
+
+162
+00:11:38.640 --> 00:11:43.360
+representative measurement. The word instantly
+gives no numerical observation. The laptop
+
+163
+00:11:43.360 --> 00:11:48.080
+may differ from the target system. A larger file may expose
+
+164
+00:11:48.080 --> 00:11:52.800
+memory, storage or parsing costs that the small input never exercised.
+
+165
+00:11:52.920 --> 00:11:56.349
+We also need to know that the program produced the
+
+166
+00:11:56.349 --> 00:11:59.434
+correct result during the measurement. A strong answer therefore
+
+167
+00:11:59.434 --> 00:12:02.520
+proposes an experiment and predicts what it will reveal.
+
+168
+00:12:02.640 --> 00:12:07.227
+For example, if the computation makes one pass over the records, we
+
+169
+00:12:07.227 --> 00:12:11.813
+expect linear work in the record count, assuming bounded work per record.
+
+170
+00:12:11.813 --> 00:12:16.400
+We can test increasing file sizes
+and investigate departures from that expectation.
+
+171
+00:12:16.520 --> 00:12:20.880
+If records can themselves grow arbitrarily long, record count alone
+
+172
+00:12:20.880 --> 00:12:25.240
+is an incomplete size measure. This last qualification is important.
+
+173
+00:12:25.240 --> 00:12:29.600
+Complexity depends on how we describe the input and the
+
+174
+00:12:29.600 --> 00:12:33.960
+operations we count. Stating those assumptions makes an estimate useful.
+
+175
+00:12:34.080 --> 00:12:38.421
+Concealing them makes it sound more certain while making it harder to
+
+176
+00:12:38.421 --> 00:12:42.400
+challenge. We now turn to the understanding that those assumptions require.
+
+177
+00:12:42.800 --> 00:12:46.000
+Rule two asks you to understand what a program actually
+
+178
+00:12:46.000 --> 00:12:49.200
+does in a computational sense. Reading each statement aloud is
+
+179
+00:12:49.200 --> 00:12:52.400
+not enough. We need a model of the state represented
+
+180
+00:12:52.400 --> 00:12:55.280
+by the program and the changes that operations permit.
+
+181
+00:12:55.400 --> 00:12:59.240
+State is the information that determines the relevant situation at
+
+182
+00:12:59.240 --> 00:13:03.080
+a point in execution. For a simple game character, it
+
+183
+00:13:03.080 --> 00:13:06.920
+might include health, position and whether an action is available.
+
+184
+00:13:07.040 --> 00:13:11.105
+At a lower level, we might examine the objects in memory
+
+185
+00:13:11.105 --> 00:13:15.170
+and which references identify them. The useful level depends on the
+
+186
+00:13:15.170 --> 00:13:18.865
+question. We should choose a model detailed enough to explain
+
+187
+00:13:18.865 --> 00:13:22.560
+the behaviour, without drowning the
+explanation in irrelevant machine instructions.
+
+188
+00:13:22.680 --> 00:13:26.691
+A state transition describes how an
+operation changes that situation. An invariant
+
+189
+00:13:26.691 --> 00:13:30.367
+is a condition that must hold at the relevant stable points
+
+190
+00:13:30.367 --> 00:13:34.044
+in the program. If health must remain between zero and one
+
+191
+00:13:34.044 --> 00:13:37.720
+hundred, that range is an invariant for a valid health object.
+
+192
+00:13:37.840 --> 00:13:42.240
+The value changes. The obligation to remain within the range persists.
+
+193
+00:13:42.640 --> 00:13:46.747
+The lesson's worked example uses a small health object. Its initial
+
+194
+00:13:46.747 --> 00:13:50.853
+value must lie between zero and one hundred. A damage request
+
+195
+00:13:50.853 --> 00:13:54.960
+must never increase health and must never reduce it below zero.
+
+196
+00:13:55.080 --> 00:13:58.680
+Other code can ask for the current value and whether
+
+197
+00:13:58.680 --> 00:14:02.280
+the player is alive. We will use three examples to
+
+198
+00:14:02.280 --> 00:14:05.880
+make the contract concrete. Starting at ten, damage of three
+
+199
+00:14:05.880 --> 00:14:09.480
+leaves seven. Starting at seven, damage of twenty leaves zero.
+
+200
+00:14:09.600 --> 00:14:13.497
+A negative damage request is invalid and the operation rejects it
+
+201
+00:14:13.497 --> 00:14:17.394
+without changing the stored health. In this example, being alive means
+
+202
+00:14:17.394 --> 00:14:20.937
+having health greater than zero. We are defining a small
+
+203
+00:14:20.937 --> 00:14:24.480
+game policy, not claiming that every game must use it.
+
+204
+00:14:24.600 --> 00:14:28.631
+Notice how much reasoning we can do before studying class syntax.
+
+205
+00:14:28.631 --> 00:14:32.295
+We have a state range, permitted operations and an error
+
+206
+00:14:32.295 --> 00:14:35.960
+policy. These are the promises that an implementation must meet.
+
+207
+00:14:36.080 --> 00:14:39.720
+Later lessons will supply the language detail needed to
+
+208
+00:14:39.720 --> 00:14:43.360
+express and enforce those promises in C plus plus.
+
+209
+00:14:43.760 --> 00:14:47.730
+Let us follow the damage operation in order. It first checks
+
+210
+00:14:47.730 --> 00:14:51.700
+whether the supplied amount is negative. If so, it reports an
+
+211
+00:14:51.700 --> 00:14:55.671
+invalid argument by throwing an exception. The assignment to the stored
+
+212
+00:14:55.671 --> 00:14:59.280
+health has not happened, so the old state remains unchanged.
+
+213
+00:14:59.400 --> 00:15:02.990
+For a nonnegative amount, it subtracts the damage from the
+
+214
+00:15:02.990 --> 00:15:06.579
+current health and chooses the larger of that result and
+
+215
+00:15:06.579 --> 00:15:10.169
+zero. That final choice prevents health falling below zero. With
+
+216
+00:15:10.169 --> 00:15:13.400
+health ten and damage three, the subtraction gives seven.
+
+217
+00:15:13.520 --> 00:15:17.660
+With health seven and damage twenty, it gives minus thirteen,
+
+218
+00:15:17.660 --> 00:15:21.800
+so the stored result becomes zero. The code uses ordinary
+
+219
+00:15:21.800 --> 00:15:25.940
+signed integers. Under this example's assumptions, health is between zero
+
+220
+00:15:25.940 --> 00:15:30.080
+and one hundred and damage is a nonnegative representable integer.
+
+221
+00:15:30.200 --> 00:15:35.137
+The subtraction stays within the representable range of that integer type.
+
+222
+00:15:35.137 --> 00:15:39.624
+This qualification matters because arithmetic
+reasoning in a programming language
+
+223
+00:15:39.624 --> 00:15:44.112
+must respect its actual number representation. We cannot generally assume
+
+224
+00:15:44.112 --> 00:15:48.600
+that every mathematical integer calculation fits in a machine integer.
+
+225
+00:15:49.000 --> 00:15:52.600
+We can now give a small correctness argument. Construction checks
+
+226
+00:15:52.600 --> 00:15:56.200
+the initial range. If that check succeeds, the stored health
+
+227
+00:15:56.200 --> 00:15:59.800
+is valid at the start. If it fails, construction does
+
+228
+00:15:59.800 --> 00:16:03.400
+not produce a valid health object for callers to use.
+
+229
+00:16:03.520 --> 00:16:07.889
+Next consider an operation on an already valid object. A
+
+230
+00:16:07.889 --> 00:16:12.258
+negative damage request leaves its state unchanged. A nonnegative request
+
+231
+00:16:12.258 --> 00:16:16.628
+subtracts a nonnegative amount, so health cannot increase. Selecting zero
+
+232
+00:16:16.628 --> 00:16:20.560
+whenever the subtraction is negative establishes the lower bound.
+
+233
+00:16:20.680 --> 00:16:24.602
+The previous upper bound of one hundred therefore remains true as well.
+
+234
+00:16:24.602 --> 00:16:28.525
+This pattern has a starting argument and a preservation argument. It explains
+
+235
+00:16:28.525 --> 00:16:32.120
+why any sequence of the permitted damage operations preserves the range.
+
+236
+00:16:32.240 --> 00:16:35.798
+The argument relies on every relevant state change obeying the
+
+237
+00:16:35.798 --> 00:16:39.356
+interface and on execution respecting the language rules. If unrelated
+
+238
+00:16:39.356 --> 00:16:42.558
+code could directly assign minus five to the health
+
+239
+00:16:42.558 --> 00:16:45.760
+field, our argument would no longer cover the system.
+
+240
+00:16:45.880 --> 00:16:48.718
+A proof about one operation is useful only within
+
+241
+00:16:48.718 --> 00:16:51.240
+the assumptions that connect it to the program.
+
+242
+00:16:51.640 --> 00:16:56.200
+Making the health representation private restricts
+which code can change it directly.
+
+243
+00:16:56.200 --> 00:17:00.760
+Callers request damage through an operation that owns the policy. The boundary
+
+244
+00:17:00.760 --> 00:17:05.320
+is useful because several callers need the same range and damage rules.
+
+245
+00:17:05.440 --> 00:17:09.145
+We avoid asking every caller to remember and reproduce those
+
+246
+00:17:09.145 --> 00:17:12.851
+rules separately. This is an architectural decision on a small
+
+247
+00:17:12.851 --> 00:17:16.185
+scale. It assigns responsibility for an invariant and controls
+
+248
+00:17:16.185 --> 00:17:19.520
+how other parts of the system interact with it.
+
+249
+00:17:19.640 --> 00:17:24.440
+Architecture need not begin with a large diagram or a complicated
+
+250
+00:17:24.440 --> 00:17:29.240
+inheritance hierarchy. However, a class is not automatically a good design.
+
+251
+00:17:29.360 --> 00:17:34.599
+If two values can vary independently and no shared rule needs protection,
+
+252
+00:17:34.599 --> 00:17:39.838
+forcing them behind an elaborate interface
+may add work without protecting anything.
+
+253
+00:17:39.838 --> 00:17:44.640
+The question is what requirement or likely change justifies the boundary.
+
+254
+00:17:44.760 --> 00:17:48.820
+For our health example, a future change to the representation
+
+255
+00:17:48.820 --> 00:17:52.880
+can remain local if the observable contract stays the same.
+
+256
+00:17:52.880 --> 00:17:56.940
+That is a possibility enabled by the boundary, not a
+
+257
+00:17:56.940 --> 00:18:01.000
+guarantee that every future requirement will be easy to accommodate.
+
+258
+00:18:01.400 --> 00:18:05.714
+Suppose someone adds a healing operation that simply adds its input
+
+259
+00:18:05.714 --> 00:18:09.636
+to the stored health. The old damage operation remains unchanged
+
+260
+00:18:09.636 --> 00:18:13.558
+and all its tests still pass. Starting from ninety-five, what
+
+261
+00:18:13.558 --> 00:18:17.480
+could a healing request of ten do to our invariant?
+
+262
+00:18:17.600 --> 00:18:20.533
+What policy would you need to decide before accepting
+
+263
+00:18:20.533 --> 00:18:23.467
+healing into the interface? Take thirty seconds to think
+
+264
+00:18:23.467 --> 00:18:26.400
+about the range and the meaning of invalid input.
+
+265
+00:18:56.800 --> 00:19:01.660
+Unrestricted addition could produce one hundred and five, outside the agreed
+
+266
+00:19:01.660 --> 00:19:06.520
+range. We must decide whether excessive healing should clamp at the
+
+267
+00:19:06.520 --> 00:19:11.380
+maximum or be rejected. We must also define negative healing. Those
+
+268
+00:19:11.380 --> 00:19:16.240
+are policy choices, and different games may reasonably make different choices.
+
+269
+00:19:16.360 --> 00:19:20.968
+Once the policy is clear, the new operation needs its own preservation
+
+270
+00:19:20.968 --> 00:19:25.192
+argument and tests. Passing the old damage tests cannot establish that
+
+271
+00:19:25.192 --> 00:19:29.416
+a newly added operation preserves the invariant. For very large amounts,
+
+272
+00:19:29.416 --> 00:19:33.640
+the implementation must also avoid overflowing before it applies a limit.
+
+273
+00:19:33.760 --> 00:19:38.701
+Comparing with the available headroom can
+avoid an unsafe intermediate addition. The
+
+274
+00:19:38.701 --> 00:19:43.231
+larger lesson is that understanding belongs to the set of operations
+
+275
+00:19:43.231 --> 00:19:47.760
+and their interactions, not merely the initial version of a function.
+
+276
+00:19:47.880 --> 00:19:52.008
+A change can invalidate an assumption without editing the code that
+
+277
+00:19:52.008 --> 00:19:56.135
+relied on it. This connects rule two to rule three. Our
+
+278
+00:19:56.135 --> 00:19:59.888
+model tells us what should remain true. Evaluation challenges whether
+
+279
+00:19:59.888 --> 00:20:03.640
+the implementation and its surrounding use actually support that claim.
+
+280
+00:20:04.040 --> 00:20:08.840
+Rule three asks us to use automated and human approaches to
+
+281
+00:20:08.840 --> 00:20:13.640
+evaluate correctness. A test supplies
+an observation under specified conditions. Evaluation
+
+282
+00:20:13.640 --> 00:20:18.440
+decides what that observation, together with other evidence, justifies us in
+
+283
+00:20:18.440 --> 00:20:23.240
+claiming. The distinction becomes clear when we examine a weak test.
+
+284
+00:20:23.360 --> 00:20:27.499
+Return to finding the largest integer in a nonempty collection. Suppose a
+
+285
+00:20:27.499 --> 00:20:31.292
+test accepts any returned value that is at least as large
+
+286
+00:20:31.292 --> 00:20:35.086
+as every input. For the inputs four, nine and two, an
+
+287
+00:20:35.086 --> 00:20:38.880
+implementation returning one million would pass. It would still be wrong.
+
+288
+00:20:39.000 --> 00:20:43.840
+The answer must also be one of the input values. The original
+
+289
+00:20:43.840 --> 00:20:48.680
+lesson uses this example to challenge confidence based solely on passed tests.
+
+290
+00:20:48.800 --> 00:20:52.923
+Its wording about being larger than every input needs correction:
+
+291
+00:20:52.923 --> 00:20:57.046
+a maximum equals at least one input and is no
+
+292
+00:20:57.046 --> 00:21:01.169
+smaller than the others. A symptom like an unexpected value
+
+293
+00:21:01.169 --> 00:21:04.880
+also does not, by itself, diagnose a memory leak.
+
+294
+00:21:05.000 --> 00:21:08.520
+We need to investigate the computation before naming a cause.
+
+295
+00:21:08.920 --> 00:21:13.404
+Consider the one-pass maximum algorithm more carefully. We require a nonempty
+
+296
+00:21:13.404 --> 00:21:17.480
+collection of integers. Start the candidate at its first element.
+
+297
+00:21:17.600 --> 00:21:21.092
+After each comparison, the candidate is a value we have already
+
+298
+00:21:21.092 --> 00:21:24.266
+seen, and it is at least as large as every
+
+299
+00:21:24.266 --> 00:21:27.440
+value seen so far. That statement is a loop invariant.
+
+300
+00:21:27.560 --> 00:21:31.530
+It holds before we inspect the remaining elements because the candidate
+
+301
+00:21:31.530 --> 00:21:35.500
+is the first value. When a new value is larger, replacing
+
+302
+00:21:35.500 --> 00:21:39.471
+the candidate preserves both membership and the ordering condition. When it
+
+303
+00:21:39.471 --> 00:21:43.080
+is not larger, retaining the old candidate preserves them too.
+
+304
+00:21:43.200 --> 00:21:47.005
+The scan terminates because each step consumes one element of
+
+305
+00:21:47.005 --> 00:21:50.430
+a finite collection. At the end, every element has
+
+306
+00:21:50.430 --> 00:21:53.855
+been seen, so the invariant gives the required result.
+
+307
+00:21:53.855 --> 00:21:57.280
+Initialising the candidate to zero would weaken this reasoning.
+
+308
+00:21:57.400 --> 00:22:01.380
+For an unrestricted integer collection
+containing only negative values, zero might
+
+309
+00:22:01.380 --> 00:22:05.360
+never occur in the input. We could return a value that
+
+310
+00:22:05.360 --> 00:22:09.340
+is too large and absent. If the domain were restricted to
+
+311
+00:22:09.340 --> 00:22:13.320
+marks between zero and one hundred, the reasoning would be different.
+
+312
+00:22:13.440 --> 00:22:20.240
+Preconditions must be explicit rather than
+borrowed silently from a convenient example.
+
+313
+00:22:20.640 --> 00:22:25.040
+A useful test collection includes a single element, repeated maxima, already
+
+314
+00:22:25.040 --> 00:22:29.040
+ordered data and inputs containing only negative values when the
+
+315
+00:22:29.040 --> 00:22:33.040
+contract permits them. Empty input needs a separate policy because
+
+316
+00:22:33.040 --> 00:22:37.040
+a maximum value does not exist for an empty collection.
+
+317
+00:22:37.160 --> 00:22:41.198
+We might reject it or return an explicit indication that there is
+
+318
+00:22:41.198 --> 00:22:44.899
+no result. We should not invent a sentinel value that could
+
+319
+00:22:44.899 --> 00:22:48.600
+be confused with a genuine
+answer. Properties can complement particular examples.
+
+320
+00:22:48.720 --> 00:22:52.461
+For nonempty valid inputs, the result should belong to the
+
+321
+00:22:52.461 --> 00:22:55.827
+input and be at least as large as each
+
+322
+00:22:55.827 --> 00:22:59.194
+element. Reordering the input should leave the result unchanged.
+
+323
+00:22:59.194 --> 00:23:02.560
+Repeating an existing element should also leave it unchanged.
+
+324
+00:23:02.680 --> 00:23:07.960
+These properties are useful because they
+express relationships that hold across many
+
+325
+00:23:07.960 --> 00:23:13.240
+examples. They still need justification. An
+automated generator explores inputs according to
+
+326
+00:23:13.240 --> 00:23:18.520
+a strategy, and an oracle decides whether the observed result is acceptable.
+
+327
+00:23:18.640 --> 00:23:22.267
+A test oracle is simply the mechanism used to
+
+328
+00:23:22.267 --> 00:23:25.893
+judge the result. If that mechanism encodes the wrong
+
+329
+00:23:25.893 --> 00:23:29.520
+requirement, running it more often does not repair it.
+
+330
+00:23:29.920 --> 00:23:33.547
+Human inspection asks questions that the existing tests may
+
+331
+00:23:33.547 --> 00:23:37.173
+never have encoded. We can read the initialisation, follow
+
+332
+00:23:37.173 --> 00:23:40.800
+each update and compare the implementation with the invariant.
+
+333
+00:23:40.920 --> 00:23:45.520
+A debugger helps examine a concrete execution: the candidate before
+
+334
+00:23:45.520 --> 00:23:50.120
+a comparison, the current element, and the candidate afterwards. A
+
+335
+00:23:50.120 --> 00:23:54.720
+short negative-only input can reveal
+the mistaken initialisation immediately. However,
+
+336
+00:23:54.720 --> 00:23:59.320
+stepping through one execution does not prove every execution correct.
+
+337
+00:23:59.440 --> 00:24:03.880
+Nor is a debugger the only legitimate way to investigate
+
+338
+00:24:03.880 --> 00:24:08.320
+a program. A carefully designed trace or log can be
+
+339
+00:24:08.320 --> 00:24:12.760
+useful when timing, distribution or
+access makes interactive debugging impractical.
+
+340
+00:24:12.760 --> 00:24:17.200
+The important habit is purposeful observation guided by a model.
+
+341
+00:24:17.320 --> 00:24:21.540
+When an observed value surprises us, ask which assumption first
+
+342
+00:24:21.540 --> 00:24:25.760
+failed. Did parsing supply the intended integers? Was the collection
+
+343
+00:24:25.760 --> 00:24:29.980
+nonempty? Did an earlier operation corrupt the data? Has the
+
+344
+00:24:29.980 --> 00:24:34.200
+candidate retained the promised relationship to the values already examined?
+
+345
+00:24:34.320 --> 00:24:38.880
+These questions turn a vague suspicion into a sequence of testable
+
+346
+00:24:38.880 --> 00:24:43.440
+explanations. Tools make the state
+visible. Reasoning determines which state matters.
+
+347
+00:24:43.880 --> 00:24:47.912
+The source advises examining debug and release configurations. The
+
+348
+00:24:47.912 --> 00:24:51.496
+useful principle is to evaluate the configurations that
+
+349
+00:24:51.496 --> 00:24:55.080
+matter while using diagnostic tools to expose defects.
+
+350
+00:24:55.200 --> 00:24:59.252
+We should avoid a misleading explanation in which debug and release
+
+351
+00:24:59.252 --> 00:25:03.304
+are two different versions of the C plus plus language. A
+
+352
+00:25:03.304 --> 00:25:07.356
+compiler may optimise a program
+while preserving the observable behaviour required
+
+353
+00:25:07.356 --> 00:25:11.040
+by the language. This is commonly called the as-if rule.
+
+354
+00:25:11.160 --> 00:25:16.618
+Debug information can help map execution back to source, and it can
+
+355
+00:25:16.618 --> 00:25:22.077
+coexist with optimisation. Optimised code may
+nevertheless be harder to inspect because
+
+356
+00:25:22.077 --> 00:25:27.080
+variables or operations no longer
+correspond neatly to the source presentation.
+
+357
+00:25:27.200 --> 00:25:31.508
+If execution reaches undefined behaviour, the language no longer imposes
+
+358
+00:25:31.508 --> 00:25:35.815
+its usual requirements on that execution. Access beyond an array's
+
+359
+00:25:35.815 --> 00:25:40.123
+permitted bounds is one example. A debug build that happens
+
+360
+00:25:40.123 --> 00:25:44.000
+to appear correct cannot turn that into valid code.
+
+361
+00:25:44.120 --> 00:25:47.880
+Different symptoms across builds are a reason to investigate,
+
+362
+00:25:47.880 --> 00:25:51.640
+not evidence that one configuration guarantees correctness. Warnings and
+
+363
+00:25:51.640 --> 00:25:55.400
+suitable analysis tools add evidence, but each has limits.
+
+364
+00:25:55.800 --> 00:26:01.000
+Different techniques answer different questions.
+Compilation checks whether the implementation
+
+365
+00:26:01.000 --> 00:26:06.200
+accepts the program under its language rules and options. Diagnostics
+
+366
+00:26:06.200 --> 00:26:11.400
+may highlight suspicious constructs. Focused
+tests challenge selected behaviours. Property-based
+
+367
+00:26:11.400 --> 00:26:16.600
+testing generates examples and checks a stated relationship across them.
+
+368
+00:26:16.720 --> 00:26:21.420
+Fuzz testing supplies many generated or mutated inputs to look for
+
+369
+00:26:21.420 --> 00:26:25.694
+failures, such as crashes or violated properties. Static analysis examines
+
+370
+00:26:25.694 --> 00:26:29.967
+code without executing the program. Dynamic analysis examines its behaviour
+
+371
+00:26:29.967 --> 00:26:34.240
+during execution, sometimes with extra checks inserted into the build.
+
+372
+00:26:34.360 --> 00:26:39.907
+Both can expose particular classes of
+defect, within the tool's coverage. Human
+
+373
+00:26:39.907 --> 00:26:45.453
+review challenges the requirement, assumptions and
+structure. A benchmark answers a resource
+
+374
+00:26:45.453 --> 00:26:51.000
+question for a workload. It does not prove the result semantically correct.
+
+375
+00:26:51.120 --> 00:26:55.280
+A coverage report shows which code the selected tests exercised. It
+
+376
+00:26:55.280 --> 00:26:59.440
+does not prove that the tests would recognise a wrong result.
+
+377
+00:26:59.440 --> 00:27:03.600
+Counting evidence is less useful than understanding what each piece supports.
+
+378
+00:27:03.720 --> 00:27:08.225
+For the health object, we want examples at zero and one
+
+379
+00:27:08.225 --> 00:27:12.730
+hundred, invalid construction, negative damage,
+damage of zero and damage exceeding
+
+380
+00:27:12.730 --> 00:27:16.825
+current health. We also want the preservation argument, and checks
+
+381
+00:27:16.825 --> 00:27:20.920
+that callers cannot bypass the intended interface through ordinary use.
+
+382
+00:27:21.040 --> 00:27:24.280
+Together these provide a stronger basis for acceptance
+
+383
+00:27:24.280 --> 00:27:27.520
+than a long list of convenient middle-of-the-range cases.
+
+384
+00:27:27.920 --> 00:27:31.901
+A maximum function receives minus eight, minus three and minus five,
+
+385
+00:27:31.901 --> 00:27:35.882
+but returns zero. A test accepts that result because it is
+
+386
+00:27:35.882 --> 00:27:39.501
+at least as large as every input. What property has
+
+387
+00:27:39.501 --> 00:27:43.120
+the test missed, and what result should the function return?
+
+388
+00:27:43.240 --> 00:27:48.040
+Suggest one kind of evidence beyond repeating this test. Take thirty seconds.
+
+389
+00:28:18.440 --> 00:28:23.294
+The missing property is membership. Zero satisfies the ordering check but
+
+390
+00:28:23.294 --> 00:28:27.707
+is absent from the input. The correct maximum is minus
+
+391
+00:28:27.707 --> 00:28:32.120
+three. A stronger acceptance condition checks both membership and ordering.
+
+392
+00:28:32.240 --> 00:28:37.067
+Reading the candidate initialisation and its
+updates against the loop invariant provides
+
+393
+00:28:37.067 --> 00:28:41.893
+another form of evidence. So does a trace selected to challenge a
+
+394
+00:28:41.893 --> 00:28:46.720
+particular suspicion, such as negative-only inputs
+exposing an initial value of zero.
+
+395
+00:28:46.840 --> 00:28:51.133
+An excellent answer also states the domain and the empty-input policy.
+
+396
+00:28:51.133 --> 00:28:55.427
+Without those, we cannot decide whether every relevant case has even
+
+397
+00:28:55.427 --> 00:28:59.720
+been described. This is why evaluation begins before the tests finish.
+
+398
+00:28:59.840 --> 00:29:04.648
+Understanding a requirement, proposing a
+model and choosing evidence are interacting
+
+399
+00:29:04.648 --> 00:29:09.019
+activities throughout development. There is no promise here that a
+
+400
+00:29:09.019 --> 00:29:13.389
+small collection of techniques eliminates
+every possible defect. The responsible
+
+401
+00:29:13.389 --> 00:29:17.760
+claim identifies the property, the conditions and the remaining uncertainty.
+
+402
+00:29:17.880 --> 00:29:22.600
+Rule three encourages stronger judgement, not a ritual in which one
+
+403
+00:29:22.600 --> 00:29:27.320
+human inspection automatically converts a tested program into a proved one.
+
+404
+00:29:27.720 --> 00:29:31.699
+Rule four asks us to utilise existing program code and
+
+405
+00:29:31.699 --> 00:29:35.678
+expertise. Writing everything yourself can feel like taking control. It
+
+406
+00:29:35.678 --> 00:29:39.259
+can also mean replacing a well-understood component with a
+
+407
+00:29:39.259 --> 00:29:42.840
+new implementation whose defects have not yet been discovered.
+
+408
+00:29:42.960 --> 00:29:46.992
+Reuse allows us to benefit from other people's work and to concentrate
+
+409
+00:29:46.992 --> 00:29:50.688
+effort on the decisions specific to our problem. The tension is
+
+410
+00:29:50.688 --> 00:29:54.384
+obvious. Rule two asks us to understand the computation, while rule
+
+411
+00:29:54.384 --> 00:29:58.080
+four asks us to rely on components we did not write.
+
+412
+00:29:58.200 --> 00:30:01.995
+The resolution is proportionate understanding at an explicit boundary. We do
+
+413
+00:30:01.995 --> 00:30:05.790
+not need to memorise every instruction in a compiler or every
+
+414
+00:30:05.790 --> 00:30:09.240
+line of an operating system before writing a useful program.
+
+415
+00:30:09.360 --> 00:30:14.187
+We do need to understand the contract we rely on, relevant limitations
+
+416
+00:30:14.187 --> 00:30:19.013
+and failure behaviour, and the evidence supporting our choice. If a dependency
+
+417
+00:30:19.013 --> 00:30:23.840
+is essential to a high-consequence claim,
+the depth of assurance must increase.
+
+418
+00:30:23.960 --> 00:30:28.200
+Calling it a black box does not make its assumptions
+
+419
+00:30:28.200 --> 00:30:32.440
+disappear. Reimplementing it does not
+automatically make those assumptions safer.
+
+420
+00:30:32.840 --> 00:30:36.703
+Suppose our marks application uses a library to parse a data
+
+421
+00:30:36.703 --> 00:30:40.216
+file. We need to know how it handles malformed records,
+
+422
+00:30:40.216 --> 00:30:43.728
+character encodings and missing fields. Does it retain references to
+
+423
+00:30:43.728 --> 00:30:47.240
+a buffer owned by the caller, or copy the information?
+
+424
+00:30:47.360 --> 00:30:51.067
+If the caller releases that buffer, will the returned values still
+
+425
+00:30:51.067 --> 00:30:54.773
+be valid? These are ownership and lifetime questions: who is responsible
+
+426
+00:30:54.773 --> 00:30:58.480
+for the resource, and how long may other code use it?
+
+427
+00:30:58.600 --> 00:31:03.225
+We should record the dependency's version, origin, terms of use and
+
+428
+00:31:03.225 --> 00:31:07.850
+the behaviour on which our
+application relies. Focused integration tests challenge
+
+429
+00:31:07.850 --> 00:31:12.475
+those assumptions at the boundary. A narrow adapter is a small
+
+430
+00:31:12.475 --> 00:31:16.680
+interface translating library operations into
+the operations our application needs.
+
+431
+00:31:16.800 --> 00:31:21.620
+It may contain library-specific detail that would otherwise spread through the
+
+432
+00:31:21.620 --> 00:31:26.440
+application. The adapter itself needs
+a purpose. Wrapping every operation mechanically
+
+433
+00:31:26.440 --> 00:31:31.260
+can add another layer without reducing a meaningful dependency. We want
+
+434
+00:31:31.260 --> 00:31:36.080
+a boundary that expresses our
+application's requirements and makes uncertainty visible.
+
+435
+00:31:36.200 --> 00:31:39.315
+The question is which assumptions would otherwise spread,
+
+436
+00:31:39.315 --> 00:31:42.040
+and what evidence would justify trusting them.
+
+437
+00:31:42.440 --> 00:31:46.180
+The lesson identifies version control, a development environment and a
+
+438
+00:31:46.180 --> 00:31:49.920
+debugger as part of the programmer's toolbox. Their value lies
+
+439
+00:31:49.920 --> 00:31:53.660
+in what they allow us to establish and repeat. Version
+
+440
+00:31:53.660 --> 00:31:57.400
+control records changes and makes earlier states available for comparison.
+
+441
+00:31:57.520 --> 00:32:02.250
+A focused change with a useful explanation lets another programmer examine
+
+442
+00:32:02.250 --> 00:32:06.980
+why behaviour changed. An integrated
+development environment, often abbreviated to I
+
+443
+00:32:06.980 --> 00:32:11.280
+D E, can bring navigation, diagnostics, compilation and debugging together.
+
+444
+00:32:11.400 --> 00:32:15.240
+The interface is convenient, but recognising a command's effect matters more
+
+445
+00:32:15.240 --> 00:32:19.080
+than memorising where its button appears. You should be able to
+
+446
+00:32:19.080 --> 00:32:22.920
+explain which source and options produced the program you are evaluating.
+
+447
+00:32:22.920 --> 00:32:26.760
+A reproducible build and automated checks help colleagues repeat the evidence.
+
+448
+00:32:26.880 --> 00:32:31.520
+A profiler helps direct performance work. None of these tools
+
+449
+00:32:31.520 --> 00:32:36.160
+chooses the requirement for you. Their contribution is to make
+
+450
+00:32:36.160 --> 00:32:40.800
+observations, changes and decisions less dependent on memory or guesswork.
+
+451
+00:32:40.920 --> 00:32:43.915
+Learning a tool is worthwhile when it helps answer
+
+452
+00:32:43.915 --> 00:32:46.578
+a real engineering question, not merely because it
+
+453
+00:32:46.578 --> 00:32:49.240
+adds another name to a list of technologies.
+
+454
+00:32:49.640 --> 00:32:54.605
+Code generation belongs within this same
+framework. A generated implementation is a
+
+455
+00:32:54.605 --> 00:32:59.569
+proposal that must be checked against
+the requirement, state model and constraints.
+
+456
+00:32:59.569 --> 00:33:04.120
+A fluent explanation of its behaviour is another claim to inspect.
+
+457
+00:33:04.240 --> 00:33:08.773
+It is not independent evidence that
+the implementation does what the explanation
+
+458
+00:33:08.773 --> 00:33:13.307
+says. For example, ask a generator to propose tests for the maximum
+
+459
+00:33:13.307 --> 00:33:17.840
+function. It may produce many positive
+examples while missing the membership condition.
+
+460
+00:33:17.960 --> 00:33:22.925
+If its tests and implementation share
+that misunderstanding, their agreement can be
+
+461
+00:33:22.925 --> 00:33:27.889
+misleading. We must supply or challenge the oracle using reasoning about the
+
+462
+00:33:27.889 --> 00:33:32.440
+problem. A useful workflow keeps the requirement and the evidence visible.
+
+463
+00:33:32.560 --> 00:33:37.189
+Consider alternative implementations, inspect the
+assumptions, compile and test the
+
+464
+00:33:37.189 --> 00:33:41.354
+chosen candidate, then review whether the result supports acceptance.
+
+465
+00:33:41.354 --> 00:33:45.520
+Record the decision in terms another programmer can defend.
+
+466
+00:33:45.640 --> 00:33:50.413
+Learning C plus plus supports this activity because it helps you examine
+
+467
+00:33:50.413 --> 00:33:55.185
+state, interfaces and failure behaviour in
+the actual implementation. Obtaining source code
+
+468
+00:33:55.185 --> 00:33:59.560
+quickly does not establish that you understand the computation it represents.
+
+469
+00:33:59.960 --> 00:34:05.240
+A file library passes its own tests. Your application stores references to
+
+470
+00:34:05.240 --> 00:34:10.520
+values returned by that library and then releases the original input buffer.
+
+471
+00:34:10.520 --> 00:34:15.800
+What question must you answer before
+trusting those references? Take thirty seconds.
+
+472
+00:34:15.920 --> 00:34:19.927
+If you already understand ownership, also consider where you would place the
+
+473
+00:34:19.927 --> 00:34:23.600
+responsibility so that each caller need not rediscover the same rule.
+
+474
+00:34:54.000 --> 00:34:57.240
+We need to establish whether the returned values own their
+
+475
+00:34:57.240 --> 00:35:00.480
+data or refer to storage in the released buffer. The
+
+476
+00:35:00.480 --> 00:35:03.720
+library's own tests may assume the caller keeps that storage
+
+477
+00:35:03.720 --> 00:35:06.960
+alive. Passing those tests would not justify our different use.
+
+478
+00:35:07.080 --> 00:35:11.693
+The contract, a review of relevant behaviour and a focused integration test
+
+479
+00:35:11.693 --> 00:35:16.307
+help establish the actual obligation. An adapter could copy the required data
+
+480
+00:35:16.307 --> 00:35:20.920
+or retain its owner, if that matches our needs and resource budget.
+
+481
+00:35:21.040 --> 00:35:24.754
+This decision connects reuse to rule five, which asks us
+
+482
+00:35:24.754 --> 00:35:28.097
+to realise value and worth. The value of the
+
+483
+00:35:28.097 --> 00:35:31.440
+adapter is not the number of lines it adds.
+
+484
+00:35:31.560 --> 00:35:36.616
+It is the lifetime mistake it prevents or the future change it
+
+485
+00:35:36.616 --> 00:35:41.251
+contains, weighed against the cost and complexity it introduces. We can
+
+486
+00:35:41.251 --> 00:35:45.885
+now see a relationship across the rules. Computational understanding exposes a
+
+487
+00:35:45.885 --> 00:35:50.520
+lifetime assumption. Evaluation challenges it.
+Reuse makes the dependency decision necessary.
+
+488
+00:35:50.640 --> 00:35:53.669
+Judgement about value decides whether the proposed boundary
+
+489
+00:35:53.669 --> 00:35:56.320
+is worth maintaining in this particular application.
+
+490
+00:35:56.720 --> 00:36:00.956
+Software work creates value when it contributes to a useful outcome
+
+491
+00:36:00.956 --> 00:36:05.193
+under real constraints. More code is not a reliable measure of
+
+492
+00:36:05.193 --> 00:36:09.429
+that contribution. Removing a repeated failure may delete code. Clarifying a
+
+493
+00:36:09.429 --> 00:36:13.280
+requirement may prevent a week of implementation that nobody needed.
+
+494
+00:36:13.400 --> 00:36:17.388
+Improving a build may save time for every member of a
+
+495
+00:36:17.388 --> 00:36:21.375
+team. The source connects this rule with recognising professional worth. It
+
+496
+00:36:21.375 --> 00:36:25.000
+is reasonable to explain and seek recognition for a contribution.
+
+497
+00:36:25.120 --> 00:36:30.578
+However, salary, hours in an office and immediate output do not establish
+
+498
+00:36:30.578 --> 00:36:36.037
+an individual's competence. Tasks, opportunities and
+team support differ. We should not
+
+499
+00:36:36.037 --> 00:36:41.040
+turn a provocative career discussion into a universal law about people.
+
+500
+00:36:41.160 --> 00:36:45.360
+A useful account of value states the problem, the intervention and
+
+501
+00:36:45.360 --> 00:36:49.560
+the observed consequence. It also separates what was measured from what
+
+502
+00:36:49.560 --> 00:36:53.760
+remains an estimate. If a change reduces support incidents, describe the
+
+503
+00:36:53.760 --> 00:36:57.960
+comparison period and other changes that could have affected the result.
+
+504
+00:36:58.080 --> 00:37:00.800
+This is the same discipline we used for performance.
+
+505
+00:37:00.800 --> 00:37:03.520
+The claim should remain no stronger than its evidence.
+
+506
+00:37:03.920 --> 00:37:07.808
+Imagine two proposed improvements to the marks application. One makes a
+
+507
+00:37:07.808 --> 00:37:11.697
+rarely used report finish a little sooner. The other prevents staff
+
+508
+00:37:11.697 --> 00:37:15.585
+from accidentally importing the same file twice. We cannot choose responsibly
+
+509
+00:37:15.585 --> 00:37:19.120
+from the descriptions alone. How often does each problem occur?
+
+510
+00:37:19.240 --> 00:37:24.314
+What is the consequence? How much work will the change and its
+
+511
+00:37:24.314 --> 00:37:29.389
+future maintenance require? If duplicate imports
+regularly cause incorrect records, preventing them
+
+512
+00:37:29.389 --> 00:37:34.040
+may matter more than shaving time from an already acceptable report.
+
+513
+00:37:34.160 --> 00:37:39.000
+If the report blocks a time-critical process, the answer may change.
+
+514
+00:37:39.000 --> 00:37:43.840
+Value depends on context, not on whether an optimisation looks technically
+
+515
+00:37:43.840 --> 00:37:48.240
+impressive. This reasoning also guards
+against overengineering. A general framework
+
+516
+00:37:48.240 --> 00:37:52.640
+may be a poor investment for a narrow, short-lived task.
+
+517
+00:37:52.760 --> 00:37:56.945
+Conversely, a small shortcut can become expensive when its assumptions
+
+518
+00:37:56.945 --> 00:38:01.129
+spread across a long-lived system. We should name the likely
+
+519
+00:38:01.129 --> 00:38:05.314
+change or risk that justifies extra structure. Good judgement sometimes
+
+520
+00:38:05.314 --> 00:38:09.080
+adds a carefully chosen boundary and sometimes removes one.
+
+521
+00:38:09.200 --> 00:38:14.080
+The objective is an appropriate result, with a defensible use of effort.
+
+522
+00:38:14.480 --> 00:38:18.987
+Suppose a programmer spends time documenting a difficult interface and helping
+
+523
+00:38:18.987 --> 00:38:23.493
+two colleagues understand it. Their own visible code output falls that
+
+524
+00:38:23.493 --> 00:38:28.000
+week. If we count commits alone, the contribution may look poor.
+
+525
+00:38:28.120 --> 00:38:32.173
+If the colleagues can now make changes without recurring mistakes, the effect
+
+526
+00:38:32.173 --> 00:38:35.889
+may be valuable. We need to examine the consequence rather than
+
+527
+00:38:35.889 --> 00:38:39.604
+treating activity as its own justification. The opposite mistake is to
+
+528
+00:38:39.604 --> 00:38:43.320
+assume that any work described as helpful must have produced value.
+
+529
+00:38:43.440 --> 00:38:48.459
+A document nobody can use, or
+a refactoring that introduces unnecessary complexity,
+
+530
+00:38:48.459 --> 00:38:53.479
+may not justify its cost. Ask what changed, who benefited and what
+
+531
+00:38:53.479 --> 00:38:58.080
+evidence supports the account. For students, this applies to group work.
+
+532
+00:38:58.200 --> 00:39:02.772
+Keep enough rationale and evidence
+that contributions can be understood fairly.
+
+533
+00:39:02.772 --> 00:39:06.928
+Do not assume that the person typing at the keyboard
+
+534
+00:39:06.928 --> 00:39:11.084
+supplied every important decision. A
+counterexample, a clarified requirement or
+
+535
+00:39:11.084 --> 00:39:15.240
+a well-designed test can change the direction of a project.
+
+536
+00:39:15.360 --> 00:39:18.600
+Rule five therefore leads naturally to the ability
+
+537
+00:39:18.600 --> 00:39:21.840
+to recognise and develop competence in other people.
+
+538
+00:39:22.240 --> 00:39:26.693
+Rule six asks you to be capable of spotting and nurturing fellow
+
+539
+00:39:26.693 --> 00:39:31.147
+computer programmers. The important evidence is
+how someone reasons about a problem,
+
+540
+00:39:31.147 --> 00:39:35.600
+learns from an error and helps the group reach a justified result.
+
+541
+00:39:35.720 --> 00:39:40.120
+Familiarity with a fashionable tool may be useful, but it does
+
+542
+00:39:40.120 --> 00:39:44.520
+not replace those abilities. To recognise understanding, ask a colleague to
+
+543
+00:39:44.520 --> 00:39:48.920
+explain a decision and challenge it with a small variation. What
+
+544
+00:39:48.920 --> 00:39:53.320
+happens if the collection is empty? Which operation preserves the invariant?
+
+545
+00:39:53.440 --> 00:39:58.140
+What measurement would change the
+performance conclusion? These questions reveal the
+
+546
+00:39:58.140 --> 00:40:02.840
+model behind the code without turning a conversation into a contest
+
+547
+00:40:02.840 --> 00:40:07.540
+over obscure syntax. Nurturing means
+making improvement possible. Give feedback that
+
+548
+00:40:07.540 --> 00:40:12.240
+identifies the behaviour, explains its consequence and proposes a next step.
+
+549
+00:40:12.360 --> 00:40:16.395
+A label such as careless tells a student little about how
+
+550
+00:40:16.395 --> 00:40:20.063
+to repair an incorrect initialisation. Explaining why a candidate must
+
+551
+00:40:20.063 --> 00:40:23.732
+begin with an input value gives them a principle they
+
+552
+00:40:23.732 --> 00:40:27.400
+can apply again. High standards and useful support belong together.
+
+553
+00:40:27.800 --> 00:40:31.655
+Imagine reviewing a change that adds healing to the health object.
+
+554
+00:40:31.655 --> 00:40:35.510
+A weak comment says the code is wrong. A useful comment
+
+555
+00:40:35.510 --> 00:40:39.015
+locates the addition, gives the example of ninety-five plus ten,
+
+556
+00:40:39.015 --> 00:40:42.520
+and explains that the result violates the existing upper bound.
+
+557
+00:40:42.640 --> 00:40:46.619
+It then asks which policy the interface should promise: rejection
+
+558
+00:40:46.619 --> 00:40:50.599
+or capping health at one hundred. This form of review
+
+559
+00:40:50.599 --> 00:40:54.578
+makes the disagreement inspectable. The author can respond to the
+
+560
+00:40:54.578 --> 00:40:58.160
+example and the contract rather than defending their identity.
+
+561
+00:40:58.280 --> 00:41:02.794
+Once the policy is settled, the team can assess the
+
+562
+00:41:02.794 --> 00:41:06.857
+implementation and add checks that preserve the decision. Reviewers
+
+563
+00:41:06.857 --> 00:41:10.920
+are fallible too. A confident objection still needs reasoning.
+
+564
+00:41:11.040 --> 00:41:14.820
+If the reviewer has assumed unrestricted integers while the function
+
+565
+00:41:14.820 --> 00:41:18.600
+explicitly accepts a narrower domain, that difference should be resolved
+
+566
+00:41:18.600 --> 00:41:22.380
+before changing correct code. The point is to improve shared
+
+567
+00:41:22.380 --> 00:41:26.160
+understanding and evidence, not to reward the most forceful voice.
+
+568
+00:41:26.280 --> 00:41:29.080
+A useful review leaves both the program
+
+569
+00:41:29.080 --> 00:41:31.880
+and the team's model clearer than before.
+
+570
+00:41:32.280 --> 00:41:36.648
+A system becomes difficult to maintain when only one person
+
+571
+00:41:36.648 --> 00:41:40.578
+knows why its boundaries exist. Names, contracts and short
+
+572
+00:41:40.578 --> 00:41:44.509
+decision records can preserve that knowledge. The record should
+
+573
+00:41:44.509 --> 00:41:48.440
+explain the requirement or trade-off, not narrate every keystroke.
+
+574
+00:41:48.560 --> 00:41:52.128
+A future programmer needs to know which assumptions may safely
+
+575
+00:41:52.128 --> 00:41:55.338
+change and which properties the design is intended to
+
+576
+00:41:55.338 --> 00:41:58.549
+protect. Teaching someone to investigate a defect can have
+
+577
+00:41:58.549 --> 00:42:01.760
+more lasting value than silently fixing it for them.
+
+578
+00:42:01.880 --> 00:42:06.040
+Ask them to predict the next state, run a small experiment and
+
+579
+00:42:06.040 --> 00:42:09.853
+compare the observation with the prediction. Give enough support to make
+
+580
+00:42:09.853 --> 00:42:13.667
+progress, then let them explain what changed in their model. The
+
+581
+00:42:13.667 --> 00:42:17.480
+source discusses management as one way of supporting a team's work.
+
+582
+00:42:17.600 --> 00:42:21.867
+We need not assume that every programmer should eventually become a
+
+583
+00:42:21.867 --> 00:42:26.133
+manager. Technical and managerial contributions
+can both be valuable. The relevant
+
+584
+00:42:26.133 --> 00:42:30.400
+habit is to recognise what enables others to produce appropriate software.
+
+585
+00:42:30.520 --> 00:42:34.225
+Rule six applies during a student project, a review with
+
+586
+00:42:34.225 --> 00:42:37.560
+a colleague, or the design of a team process.
+
+587
+00:42:37.960 --> 00:42:41.623
+Rule seven asks us to ensure that gaining an appropriate
+
+588
+00:42:41.623 --> 00:42:45.286
+solution is a by-product of an enjoyable journey. The educational
+
+589
+00:42:45.286 --> 00:42:48.583
+point is that an exercise should develop understanding, rather
+
+590
+00:42:48.583 --> 00:42:51.880
+than train you only to reproduce its final output.
+
+591
+00:42:52.000 --> 00:42:56.427
+Getting the answer can end one task while leaving the underlying
+
+592
+00:42:56.427 --> 00:43:00.853
+lesson untouched. Enjoyment does not
+mean every debugging session feels pleasant.
+
+593
+00:43:00.853 --> 00:43:05.280
+Confusion and frustration are normal parts of learning a difficult subject.
+
+594
+00:43:05.400 --> 00:43:10.020
+They are not evidence that a student lacks the capacity to
+
+595
+00:43:10.020 --> 00:43:14.640
+become a good programmer. A
+productive journey includes manageable challenges, useful
+
+596
+00:43:14.640 --> 00:43:19.260
+feedback and opportunities to discover
+why something behaved unexpectedly. Consider what
+
+597
+00:43:19.260 --> 00:43:23.880
+remains after you finish an exercise. Can you explain the invariant?
+
+598
+00:43:24.000 --> 00:43:28.320
+Can you construct a case that would defeat your first attempt? Can
+
+599
+00:43:28.320 --> 00:43:32.640
+you predict how a changed requirement affects the design? If you can,
+
+600
+00:43:32.640 --> 00:43:36.960
+the exercise has produced something transferable.
+The working program is one result.
+
+601
+00:43:37.080 --> 00:43:39.535
+The improved model is what allows you
+
+602
+00:43:39.535 --> 00:43:41.640
+to tackle a different problem tomorrow.
+
+603
+00:43:42.040 --> 00:43:45.876
+Here is a pattern for your next exercise, rather than
+
+604
+00:43:45.876 --> 00:43:49.712
+a live coding task now. Predict what happens when the
+
+605
+00:43:49.712 --> 00:43:53.548
+maximum candidate begins at zero and the input contains only
+
+606
+00:43:53.548 --> 00:43:57.000
+negative integers. Run the case and explain the result.
+
+607
+00:43:57.120 --> 00:44:01.756
+Change the initialisation to the first element, repeat, and state why
+
+608
+00:44:01.756 --> 00:44:05.971
+the new argument requires a nonempty collection. The value lies
+
+609
+00:44:05.971 --> 00:44:10.185
+in connecting prediction, observation and
+explanation. Merely changing the code
+
+610
+00:44:10.185 --> 00:44:14.400
+until a test passes can conceal why the change mattered.
+
+611
+00:44:14.520 --> 00:44:19.135
+Writing down the failed assumption helps you recognise the same
+
+612
+00:44:19.135 --> 00:44:23.751
+pattern elsewhere. More experienced students
+can compare implementations while holding
+
+613
+00:44:23.751 --> 00:44:28.366
+the contract constant. What changes in storage, work or ease
+
+614
+00:44:28.366 --> 00:44:32.520
+of inspection? Which difference matters under the intended workload?
+
+615
+00:44:32.640 --> 00:44:36.355
+Keep the experiment small enough that you can explain
+
+616
+00:44:36.355 --> 00:44:39.658
+the result. An elaborate benchmark with unclear assumptions
+
+617
+00:44:39.658 --> 00:44:42.960
+may teach less than a short, well-controlled comparison.
+
+618
+00:44:43.080 --> 00:44:47.373
+Rule seven supports the other rules by encouraging the patient curiosity
+
+619
+00:44:47.373 --> 00:44:51.667
+required to understand behaviour, investigate
+evidence and learn from colleagues. Curiosity
+
+620
+00:44:51.667 --> 00:44:55.960
+is useful when it produces a better account of the computation.
+
+621
+00:44:56.360 --> 00:45:00.023
+We have now covered all seven rules. They do not
+
+622
+00:45:00.023 --> 00:45:03.686
+form a one-way checklist that we finish once. A measurement
+
+623
+00:45:03.686 --> 00:45:06.983
+may reveal that our model of the workload was
+
+624
+00:45:06.983 --> 00:45:10.280
+incomplete. A code review may reveal an ambiguous requirement.
+
+625
+00:45:10.400 --> 00:45:15.093
+Reusing a component may introduce a
+lifetime assumption that changes the design.
+
+626
+00:45:15.093 --> 00:45:19.396
+One useful cycle begins with a requirement, develops a model of
+
+627
+00:45:19.396 --> 00:45:23.698
+state, assigns responsibilities and then
+examines an implementation through evidence. The
+
+628
+00:45:23.698 --> 00:45:28.000
+result can send us back to revise the requirement or model.
+
+629
+00:45:28.120 --> 00:45:32.198
+Returning to an earlier decision is not necessarily wasted effort. It
+
+630
+00:45:32.198 --> 00:45:35.905
+may be the appropriate response to what we have learned.
+
+631
+00:45:35.905 --> 00:45:39.613
+The social rules matter inside that cycle. Value guides where
+
+632
+00:45:39.613 --> 00:45:43.320
+we spend effort. Colleagues help challenge assumptions and preserve knowledge.
+
+633
+00:45:43.440 --> 00:45:47.145
+The learning journey makes revision productive rather than something to
+
+634
+00:45:47.145 --> 00:45:50.851
+hide. Together the rules describe a programmer who can take
+
+635
+00:45:50.851 --> 00:45:54.185
+responsibility for a result without pretending that one person,
+
+636
+00:45:54.185 --> 00:45:57.520
+one tool or one successful run provides every answer.
+
+637
+00:45:57.920 --> 00:46:01.719
+Let us test the ideas in a new setting. A small
+
+638
+00:46:01.719 --> 00:46:05.173
+room-booking system has a capacity of twenty places. Bookings must
+
+639
+00:46:05.173 --> 00:46:08.626
+not exceed that capacity. A developer shows you a successful
+
+640
+00:46:08.626 --> 00:46:12.080
+booking for one person and says the system is ready.
+
+641
+00:46:12.200 --> 00:46:17.196
+Another component sends booking requests, and its retry behaviour is not
+
+642
+00:46:17.196 --> 00:46:21.738
+yet documented. Take one minute. First, write an invariant and
+
+643
+00:46:21.738 --> 00:46:26.280
+one failure case. Then propose two complementary forms of evidence.
+
+644
+00:46:26.400 --> 00:46:30.522
+If time permits, add a question about the other component or a
+
+645
+00:46:30.522 --> 00:46:34.301
+consideration affecting the value of an improvement. As a further challenge,
+
+646
+00:46:34.301 --> 00:46:38.080
+consider what changes when two requests arrive at the same time.
+
+647
+00:47:38.480 --> 00:47:42.620
+A possible invariant is that confirmed places remain between zero
+
+648
+00:47:42.620 --> 00:47:46.760
+and twenty, with each accepted booking represented consistently. A request
+
+649
+00:47:46.760 --> 00:47:50.900
+for more places than remain available should follow an explicit
+
+650
+00:47:50.900 --> 00:47:55.040
+rejection policy. Negative quantities and cancellations need their own rules.
+
+651
+00:47:55.160 --> 00:48:00.015
+An undetected repeated request could also
+create duplicate bookings, so we need
+
+652
+00:48:00.015 --> 00:48:04.870
+to understand when the other component retries and how the system identifies
+
+653
+00:48:04.870 --> 00:48:09.320
+a request. We could test the capacity boundary and repeated requests.
+
+654
+00:48:09.440 --> 00:48:13.137
+We should also inspect the state transitions and responsibility for
+
+655
+00:48:13.137 --> 00:48:16.465
+accepting a booking. If concurrent requests are permitted, checking
+
+656
+00:48:16.465 --> 00:48:19.792
+the capacity and updating the booking state separately may
+
+657
+00:48:19.792 --> 00:48:23.120
+let both requests proceed from the same old state.
+
+658
+00:48:23.240 --> 00:48:27.126
+The design needs an operation that preserves the capacity rule
+
+659
+00:48:27.126 --> 00:48:30.623
+across the whole transition. We are identifying an obligation
+
+660
+00:48:30.623 --> 00:48:34.120
+here, not prescribing a particular database or locking technique.
+
+661
+00:48:34.240 --> 00:48:38.117
+The value question concerns the frequency and consequence of overbooking,
+
+662
+00:48:38.117 --> 00:48:41.994
+the cost of prevention and the system's expected life. A
+
+663
+00:48:41.994 --> 00:48:45.871
+claim of readiness should connect those requirements and risks to
+
+664
+00:48:45.871 --> 00:48:49.360
+evidence. The one-person demonstration alone does not establish them.
+
+665
+00:48:49.760 --> 00:48:54.353
+For a deeper answer, identify what would change your recommendation. If
+
+666
+00:48:54.353 --> 00:48:58.529
+bookings occur only through one serial process, the concurrency problem
+
+667
+00:48:58.529 --> 00:49:02.704
+may not arise under the stated operating conditions. If a
+
+668
+00:49:02.704 --> 00:49:06.880
+later integration adds parallel requests, that assumption must be revisited.
+
+669
+00:49:07.000 --> 00:49:12.116
+Recording it helps a future developer recognise that the change affects
+
+670
+00:49:12.116 --> 00:49:17.233
+correctness. Similarly, a dependency might
+claim delivery exactly once, or deliberately
+
+671
+00:49:17.233 --> 00:49:22.349
+retry until acknowledged. Establish whether
+its guarantee concerns message delivery, application
+
+672
+00:49:22.349 --> 00:49:27.000
+processing or the final booking effect. These are different claims.
+
+673
+00:49:27.120 --> 00:49:32.080
+The application must still prevent unintended duplicate effects. A useful
+
+674
+00:49:32.080 --> 00:49:37.040
+interface makes the relevant identity and failure behaviour explicit. There
+
+675
+00:49:37.040 --> 00:49:42.000
+are several defensible designs, and selecting one requires more information.
+
+676
+00:49:42.120 --> 00:49:46.067
+What matters at this stage is that you can explain the
+
+677
+00:49:46.067 --> 00:49:50.013
+invariant, expose missing assumptions and
+propose evidence proportionate to the risk.
+
+678
+00:49:50.013 --> 00:49:53.960
+That is the level of abstraction intended by this first lesson.
+
+679
+00:49:54.080 --> 00:49:58.840
+We are practising architectural judgement
+before committing to a detailed mechanism,
+
+680
+00:49:58.840 --> 00:50:03.600
+while remaining precise enough that an implementation can later be challenged.
+
+681
+00:50:04.000 --> 00:50:09.397
+Return to our learning objectives. Can you distinguish an observed result from
+
+682
+00:50:09.397 --> 00:50:14.345
+a justified claim? The booking
+demonstration gave one successful observation. A
+
+683
+00:50:14.345 --> 00:50:19.292
+justified claim also needed requirements,
+operating assumptions and evidence about the
+
+684
+00:50:19.292 --> 00:50:24.240
+relevant failures. Can you explain
+a computation through state and transitions?
+
+685
+00:50:24.360 --> 00:50:28.760
+The health example gave us a valid range, an initialisation check
+
+686
+00:50:28.760 --> 00:50:32.760
+and a preservation argument for damage. The maximum example gave
+
+687
+00:50:32.760 --> 00:50:36.760
+us a candidate whose relationship to the values already seen
+
+688
+00:50:36.760 --> 00:50:40.760
+had to survive each iteration. Can you propose complementary evidence?
+
+689
+00:50:40.880 --> 00:50:45.540
+Tests, inspection, analysis and measurement
+answered different questions. Their agreement
+
+690
+00:50:45.540 --> 00:50:50.200
+was useful only when their assumptions and acceptance criteria were
+
+691
+00:50:50.200 --> 00:50:54.860
+sound. Finally, can you use the seven rules to judge
+
+692
+00:50:54.860 --> 00:50:59.520
+a decision? Timeliness, understanding and
+evaluation established the technical obligations.
+
+693
+00:50:59.640 --> 00:51:04.153
+Reuse brought existing expertise within an understood contract. Value directed
+
+694
+00:51:04.153 --> 00:51:08.666
+effort towards consequences that mattered.
+Nurturing colleagues preserved and improved
+
+695
+00:51:08.666 --> 00:51:13.178
+the shared model. The learning journey turned a completed exercise
+
+696
+00:51:13.178 --> 00:51:17.240
+into understanding that could transfer to the booking problem.
+
+697
+00:51:17.640 --> 00:51:21.640
+For your next programming exercise, choose one claim you are tempted
+
+698
+00:51:21.640 --> 00:51:25.640
+to make about your solution. Write down the requirement it refers
+
+699
+00:51:25.640 --> 00:51:29.640
+to, the assumptions it depends on and the evidence that supports
+
+700
+00:51:29.640 --> 00:51:33.640
+it. Then construct a small variation that might expose a weakness.
+
+701
+00:51:33.760 --> 00:51:38.244
+It could be an empty input, a boundary value, a larger
+
+702
+00:51:38.244 --> 00:51:42.728
+workload or a new operation that changes state. Ask another student
+
+703
+00:51:42.728 --> 00:51:46.804
+to identify one assumption, explain the consequence if it fails,
+
+704
+00:51:46.804 --> 00:51:50.880
+and suggest the next check. Then explain what you learned.
+
+705
+00:51:51.000 --> 00:51:54.581
+A short account is enough if it connects the result to
+
+706
+00:51:54.581 --> 00:51:58.163
+the computation and the computation to its purpose. The next lesson
+
+707
+00:51:58.163 --> 00:52:01.744
+develops variables and the representation of state in more detail. Carry
+
+708
+00:52:01.744 --> 00:52:05.000
+these questions with you as the language becomes more familiar.
+
+709
+00:52:05.120 --> 00:52:08.900
+The appropriate computer programmer can do more than obtain a
+
+710
+00:52:08.900 --> 00:52:12.680
+running program. They can explain why its behaviour meets the
+
+711
+00:52:12.680 --> 00:52:16.460
+requirement, where that explanation has limits, and how further evidence
+
+712
+00:52:16.460 --> 00:52:20.240
+or a changed requirement should alter the design. Thank you.

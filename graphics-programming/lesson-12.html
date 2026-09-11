@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transmit a ray across a boundary while keeping its direction, medium and possible reflection under control.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 12 - Refraction, Fresnel and Glass</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="12" data-ray-stage="12" data-art-pattern="orbit">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 12 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html" aria-current="page"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 12</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">12. Refraction, Fresnel and Glass</h1>
+            <p class="lesson-deck">Transmit a ray across a boundary while keeping its direction, medium and possible reflection under control.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-11.html">&larr; Lesson 11</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-13.html">Lesson 13 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>22 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-12-closest-hit-shader" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-closest-hit-shader&amp;lesson=12#term-closest-hit-shader" aria-label="Look up closest-hit shader in the graphics glossary" title="Look up closest-hit shader in the graphics glossary">closest-hit shader</a> <a class="glossary-chip" id="glossary-panel-origin-12-direction" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-direction&amp;lesson=12#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-12-fresnel" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-fresnel&amp;lesson=12#term-fresnel" aria-label="Look up Fresnel in the graphics glossary" title="Look up Fresnel in the graphics glossary">Fresnel</a> <a class="glossary-chip" id="glossary-panel-origin-12-hit" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-hit&amp;lesson=12#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-12-image" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-image&amp;lesson=12#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-12-image-plane" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-image-plane&amp;lesson=12#term-image-plane" aria-label="Look up image plane in the graphics glossary" title="Look up image plane in the graphics glossary">image plane</a> <a class="glossary-chip" id="glossary-panel-origin-12-index-of-refraction" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-index-of-refraction&amp;lesson=12#term-index-of-refraction" aria-label="Look up index of refraction in the graphics glossary" title="Look up index of refraction in the graphics glossary">index of refraction</a> <a class="glossary-chip" id="glossary-panel-origin-12-material" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-material&amp;lesson=12#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-12-pixel" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-pixel&amp;lesson=12#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-12-primary-ray" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-primary-ray&amp;lesson=12#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-12-ray-payload" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-ray-payload&amp;lesson=12#term-ray-payload" aria-label="Look up ray payload in the graphics glossary" title="Look up ray payload in the graphics glossary">ray payload</a> <a class="glossary-chip" id="glossary-panel-origin-12-reflection" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-reflection&amp;lesson=12#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-12-refraction" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-refraction&amp;lesson=12#term-refraction" aria-label="Look up refraction in the graphics glossary" title="Look up refraction in the graphics glossary">refraction</a> <a class="glossary-chip" id="glossary-panel-origin-12-sample" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-sample&amp;lesson=12#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-12-scene" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-scene&amp;lesson=12#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-12-schlick-approximation" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-schlick-approximation&amp;lesson=12#term-schlick-approximation" aria-label="Look up Schlick approximation in the graphics glossary" title="Look up Schlick approximation in the graphics glossary">Schlick approximation</a> <a class="glossary-chip" id="glossary-panel-origin-12-snells-law" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-snells-law&amp;lesson=12#term-snells-law" aria-label="Look up Snell&#x27;s law in the graphics glossary" title="Look up Snell&#x27;s law in the graphics glossary">Snell&#x27;s law</a> <a class="glossary-chip" id="glossary-panel-origin-12-sphere" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-sphere&amp;lesson=12#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-12-surface-normal" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-surface-normal&amp;lesson=12#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-12-throughput" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-throughput&amp;lesson=12#term-throughput" aria-label="Look up throughput in the graphics glossary" title="Look up throughput in the graphics glossary">throughput</a> <a class="glossary-chip" id="glossary-panel-origin-12-total-internal-reflection" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-total-internal-reflection&amp;lesson=12#term-total-internal-reflection" aria-label="Look up total internal reflection in the graphics glossary" title="Look up total internal reflection in the graphics glossary">total internal reflection</a> <a class="glossary-chip" id="glossary-panel-origin-12-vector" href="glossary.html?from=lesson-12.html%23glossary-panel-origin-12-vector&amp;lesson=12#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>Transparent objects are often demonstrated by lowering opacity. That makes the background visible, but it does not model a ray crossing a boundary. Glass bends <a class="glossary-term" id="glossary-origin-12-0001" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0001&amp;lesson=12#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">directions</a> according to the two media, may reflect some contribution at the same boundary and can prevent transmission entirely at sufficiently shallow exit angles. A convincing alpha blend can hide all three missing mechanisms.</p>
+<p>We shall model an ideal dielectric boundary using an <a class="glossary-term" id="glossary-origin-12-0002" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0002&amp;lesson=12#term-index-of-refraction" aria-label="Look up index of refraction in the graphics glossary" title="Look up index of refraction in the graphics glossary">index of refraction</a>, <a class="glossary-term" id="glossary-origin-12-0003" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0003&amp;lesson=12#term-snells-law" aria-label="Look up Snell&#x27;s law in the graphics glossary" title="Look up Snell&#x27;s law in the graphics glossary">Snell's law</a> and the <a class="glossary-term" id="glossary-origin-12-0004" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0004&amp;lesson=12#term-schlick-approximation" aria-label="Look up Schlick approximation in the graphics glossary" title="Look up Schlick approximation in the graphics glossary">Schlick approximation</a> for <a class="glossary-term" id="glossary-origin-12-0005" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0005&amp;lesson=12#term-fresnel" aria-label="Look up Fresnel in the graphics glossary" title="Look up Fresnel in the graphics glossary">Fresnel</a> reflectance. Absorption, dispersion, roughness and nested medium tracking are outside this compact <a class="glossary-term" id="glossary-origin-12-0006" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0006&amp;lesson=12#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a>. The omissions are stated because a recognisable glass <a class="glossary-term" id="glossary-origin-12-0007" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0007&amp;lesson=12#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> is not evidence that every glass behaviour has been implemented.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Choose the refractive-index ratio from the front-face state.</li>
+<li>Calculate a transmitted direction or identify <a class="glossary-term" id="glossary-origin-12-0008" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0008&amp;lesson=12#term-total-internal-reflection" aria-label="Look up total internal reflection in the graphics glossary" title="Look up total internal reflection in the graphics glossary">total internal reflection</a>.</li>
+<li>Use an angle-dependent Fresnel approximation to combine <a class="glossary-term" id="glossary-origin-12-0009" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0009&amp;lesson=12#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> and transmission.</li>
+</ul>
+</section>
+
+<h2>The boundary has two sides</h2>
+<p>Air is approximated with index 1.0. Typical teaching glass may use 1.5. When a front-face <a class="glossary-term" id="glossary-origin-12-0010" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0010&amp;lesson=12#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> enters glass, the ratio used by the <a class="glossary-term" id="glossary-origin-12-0011" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0011&amp;lesson=12#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> form is <code>1.0 / 1.5</code>. When a ray leaves, it is <code>1.5 / 1.0</code>. The face flag retained in Lesson 6 tells us which case applies.</p>
+
+<pre><code class="language-js">const eta = hit.frontFace
+    ? 1.0 / material.indexOfRefraction
+    : material.indexOfRefraction / 1.0;
+</code></pre>
+
+<p>This assumes the outside medium is air and the inside medium is the material. It fails for glass inside water or overlapping dielectrics because the current medium cannot be inferred from one boolean. A fuller renderer carries medium state along the path or resolves a boundary stack. The simple case is appropriate here only because the <a class="glossary-term" id="glossary-origin-12-0012" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0012&amp;lesson=12#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> is deliberately constrained.</p>
+
+<h2>Separate perpendicular and parallel components</h2>
+<p>Let <code>D</code> be the unit incoming direction and <code>N</code> the oriented <a class="glossary-term" id="glossary-origin-12-0013" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0013&amp;lesson=12#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">normal</a>. The cosine of the incident angle is:</p>
+<p class="equation">cosθ = min(−D · N, 1)</p>
+<p>The sine follows from <code>sin²θ + cos²θ = 1</code>. If <code>eta × sinθ > 1</code>, no real transmitted direction exists. This is total internal reflection.</p>
+
+<pre><code class="language-js">const cosTheta = Math.min(dot(scale(D, -1), N), 1);
+const sinTheta = Math.sqrt(1 - cosTheta * cosTheta);
+const cannotRefract = eta * sinTheta &gt; 1;
+</code></pre>
+
+<p>When transmission is possible, construct its components:</p>
+
+<pre><code class="language-js">function refract(D, N, eta) {
+    const cosTheta = Math.min(dot(scale(D, -1), N), 1);
+    const perpendicular = scale(
+        add(D, scale(N, cosTheta)),
+        eta
+    );
+    const parallel = scale(
+        N,
+        -Math.sqrt(Math.abs(1 - dot(perpendicular, perpendicular)))
+    );
+    return add(perpendicular, parallel);
+}
+</code></pre>
+
+<p>The absolute value protects the square root from a tiny negative value produced by rounding near the critical angle. It should not be used to pretend that a materially negative value is valid. The separate <code>cannotRefract</code> test establishes the geometric case first.</p>
+
+<h2>Fresnel response prevents a fixed split</h2>
+<p>A dielectric reflects more contribution at grazing angles than when viewed close to the normal. Schlick's approximation gives a compact unpolarised reflectance estimate:</p>
+<p class="equation">R₀ = ((1 − η) / (1 + η))²</p>
+<p class="equation">R(θ) = R₀ + (1 − R₀)(1 − cosθ)⁵</p>
+
+<pre><code class="language-js">function schlick(cosine, eta) {
+    let r0 = (1 - eta) / (1 + eta);
+    r0 *= r0;
+    return r0 + (1 - r0) * Math.pow(1 - cosine, 5);
+}
+</code></pre>
+
+<p>At normal incidence, common glass reflects only a modest fraction. Near a grazing angle, the estimate approaches one. A fixed 50:50 blend would be easy to implement and would produce something transparent, but it would discard the angle-dependent boundary behaviour we are trying to understand.</p>
+
+<section class="ray-lab concept-lab stage-12-lab" data-ray-lab data-stage="12" aria-labelledby="ray-lab-title-12">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Glass-boundary laboratory</p><h2 id="ray-lab-title-12">Bend One Ray at an Air-to-Glass Boundary</h2></div>
+        <p>Keep a 45-degree incident direction fixed, change the glass index and calculate the transmitted angle and Fresnel reflection weight.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Change the glass index. The incident direction and normal stay fixed while the transmitted direction and Fresnel percentage change.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 12 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Reflection-and-refraction image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Glass in the scene</strong><small>A glass sphere rendered with the selected material index of refraction.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">A glass sphere rendered with the selected material index of refraction.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Refraction and Fresnel diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>One air-to-glass boundary</strong><small>A fixed 45-degree incident direction with its calculated reflected and transmitted directions.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">A fixed 45-degree incident direction with its calculated reflected and transmitted directions.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Material index η₂</dt><dd><output data-glass-ior>1.500</output></dd></div><div><dt>Transmitted angle</dt><dd><output data-glass-angle>28.126°</output></dd></div><div><dt>Fresnel reflection</dt><dd><output data-glass-fresnel>4.2%</output></dd></div><div><dt>Traced branches</dt><dd><output data-glass-branches>R 0 / T 0</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-glass-formula>sin θ₂ = (η₁ ÷ η₂) sin θ₁</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Trace both possible routes</h2>
+<p>At a glass hit with remaining depth, always calculate the reflected direction. If total internal reflection occurs, trace only that route. Otherwise trace reflected and transmitted rays, then combine their colours using the Fresnel estimate.</p>
+
+<pre><code class="language-js">const reflected = trace(reflectedRay, remaining - 1);
+
+if (cannotRefract) {
+    return reflected;
+}
+
+const transmitted = trace(transmittedRay, remaining - 1);
+const reflectance = schlick(cosTheta, eta);
+
+return add(
+    scale(reflected, reflectance),
+    scale(transmitted, 1 - reflectance)
+);
+</code></pre>
+
+<p>The transmitted origin is offset to the opposite side of the oriented normal; the reflected origin is offset along it. The directions themselves also determine the side on which the next ray should travel. A single positive-normal offset for both rays would push one route back across its intended boundary.</p>
+
+<div class="worked-trace">
+<h3>Normal incidence into glass</h3>
+<p>For air to glass at index 1.5, <code>eta = 2/3</code>. At normal incidence <code>cosθ = 1</code>, so the transmitted ray does not bend away from the original line. Schlick's base value is approximately <code>((1 - 2/3) / (1 + 2/3))² = 0.04</code>. Roughly four per cent of this idealised contribution reflects and the remainder transmits before later boundaries are considered.</p>
+</div>
+
+<h2>A visible sphere still does not prove nested media</h2>
+<p>The laboratory sphere has two boundaries. An entering ray refracts, meets the back of the sphere and refracts again. The oriented normal and face flag make those two ratios differ. Change the index and observe the distortion and ray counters.</p>
+<p>The present shadow query also treats every blocking primitive as opaque, including the glass sphere. Transmitting light through a dielectric towards another surface requires a transport calculation along the light route, not the Boolean any-hit result introduced for opaque shadows. The glass seen by a <a class="glossary-term" id="glossary-origin-12-0014" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0014&amp;lesson=12#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">camera ray</a> therefore does not prove that transparent shadows have been implemented. They have not.</p>
+<p>Now consider placing one glass sphere inside another with a different index. The boolean face state says whether the current surface is being entered, but not which medium the ray is leaving. The displayed simple sphere cannot validate that harder case. This is the point at which a renderer needs explicit medium tracking rather than another conditional guessed from appearance.</p>
+
+<div class="checkpoint">
+<h3>Identify total internal reflection</h3>
+<p>A ray is leaving glass of index 1.5 for air. The sine of the incident angle is 0.8. Does a transmitted direction exist under the test used above?</p>
+<details class="reveal-answer"><summary>Reveal the test</summary><div><p>The ratio is <code>eta = 1.5 / 1.0 = 1.5</code>. Multiplying by <code>sinθ = 0.8</code> gives 1.2, which is greater than one. No real transmitted direction exists, so the considered contribution is reflected.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Trace entry and exit</h2>
+<p>Select one <a class="glossary-term" id="glossary-origin-12-0015" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0015&amp;lesson=12#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> through the glass sphere. Record the front-face flag, eta, incident cosine, Fresnel estimate and transmitted direction at entry. Follow the ray to the exit surface and record them again. Explain why the eta ratio reverses. Then choose a grazing internal route and locate the first total-internal-reflection decision.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>A Vulkan <a class="glossary-term" id="glossary-origin-12-0016" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0016&amp;lesson=12#term-closest-hit-shader" aria-label="Look up closest-hit shader in the graphics glossary" title="Look up closest-hit shader in the graphics glossary">closest-hit shader</a> can carry origin, direction, <a class="glossary-term" id="glossary-origin-12-0017" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0017&amp;lesson=12#term-throughput" aria-label="Look up throughput in the graphics glossary" title="Look up throughput in the graphics glossary">throughput</a>, depth and medium information in a <a class="glossary-term" id="glossary-origin-12-0018" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0018&amp;lesson=12#term-ray-payload" aria-label="Look up ray payload in the graphics glossary" title="Look up ray payload in the graphics glossary">ray payload</a>, or a compute loop can store the same state explicitly. Hardware traversal does not provide a physically meaningful Fresnel split or maintain a material stack automatically. Those remain shader responsibilities grounded in the boundary model constructed here.</p>
+</section>
+
+<p>Reflection and transmission can now create multiple routes from one <a class="glossary-term" id="glossary-origin-12-0019" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0019&amp;lesson=12#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a>. Lesson 13 returns to the <a class="glossary-term" id="glossary-origin-12-0020" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0020&amp;lesson=12#term-image-plane" aria-label="Look up image plane in the graphics glossary" title="Look up image plane in the graphics glossary">image plane</a> and asks whether one route through the centre of each pixel is an adequate estimate of the <a class="glossary-term" id="glossary-origin-12-0021" href="glossary.html?from=lesson-12.html%23glossary-origin-12-0021&amp;lesson=12#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a>.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-11.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">11. Reflection and Recursive Rays</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-13.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">13. Sampling the Pixel</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

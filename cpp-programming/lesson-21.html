@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understanding the cost and benefit of polymorphism">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 21 - 21. Polymorphism</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-21.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 21 - 21. Polymorphism">
+    <meta property="og:description" content="Understanding the cost and benefit of polymorphism">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-21.html">
+</head>
+<body class="course-page lesson-page" data-lesson="21" data-art-pattern="branch" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 21 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html" aria-current="page"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 21</span>
+            </nav>
+            <p class="hero-kicker">Lesson 21 · 24 lesson course</p>
+            <h1 id="lesson-title">21. Polymorphism</h1>
+            <p class="lesson-deck">Understanding the cost and benefit of polymorphism</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-20.html">← Lesson 20</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-22.html">Lesson 22 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>90 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-21-abstract-base-class" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-abstract-base-class&amp;lesson=21#term-abstract-base-class" aria-label="Look up abstract base class in the programming glossary" title="Look up abstract base class in the programming glossary">abstract base class</a> <a class="glossary-chip" id="glossary-panel-origin-21-abstraction" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-abstraction&amp;lesson=21#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> <a class="glossary-chip" id="glossary-panel-origin-21-api" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-api&amp;lesson=21#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-21-argument" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-argument&amp;lesson=21#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-21-base-class" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-base-class&amp;lesson=21#term-base-class" aria-label="Look up base class in the programming glossary" title="Look up base class in the programming glossary">base class</a> <a class="glossary-chip" id="glossary-panel-origin-21-benchmark" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-benchmark&amp;lesson=21#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">benchmark</a> <a class="glossary-chip" id="glossary-panel-origin-21-binary" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-binary&amp;lesson=21#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> <a class="glossary-chip" id="glossary-panel-origin-21-block" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-block&amp;lesson=21#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-21-branch" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-branch&amp;lesson=21#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branch</a> <a class="glossary-chip" id="glossary-panel-origin-21-cpp" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-cpp&amp;lesson=21#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-21-reference" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-reference&amp;lesson=21#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-21-template" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-template&amp;lesson=21#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">C++ template</a> <a class="glossary-chip" id="glossary-panel-origin-21-cache-locality" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-cache-locality&amp;lesson=21#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">cache locality</a> <a class="glossary-chip" id="glossary-panel-origin-21-call-site" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-call-site&amp;lesson=21#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> <a class="glossary-chip" id="glossary-panel-origin-21-cast" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-cast&amp;lesson=21#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a> <a class="glossary-chip" id="glossary-panel-origin-21-class" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-class&amp;lesson=21#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-21-code" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-code&amp;lesson=21#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-21-compile-time" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-compile-time&amp;lesson=21#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-21-compiler" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-compiler&amp;lesson=21#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-21-compiler-optimisation" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-compiler-optimisation&amp;lesson=21#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">compiler optimisation</a> <a class="glossary-chip" id="glossary-panel-origin-21-composition" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-composition&amp;lesson=21#term-composition" aria-label="Look up composition in the programming glossary" title="Look up composition in the programming glossary">composition</a> <a class="glossary-chip" id="glossary-panel-origin-21-constraint" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-constraint&amp;lesson=21#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">constraint</a> <a class="glossary-chip" id="glossary-panel-origin-21-constructor" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-constructor&amp;lesson=21#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-21-container" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-container&amp;lesson=21#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-21-correctness" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-correctness&amp;lesson=21#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-21-covariant-return-type" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-covariant-return-type&amp;lesson=21#term-covariant-return-type" aria-label="Look up covariant return type in the programming glossary" title="Look up covariant return type in the programming glossary">covariant return type</a> <a class="glossary-chip" id="glossary-panel-origin-21-crtp" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-crtp&amp;lesson=21#term-crtp" aria-label="Look up CRTP in the programming glossary" title="Look up CRTP in the programming glossary">CRTP</a> <a class="glossary-chip" id="glossary-panel-origin-21-debugging" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-debugging&amp;lesson=21#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-21-declaration" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-declaration&amp;lesson=21#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-21-definition" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-definition&amp;lesson=21#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-21-derived-class" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-derived-class&amp;lesson=21#term-derived-class" aria-label="Look up derived class in the programming glossary" title="Look up derived class in the programming glossary">derived class</a> <a class="glossary-chip" id="glossary-panel-origin-21-destructor" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-destructor&amp;lesson=21#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructor</a> <a class="glossary-chip" id="glossary-panel-origin-21-dispatch" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-dispatch&amp;lesson=21#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-21-dynamic-type" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-dynamic-type&amp;lesson=21#term-dynamic-type" aria-label="Look up dynamic type in the programming glossary" title="Look up dynamic type in the programming glossary">dynamic type</a> <a class="glossary-chip" id="glossary-panel-origin-21-dynamic-cast" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-dynamic-cast&amp;lesson=21#term-dynamic-cast" aria-label="Look up dynamic_cast in the programming glossary" title="Look up dynamic_cast in the programming glossary">dynamic_cast</a> <a class="glossary-chip" id="glossary-panel-origin-21-enumeration" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-enumeration&amp;lesson=21#term-enumeration" aria-label="Look up enumeration in the programming glossary" title="Look up enumeration in the programming glossary">enumeration</a> <a class="glossary-chip" id="glossary-panel-origin-21-exception" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-exception&amp;lesson=21#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-21-expression" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-expression&amp;lesson=21#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-21-final-specifier" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-final-specifier&amp;lesson=21#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-21-function" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-function&amp;lesson=21#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-21-function-signature" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-function-signature&amp;lesson=21#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-21-identifier" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-identifier&amp;lesson=21#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-21-if-statement" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-if-statement&amp;lesson=21#term-if-statement" aria-label="Look up if statement in the programming glossary" title="Look up if statement in the programming glossary">if statement</a> <a class="glossary-chip" id="glossary-panel-origin-21-include-directive" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-include-directive&amp;lesson=21#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-21-instantiation" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-instantiation&amp;lesson=21#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">instantiation</a> <a class="glossary-chip" id="glossary-panel-origin-21-interface" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-interface&amp;lesson=21#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-21-invariant" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-invariant&amp;lesson=21#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-21-lifetime" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-lifetime&amp;lesson=21#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-21-linker" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-linker&amp;lesson=21#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">linker</a> <a class="glossary-chip" id="glossary-panel-origin-21-lookup-table" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-lookup-table&amp;lesson=21#term-lookup-table" aria-label="Look up lookup table in the programming glossary" title="Look up lookup table in the programming glossary">lookup table</a> <a class="glossary-chip" id="glossary-panel-origin-21-loop" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-loop&amp;lesson=21#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-21-main-function" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-main-function&amp;lesson=21#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-21-memory-allocation" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-memory-allocation&amp;lesson=21#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">memory allocation</a> <a class="glossary-chip" id="glossary-panel-origin-21-method" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-method&amp;lesson=21#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">method</a> <a class="glossary-chip" id="glossary-panel-origin-21-null-pointer" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-null-pointer&amp;lesson=21#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> <a class="glossary-chip" id="glossary-panel-origin-21-nvi-pattern" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-nvi-pattern&amp;lesson=21#term-nvi-pattern" aria-label="Look up NVI pattern in the programming glossary" title="Look up NVI pattern in the programming glossary">NVI pattern</a> <a class="glossary-chip" id="glossary-panel-origin-21-object" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-object&amp;lesson=21#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-21-object-slicing" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-object-slicing&amp;lesson=21#term-object-slicing" aria-label="Look up object slicing in the programming glossary" title="Look up object slicing in the programming glossary">object slicing</a> <a class="glossary-chip" id="glossary-panel-origin-21-overload-resolution" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-overload-resolution&amp;lesson=21#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload resolution</a> <a class="glossary-chip" id="glossary-panel-origin-21-override" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-override&amp;lesson=21#term-override" aria-label="Look up override in the programming glossary" title="Look up override in the programming glossary">override</a> <a class="glossary-chip" id="glossary-panel-origin-21-ownership" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-ownership&amp;lesson=21#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-21-parameter" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-parameter&amp;lesson=21#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-21-pointer" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-pointer&amp;lesson=21#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-21-polymorphism" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-polymorphism&amp;lesson=21#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">polymorphism</a> <a class="glossary-chip" id="glossary-panel-origin-21-postcondition" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-postcondition&amp;lesson=21#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postcondition</a> <a class="glossary-chip" id="glossary-panel-origin-21-precondition" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-precondition&amp;lesson=21#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> <a class="glossary-chip" id="glossary-panel-origin-21-program" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-program&amp;lesson=21#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-21-access-levels" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-access-levels&amp;lesson=21#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-21-pure-virtual-function" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-pure-virtual-function&amp;lesson=21#term-pure-virtual-function" aria-label="Look up pure virtual function in the programming glossary" title="Look up pure virtual function in the programming glossary">pure virtual function</a> <a class="glossary-chip" id="glossary-panel-origin-21-raw-pointer" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-raw-pointer&amp;lesson=21#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointer</a> <a class="glossary-chip" id="glossary-panel-origin-21-ref-qualifier" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-ref-qualifier&amp;lesson=21#term-ref-qualifier" aria-label="Look up ref-qualifier in the programming glossary" title="Look up ref-qualifier in the programming glossary">ref-qualifier</a> <a class="glossary-chip" id="glossary-panel-origin-21-return-type" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-return-type&amp;lesson=21#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> <a class="glossary-chip" id="glossary-panel-origin-21-return-value" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-return-value&amp;lesson=21#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-21-runtime" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-runtime&amp;lesson=21#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-21-rtti" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-rtti&amp;lesson=21#term-rtti" aria-label="Look up runtime type information in the programming glossary" title="Look up runtime type information in the programming glossary">runtime type information</a> <a class="glossary-chip" id="glossary-panel-origin-21-smart-pointer" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-smart-pointer&amp;lesson=21#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> <a class="glossary-chip" id="glossary-panel-origin-21-specialisation" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-specialisation&amp;lesson=21#term-specialisation" aria-label="Look up specialisation in the programming glossary" title="Look up specialisation in the programming glossary">specialisation</a> <a class="glossary-chip" id="glossary-panel-origin-21-state" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-state&amp;lesson=21#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-21-static-keyword" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-static-keyword&amp;lesson=21#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> <a class="glossary-chip" id="glossary-panel-origin-21-static-polymorphism" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-static-polymorphism&amp;lesson=21#term-static-polymorphism" aria-label="Look up static polymorphism in the programming glossary" title="Look up static polymorphism in the programming glossary">static polymorphism</a> <a class="glossary-chip" id="glossary-panel-origin-21-static-type" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-static-type&amp;lesson=21#term-static-type" aria-label="Look up static type in the programming glossary" title="Look up static type in the programming glossary">static type</a> <a class="glossary-chip" id="glossary-panel-origin-21-switch-statement" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-switch-statement&amp;lesson=21#term-switch-statement" aria-label="Look up switch statement in the programming glossary" title="Look up switch statement in the programming glossary">switch statement</a> <a class="glossary-chip" id="glossary-panel-origin-21-testing" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-testing&amp;lesson=21#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-21-type" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-type&amp;lesson=21#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-21-undefined-behaviour" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-undefined-behaviour&amp;lesson=21#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a> <a class="glossary-chip" id="glossary-panel-origin-21-value" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-value&amp;lesson=21#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-21-vector" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-vector&amp;lesson=21#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a> <a class="glossary-chip" id="glossary-panel-origin-21-virtual-destructor" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-virtual-destructor&amp;lesson=21#term-virtual-destructor" aria-label="Look up virtual destructor in the programming glossary" title="Look up virtual destructor in the programming glossary">virtual destructor</a> <a class="glossary-chip" id="glossary-panel-origin-21-virtual-function" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-virtual-function&amp;lesson=21#term-virtual-function" aria-label="Look up virtual function in the programming glossary" title="Look up virtual function in the programming glossary">virtual function</a> <a class="glossary-chip" id="glossary-panel-origin-21-vtable" href="glossary.html?from=lesson-21.html%23glossary-panel-origin-21-vtable&amp;lesson=21#term-vtable" aria-label="Look up vtable in the programming glossary" title="Look up vtable in the programming glossary">vtable</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="21">
+<img src="assets/images/lesson-art/lesson-21-polymorphism.png" alt="Abstract common interface dispatching one signal to varied forms with distinct responses." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p>&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-21-0001" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0001&amp;lesson=21#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">Polymorphism</a> in <a class="glossary-term" id="glossary-origin-21-0002" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0002&amp;lesson=21#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> — Correct <a class="glossary-term" id="glossary-origin-21-0003" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0003&amp;lesson=21#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">Method</a> at <a class="glossary-term" id="glossary-origin-21-0004" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0004&amp;lesson=21#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">Runtime</a></h2>
+
+<p>
+<strong>Polymorphism</strong> (literally “many forms”) in C++ means:
+</p>
+
+<p style="padding:8px 12px;border-left:4px solid #0ea5e9;background:#f0f9ff;">
+<strong>Allowing the correct method to be called at <em>runtime</em> irrespective of the <a class="glossary-term" id="glossary-origin-21-0005" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0005&amp;lesson=21#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> (<a class="glossary-term" id="glossary-origin-21-0006" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0006&amp;lesson=21#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a>) <a class="glossary-term" id="glossary-origin-21-0007" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0007&amp;lesson=21#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a>.</strong>
+</p>
+
+<p>
+We achieve this with <strong><a class="glossary-term" id="glossary-origin-21-0008" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0008&amp;lesson=21#term-virtual-function" aria-label="Look up virtual function in the programming glossary" title="Look up virtual function in the programming glossary">virtual functions</a></strong>. A <a class="glossary-term" id="glossary-origin-21-0009" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0009&amp;lesson=21#term-base-class" aria-label="Look up base class in the programming glossary" title="Look up base class in the programming glossary">base class</a> declares a <a class="glossary-term" id="glossary-origin-21-0010" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0010&amp;lesson=21#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <code>virtual</code>; <a class="glossary-term" id="glossary-origin-21-0011" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0011&amp;lesson=21#term-derived-class" aria-label="Look up derived class in the programming glossary" title="Look up derived class in the programming glossary">derived classes</a> may <em><a class="glossary-term" id="glossary-origin-21-0012" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0012&amp;lesson=21#term-override" aria-label="Look up override in the programming glossary" title="Look up override in the programming glossary">override</a></em> it.
+When we call that function through a reference or <a class="glossary-term" id="glossary-origin-21-0013" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0013&amp;lesson=21#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> to the <em>base</em>, the language selects the <em>most derived</em> override at runtime.
+This enables treating many different <a class="glossary-term" id="glossary-origin-21-0014" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0014&amp;lesson=21#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">objects</a> uniformly (common base), while still getting each object’s specialised behaviour.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — “Did I get <a class="glossary-term" id="glossary-origin-21-0015" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0015&amp;lesson=21#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dynamic dispatch</a>?”</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste a snippet; ask AI: “Which <em>override</em> runs for each call and why?”</li>
+      <li>Have AI flag calls that slice objects or bypass virtual dispatch.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) A Minimal Example</h3>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+struct A {
+    virtual ~A() = default;
+    virtual void add() const { std::cout &lt;&lt; "A::add\n"; }
+};
+
+struct B : A {
+    void add() const override { std::cout &lt;&lt; "B::add\n"; }
+};
+
+void call_add(const A&amp; ref) {  // static type: A
+    ref.add();                 // runtime dispatch → A::add or B::add depending on object
+}
+
+int main() {
+    A a; B b;
+    call_add(a);  // prints A::add
+    call_add(b);  // prints B::add (correct method despite A-typed ref)
+}
+</code></pre>
+
+<p>
+Key points:
+</p>
+<ul>
+  <li>Dispatch happens on <strong><a class="glossary-term" id="glossary-origin-21-0016" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0016&amp;lesson=21#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> or pointers</strong> to polymorphic bases. Passing/holding by <a class="glossary-term" id="glossary-origin-21-0017" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0017&amp;lesson=21#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> can <em>slice</em>.</li>
+  <li>Mark overrides with <code>override</code> to catch <a class="glossary-term" id="glossary-origin-21-0018" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0018&amp;lesson=21#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">signature</a> mismatches; give polymorphic bases a <strong><a class="glossary-term" id="glossary-origin-21-0019" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0019&amp;lesson=21#term-virtual-destructor" aria-label="Look up virtual destructor in the programming glossary" title="Look up virtual destructor in the programming glossary">virtual destructor</a></strong>.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Override &amp; <a class="glossary-term" id="glossary-origin-21-0020" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0020&amp;lesson=21#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">Destructor</a> Audit</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to add <code>override</code>/<code>final</code> and verify your base destructor is virtual where needed.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) Why Identifier Type Doesn’t Decide the Call</h3>
+
+<p>
+The <a class="glossary-term" id="glossary-origin-21-0021" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0021&amp;lesson=21#term-static-type" aria-label="Look up static type in the programming glossary" title="Look up static type in the programming glossary">static type</a> (e.g., <code>A&amp;</code>) is how we <em>refer</em> to an object; the <a class="glossary-term" id="glossary-origin-21-0022" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0022&amp;lesson=21#term-dynamic-type" aria-label="Look up dynamic type in the programming glossary" title="Look up dynamic type in the programming glossary">dynamic type</a> (e.g., “actually a <code>B</code>”) controls which override runs.
+This is the essence of your “A ref bound to a B object must call <code>B::add()</code>” scenario.
+</p>
+
+<p>
+Technically, most <a class="glossary-term" id="glossary-origin-21-0023" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0023&amp;lesson=21#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compilers</a> use a per-<a class="glossary-term" id="glossary-origin-21-0024" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0024&amp;lesson=21#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> table (<a class="glossary-term" id="glossary-origin-21-0025" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0025&amp;lesson=21#term-vtable" aria-label="Look up vtable in the programming glossary" title="Look up vtable in the programming glossary">vtable</a>) of virtuals; the base reference/pointer carries a hidden <a class="glossary-term" id="glossary-origin-21-0026" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0026&amp;lesson=21#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">link</a> to that table.
+The call goes through that link, landing on the most-derived override.
+</p>
+
+<hr>
+
+<h3>3) Working with Collections of Mixed Objects</h3>
+
+<pre><code class="language-cpp">#include &lt;memory&gt;
+#include &lt;vector&gt;
+
+struct Op { virtual ~Op() = default; virtual int run(int x) const = 0; };
+struct Inc : Op { int run(int x) const override { return x + 1; } };
+struct Square : Op { int run(int x) const override { return x * x; } };
+
+int main() {
+    std::vector&lt;std::unique_ptr&lt;Op&gt;&gt; ops;
+    ops.push_back(std::make_unique&lt;Inc&gt;());
+    ops.push_back(std::make_unique&lt;Square&gt;());
+    int x = 3;
+    for (auto&amp; op : ops) x = op-&gt;run(x);  // correct method for each element
+    // x == (3 + 1)^2 == 16
+}
+</code></pre>
+
+<p>
+Store polymorphic objects via <strong>pointers (usually <a class="glossary-term" id="glossary-origin-21-0027" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0027&amp;lesson=21#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointers</a>)</strong> or references. A <a class="glossary-term" id="glossary-origin-21-0028" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0028&amp;lesson=21#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> of base objects (<code>std::vector&lt;Op&gt;</code>) would slice.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Make My Container Polymorphic</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to convert <code>std::vector&lt;Base&gt;</code> to <code>std::vector&lt;std::unique_ptr&lt;Base&gt;&gt;</code> and update <a class="glossary-term" id="glossary-origin-21-0029" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0029&amp;lesson=21#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call sites</a> safely.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) <a class="glossary-term" id="glossary-origin-21-0030" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0030&amp;lesson=21#term-abstract-base-class" aria-label="Look up abstract base class in the programming glossary" title="Look up abstract base class in the programming glossary">Abstract Bases</a>, <a class="glossary-term" id="glossary-origin-21-0031" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0031&amp;lesson=21#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">Interfaces</a> &amp; Contracts</h3>
+
+<p>
+A <strong><a class="glossary-term" id="glossary-origin-21-0032" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0032&amp;lesson=21#term-pure-virtual-function" aria-label="Look up pure virtual function in the programming glossary" title="Look up pure virtual function in the programming glossary">pure virtual</a></strong> (abstract) function forces derived classes to provide an implementation.
+</p>
+
+<pre><code class="language-cpp">struct Drawable {
+    virtual ~Drawable() = default;
+    virtual void draw() const = 0; // pure virtual → interface requirement
+};
+</code></pre>
+
+<p>
+Keep interfaces <em>small and stable</em>. Consider <a class="glossary-term" id="glossary-origin-21-0033" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0033&amp;lesson=21#term-nvi-pattern" aria-label="Look up NVI pattern in the programming glossary" title="Look up NVI pattern in the programming glossary">NVI</a> (Non-Virtual Interface): a <a class="glossary-term" id="glossary-origin-21-0034" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0034&amp;lesson=21#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public</a> non-virtual that enforces checks, delegating to a protected virtual.
+</p>
+
+<hr>
+
+<h3>5) Overriding Correctly (const, <a class="glossary-term" id="glossary-origin-21-0035" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0035&amp;lesson=21#term-ref-qualifier" aria-label="Look up ref-qualifier in the programming glossary" title="Look up ref-qualifier in the programming glossary">ref-qualifiers</a>, <a class="glossary-term" id="glossary-origin-21-0036" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0036&amp;lesson=21#term-covariant-return-type" aria-label="Look up covariant return type in the programming glossary" title="Look up covariant return type in the programming glossary">covariant returns</a>)</h3>
+
+<ul>
+  <li>Signatures must match: <code>const</code>ness and reference qualifiers (<code>&amp;</code>, <code>&amp;&amp;</code>) are part of it.</li>
+  <li>Returns may be <strong>covariant</strong>: a derived override may return a <em>more derived pointer/reference</em>.</li>
+</ul>
+
+<pre><code class="language-cpp">struct Base {
+    virtual Base* clone() const = 0;
+};
+struct Derived : Base {
+    Derived* clone() const override { return new Derived(*this); } // covariant OK
+};
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Catch Mismatched Overrides</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Have AI scan for “hidden” functions (e.g., base <code>f(int)</code>, derived <code>f(double)</code>); add <code>override</code> or <code>using Base::f</code> as needed.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) What <em>Doesn’t</em> Dispatch Dynamically</h3>
+
+<ul>
+  <li>Calls on <strong>objects by value</strong> of the base type (<a class="glossary-term" id="glossary-origin-21-0037" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0037&amp;lesson=21#term-object-slicing" aria-label="Look up object slicing in the programming glossary" title="Look up object slicing in the programming glossary">slicing</a> removes the derived part).</li>
+  <li>Calls to <strong>non-virtual</strong> functions.</li>
+  <li>Calls inside base <strong><a class="glossary-term" id="glossary-origin-21-0038" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0038&amp;lesson=21#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructors</a>/destructors</strong>: only the current subobject is “active”.</li>
+  <li><strong>Default <a class="glossary-term" id="glossary-origin-21-0039" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0039&amp;lesson=21#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">arguments</a></strong> are bound statically (based on the static type), even for virtuals.</li>
+</ul>
+
+<pre><code class="language-cpp">struct B { virtual void f(int x = 1) const { /* ... */ } };
+struct D : B { void f(int x = 2) const override { /* ... */ } };
+void g(const B&amp; b){ b.f(); } // calls D::f if b is D, but x == 1 (B's default) → static binding
+</code></pre>
+
+<hr>
+
+<h3>7) Performance &amp; Design Notes</h3>
+
+<ul>
+  <li>Virtual dispatch adds one indirection; usually tiny, but it can <a class="glossary-term" id="glossary-origin-21-0040" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0040&amp;lesson=21#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> inlining/vectorisation on hot paths.</li>
+  <li><code>final</code> on classes/methods + whole-<a class="glossary-term" id="glossary-origin-21-0041" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0041&amp;lesson=21#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> optimisations may <em>devirtualise</em> calls.</li>
+  <li>Prefer <strong><a class="glossary-term" id="glossary-origin-21-0042" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0042&amp;lesson=21#term-composition" aria-label="Look up composition in the programming glossary" title="Look up composition in the programming glossary">composition</a></strong> over deep hierarchies; keep bases minimal and stable to avoid fragile-base problems.</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Hot Path Alternatives</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to suggest <a class="glossary-term" id="glossary-origin-21-0043" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0043&amp;lesson=21#term-static-polymorphism" aria-label="Look up static polymorphism in the programming glossary" title="Look up static polymorphism in the programming glossary">static polymorphism</a> (<a class="glossary-term" id="glossary-origin-21-0044" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0044&amp;lesson=21#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">templates</a>/<a class="glossary-term" id="glossary-origin-21-0045" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0045&amp;lesson=21#term-crtp" aria-label="Look up CRTP in the programming glossary" title="Look up CRTP in the programming glossary">CRTP</a>) or <a class="glossary-term" id="glossary-origin-21-0046" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0046&amp;lesson=21#term-lookup-table" aria-label="Look up lookup table in the programming glossary" title="Look up lookup table in the programming glossary">dispatch tables</a> for hot inner <a class="glossary-term" id="glossary-origin-21-0047" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0047&amp;lesson=21#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loops</a>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) Static Polymorphism (<a class="glossary-term" id="glossary-origin-21-0048" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0048&amp;lesson=21#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">Compile-Time</a> Alternative)</h3>
+
+<p>
+When the set of types is known and performance is critical, prefer templates/CRTP (no vtables, compile-time dispatch).
+</p>
+
+<pre><code class="language-cpp">template &lt;typename T&gt;
+void run_all(T&amp; t) { t.run(); }   // chosen at compile time
+
+struct A { void run(){ /*...*/ } };
+struct B { void run(){ /*...*/ } };
+
+// Over a heterogeneous list known at compile time, e.g. std::tuple&lt;A,B&gt; + std::apply
+</code></pre>
+
+<p>
+Static polymorphism is <em>not</em> “better”; it’s a different tool: faster and simpler <a class="glossary-term" id="glossary-origin-21-0049" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0049&amp;lesson=21#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binaries</a>, but less flexible at runtime.
+</p>
+
+<hr>
+
+<h3>9) <a class="glossary-term" id="glossary-origin-21-0050" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0050&amp;lesson=21#term-rtti" aria-label="Look up runtime type information in the programming glossary" title="Look up runtime type information in the programming glossary">Type Queries</a> &amp; <a class="glossary-term" id="glossary-origin-21-0051" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0051&amp;lesson=21#term-dynamic-cast" aria-label="Look up dynamic_cast in the programming glossary" title="Look up dynamic_cast in the programming glossary">Downcasts</a> (use sparingly)</h3>
+
+<ul>
+  <li>Prefer virtual interfaces; avoid <code>dynamic_cast</code> when design can express behaviour polymorphically.</li>
+  <li>If you must downcast, check with <code>dynamic_cast&lt;Derived*&gt;</code> and handle <code>nullptr</code>.</li>
+</ul>
+
+<pre><code class="language-cpp">if (auto p = dynamic_cast&lt;Derived*&gt;(basePtr)) { /* use p */ }
+</code></pre>
+
+<hr>
+
+<h3>10) Worked Example — Your “add()” Story in Practice</h3>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+
+struct A {
+    virtual ~A() = default;
+    virtual void add() const { std::cout &lt;&lt; "A::add\n"; }
+};
+
+struct B : A {
+    void add() const override { std::cout &lt;&lt; "B::add\n"; }
+};
+
+void call_all(const std::vector&lt;std::unique_ptr&lt;A&gt;&gt;&amp; v){
+    for (const auto&amp; p : v) p-&gt;add(); // correct version for each element
+}
+
+int main() {
+    std::vector&lt;std::unique_ptr&lt;A&gt;&gt; v;
+    v.push_back(std::make_unique&lt;A&gt;());
+    v.push_back(std::make_unique&lt;B&gt;());
+    call_all(v);
+}
+</code></pre>
+
+<p>
+Even though the <em>identifier type</em> is <code>A*</code>, the <em>dynamic type</em> differs per element, and the right <code>add()</code> runs for each.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Replace Switches with Polymorphism</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Give AI a big <code>switch(type)</code> or <code>if/else</code> ladder; get an interface + derived classes or a strategy object design.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>11) Common Pitfalls (and fixes)</h3>
+
+<ul>
+  <li><strong>Slicing:</strong> avoid <code>std::vector&lt;base&gt;</code>; use references or smart pointers.</li>
+  <li><strong>Missing virtual dtor:</strong> deleting via <code>Base*</code> without a virtual destructor is <a class="glossary-term" id="glossary-origin-21-0052" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0052&amp;lesson=21#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">UB</a>.</li>
+  <li><strong>Signature mismatch:</strong> always use <code>override</code>; mind <code>const</code> and ref-qualifiers.</li>
+  <li><strong>Virtuals in ctors/dtors:</strong> don’t rely on derived overrides there.</li>
+  <li><strong>Default args + virtual:</strong> defaults are chosen by static type; pass explicit args to avoid surprises.</li>
+</ul>
+
+<hr>
+
+<h3>12) Mini Exercises</h3>
+
+<ol>
+  <li><strong>Repair and run:</strong> Make a base with <code>virtual ~Base()</code>, <code>virtual void step() const</code>; derive two classes that override. Create a <code>std::vector&lt;std::unique_ptr&lt;Base&gt;&gt;</code> and call <code>step()</code> for all.</li>
+  <li><strong>Find the slice:</strong> Why does <code>void draw(Base b)</code> not dispatch? Fix the <a class="glossary-term" id="glossary-origin-21-0053" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0053&amp;lesson=21#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a>.</li>
+  <li><strong>Covariant clone:</strong> Add <code>virtual Base* clone() const = 0;</code> and implement covariant returns in derived types.</li>
+  <li><strong>Default-arg gotcha:</strong> Reproduce the default-argument issue and fix it by removing defaults or passing explicit values.</li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Check My Answers</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste your solutions; ask AI to verify dispatch behaviour, point out slicing, and suggest better interfaces.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li><a class="glossary-term" id="glossary-origin-21-0054" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0054&amp;lesson=21#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">Declare</a> <strong>virtual</strong> in bases; <strong>override</strong> in derived; add a <strong>virtual destructor</strong>.</li>
+  <li>Call through <strong>Base&amp;/Base*</strong> (not by value) to get dynamic dispatch; avoid slicing.</li>
+  <li>Keep interfaces <strong>small</strong>; prefer composition for <a class="glossary-term" id="glossary-origin-21-0055" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0055&amp;lesson=21#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> reuse; use NVI to protect <a class="glossary-term" id="glossary-origin-21-0056" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0056&amp;lesson=21#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariants</a>.</li>
+  <li>Be aware of limits: constructors/destructors and default args behave statically.</li>
+  <li>Use <strong>smart pointers</strong> for polymorphic <a class="glossary-term" id="glossary-origin-21-0057" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0057&amp;lesson=21#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a>; consider <strong>templates/CRTP</strong> on hot paths.</li>
+</ul>
+
+<p><em>Takeaway:</em> Polymorphism lets you write uniform code over diverse objects; C++ makes it simple and fast—if you respect the rules above.</p>
+        
+<!-- lesson-enhancement:21:start -->
+<section class="lesson-enhancement" id="runtime-polymorphism">
+<p class="lesson-enhancement-kicker">Advanced perspective: runtime selection is useful only when every selected behaviour keeps one promise</p>
+<h2>Virtual dispatch selects the <a class="glossary-term" id="glossary-origin-21-0058" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0058&amp;lesson=21#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> overrider; the interface must still make that behaviour correct</h2>
+<p>Runtime polymorphism lets one call site use a stable base interface while the complete object's dynamic type selects a virtual implementation. The static type of the <a class="glossary-term" id="glossary-origin-21-0059" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0059&amp;lesson=21#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> tells the compiler which operations may be requested. The dynamic type identifies the complete object present during execution. For a virtual call, the final overrider supplies the implementation selected for that object.</p>
+<p>Calling this the "correct method" hides an important design obligation. C++ can select <code>Circle::area()</code> for a circle. It cannot decide whether that function honours the meaning, units, valid inputs and failure behaviour promised by <code>Shape::area()</code>. Dispatch solves runtime selection. A common behavioural contract makes the selected result usable.</p>
+<table>
+<thead><tr><th>Question</th><th>Answered by</th><th>What remains to be proved</th></tr></thead>
+<tbody>
+<tr><td>Which operations are available at the call site?</td><td>The expression's static type.</td><td>That the interface contains the operation the caller genuinely needs.</td></tr>
+<tr><td>Which override runs?</td><td>The dynamic type and final-overrider rules for a virtual call.</td><td>That every override honours the same contract.</td></tr>
+<tr><td>How long does the object remain usable?</td><td>The ownership and <a class="glossary-term" id="glossary-origin-21-0060" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0060&amp;lesson=21#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> design.</td><td>That every reference or pointer remains valid across the call.</td></tr>
+<tr><td>Is the design fast enough?</td><td>Measurement of the representative program.</td><td>Which cost comes from dispatch, <a class="glossary-term" id="glossary-origin-21-0061" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0061&amp;lesson=21#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">allocation</a>, <a class="glossary-term" id="glossary-origin-21-0062" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0062&amp;lesson=21#term-cache-locality" aria-label="Look up cache locality in the programming glossary" title="Look up cache locality in the programming glossary">locality</a> or the operation itself.</td></tr>
+</tbody>
+</table>
+
+<h3>Trace static type, dynamic type, final overrider and owner together</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;numbers&gt;
+#include &lt;vector&gt;
+
+class Shape {
+public:
+    virtual ~Shape() = default;
+    virtual double area() const = 0;
+};
+
+class Rectangle final : public Shape {
+public:
+    Rectangle(double width, double height) : width_{width}, height_{height} {}
+
+    double area() const override {
+        return width_ * height_;
+    }
+
+private:
+    double width_;
+    double height_;
+};
+
+class Circle final : public Shape {
+public:
+    explicit Circle(double radius) : radius_{radius} {}
+
+    double area() const override {
+        return std::numbers::pi * radius_ * radius_;
+    }
+
+private:
+    double radius_;
+};
+
+int main() {
+    std::vector&lt;std::unique_ptr&lt;Shape&gt;&gt; shapes;
+    shapes.push_back(std::make_unique&lt;Rectangle&gt;(3.0, 4.0));
+    shapes.push_back(std::make_unique&lt;Circle&gt;(2.0));
+
+    for (const auto&amp; shape : shapes) {
+        std::cout &lt;&lt; shape-&gt;area() &lt;&lt; '\n';
+    }
+}
+</code></pre>
+<p>The <a class="glossary-term" id="glossary-origin-21-0063" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0063&amp;lesson=21#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a> owns two separately allocated complete objects through <code>unique_ptr&lt;Shape&gt;</code>. The first pointer owns a <code>Rectangle</code>; the second owns a <code>Circle</code>. Inside the loop, the expression <code>shape</code> is a reference to a <code>unique_ptr&lt;Shape&gt;</code>, and <code>shape-&gt;</code> reaches each object through the base interface.</p>
+<p>For the first call, the dynamic type is <code>Rectangle</code> and the final overrider is <code>Rectangle::area()</code>, giving 3 times 4, or 12. For the second, the dynamic type is <code>Circle</code> and <code>Circle::area()</code> gives 4 times pi. Both calls have the same source spelling. Their selected implementations differ because their complete objects differ.</p>
+<table>
+<thead><tr><th>Iteration</th><th>Static interface</th><th>Dynamic type</th><th>Final overrider</th><th>Mathematical result</th></tr></thead>
+<tbody>
+<tr><td>First</td><td><code>Shape</code></td><td><code>Rectangle</code></td><td><code>Rectangle::area() const</code></td><td>12</td></tr>
+<tr><td>Second</td><td><code>Shape</code></td><td><code>Circle</code></td><td><code>Circle::area() const</code></td><td><code>4 * std::numbers::pi</code></td></tr>
+</tbody>
+</table>
+<p>The <code>override</code> specifier asks the compiler to verify that each derived declaration actually overrides a base virtual. A missing <code>const</code>, different <a class="glossary-term" id="glossary-origin-21-0064" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0064&amp;lesson=21#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> or incompatible qualifier then becomes a diagnostic instead of silently introducing a separate function. <code>final</code> on these derived classes <a class="glossary-term" id="glossary-origin-21-0065" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0065&amp;lesson=21#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">states</a> that no further class may derive from them. Neither keyword proves the area formula; <a class="glossary-term" id="glossary-origin-21-0066" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0066&amp;lesson=21#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a> still must.</p>
+
+<h3>Ownership is not an optional footnote to dispatch</h3>
+<p>A reference or pointer preserves access to the complete derived object rather than creating a sliced base value. It does not say who owns that object. In this example, each <code>unique_ptr&lt;Shape&gt;</code> owns exactly one allocation, the vector owns those smart pointers, and destruction follows the vector's lifetime. That ownership chain is part of why the loop is safe.</p>
+<p>The base destructor is virtual because deletion occurs through a base-typed owning pointer. When a <code>unique_ptr&lt;Shape&gt;</code> releases a <code>Circle</code>, destruction must reach the complete circle before its <code>Shape</code> base part. The smart pointer automates the delete expression; the virtual destructor makes base-directed deletion correct for the dynamic type. One mechanism cannot substitute for the other.</p>
+<table>
+<thead><tr><th>Representation</th><th>Dynamic identity</th><th>Ownership statement</th><th>Principal concern</th></tr></thead>
+<tbody>
+<tr><td><code>const Shape&amp;</code></td><td>Preserved.</td><td>Non-owning borrow.</td><td>The complete object must outlive the reference.</td></tr>
+<tr><td><code>Shape*</code></td><td>Preserved when it designates a derived object.</td><td>Not established by the pointer type alone.</td><td>Nullability, lifetime and deletion policy must be stated.</td></tr>
+<tr><td><code>std::unique_ptr&lt;Shape&gt;</code></td><td>Preserved.</td><td>Exclusive ownership.</td><td>The base needs the appropriate destruction interface.</td></tr>
+<tr><td><code>Shape</code> by value</td><td>Only the base value exists in the destination.</td><td>The destination owns that base value.</td><td>Slicing removes derived state and behaviour.</td></tr>
+</tbody>
+</table>
+<p>This abstract <code>Shape</code> cannot itself be stored as concrete values because its pure virtual operation leaves it abstract. Even for a concrete base, a vector of base values would contain base objects, not a heterogeneous set of complete derived objects. Smart pointers are not selected merely because "polymorphism uses pointers"; they are selected here because the collection owns objects whose concrete sizes and types differ at runtime.</p>
+
+<h3>Know exactly when virtual dispatch is suppressed or limited</h3>
+<table>
+<thead><tr><th>Call context</th><th>Selection rule</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>Virtual call through a base reference or pointer</td><td>Selects the final overrider for the dynamic type.</td><td>This is the ordinary runtime-polymorphic case.</td></tr>
+<tr><td>Qualified call such as <code>object.Shape::operation()</code></td><td>Qualification suppresses virtual dispatch for that call.</td><td>The named base implementation is requested deliberately.</td></tr>
+<tr><td>Call during base construction or destruction</td><td>Does not dispatch to a more-derived part outside the currently active construction or destruction stage.</td><td>A derived implementation must not be expected before its part exists or after it has been destroyed.</td></tr>
+<tr><td>Non-virtual member call</td><td>Uses static lookup and <a class="glossary-term" id="glossary-origin-21-0067" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0067&amp;lesson=21#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload resolution</a>.</td><td>A similarly named derived function does not make the call virtual.</td></tr>
+<tr><td>Default argument on a virtual function</td><td>The default expression is selected from the static type, while the virtual body may be selected dynamically.</td><td>One call can combine a base default with a derived override.</td></tr>
+</tbody>
+</table>
+<p>The default-argument case is especially instructive. Dynamic dispatch does not retroactively make every part of the call dynamic. If callers omit an argument through a base interface, the base declaration supplies the default even when a derived body executes. A stable virtual interface should avoid making <a class="glossary-term" id="glossary-origin-21-0068" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0068&amp;lesson=21#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> depend on different defaults in different overrides.</p>
+
+<h3>Abstract means incomplete for direct objects, not absent behaviour</h3>
+<p>A pure virtual function makes the class abstract, so the program cannot create a direct object of that class. It requires a final overrider in any concrete derived object that is <a class="glossary-term" id="glossary-origin-21-0069" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0069&amp;lesson=21#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">instantiated</a>. The base still supplies state, non-virtual operations and, in some designs, even a <a class="glossary-term" id="glossary-origin-21-0070" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0070&amp;lesson=21#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> for a pure virtual function that can be called through qualification. "Pure" describes the interface requirement; it does not mean the base contains nothing.</p>
+<p>Keep the base contract small enough that every implementation can honour it without type tests or invented failure modes. A large interface often forces derived classes to implement operations that make no sense for them. Empty stubs and <a class="glossary-term" id="glossary-origin-21-0071" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0071&amp;lesson=21#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exceptions</a> added solely because the base demanded the function are evidence that the <a class="glossary-term" id="glossary-origin-21-0072" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0072&amp;lesson=21#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> may be too broad.</p>
+
+<div class="concept-panel">
+<p><strong>Correction to the earlier <code>clone</code> interface:</strong> a <a class="glossary-term" id="glossary-origin-21-0073" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0073&amp;lesson=21#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointer</a> returned from <code>clone()</code> can use covariant pointer <a class="glossary-term" id="glossary-origin-21-0074" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0074&amp;lesson=21#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return types</a>, but it leaves ownership and deletion as an easy-to-miss convention. <code>std::unique_ptr&lt;Derived&gt;</code> is not covariant with <code>std::unique_ptr&lt;Base&gt;</code>; those are different class-template <a class="glossary-term" id="glossary-origin-21-0075" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0075&amp;lesson=21#term-specialisation" aria-label="Look up specialisation in the programming glossary" title="Look up specialisation in the programming glossary">specialisations</a>. A modern owning virtual interface can return <code>std::unique_ptr&lt;Base&gt;</code> from the base and every override. The derived implementation may construct a derived object and return it through that owning base pointer. A clear ownership contract is worth more than preserving raw-pointer covariance.</p>
+</div>
+
+<h3>Downcasts should be evidence, not the default extension mechanism</h3>
+<p><code>dynamic_cast</code> can test or recover a derived type through a polymorphic base. A pointer <a class="glossary-term" id="glossary-origin-21-0076" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0076&amp;lesson=21#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a> reports failure with <code>nullptr</code>; a reference cast reports failure by throwing <code>std::bad_cast</code>. The facility is legitimate when an operation genuinely applies to one optional capability or when crossing an external interface.</p>
+<p>A repeated chain of downcasts often says something else: callers know all concrete types and the base lacks the behaviour they actually need. Adding a virtual operation, separating capabilities into smaller interfaces, using a visitor or choosing a closed-set representation may express the design more honestly. The cast is not automatically wrong. It is a request to explain why runtime type discovery belongs at that caller.</p>
+
+<h3>Implementation folklore is not the language contract</h3>
+<p>Implementations commonly realise virtual dispatch with virtual tables and hidden per-object information. The language specifies observable call behaviour rather than requiring one exact layout. Teach the common mechanism when it helps explain cost or <a class="glossary-term" id="glossary-origin-21-0077" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0077&amp;lesson=21#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a>, but do not turn an implementation model into a portable memory-layout promise.</p>
+<p>A virtual call may add an indirect <a class="glossary-term" id="glossary-origin-21-0078" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0078&amp;lesson=21#term-branch" aria-label="Look up branch in the programming glossary" title="Look up branch in the programming glossary">branch</a> and can inhibit inlining where the compiler cannot determine the target. In a heterogeneous owning collection, separate allocations and pointer chasing may affect locality as much as or more than the dispatch itself. The virtual function's own work may dominate both. Measure the complete hot path with representative objects and an <a class="glossary-term" id="glossary-origin-21-0079" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0079&amp;lesson=21#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">optimised</a> build before redesigning the architecture around a presumed single-call cost.</p>
+<p>Templates, variants, function objects and type erasure offer other forms of variation. Static polymorphism can expose concrete types to optimisation but may increase code generation, compile time and coupling. A variant suits a closed set of alternatives and makes visitation explicit. Virtual dispatch suits an open family behind a stable runtime interface. Select from the variation requirement first; performance evidence then refines the choice.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> require a four-column dispatch trace</summary>
+<div>
+<p>For every generated polymorphic call, ask for the expression's static type, the complete object's dynamic type, the selected final overrider and the owner that keeps the object alive. Add the base <a class="glossary-term" id="glossary-origin-21-0080" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0080&amp;lesson=21#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> and <a class="glossary-term" id="glossary-origin-21-0081" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0081&amp;lesson=21#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postcondition</a>, then run the same contract tests against every concrete implementation through the base interface.</p>
+<p>Ask separately whether the call occurs during construction, destruction or with a qualified name, and whether any default argument is selected statically. If the model draws a vtable but omits lifetime, contract or exceptional call context, it has explained an implementation sketch rather than the working program.</p>
+</div>
+</details>
+
+<h3>Transfer task: make one call site earn its uniformity</h3>
+<p>Design an abstract <code>Effect</code> with <code>apply(double input) const</code>. The base contract says that a finite input must produce a finite result or report failure explicitly; it must not modify the effect. Create three proposed implementations: a fixed addition, a multiplication and a division by a configured value. Decide what construction must reject, what the virtual operation promises and how failure is represented without weakening the base for one derived type.</p>
+<p>Place mixed effects in an owning collection and trace one input through them. For each call, record static type, dynamic type, final overrider, result and owner. Then compare a virtual hierarchy with a closed <code>variant</code> of the same three effects. Which design permits new effect types without modifying the caller? Which makes the complete set visible to the compiler? Do not choose by repeating "virtual is flexible" or "variant is faster". State the extension model and the measurement that would settle any material performance difference.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The base must promise one result shape which every effect can honour. I will use a variant so failure remains a value the caller is required to inspect:</p>
+<pre><code class="language-cpp">#include &lt;cmath&gt;
+#include &lt;memory&gt;
+#include &lt;stdexcept&gt;
+#include &lt;variant&gt;
+#include &lt;vector&gt;
+
+enum class EffectError {
+    non_finite_input,
+    non_finite_result
+};
+
+using EffectResult = std::variant&lt;double, EffectError&gt;;
+
+class Effect {
+public:
+    virtual ~Effect() = default;
+
+    [[nodiscard]] virtual EffectResult
+    apply(double input) const = 0;
+};
+
+EffectResult checked_result(double value)
+{
+    if (!std::isfinite(value)) {
+        return EffectError::non_finite_result;
+    }
+    return value;
+}
+
+class FixedAddition final : public Effect {
+public:
+    explicit FixedAddition(double amount) : amount_{amount}
+    {
+        if (!std::isfinite(amount_)) {
+            throw std::invalid_argument{"addition must be finite"};
+        }
+    }
+
+    EffectResult apply(double input) const override
+    {
+        if (!std::isfinite(input)) {
+            return EffectError::non_finite_input;
+        }
+        return checked_result(input + amount_);
+    }
+
+private:
+    double amount_;
+};
+
+class Multiplication final : public Effect {
+public:
+    explicit Multiplication(double factor) : factor_{factor}
+    {
+        if (!std::isfinite(factor_)) {
+            throw std::invalid_argument{"factor must be finite"};
+        }
+    }
+
+    EffectResult apply(double input) const override
+    {
+        if (!std::isfinite(input)) {
+            return EffectError::non_finite_input;
+        }
+        return checked_result(input * factor_);
+    }
+
+private:
+    double factor_;
+};
+
+class Division final : public Effect {
+public:
+    explicit Division(double divisor) : divisor_{divisor}
+    {
+        if (!std::isfinite(divisor_) || divisor_ == 0.0) {
+            throw std::invalid_argument{"divisor must be finite and non-zero"};
+        }
+    }
+
+    EffectResult apply(double input) const override
+    {
+        if (!std::isfinite(input)) {
+            return EffectError::non_finite_input;
+        }
+        return checked_result(input / divisor_);
+    }
+
+private:
+    double divisor_;
+};
+</code></pre>
+<p>Construction rejects non-finite configuration values, and division also rejects positive or negative zero. Once an object exists, <code>apply</code> does not alter it. A finite input either produces a finite <code>double</code> or returns <code>non_finite_result</code>. Non-finite input is also reported explicitly. Division does not need a weaker base contract because its zero-divisor state was removed during construction.</p>
+<p>Consider this owning pipeline:</p>
+<pre><code class="language-cpp">std::vector&lt;std::unique_ptr&lt;Effect&gt;&gt; effects;
+effects.push_back(std::make_unique&lt;FixedAddition&gt;(2.0));
+effects.push_back(std::make_unique&lt;Multiplication&gt;(3.0));
+effects.push_back(std::make_unique&lt;Division&gt;(4.0));
+</code></pre>
+<p>Starting with 8.0 and feeding each successful result to the next effect gives this trace:</p>
+<table>
+<thead><tr><th>Call</th><th>Static receiver type</th><th>Dynamic type</th><th>Final overrider</th><th>Result</th><th>Owner</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>Effect*</code></td><td><code>FixedAddition</code></td><td><code>FixedAddition::apply</code></td><td>10.0</td><td>The first <code>unique_ptr</code> in <code>effects</code>.</td></tr>
+<tr><td>2</td><td><code>Effect*</code></td><td><code>Multiplication</code></td><td><code>Multiplication::apply</code></td><td>30.0</td><td>The second <code>unique_ptr</code> in <code>effects</code>.</td></tr>
+<tr><td>3</td><td><code>Effect*</code></td><td><code>Division</code></td><td><code>Division::apply</code></td><td>7.5</td><td>The third <code>unique_ptr</code> in <code>effects</code>.</td></tr>
+</tbody>
+</table>
+<p>The caller should stop the pipeline at the first <code>EffectError</code>; treating an error as another number would destroy the base promise.</p>
+<p>The virtual hierarchy describes an open family. A separately compiled fourth effect can derive from <code>Effect</code>, and this loop need not change provided the new type honours the same contract. A variant containing non-polymorphic value forms of addition, multiplication and division describes a closed family. Its complete alternative set is visible to the compiler, and a visitor can be checked against that set, but adding a fourth effect changes the variant type and normally the visitor.</p>
+<p>Neither representation wins from its label. <a class="glossary-term" id="glossary-origin-21-0082" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0082&amp;lesson=21#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">Benchmark</a> the complete representative pipeline in an optimised build, using the same inputs, error checks, effect order and observable results. Include allocation and data-layout choices rather than timing an isolated call from one design and a whole loop from the other. Report total throughput or latency for the real workload, plus code size if that is a material <a class="glossary-term" id="glossary-origin-21-0083" href="glossary.html?from=lesson-21.html%23glossary-origin-21-0083&amp;lesson=21#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">constraint</a>. Only that comparison can show whether dispatch is important here.</p>
+</div>
+</details>
+
+<p>Runtime polymorphism earns its place when one stable contract lets a caller remain ignorant of several genuine implementations. The dispatch mechanism chooses the body. The type design, ownership model and tests decide whether that body belongs there.</p>
+</section>
+<!-- lesson-enhancement:21:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-20.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">20. The Friend Function</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-22.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">22. Operator Overloading</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Add several objects and make a deliberate decision about which result a pixel is permitted to keep.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 05 - The Closest Visible Surface</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="05" data-ray-stage="5" data-art-pattern="branch">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 05 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html" aria-current="page"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 05</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">5. The Closest Visible Surface</h1>
+            <p class="lesson-deck">Add several objects and make a deliberate decision about which result a pixel is permitted to keep.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-04.html">&larr; Lesson 04</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-06.html">Lesson 06 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>26 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-05-acceleration-structure" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-acceleration-structure&amp;lesson=05#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structure</a> <a class="glossary-chip" id="glossary-panel-origin-05-albedo" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-albedo&amp;lesson=05#term-albedo" aria-label="Look up albedo in the graphics glossary" title="Look up albedo in the graphics glossary">albedo</a> <a class="glossary-chip" id="glossary-panel-origin-05-closest-hit" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-closest-hit&amp;lesson=05#term-closest-hit" aria-label="Look up closest hit in the graphics glossary" title="Look up closest hit in the graphics glossary">closest hit</a> <a class="glossary-chip" id="glossary-panel-origin-05-hit" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-hit&amp;lesson=05#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-05-hit-record" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-hit-record&amp;lesson=05#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> <a class="glossary-chip" id="glossary-panel-origin-05-image" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-image&amp;lesson=05#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-05-intersection" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-intersection&amp;lesson=05#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-05-material" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-material&amp;lesson=05#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-05-maximum-distance" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-maximum-distance&amp;lesson=05#term-maximum-distance" aria-label="Look up maximum distance in the graphics glossary" title="Look up maximum distance in the graphics glossary">maximum distance</a> <a class="glossary-chip" id="glossary-panel-origin-05-minimum-distance" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-minimum-distance&amp;lesson=05#term-minimum-distance" aria-label="Look up minimum distance in the graphics glossary" title="Look up minimum distance in the graphics glossary">minimum distance</a> <a class="glossary-chip" id="glossary-panel-origin-05-occlusion" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-occlusion&amp;lesson=05#term-occlusion" aria-label="Look up occlusion in the graphics glossary" title="Look up occlusion in the graphics glossary">occlusion</a> <a class="glossary-chip" id="glossary-panel-origin-05-pixel" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-pixel&amp;lesson=05#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-05-plane" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-plane&amp;lesson=05#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> <a class="glossary-chip" id="glossary-panel-origin-05-point" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-point&amp;lesson=05#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-05-primary-ray" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-primary-ray&amp;lesson=05#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-05-primitive-test" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-primitive-test&amp;lesson=05#term-primitive-test" aria-label="Look up primitive test in the graphics glossary" title="Look up primitive test in the graphics glossary">primitive test</a> <a class="glossary-chip" id="glossary-panel-origin-05-ray-interval" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-ray-interval&amp;lesson=05#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> <a class="glossary-chip" id="glossary-panel-origin-05-ray-parameter" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-ray-parameter&amp;lesson=05#term-ray-parameter" aria-label="Look up ray parameter in the graphics glossary" title="Look up ray parameter in the graphics glossary">ray parameter</a> <a class="glossary-chip" id="glossary-panel-origin-05-reflection" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-reflection&amp;lesson=05#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-05-scene" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-scene&amp;lesson=05#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-05-secondary-ray" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-secondary-ray&amp;lesson=05#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary ray</a> <a class="glossary-chip" id="glossary-panel-origin-05-shadow-ray" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-shadow-ray&amp;lesson=05#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> <a class="glossary-chip" id="glossary-panel-origin-05-sphere" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-sphere&amp;lesson=05#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-05-surface-normal" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-surface-normal&amp;lesson=05#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-05-triangle" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-triangle&amp;lesson=05#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> <a class="glossary-chip" id="glossary-panel-origin-05-world-position" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-world-position&amp;lesson=05#term-world-position" aria-label="Look up world position in the graphics glossary" title="Look up world position in the graphics glossary">world position</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>One <a class="glossary-term" id="glossary-origin-05-0001" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0001&amp;lesson=05#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> allowed the <a class="glossary-term" id="glossary-origin-05-0002" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0002&amp;lesson=05#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> function to return a distance. Several spheres expose a decision that was previously invisible: a <a class="glossary-term" id="glossary-origin-05-0003" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0003&amp;lesson=05#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> may receive more than one valid <a class="glossary-term" id="glossary-origin-05-0004" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0004&amp;lesson=05#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a>, but only the nearest visible surface is allowed to determine the first result. The array order is not depth. The last function called is not the front object. Visibility must be earned by comparing valid <a class="glossary-term" id="glossary-origin-05-0005" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0005&amp;lesson=05#term-ray-parameter" aria-label="Look up ray parameter in the graphics glossary" title="Look up ray parameter in the graphics glossary">ray parameters</a>.</p>
+<p>This sounds obvious when two spheres are clearly separated. It becomes less obvious when they overlap in the <a class="glossary-term" id="glossary-origin-05-0006" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0006&amp;lesson=05#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a>, one contains another or a later <a class="glossary-term" id="glossary-origin-05-0007" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0007&amp;lesson=05#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary ray</a> begins inside a surface. A reliable renderer does not infer front and back from how the <a class="glossary-term" id="glossary-origin-05-0008" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0008&amp;lesson=05#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> was assembled. It gives every object the same interval query and retains the smallest valid answer.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Define a <a class="glossary-term" id="glossary-origin-05-0009" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0009&amp;lesson=05#term-hit-record" aria-label="Look up hit record in the graphics glossary" title="Look up hit record in the graphics glossary">hit record</a> containing the distance and surface information required by later stages.</li>
+<li>Traverse a scene while shrinking the maximum accepted distance.</li>
+<li>Demonstrate that changing object storage order does not change the visible result.</li>
+</ul>
+</section>
+
+<h2>Return a record, not an isolated number</h2>
+<p>The hit distance is sufficient for a silhouette. Shading will need the <a class="glossary-term" id="glossary-origin-05-0010" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0010&amp;lesson=05#term-world-position" aria-label="Look up world position in the graphics glossary" title="Look up world position in the graphics glossary">world position</a>, <a class="glossary-term" id="glossary-origin-05-0011" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0011&amp;lesson=05#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> and <a class="glossary-term" id="glossary-origin-05-0012" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0012&amp;lesson=05#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> as well. Returning separate pieces from separate functions encourages them to disagree. We therefore create one record at the <a class="glossary-term" id="glossary-origin-05-0013" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0013&amp;lesson=05#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> where the geometry has established a valid root.</p>
+
+<pre><code class="language-js">function makeHit(ray, sphere, t) {
+    const position = pointOnRay(ray, t);
+    const outwardNormal = scale(
+        subtract(position, sphere.centre),
+        1 / sphere.radius
+    );
+
+    return {
+        t,
+        position,
+        outwardNormal,
+        material: sphere.material,
+        object: sphere
+    };
+}
+</code></pre>
+
+<p>The normal and material are not used to decide which sphere is closest. They are retained because the successful geometric answer must carry enough context into the next stage. This is a contract. A future <a class="glossary-term" id="glossary-origin-05-0014" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0014&amp;lesson=05#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> or <a class="glossary-term" id="glossary-origin-05-0015" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0015&amp;lesson=05#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> may calculate the record differently, but callers should not need a different record shape merely because a different primitive was hit.</p>
+
+<h2>Shrink the interval as evidence improves</h2>
+<p>Begin with no record and an upper limit representing the farthest useful distance. Test each object using that upper limit. When a hit is found, store it and replace the upper limit with its <code>t</code>. Any later object must now produce a smaller valid value to replace the record.</p>
+
+<pre><code class="language-js">function closestHit(ray, objects, tMin, tMax) {
+    let closest = tMax;
+    let best = null;
+
+    for (const object of objects) {
+        const hit = object.intersect(ray, tMin, closest);
+        if (hit !== null) {
+            closest = hit.t;
+            best = hit;
+        }
+    }
+
+    return best;
+}
+</code></pre>
+
+<p>The shrinking maximum does two jobs. It states the visibility rule and lets each later intersection avoid returning a result already known to be hidden. It does not yet avoid attempting the <a class="glossary-term" id="glossary-origin-05-0016" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0016&amp;lesson=05#term-primitive-test" aria-label="Look up primitive test in the graphics glossary" title="Look up primitive test in the graphics glossary">primitive test</a>. Lesson 14 will measure that remaining cost and introduce bounds that can reject groups before their individual tests run.</p>
+
+<div class="worked-trace">
+<h3>Three valid roots, one visible surface</h3>
+<p>Suppose the first sphere reports <code>t = 6.2</code>. The current maximum becomes 6.2. The second reports <code>t = 2.7</code>, so it replaces the record and the maximum becomes 2.7. The third has a root at 4.1, but its intersection function is asked to search only up to 2.7 and therefore reports no acceptable hit. The visible result is the second sphere. Reversing the object order may change the sequence of temporary records, but it must still finish at 2.7.</p>
+</div>
+
+<section class="ray-lab concept-lab stage-05-lab" data-ray-lab data-stage="5" aria-labelledby="ray-lab-title-05">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Visibility laboratory</p><h2 id="ray-lab-title-05">Keep the Smallest Valid Distance</h2></div>
+        <p>Move the blue sphere along the ray, compare its near hit with the red sphere&#x27;s near hit and retain the smaller acceptable value of t.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Move only the blue sphere. Watch its near value of t cross the red value and change which object is retained.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 5 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Closest-surface image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Overlapping surfaces</strong><small>Overlapping spheres whose visible colour is selected by the nearest valid hit.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">Overlapping spheres whose visible colour is selected by the nearest valid hit.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Closest-hit comparison diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Compare two valid hits</strong><small>One ray with red and blue candidate hit distances and the retained nearest result.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">One ray with red and blue candidate hit distances and the retained nearest result.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Red near hit</dt><dd><output data-closest-red>2.340</output></dd></div><div><dt>Blue near hit</dt><dd><output data-closest-blue>1.900</output></dd></div><div><dt>Retained object</dt><dd><output data-closest-object>Blue sphere</output></dd></div><div><dt>Stored closest t</dt><dd><output data-closest-distance>1.900</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-closest-formula>min(2.340, 1.900) = 1.900</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Use distance without pretending it is colour</h2>
+<p>The laboratory gives each sphere an <a class="glossary-term" id="glossary-origin-05-0017" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0017&amp;lesson=05#term-albedo" aria-label="Look up albedo in the graphics glossary" title="Look up albedo in the graphics glossary">albedo</a> so that overlapping silhouettes can be distinguished. It also applies a slight distance diagnostic, making farther unlit objects darker. This is not lighting. It is a temporary way to make the retained <code>t</code> visible while we check <a class="glossary-term" id="glossary-origin-05-0018" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0018&amp;lesson=05#term-occlusion" aria-label="Look up occlusion in the graphics glossary" title="Look up occlusion in the graphics glossary">occlusion</a>.</p>
+<p>Move the blue sphere along Z. When it passes behind the red sphere, some <a class="glossary-term" id="glossary-origin-05-0019" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0019&amp;lesson=05#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">camera rays</a> continue to intersect both. The red hit wins only where its accepted distance is smaller. Around the non-overlapping part of the blue silhouette, the red sphere provides no valid root and the blue record remains. One object is not globally in front of another; visibility is decided independently for each ray.</p>
+
+<h2>Intervals give rays different purposes</h2>
+<p>A primary ray usually searches from a small positive minimum to a far limit. A <a class="glossary-term" id="glossary-origin-05-0020" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0020&amp;lesson=05#term-shadow-ray" aria-label="Look up shadow ray in the graphics glossary" title="Look up shadow ray in the graphics glossary">shadow ray</a> will search only from a surface to the light. A <a class="glossary-term" id="glossary-origin-05-0021" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0021&amp;lesson=05#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> ray will again search forward from a surface, but it may have a remaining bounce budget. The same scene traversal can serve each purpose when the <a class="glossary-term" id="glossary-origin-05-0022" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0022&amp;lesson=05#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> is an explicit input.</p>
+<p>Using positive infinity as the maximum is mathematically convenient. A practical renderer may use a finite scene limit, both to express the problem and to avoid allowing absurd values to leak into later calculations. The important point is not which constant we choose for this small scene. It is that the caller owns the interval and the primitive honours it.</p>
+
+<div class="checkpoint">
+<h3>Find the storage-order error</h3>
+<p>A loop assigns <code>best = hit</code> every time any object reports a valid positive root. The image changes when the scene array is reversed. What criterion is missing, and where should it be enforced?</p>
+<details class="reveal-answer"><summary>Reveal the diagnosis</summary><div><p>The loop is retaining the last valid hit rather than the closest valid hit. It must compare against the current closest distance, preferably by passing that value as the primitive's <code>tMax</code> and replacing the record only when a result lies inside the reduced interval. The final answer should then be independent of array order, apart from genuinely equal-distance ties that need their own policy.</p></div></details>
+</div>
+
+<h2>Equal values still require a policy</h2>
+<p>Two surfaces can occupy the same distance, either by design or because the scene contains overlapping geometry. The loop above keeps the later hit when equality is accepted. Changing the comparison to exclude the current maximum keeps the earlier hit. Neither policy repairs coincident geometry, and neither should be mistaken for a physically meaningful choice. The renderer must document the tie behaviour, while the scene author should avoid unintended coincident surfaces.</p>
+<p>This qualification matters because deterministic output does not prove the scene is sensible. A consistent arbitrary tie may be useful for debugging, but it does not tell us which of two identical surfaces is really visible. Geometry that does not define a unique nearest surface cannot obtain one merely from a loop.</p>
+
+<section class="transfer-task">
+<h2>Prove order independence</h2>
+<p>Create three spheres whose image projections overlap. Record the centre pixel's candidate distances and final object. Reverse the array, then rotate it by one position. The candidate order should change and the final smallest distance should not. Add two coincident spheres afterwards and state the tie rule you observe.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>Hardware ray tracing uses an <a class="glossary-term" id="glossary-origin-05-0023" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0023&amp;lesson=05#term-acceleration-structure" aria-label="Look up acceleration structure in the graphics glossary" title="Look up acceleration structure in the graphics glossary">acceleration structure</a> and a defined traversal process to find candidates, but the conceptual result remains a closest accepted hit. In a compute implementation, we may perform the loop ourselves. In either case, the shader consuming the result needs a stable hit contract rather than a collection of primitive-specific accidents.</p>
+</section>
+
+<p>We can now say which surface a primary ray sees. Lesson 6 turns the stored hit into a surface description by orienting its normal and separating geometric data from material data.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-04.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">04. Meeting a Sphere</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-06.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">06. Normals and Surface Materials</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

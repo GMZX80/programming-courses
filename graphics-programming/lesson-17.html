@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Make the storage image visible to a compute shader through one inspectable descriptor and pipeline layout.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 17 - Descriptors Give the Shader Its Resources</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="17" data-ray-stage="17" data-art-pattern="branch">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 17 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html" aria-current="page"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 17</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">17. Descriptors Give the Shader Its Resources</h1>
+            <p class="lesson-deck">Make the storage image visible to a compute shader through one inspectable descriptor and pipeline layout.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-16.html">&larr; Lesson 16</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-18.html">Lesson 18 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>43 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-17-buffer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-buffer&amp;lesson=17#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-17-camera" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-camera&amp;lesson=17#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-17-command-buffer" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-command-buffer&amp;lesson=17#term-command-buffer" aria-label="Look up command buffer in the graphics glossary" title="Look up command buffer in the graphics glossary">command buffer</a> <a class="glossary-chip" id="glossary-panel-origin-17-compute-pipeline" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-compute-pipeline&amp;lesson=17#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> <a class="glossary-chip" id="glossary-panel-origin-17-compute-shader" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-compute-shader&amp;lesson=17#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-17-descriptor" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-descriptor&amp;lesson=17#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> <a class="glossary-chip" id="glossary-panel-origin-17-descriptor-binding" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-descriptor-binding&amp;lesson=17#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor binding</a> <a class="glossary-chip" id="glossary-panel-origin-17-descriptor-pool" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-descriptor-pool&amp;lesson=17#term-descriptor-pool" aria-label="Look up descriptor pool in the graphics glossary" title="Look up descriptor pool in the graphics glossary">descriptor pool</a> <a class="glossary-chip" id="glossary-panel-origin-17-descriptor-set" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-descriptor-set&amp;lesson=17#term-descriptor-set" aria-label="Look up descriptor set in the graphics glossary" title="Look up descriptor set in the graphics glossary">descriptor set</a> <a class="glossary-chip" id="glossary-panel-origin-17-descriptor-set-layout" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-descriptor-set-layout&amp;lesson=17#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a> <a class="glossary-chip" id="glossary-panel-origin-17-descriptor-type" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-descriptor-type&amp;lesson=17#term-descriptor-type" aria-label="Look up descriptor type in the graphics glossary" title="Look up descriptor type in the graphics glossary">descriptor type</a> <a class="glossary-chip" id="glossary-panel-origin-17-descriptor-update" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-descriptor-update&amp;lesson=17#term-descriptor-update" aria-label="Look up descriptor update in the graphics glossary" title="Look up descriptor update in the graphics glossary">descriptor update</a> <a class="glossary-chip" id="glossary-panel-origin-17-dispatch" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-dispatch&amp;lesson=17#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-17-edge" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-edge&amp;lesson=17#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-17-glsl" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-glsl&amp;lesson=17#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <a class="glossary-chip" id="glossary-panel-origin-17-hlsl" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-hlsl&amp;lesson=17#term-hlsl" aria-label="Look up HLSL in the graphics glossary" title="Look up HLSL in the graphics glossary">HLSL</a> <a class="glossary-chip" id="glossary-panel-origin-17-host" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-host&amp;lesson=17#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-17-image" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-image&amp;lesson=17#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-17-image-layout" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-image-layout&amp;lesson=17#term-image-layout" aria-label="Look up image layout in the graphics glossary" title="Look up image layout in the graphics glossary">image layout</a> <a class="glossary-chip" id="glossary-panel-origin-17-image-view" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-image-view&amp;lesson=17#term-image-view" aria-label="Look up image view in the graphics glossary" title="Look up image view in the graphics glossary">image view</a> <a class="glossary-chip" id="glossary-panel-origin-17-invocation" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-invocation&amp;lesson=17#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-17-layout-qualifier" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-layout-qualifier&amp;lesson=17#term-layout-qualifier" aria-label="Look up layout qualifier in the graphics glossary" title="Look up layout qualifier in the graphics glossary">layout qualifier</a> <a class="glossary-chip" id="glossary-panel-origin-17-pipeline-layout" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-pipeline-layout&amp;lesson=17#term-pipeline-layout" aria-label="Look up pipeline layout in the graphics glossary" title="Look up pipeline layout in the graphics glossary">pipeline layout</a> <a class="glossary-chip" id="glossary-panel-origin-17-pipeline-stage" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-pipeline-stage&amp;lesson=17#term-pipeline-stage" aria-label="Look up pipeline stage in the graphics glossary" title="Look up pipeline stage in the graphics glossary">pipeline stage</a> <a class="glossary-chip" id="glossary-panel-origin-17-pixel" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-pixel&amp;lesson=17#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-17-point" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-point&amp;lesson=17#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-17-sample" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-sample&amp;lesson=17#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-17-scene" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-scene&amp;lesson=17#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-built-in" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-built-in&amp;lesson=17#term-shader-built-in" aria-label="Look up shader built-in in the graphics glossary" title="Look up shader built-in in the graphics glossary">shader built-in</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-compiler" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-compiler&amp;lesson=17#term-shader-compiler" aria-label="Look up shader compiler in the graphics glossary" title="Look up shader compiler in the graphics glossary">shader compiler</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-entry-point" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-entry-point&amp;lesson=17#term-shader-entry-point" aria-label="Look up shader entry point in the graphics glossary" title="Look up shader entry point in the graphics glossary">shader entry point</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-interface" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-interface&amp;lesson=17#term-shader-interface" aria-label="Look up shader interface in the graphics glossary" title="Look up shader interface in the graphics glossary">shader interface</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-language" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-language&amp;lesson=17#term-shader-language" aria-label="Look up shader language in the graphics glossary" title="Look up shader language in the graphics glossary">shader language</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-module" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-module&amp;lesson=17#term-shader-module" aria-label="Look up shader module in the graphics glossary" title="Look up shader module in the graphics glossary">shader module</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-source" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-source&amp;lesson=17#term-shader-source" aria-label="Look up shader source in the graphics glossary" title="Look up shader source in the graphics glossary">shader source</a> <a class="glossary-chip" id="glossary-panel-origin-17-shader-stage" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-shader-stage&amp;lesson=17#term-shader-stage" aria-label="Look up shader stage in the graphics glossary" title="Look up shader stage in the graphics glossary">shader stage</a> <a class="glossary-chip" id="glossary-panel-origin-17-slang" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-slang&amp;lesson=17#term-slang" aria-label="Look up Slang in the graphics glossary" title="Look up Slang in the graphics glossary">Slang</a> <a class="glossary-chip" id="glossary-panel-origin-17-spir-v" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-spir-v&amp;lesson=17#term-spir-v" aria-label="Look up SPIR-V in the graphics glossary" title="Look up SPIR-V in the graphics glossary">SPIR-V</a> <a class="glossary-chip" id="glossary-panel-origin-17-storage-image" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-storage-image&amp;lesson=17#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> <a class="glossary-chip" id="glossary-panel-origin-17-texel" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-texel&amp;lesson=17#term-texel" aria-label="Look up texel in the graphics glossary" title="Look up texel in the graphics glossary">texel</a> <a class="glossary-chip" id="glossary-panel-origin-17-vulkan-sdk" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-vulkan-sdk&amp;lesson=17#term-vulkan-sdk" aria-label="Look up Vulkan SDK in the graphics glossary" title="Look up Vulkan SDK in the graphics glossary">Vulkan SDK</a> <a class="glossary-chip" id="glossary-panel-origin-17-workgroup" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-workgroup&amp;lesson=17#term-workgroup" aria-label="Look up workgroup in the graphics glossary" title="Look up workgroup in the graphics glossary">workgroup</a> <a class="glossary-chip" id="glossary-panel-origin-17-workgroup-count" href="glossary.html?from=lesson-17.html%23glossary-panel-origin-17-workgroup-count&amp;lesson=17#term-workgroup-count" aria-label="Look up workgroup count in the graphics glossary" title="Look up workgroup count in the graphics glossary">workgroup count</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A shader can contain the correct <a class="glossary-term" id="glossary-origin-17-0001" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0001&amp;lesson=17#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> calculation and still have no <a class="glossary-term" id="glossary-origin-17-0002" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0002&amp;lesson=17#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> to write. A <a class="glossary-term" id="glossary-origin-17-0003" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0003&amp;lesson=17#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> program can create the correct <a class="glossary-term" id="glossary-origin-17-0004" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0004&amp;lesson=17#term-image-view" aria-label="Look up image view in the graphics glossary" title="Look up image view in the graphics glossary">image view</a> and still expose it at the wrong binding. Vulkan makes the interface between those two descriptions explicit. The shader declares a <a class="glossary-term" id="glossary-origin-17-0005" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0005&amp;lesson=17#term-descriptor-set" aria-label="Look up descriptor set in the graphics glossary" title="Look up descriptor set in the graphics glossary">descriptor set</a> number, binding number, <a class="glossary-term" id="glossary-origin-17-0006" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0006&amp;lesson=17#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a>-compatible type and access. The host creates a matching <a class="glossary-term" id="glossary-origin-17-0007" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0007&amp;lesson=17#term-descriptor-set-layout" aria-label="Look up descriptor set layout in the graphics glossary" title="Look up descriptor set layout in the graphics glossary">descriptor set layout</a>, updates an allocated descriptor set with the actual resource and includes that layout in the <a class="glossary-term" id="glossary-origin-17-0008" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0008&amp;lesson=17#term-pipeline-layout" aria-label="Look up pipeline layout in the graphics glossary" title="Look up pipeline layout in the graphics glossary">pipeline layout</a>.</p>
+<p>The tempting proxy is a successfully created pipeline. Pipeline creation establishes that the <a class="glossary-term" id="glossary-origin-17-0009" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0009&amp;lesson=17#term-shader-module" aria-label="Look up shader module in the graphics glossary" title="Look up shader module in the graphics glossary">shader module</a> and declared layout satisfy Vulkan's creation rules. It does not establish that the descriptor set later bound at execution contains the intended image, or that the image is in a layout suitable for storage access. The entire static and resource interface must therefore be accounted for before a <a class="glossary-term" id="glossary-origin-17-0010" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0010&amp;lesson=17#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> is recorded.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Compile a <a class="glossary-term" id="glossary-origin-17-0011" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0011&amp;lesson=17#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> to <a class="glossary-term" id="glossary-origin-17-0012" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0012&amp;lesson=17#term-spir-v" aria-label="Look up SPIR-V in the graphics glossary" title="Look up SPIR-V in the graphics glossary">SPIR-V</a> and create a shader module from the resulting words.</li>
+<li>Make one storage-image declaration agree across shader, descriptor set layout, <a class="glossary-term" id="glossary-origin-17-0013" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0013&amp;lesson=17#term-descriptor-update" aria-label="Look up descriptor update in the graphics glossary" title="Look up descriptor update in the graphics glossary">descriptor update</a> and pipeline layout.</li>
+<li>Explain why pipeline creation, descriptor allocation and <a class="glossary-term" id="glossary-origin-17-0014" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0014&amp;lesson=17#term-descriptor-binding" aria-label="Look up descriptor binding in the graphics glossary" title="Look up descriptor binding in the graphics glossary">descriptor binding</a> are distinct operations.</li>
+</ul>
+</section>
+
+<h2>Declare the smallest useful compute shader</h2>
+<p>The first shader writes a diagnostic gradient rather than tracing a <a class="glossary-term" id="glossary-origin-17-0015" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0015&amp;lesson=17#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a>. Its purpose is to prove that each global <a class="glossary-term" id="glossary-origin-17-0016" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0016&amp;lesson=17#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> can address one <a class="glossary-term" id="glossary-origin-17-0017" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0017&amp;lesson=17#term-texel" aria-label="Look up texel in the graphics glossary" title="Look up texel in the graphics glossary">texel</a> in the <a class="glossary-term" id="glossary-origin-17-0018" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0018&amp;lesson=17#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a>. A 16 by 16 local <a class="glossary-term" id="glossary-origin-17-0019" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0019&amp;lesson=17#term-workgroup" aria-label="Look up workgroup in the graphics glossary" title="Look up workgroup in the graphics glossary">workgroup</a> is a choice, not a claim that 256 invocations is optimal for every device or shader. Lesson 18 will calculate the required <a class="glossary-term" id="glossary-origin-17-0020" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0020&amp;lesson=17#term-workgroup-count" aria-label="Look up workgroup count in the graphics glossary" title="Look up workgroup count in the graphics glossary">workgroup count</a> and guard the <a class="glossary-term" id="glossary-origin-17-0021" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0021&amp;lesson=17#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a>.</p>
+
+<pre><code class="language-glsl">#version 460
+
+layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+layout(set = 0, binding = 0, rgba8)
+uniform writeonly image2D outputImage;
+
+void main() {
+    ivec2 pixel = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 extent = imageSize(outputImage);
+
+    if (pixel.x &gt;= extent.x || pixel.y &gt;= extent.y) {
+        return;
+    }
+
+    vec2 samplePosition =
+        (vec2(pixel) + vec2(0.5)) / vec2(extent);
+
+    imageStore(
+        outputImage,
+        pixel,
+        vec4(samplePosition, 0.15, 1.0));
+}</code></pre>
+
+<p>The <a class="glossary-term" id="glossary-origin-17-0022" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0022&amp;lesson=17#term-layout-qualifier" aria-label="Look up layout qualifier in the graphics glossary" title="Look up layout qualifier in the graphics glossary">format qualifier</a> and image view format must be compatible. The shader requests a storage image at set zero, binding zero. <code>writeonly</code> states that this declaration does not read existing texels; it does not create synchronisation or change the <a class="glossary-term" id="glossary-origin-17-0023" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0023&amp;lesson=17#term-image-layout" aria-label="Look up image layout in the graphics glossary" title="Look up image layout in the graphics glossary">image layout</a>.</p>
+
+<h2>Compile source into the module input</h2>
+<aside class="terminology-note">
+<h3>Source language is not module input</h3>
+<p>The listing above is <a class="glossary-term" id="glossary-origin-17-0024" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0024&amp;lesson=17#term-glsl" aria-label="Look up GLSL in the graphics glossary" title="Look up GLSL in the graphics glossary">GLSL</a> <a class="glossary-term" id="glossary-origin-17-0025" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0025&amp;lesson=17#term-shader-source" aria-label="Look up shader source in the graphics glossary" title="Look up shader source in the graphics glossary">shader source</a>. <a class="glossary-term" id="glossary-origin-17-0026" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0026&amp;lesson=17#term-hlsl" aria-label="Look up HLSL in the graphics glossary" title="Look up HLSL in the graphics glossary">HLSL</a> and <a class="glossary-term" id="glossary-origin-17-0027" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0027&amp;lesson=17#term-slang" aria-label="Look up Slang in the graphics glossary" title="Look up Slang in the graphics glossary">Slang</a> are alternative high-level <a class="glossary-term" id="glossary-origin-17-0028" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0028&amp;lesson=17#term-shader-language" aria-label="Look up shader language in the graphics glossary" title="Look up shader language in the graphics glossary">shader languages</a> that can also target Vulkan. The source language decides how the shader is written; the <a class="glossary-term" id="glossary-origin-17-0029" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0029&amp;lesson=17#term-shader-compiler" aria-label="Look up shader compiler in the graphics glossary" title="Look up shader compiler in the graphics glossary">shader compiler</a> turns that source into target SPIR-V; the Vulkan shader module receives the compiled result. These are related steps, not interchangeable names.</p>
+<p>Changing the source language does not remove the descriptor contract. A shader may compile successfully and still request a set, binding or <a class="glossary-term" id="glossary-origin-17-0030" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0030&amp;lesson=17#term-descriptor-type" aria-label="Look up descriptor type in the graphics glossary" title="Look up descriptor type in the graphics glossary">descriptor type</a> that the host did not provide.</p>
+</aside>
+<p>Vulkan's traditional shader ingestion path consumes SPIR-V words. Keep the shader source and compiler command in the project so the binary can be reproduced. For example, the <a class="glossary-term" id="glossary-origin-17-0031" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0031&amp;lesson=17#term-vulkan-sdk" aria-label="Look up Vulkan SDK in the graphics glossary" title="Look up Vulkan SDK in the graphics glossary">Vulkan SDK</a>'s <code>glslc</code> tool can compile the file as a compute shader:</p>
+
+<pre><code class="language-powershell">glslc shaders/raytrace.comp -o shaders/raytrace.comp.spv</code></pre>
+
+<p>Read the binary as 32-bit words and reject a byte count that is not divisible by four. The shader module copies or consumes the supplied code during creation as specified, so the file <a class="glossary-term" id="glossary-origin-17-0032" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0032&amp;lesson=17#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> need not remain alive for the life of the pipeline.</p>
+
+<pre><code class="language-cpp">std::vector&lt;uint32_t&gt; spirv = readSpirvWords(
+    "shaders/raytrace.comp.spv");
+
+VkShaderModuleCreateInfo moduleInfo{
+    .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
+    .codeSize = spirv.size() * sizeof(uint32_t),
+    .pCode = spirv.data()
+};
+
+VkShaderModule shaderModule = VK_NULL_HANDLE;
+check(vkCreateShaderModule(
+    device,
+    &amp;moduleInfo,
+    nullptr,
+    &amp;shaderModule));</code></pre>
+
+<p>A shader module is not a <a class="glossary-term" id="glossary-origin-17-0033" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0033&amp;lesson=17#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a>. It supplies code from which a <a class="glossary-term" id="glossary-origin-17-0034" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0034&amp;lesson=17#term-pipeline-stage" aria-label="Look up pipeline stage in the graphics glossary" title="Look up pipeline stage in the graphics glossary">pipeline stage</a> will select the <code>main</code> <a class="glossary-term" id="glossary-origin-17-0035" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0035&amp;lesson=17#term-shader-entry-point" aria-label="Look up shader entry point in the graphics glossary" title="Look up shader entry point in the graphics glossary">entry point</a>. The pipeline also needs a layout describing the resources that entry point may access.</p>
+
+<h2>Describe the binding before allocating it</h2>
+
+<pre><code class="language-cpp">VkDescriptorSetLayoutBinding outputBinding{
+    .binding = 0,
+    .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
+    .descriptorCount = 1,
+    .stageFlags = VK_SHADER_STAGE_COMPUTE_BIT
+};
+
+VkDescriptorSetLayoutCreateInfo setLayoutInfo{
+    .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+    .bindingCount = 1,
+    .pBindings = &amp;outputBinding
+};
+
+VkDescriptorSetLayout setLayout = VK_NULL_HANDLE;
+check(vkCreateDescriptorSetLayout(
+    device,
+    &amp;setLayoutInfo,
+    nullptr,
+    &amp;setLayout));
+
+VkPipelineLayoutCreateInfo pipelineLayoutInfo{
+    .sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
+    .setLayoutCount = 1,
+    .pSetLayouts = &amp;setLayout
+};
+
+VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
+check(vkCreatePipelineLayout(
+    device,
+    &amp;pipelineLayoutInfo,
+    nullptr,
+    &amp;pipelineLayout));</code></pre>
+
+<p>The descriptor set layout states what a compatible set must contain. The pipeline layout states which set layouts and push-constant ranges belong to the pipeline interface. Neither object contains the output image view. That concrete association belongs to a descriptor set.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-17">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-17">How a Shader Request Becomes a Bound Resource</h2>
+        <p>A shader declaration becomes useful only when the host describes the same interface and supplies the actual resource through a compatible descriptor set.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>The shader source requests a resource at a particular set, binding and descriptor type. Compilation turns that source into SPIR-V, but it does not invent the host-side resource. The descriptor set layout repeats the shader contract, the pipeline layout places that set within the pipeline interface, and the descriptor update supplies the actual image view that a dispatch will use.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Place the shader declaration, descriptor-set-layout binding and descriptor write beside one another. The set number, binding number, descriptor type, descriptor count and stage visibility must agree. Also record which image view and image layout were written into the allocated set. A handle printed on its own proves very little because it does not expose this agreement.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>If the shader asks for set 0, binding 0 but the host updates binding 1, both pieces may look individually plausible. They still describe different interfaces. Correctness comes from the shared contract, not from the fact that both sides contain a descriptor somewhere.</p>
+        <p class="vulkan-account-formula"><code>shader set/binding = layout set/binding = updated descriptor</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> Pipeline creation establishes that Vulkan accepted the declared interface and <a class="glossary-term" id="glossary-origin-17-0036" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0036&amp;lesson=17#term-shader-stage" aria-label="Look up shader stage in the graphics glossary" title="Look up shader stage in the graphics glossary">shader stages</a>. It does not prove that the descriptor set contains the intended image at dispatch time or that the image is in the stated layout.</p>
+</section>
+
+<h2>Create the compute pipeline</h2>
+
+<pre><code class="language-cpp">VkPipelineShaderStageCreateInfo stageInfo{
+    .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+    .stage = VK_SHADER_STAGE_COMPUTE_BIT,
+    .module = shaderModule,
+    .pName = "main"
+};
+
+VkComputePipelineCreateInfo pipelineInfo{
+    .sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
+    .stage = stageInfo,
+    .layout = pipelineLayout
+};
+
+VkPipeline computePipeline = VK_NULL_HANDLE;
+check(vkCreateComputePipelines(
+    device,
+    VK_NULL_HANDLE,
+    1,
+    &amp;pipelineInfo,
+    nullptr,
+    &amp;computePipeline));
+
+vkDestroyShaderModule(device, shaderModule, nullptr);</code></pre>
+
+<p>Destroying the shader module after pipeline creation does not destroy the pipeline. The pipeline owns the compiled implementation state it requires. Retain the module only if the application needs it for another pipeline creation. The pipeline layout and descriptor set layout must remain alive while required by their dependent use.</p>
+
+<h2>Allocate and update the concrete descriptor set</h2>
+<p>A <a class="glossary-term" id="glossary-origin-17-0037" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0037&amp;lesson=17#term-descriptor-pool" aria-label="Look up descriptor pool in the graphics glossary" title="Look up descriptor pool in the graphics glossary">descriptor pool</a> supplies storage for descriptor sets. The pool count describes how many storage-image descriptors may be allocated from it; <code>maxSets</code> describes how many sets. Our single set requires one of each.</p>
+
+<pre><code class="language-cpp">VkDescriptorPoolSize poolSize{
+    .type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
+    .descriptorCount = 1
+};
+
+VkDescriptorPoolCreateInfo poolInfo{
+    .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
+    .maxSets = 1,
+    .poolSizeCount = 1,
+    .pPoolSizes = &amp;poolSize
+};
+
+VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
+check(vkCreateDescriptorPool(
+    device, &amp;poolInfo, nullptr, &amp;descriptorPool));
+
+VkDescriptorSetAllocateInfo allocateInfo{
+    .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
+    .descriptorPool = descriptorPool,
+    .descriptorSetCount = 1,
+    .pSetLayouts = &amp;setLayout
+};
+
+VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
+check(vkAllocateDescriptorSets(
+    device, &amp;allocateInfo, &amp;descriptorSet));</code></pre>
+
+<p>Now associate binding zero with the view created in Lesson 16. The descriptor states <code>VK_IMAGE_LAYOUT_GENERAL</code> because that is the layout in which the compute shader will access it. The recorded transition remains Lesson 18's responsibility.</p>
+
+<pre><code class="language-cpp">VkDescriptorImageInfo imageDescriptor{
+    .sampler = VK_NULL_HANDLE,
+    .imageView = outputView,
+    .imageLayout = VK_IMAGE_LAYOUT_GENERAL
+};
+
+VkWriteDescriptorSet write{
+    .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+    .dstSet = descriptorSet,
+    .dstBinding = 0,
+    .dstArrayElement = 0,
+    .descriptorCount = 1,
+    .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
+    .pImageInfo = &amp;imageDescriptor
+};
+
+vkUpdateDescriptorSets(device, 1, &amp;write, 0, nullptr);</code></pre>
+
+<div class="worked-trace">
+<h3>Follow binding zero</h3>
+<p>The shader says set 0, binding 0, storage image, compute stage. The descriptor set layout says binding 0, storage image, count one, compute-stage visibility. The pipeline layout places that set layout at set 0. The allocated descriptor set conforms to that layout. Its update writes the output view at binding 0 and declares <code>GENERAL</code>. Changing only <code>dstBinding</code> to 1 does not create a second interpretation. It leaves the shader's requested binding without the intended descriptor and violates the interface.</p>
+</div>
+
+<div class="checkpoint">
+<h3>Locate the actual resource</h3>
+<p>Which object in this lesson contains the association with <code>outputView</code>: the descriptor set layout, pipeline layout, compute pipeline or updated descriptor set?</p>
+<div class="worked-answer"><h4>The answer</h4><p>The updated descriptor set contains the descriptor association with the image view. The set layout declares what may occupy binding zero. The pipeline layout includes that declaration in the <a class="glossary-term" id="glossary-origin-17-0038" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0038&amp;lesson=17#term-shader-interface" aria-label="Look up shader interface in the graphics glossary" title="Look up shader interface in the graphics glossary">shader interface</a>. The pipeline uses the layout, but none of those static objects substitutes for the concrete descriptor update.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> see the Khronos chapters on <a href="https://docs.vulkan.org/spec/latest/chapters/descriptors.html">resource descriptors</a> and <a href="https://docs.vulkan.org/spec/latest/chapters/pipelines.html">compute pipelines</a>, together with the guides to <a href="https://docs.vulkan.org/guide/latest/mapping_data_to_shaders.html">mapping data to shaders</a> and <a href="https://docs.vulkan.org/guide/latest/high_level_shader_language_comparison.html">high-level shader languages</a>.</p>
+
+<section class="transfer-task">
+<h2>Break one part of the contract at a time</h2>
+<p>With validation enabled, change the host layout binding to 1 while leaving the shader at 0. Restore it, then change the descriptor type to sampled image while leaving the shader declaration as storage image. Record the diagnostic produced at the earliest <a class="glossary-term" id="glossary-origin-17-0039" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0039&amp;lesson=17#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> and the later operation that would otherwise rely on the mismatch. Finally, restore the matching interface and retain a printed table of set, binding, descriptor type, count and stage flags. This table becomes more valuable when later lessons add <a class="glossary-term" id="glossary-origin-17-0040" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0040&amp;lesson=17#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> and scene buffers.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Carry one stable interface forward</h2>
+<p>Keep output image at set 0, binding 0 throughout the compute sequence. Later resources will take new bindings rather than silently renumbering this one. Stable binding numbers make shader and host diffs easier to inspect. Lesson 18 will bind the pipeline and descriptor set in a <a class="glossary-term" id="glossary-origin-17-0041" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0041&amp;lesson=17#term-command-buffer" aria-label="Look up command buffer in the graphics glossary" title="Look up command buffer in the graphics glossary">command buffer</a>, launch enough workgroups to cover the image and declare when the resulting shader writes become visible to the copy used for presentation.</p>
+</section>
+
+<p>The pipeline exists, the descriptor set names a real storage image and the shader can calculate a diagnostic colour. Nothing has executed. This distinction is the point at which copied Vulkan <a class="glossary-term" id="glossary-origin-17-0042" href="glossary.html?from=lesson-17.html%23glossary-origin-17-0042&amp;lesson=17#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">samples</a> often become obscure: construction success is mistaken for submitted work. Lesson 18 records the missing commands and makes their dependencies explicit.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-16.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">16. An Image Is Not Its Memory</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-18.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">18. Record, Dispatch, Synchronise, Present</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

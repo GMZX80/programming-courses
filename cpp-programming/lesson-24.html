@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tidying up memory when an object&#x27;s extent expires">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 24 - 24. The Destructor</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-24.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 24 - 24. The Destructor">
+    <meta property="og:description" content="Tidying up memory when an object&#x27;s extent expires">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-24.html">
+</head>
+<body class="course-page lesson-page" data-lesson="24" data-art-pattern="flow" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 24 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html" aria-current="page"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 24</span>
+            </nav>
+            <p class="hero-kicker">Lesson 24 · 24 lesson course</p>
+            <h1 id="lesson-title">24. The Destructor</h1>
+            <p class="lesson-deck">Tidying up memory when an object&#x27;s extent expires</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-23.html">← Lesson 23</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>81 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-24-access-control" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-access-control&amp;lesson=24#term-access-control" aria-label="Look up access control in the programming glossary" title="Look up access control in the programming glossary">access control</a> <a class="glossary-chip" id="glossary-panel-origin-24-api" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-api&amp;lesson=24#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-24-array" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-array&amp;lesson=24#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">array</a> <a class="glossary-chip" id="glossary-panel-origin-24-assignment" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-assignment&amp;lesson=24#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-24-automatic-storage-duration" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-automatic-storage-duration&amp;lesson=24#term-automatic-storage-duration" aria-label="Look up automatic storage duration in the programming glossary" title="Look up automatic storage duration in the programming glossary">automatic storage duration</a> <a class="glossary-chip" id="glossary-panel-origin-24-base-class" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-base-class&amp;lesson=24#term-base-class" aria-label="Look up base class in the programming glossary" title="Look up base class in the programming glossary">base class</a> <a class="glossary-chip" id="glossary-panel-origin-24-block" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-block&amp;lesson=24#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-24-boolean" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-boolean&amp;lesson=24#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-24-buffer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-buffer&amp;lesson=24#term-buffer" aria-label="Look up buffer in the programming glossary" title="Look up buffer in the programming glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-24-bug" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-bug&amp;lesson=24#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-24-byte" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-byte&amp;lesson=24#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">byte</a> <a class="glossary-chip" id="glossary-panel-origin-24-cpp" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-cpp&amp;lesson=24#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-24-class" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-class&amp;lesson=24#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-24-code" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-code&amp;lesson=24#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-24-compiler" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-compiler&amp;lesson=24#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-24-const-correctness" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-const-correctness&amp;lesson=24#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">const-correctness</a> <a class="glossary-chip" id="glossary-panel-origin-24-constructor" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-constructor&amp;lesson=24#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-24-container" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-container&amp;lesson=24#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-24-control-flow" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-control-flow&amp;lesson=24#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a> <a class="glossary-chip" id="glossary-panel-origin-24-copy-assignment" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-copy-assignment&amp;lesson=24#term-copy-assignment" aria-label="Look up copy assignment in the programming glossary" title="Look up copy assignment in the programming glossary">copy assignment</a> <a class="glossary-chip" id="glossary-panel-origin-24-copy-constructor" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-copy-constructor&amp;lesson=24#term-copy-constructor" aria-label="Look up copy constructor in the programming glossary" title="Look up copy constructor in the programming glossary">copy constructor</a> <a class="glossary-chip" id="glossary-panel-origin-24-deallocation" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-deallocation&amp;lesson=24#term-deallocation" aria-label="Look up deallocation in the programming glossary" title="Look up deallocation in the programming glossary">deallocation</a> <a class="glossary-chip" id="glossary-panel-origin-24-declaration" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-declaration&amp;lesson=24#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-24-definition" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-definition&amp;lesson=24#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-24-destructor" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-destructor&amp;lesson=24#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructor</a> <a class="glossary-chip" id="glossary-panel-origin-24-deterministic-algorithm" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-deterministic-algorithm&amp;lesson=24#term-deterministic-algorithm" aria-label="Look up deterministic algorithm in the programming glossary" title="Look up deterministic algorithm in the programming glossary">deterministic algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-24-dispatch" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-dispatch&amp;lesson=24#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-24-double-deletion" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-double-deletion&amp;lesson=24#term-double-deletion" aria-label="Look up double deletion in the programming glossary" title="Look up double deletion in the programming glossary">double deletion</a> <a class="glossary-chip" id="glossary-panel-origin-24-encapsulation" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-encapsulation&amp;lesson=24#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">encapsulation</a> <a class="glossary-chip" id="glossary-panel-origin-24-exception" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-exception&amp;lesson=24#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-24-expression" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-expression&amp;lesson=24#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-24-final-specifier" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-final-specifier&amp;lesson=24#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-24-function" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-function&amp;lesson=24#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-24-guard-clause" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-guard-clause&amp;lesson=24#term-guard-clause" aria-label="Look up guard clause in the programming glossary" title="Look up guard clause in the programming glossary">guard clause</a> <a class="glossary-chip" id="glossary-panel-origin-24-heap" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-heap&amp;lesson=24#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a> <a class="glossary-chip" id="glossary-panel-origin-24-include-directive" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-include-directive&amp;lesson=24#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-24-initialisation" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-initialisation&amp;lesson=24#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-24-interface" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-interface&amp;lesson=24#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-24-invariant" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-invariant&amp;lesson=24#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-24-lhs-rhs" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-lhs-rhs&amp;lesson=24#term-lhs-rhs" aria-label="Look up LHS and RHS in the programming glossary" title="Look up LHS and RHS in the programming glossary">LHS and RHS</a> <a class="glossary-chip" id="glossary-panel-origin-24-lifetime" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-lifetime&amp;lesson=24#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-24-local-variable" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-local-variable&amp;lesson=24#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local variable</a> <a class="glossary-chip" id="glossary-panel-origin-24-main-function" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-main-function&amp;lesson=24#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-24-memory-allocation" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-memory-allocation&amp;lesson=24#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">memory allocation</a> <a class="glossary-chip" id="glossary-panel-origin-24-memory-leak" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-memory-leak&amp;lesson=24#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">memory leak</a> <a class="glossary-chip" id="glossary-panel-origin-24-method" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-method&amp;lesson=24#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">method</a> <a class="glossary-chip" id="glossary-panel-origin-24-move-assignment" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-move-assignment&amp;lesson=24#term-move-assignment" aria-label="Look up move assignment in the programming glossary" title="Look up move assignment in the programming glossary">move assignment</a> <a class="glossary-chip" id="glossary-panel-origin-24-move-constructor" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-move-constructor&amp;lesson=24#term-move-constructor" aria-label="Look up move constructor in the programming glossary" title="Look up move constructor in the programming glossary">move constructor</a> <a class="glossary-chip" id="glossary-panel-origin-24-new-delete" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-new-delete&amp;lesson=24#term-new-delete" aria-label="Look up new and delete in the programming glossary" title="Look up new and delete in the programming glossary">new and delete</a> <a class="glossary-chip" id="glossary-panel-origin-24-noexcept" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-noexcept&amp;lesson=24#term-noexcept" aria-label="Look up noexcept in the programming glossary" title="Look up noexcept in the programming glossary">noexcept</a> <a class="glossary-chip" id="glossary-panel-origin-24-null-pointer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-null-pointer&amp;lesson=24#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> <a class="glossary-chip" id="glossary-panel-origin-24-object" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-object&amp;lesson=24#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-24-operator" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-operator&amp;lesson=24#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-24-ownership" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-ownership&amp;lesson=24#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-24-pointer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-pointer&amp;lesson=24#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-24-polymorphism" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-polymorphism&amp;lesson=24#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">polymorphism</a> <a class="glossary-chip" id="glossary-panel-origin-24-program" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-program&amp;lesson=24#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-24-access-levels" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-access-levels&amp;lesson=24#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-24-raii" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-raii&amp;lesson=24#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-chip" id="glossary-panel-origin-24-raw-pointer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-raw-pointer&amp;lesson=24#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointer</a> <a class="glossary-chip" id="glossary-panel-origin-24-resource" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-resource&amp;lesson=24#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">resource</a> <a class="glossary-chip" id="glossary-panel-origin-24-rule-of-three-five-zero" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-rule-of-three-five-zero&amp;lesson=24#term-rule-of-three-five-zero" aria-label="Look up Rule of Three, Five and Zero in the programming glossary" title="Look up Rule of Three, Five and Zero in the programming glossary">Rule of Three, Five and Zero</a> <a class="glossary-chip" id="glossary-panel-origin-24-runtime" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-runtime&amp;lesson=24#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-24-rvalue" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-rvalue&amp;lesson=24#term-rvalue" aria-label="Look up rvalue in the programming glossary" title="Look up rvalue in the programming glossary">rvalue</a> <a class="glossary-chip" id="glossary-panel-origin-24-sanitizer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-sanitizer&amp;lesson=24#term-sanitizer" aria-label="Look up sanitizer in the programming glossary" title="Look up sanitizer in the programming glossary">sanitizer</a> <a class="glossary-chip" id="glossary-panel-origin-24-scope" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-scope&amp;lesson=24#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-24-smart-pointer" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-smart-pointer&amp;lesson=24#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> <a class="glossary-chip" id="glossary-panel-origin-24-stack" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-stack&amp;lesson=24#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> <a class="glossary-chip" id="glossary-panel-origin-24-state" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-state&amp;lesson=24#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-24-static-keyword" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-static-keyword&amp;lesson=24#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> <a class="glossary-chip" id="glossary-panel-origin-24-stream" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-stream&amp;lesson=24#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-24-string" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-string&amp;lesson=24#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-24-string-view" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-string-view&amp;lesson=24#term-string-view" aria-label="Look up string_view in the programming glossary" title="Look up string_view in the programming glossary">string_view</a> <a class="glossary-chip" id="glossary-panel-origin-24-testing" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-testing&amp;lesson=24#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-24-type" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-type&amp;lesson=24#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-24-undefined-behaviour" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-undefined-behaviour&amp;lesson=24#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a> <a class="glossary-chip" id="glossary-panel-origin-24-unit-test" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-unit-test&amp;lesson=24#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-24-use-after-free" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-use-after-free&amp;lesson=24#term-use-after-free" aria-label="Look up use-after-free in the programming glossary" title="Look up use-after-free in the programming glossary">use-after-free</a> <a class="glossary-chip" id="glossary-panel-origin-24-value" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-value&amp;lesson=24#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-24-vector" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-vector&amp;lesson=24#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a> <a class="glossary-chip" id="glossary-panel-origin-24-virtual-destructor" href="glossary.html?from=lesson-24.html%23glossary-panel-origin-24-virtual-destructor&amp;lesson=24#term-virtual-destructor" aria-label="Look up virtual destructor in the programming glossary" title="Look up virtual destructor in the programming glossary">virtual destructor</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="24">
+<img src="assets/images/lesson-art/lesson-24-destructor.png" alt="Abstract object completing its lifetime and releasing resources in an orderly flow to a reusable pool." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p style="text-align: left;">&nbsp;</p>
+<hr>
+<pre></pre>
+<p>&nbsp;</p>
+<p style="text-align: center;">&nbsp;</p>
+<h2>Lesson: <em><a class="glossary-term" id="glossary-origin-24-0001" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0001&amp;lesson=24#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">Destructors</a></em> — Correct Cleanup at <a class="glossary-term" id="glossary-origin-24-0002" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0002&amp;lesson=24#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">Lifetime</a> End</h2>
+<p>To a beginner, a <a class="glossary-term" id="glossary-origin-24-0003" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0003&amp;lesson=24#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> destructor can feel dangerous: it always runs (often invisibly) and one mistake can <a class="glossary-term" id="glossary-origin-24-0004" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0004&amp;lesson=24#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">leak</a> memory or double-delete. Used well, it is the keystone of <strong><a class="glossary-term" id="glossary-origin-24-0005" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0005&amp;lesson=24#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a></strong> (<a class="glossary-term" id="glossary-origin-24-0006" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0006&amp;lesson=24#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">Resource</a> Acquisition Is <a class="glossary-term" id="glossary-origin-24-0007" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0007&amp;lesson=24#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">Initialisation</a>) and makes <a class="glossary-term" id="glossary-origin-24-0008" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0008&amp;lesson=24#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> safe, predictable, and easy to reason about.</p>
+<p style="padding: 8px 12px; border-left: 4px solid #0ea5e9; background: #f0f9ff;"><strong><a class="glossary-term" id="glossary-origin-24-0009" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0009&amp;lesson=24#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">Definition</a>:</strong> A <strong>destructor</strong> is a special <a class="glossary-term" id="glossary-origin-24-0010" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0010&amp;lesson=24#term-method" aria-label="Look up method in the programming glossary" title="Look up method in the programming glossary">member function</a> named <code>~ClassName()</code> that is invoked when an <a class="glossary-term" id="glossary-origin-24-0011" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0011&amp;lesson=24#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a>’s lifetime ends. Its role is to <em>release <a class="glossary-term" id="glossary-origin-24-0012" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0012&amp;lesson=24#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> of resources</em> (<a class="glossary-term" id="glossary-origin-24-0013" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0013&amp;lesson=24#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap memory</a>, files, sockets, mutexes, GPU <a class="glossary-term" id="glossary-origin-24-0014" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0014&amp;lesson=24#term-buffer" aria-label="Look up buffer in the programming glossary" title="Look up buffer in the programming glossary">buffers</a>, etc.) while preserving <a class="glossary-term" id="glossary-origin-24-0015" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0015&amp;lesson=24#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariants</a> and <a class="glossary-term" id="glossary-origin-24-0016" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0016&amp;lesson=24#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">encapsulation</a>.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Do I need a custom destructor?</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Paste your <a class="glossary-term" id="glossary-origin-24-0017" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0017&amp;lesson=24#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> and ask: “Does this <a class="glossary-term" id="glossary-origin-24-0018" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0018&amp;lesson=24#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <em>own</em> resources? Which Rule (3/5/0) applies? Can we remove the destructor via RAII?”</li>
+<li>Request a “minimum ownership surface” rewrite: replace raw handles with <code>std::unique_ptr</code>/<a class="glossary-term" id="glossary-origin-24-0019" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0019&amp;lesson=24#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">containers</a> and show a diff.</li>
+</ul>
+</details>
+<hr>
+<h3>1) A Minimal Example</h3>
+<pre><code class="language-cpp">struct C1 {
+    int* a{ new int{0} };           // acquires resource
+    explicit C1(int v): a(new int{v}) {}
+    ~C1() { delete a; }             // releases resource (matches new)
+
+    bool operator&gt;(int rhs) const { return *a &gt; rhs; }
+};
+</code></pre>
+<p><strong>Key points:</strong></p>
+<ul>
+<li>Match <a class="glossary-term" id="glossary-origin-24-0020" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0020&amp;lesson=24#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">allocation</a>/<a class="glossary-term" id="glossary-origin-24-0021" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0021&amp;lesson=24#term-deallocation" aria-label="Look up deallocation in the programming glossary" title="Look up deallocation in the programming glossary">deallocation</a> forms: <code>new</code> ↔ <code>delete</code>, <code>new[]</code> ↔ <code>delete[]</code>.</li>
+<li>Prefer <em>not</em> owning <a class="glossary-term" id="glossary-origin-24-0022" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0022&amp;lesson=24#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointers</a> in user types; use RAII wrappers so destruction is automatic.</li>
+</ul>
+<hr>
+<h3>2) When Does a Destructor Run?</h3>
+<ul>
+<li><strong><a class="glossary-term" id="glossary-origin-24-0023" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0023&amp;lesson=24#term-automatic-storage-duration" aria-label="Look up automatic storage duration in the programming glossary" title="Look up automatic storage duration in the programming glossary">Automatic storage</a>:</strong> end of <a class="glossary-term" id="glossary-origin-24-0024" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0024&amp;lesson=24#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> (including <a class="glossary-term" id="glossary-origin-24-0025" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0025&amp;lesson=24#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exceptions</a>).</li>
+<li><strong>Dynamic storage:</strong> when <code>delete p;</code> executes on a <a class="glossary-term" id="glossary-origin-24-0026" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0026&amp;lesson=24#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> created with <code>new</code>.</li>
+<li><strong>Members &amp; bases:</strong> members are destroyed first (reverse <a class="glossary-term" id="glossary-origin-24-0027" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0027&amp;lesson=24#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> order), then the <a class="glossary-term" id="glossary-origin-24-0028" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0028&amp;lesson=24#term-base-class" aria-label="Look up base class in the programming glossary" title="Look up base class in the programming glossary">base class</a>; construction is the opposite.</li>
+<li><strong><a class="glossary-term" id="glossary-origin-24-0029" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0029&amp;lesson=24#term-polymorphism" aria-label="Look up polymorphism in the programming glossary" title="Look up polymorphism in the programming glossary">Polymorphic</a> delete:</strong> if you delete through a base pointer/reference, the base must have a <strong><a class="glossary-term" id="glossary-origin-24-0030" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0030&amp;lesson=24#term-virtual-destructor" aria-label="Look up virtual destructor in the programming glossary" title="Look up virtual destructor in the programming glossary">virtual destructor</a></strong>.</li>
+</ul>
+<pre><code class="language-cpp">struct Base { virtual ~Base() = default; };
+struct Derived : Base { ~Derived(){ /* free derived-only resources */ } };
+
+void f(Base* p){ delete p; }   // OK: virtual ~Base ensures ~Derived runs
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Polymorphic Safety Audit</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask AI to scan your hierarchy and flag any base used polymorphically that lacks a <code>virtual</code> destructor; propose minimal fixes.</li>
+</ul>
+</details>
+<hr>
+<h3>3) <a class="glossary-term" id="glossary-origin-24-0031" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0031&amp;lesson=24#term-rule-of-three-five-zero" aria-label="Look up Rule of Three, Five and Zero in the programming glossary" title="Look up Rule of Three, Five and Zero in the programming glossary">Rule of 3 / 5 / 0</a></h3>
+<p>If a class <em>manages</em> a resource, copying/moving must be defined carefully.</p>
+<ul>
+<li><strong>Rule of 3:</strong> define <em>destructor</em>, <em><a class="glossary-term" id="glossary-origin-24-0032" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0032&amp;lesson=24#term-copy-constructor" aria-label="Look up copy constructor in the programming glossary" title="Look up copy constructor in the programming glossary">copy constructor</a></em>, <em><a class="glossary-term" id="glossary-origin-24-0033" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0033&amp;lesson=24#term-copy-assignment" aria-label="Look up copy assignment in the programming glossary" title="Look up copy assignment in the programming glossary">copy assignment</a></em>.</li>
+<li><strong>Rule of 5:</strong> add <em><a class="glossary-term" id="glossary-origin-24-0034" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0034&amp;lesson=24#term-move-constructor" aria-label="Look up move constructor in the programming glossary" title="Look up move constructor in the programming glossary">move constructor</a></em> and <em><a class="glossary-term" id="glossary-origin-24-0035" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0035&amp;lesson=24#term-move-assignment" aria-label="Look up move assignment in the programming glossary" title="Look up move assignment in the programming glossary">move assignment</a></em> for efficiency.</li>
+<li><strong>Rule of 0:</strong> prefer RAII so no special members are needed.</li>
+</ul>
+<pre><code class="language-cpp">// Raw owner (needs Rule of 5)
+class Buffer {
+    char* data{}; std::size_t n{};
+public:
+    explicit Buffer(std::size_t n): data(new char[n]{}), n(n) {}
+    ~Buffer(){ delete[] data; }
+    Buffer(const Buffer&amp; o): data(new char[o.n]), n(o.n){ std::copy(o.data,o.data+o.n,data); }
+    Buffer&amp; operator=(const Buffer&amp; o){
+        if(this!=&amp;o){ char* t=new char[o.n]; std::copy(o.data,o.data+o.n,t); delete[] data; data=t; n=o.n; }
+        return *this;
+    }
+    Buffer(Buffer&amp;&amp; o) noexcept: data(o.data), n(o.n){ o.data=nullptr; o.n=0; }
+    Buffer&amp; operator=(Buffer&amp;&amp; o) noexcept{
+        if(this!=&amp;o){ delete[] data; data=o.data; n=o.n; o.data=nullptr; o.n=0; }
+        return *this;
+    }
+};
+
+// Rule of 0 via RAII
+#include &lt;memory&gt;
+class Buffer2 {
+    std::unique_ptr&lt;char[]&gt; data; std::size_t n{};
+public:
+    explicit Buffer2(std::size_t n): data(std::make_unique&lt;char[]&gt;(n)), n(n) {}
+    // No custom destructor/copy/move needed.
+};
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Rule Selector</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask: “Which Rule should this class follow and why?” If Rule-of-0 is possible, request the full rewrite and trade-off notes.</li>
+</ul>
+</details>
+<hr>
+<h3>4) <a class="glossary-term" id="glossary-origin-24-0036" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0036&amp;lesson=24#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">Const-Correctness</a>, Exceptions &amp; Determinism</h3>
+<ul>
+<li><strong>No throwing</strong> from destructors during <a class="glossary-term" id="glossary-origin-24-0037" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0037&amp;lesson=24#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> unwinding; catch and log instead.</li>
+<li>Destructors are implicitly <code>noexcept(true)</code> if they don’t throw.</li>
+<li><a class="glossary-term" id="glossary-origin-24-0038" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0038&amp;lesson=24#term-deterministic-algorithm" aria-label="Look up deterministic algorithm in the programming glossary" title="Look up deterministic algorithm in the programming glossary">Deterministic</a> teardown enables timely release of scarce resources (files, locks, GPU memory).</li>
+</ul>
+<hr>
+<h3>5) Common Pitfalls (and how to avoid them)</h3>
+<ul>
+<li><strong><a class="glossary-term" id="glossary-origin-24-0039" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0039&amp;lesson=24#term-double-deletion" aria-label="Look up double deletion in the programming glossary" title="Look up double deletion in the programming glossary">Double delete</a>:</strong> two objects own the same raw pointer. <em>Fix:</em> deep copy, disable copy, or use RAII.</li>
+<li><strong>Mismatched forms:</strong> <code>new[]</code> with <code>delete</code>. <em>Fix:</em> pair correctly.</li>
+<li><strong>Missing virtual in base:</strong> deleting via base without a virtual destructor is <a class="glossary-term" id="glossary-origin-24-0040" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0040&amp;lesson=24#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">UB</a>. <em>Fix:</em> <code>virtual ~Base() = default;</code></li>
+<li><strong>Freeing what you don’t own:</strong> unclear ownership. <em>Fix:</em> document ownership; avoid ambiguous lifetimes.</li>
+<li><strong>Self-<a class="glossary-term" id="glossary-origin-24-0041" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0041&amp;lesson=24#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-term" id="glossary-origin-24-0042" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0042&amp;lesson=24#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bugs</a>:</strong> copy assignment must guard <code>if (this != &amp;rhs)</code>.</li>
+</ul>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Invariant Guard</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Ask AI to add asserts that mirror invariants (e.g., <code>data!=nullptr || n==0</code>) and generate <a class="glossary-term" id="glossary-origin-24-0043" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0043&amp;lesson=24#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a> that would fail on regressions.</li>
+</ul>
+</details>
+<hr>
+<h3>6) Worked Example — From Raw Handle to RAII</h3>
+<pre><code class="language-cpp">// Before: brittle raw handle
+typedef FILE* FileHandle;
+class File {
+    FileHandle f{};
+public:
+    explicit File(const char* path){ f = std::fopen(path, "rb"); }
+    ~File(){ if(f) std::fclose(f); }
+    File(const File&amp;) = delete;              // unique ownership
+    File&amp; operator=(const File&amp;) = delete;
+};
+
+// After: RAII with custom deleter
+#include &lt;memory&gt;
+struct FCloser { void operator()(FILE* p) const noexcept { if(p) std::fclose(p); } };
+class File2 {
+    std::unique_ptr&lt;FILE, FCloser&gt; f_{};
+public:
+    explicit File2(const char* path): f_( std::fopen(path, "rb") ) {}
+    // Rule-of-0: destructor, move, copy semantics handled by unique_ptr
+};
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Refactor with Rationale</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Have AI provide: (1) the RAII rewrite, (2) the copy/move implications in two bullets, (3) <a class="glossary-term" id="glossary-origin-24-0044" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0044&amp;lesson=24#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit tests</a> for double-delete and <a class="glossary-term" id="glossary-origin-24-0045" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0045&amp;lesson=24#term-use-after-free" aria-label="Look up use-after-free in the programming glossary" title="Look up use-after-free in the programming glossary">use-after-free</a>.</li>
+</ul>
+</details>
+<hr>
+<h3>7) Mini Exercises</h3>
+<ol>
+<li><strong>Polymorphic base:</strong> Write a base/derived pair; show correct vs incorrect deletion via base pointer and explain the UB in the latter.</li>
+<li><strong>Mismatched forms:</strong> Implement a small class using <code>new[]</code>; fix the bug where <code>delete</code> was used instead of <code>delete[]</code>.</li>
+<li><strong>Rule-of-0 refactor:</strong> Replace a raw <code>char*</code> owner with <code>std::unique_ptr&lt;char[]&gt;</code>; list which special members you were able to delete.</li>
+</ol>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Check My Destructor</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+<li>Paste your solutions; AI will flag missing moves, missing <code>virtual</code> on bases, and mismatched <code>delete</code>/<code>delete[]</code>.</li>
+</ul>
+</details>
+<hr>
+<h3>Summary Checklist</h3>
+<ul>
+<li><strong>Prefer RAII &amp; Rule-of-0:</strong> eliminate manual <code>delete</code> where possible.</li>
+<li><strong>Virtual destructor in polymorphic bases</strong> if deleting via base pointer/reference.</li>
+<li><strong>Match allocation forms:</strong> <code>new</code>/<code>delete</code>, <code>new[]</code>/<code>delete[]</code>.</li>
+<li><strong>Don’t throw in destructors</strong> during stack unwinding.</li>
+<li><strong>AI accelerates the grunt work;</strong> you remain the architect ensuring ownership semantics are correct.</li>
+</ul>
+        
+<!-- lesson-enhancement:24:start -->
+<section class="lesson-enhancement" id="destruction-and-raii">
+<p class="lesson-enhancement-kicker">Advanced perspective: destruction is the <a class="glossary-term" id="glossary-origin-24-0046" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0046&amp;lesson=24#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> ownership decision</p>
+<h2>A destructor is correct when lifetime ends without leaving ownership unfinished</h2>
+<p>The C++ term is <strong>destructor</strong>, not deconstructor. A destructor is a special member function that participates in ending an object's lifetime and performing the teardown required by its type. It does not reverse the <a class="glossary-term" id="glossary-origin-24-0047" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0047&amp;lesson=24#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> statement by statement. It also does not mean that every class should contain a hand-written cleanup body.</p>
+<p>The easy proxy is to look for <code>delete</code>, <code>close</code> or <code>release</code> inside <code>~ClassName()</code>. That proves only that a <a class="glossary-term" id="glossary-origin-24-0048" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0048&amp;lesson=24#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> has been called. The real criterion is ownership: every acquired resource has one responsible owner, copying and moving preserve that responsibility, partial construction remains safe, and every ordinary lifetime path reaches the appropriate release exactly once.</p>
+
+<h3>Start with an observable lifetime, not a raw allocation</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;utility&gt;
+
+class Trace {
+public:
+    explicit Trace(std::string name) : name_{std::move(name)} {
+        std::cout &lt;&lt; "construct " &lt;&lt; name_ &lt;&lt; '\n';
+    }
+
+    ~Trace() {
+        std::cout &lt;&lt; "destroy " &lt;&lt; name_ &lt;&lt; '\n';
+    }
+
+private:
+    std::string name_;
+};
+
+int main() {
+    Trace first{"first"};
+    Trace second{"second"};
+}
+</code></pre>
+<p>The <a class="glossary-term" id="glossary-origin-24-0049" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0049&amp;lesson=24#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> produces four lines:</p>
+<pre><code>construct first
+construct second
+destroy second
+destroy first
+</code></pre>
+<p><code>first</code> completes construction before <code>second</code>. When the <a class="glossary-term" id="glossary-origin-24-0050" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0050&amp;lesson=24#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> exits, the constructed automatic objects are destroyed in reverse order. The output is evidence for this execution, not a decorative slogan: each construction has one corresponding destruction, and the later object disappears before the earlier object on which it might depend.</p>
+<table>
+<thead><tr><th>Event</th><th>Live objects after the event</th><th>Reason</th></tr></thead>
+<tbody>
+<tr><td>Construct <code>first</code>.</td><td><code>first</code></td><td>Its declaration has completed.</td></tr>
+<tr><td>Construct <code>second</code>.</td><td><code>first</code>, then <code>second</code></td><td>The next declaration has completed.</td></tr>
+<tr><td>Destroy <code>second</code>.</td><td><code>first</code></td><td>The block is leaving in reverse construction order.</td></tr>
+<tr><td>Destroy <code>first</code>.</td><td>None of these objects.</td><td>The remaining local lifetime ends.</td></tr>
+</tbody>
+</table>
+
+<h3>A destructor body is only the first visible step of structural teardown</h3>
+<p>For a complete derived object, the most-derived destructor body runs while its members and base subobjects are still available. Then non-<a class="glossary-term" id="glossary-origin-24-0051" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0051&amp;lesson=24#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> data members are destroyed in reverse declaration order, followed by direct base subobjects in reverse construction order; virtual bases are destroyed as part of the complete object's final base teardown. <a class="glossary-term" id="glossary-origin-24-0052" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0052&amp;lesson=24#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">Array</a> elements are likewise destroyed in reverse construction order.</p>
+<table>
+<thead><tr><th>Part of a complete object</th><th>Destruction position</th><th>Design consequence</th></tr></thead>
+<tbody>
+<tr><td>Most-derived destructor body</td><td>First.</td><td>It may coordinate teardown while members still exist.</td></tr>
+<tr><td>Non-static data members</td><td>Reverse declaration order.</td><td>Declare dependencies so later members can disappear first.</td></tr>
+<tr><td>Direct non-virtual bases</td><td>After members, in reverse base construction order.</td><td>Derived cleanup must not expect a base already to have vanished.</td></tr>
+<tr><td>Virtual bases</td><td>Last for the complete object.</td><td>The most-derived object owns their single construction and final teardown.</td></tr>
+</tbody>
+</table>
+<p>The member-initialiser list cannot change member declaration order. If a member named <code>writer</code> uses a member named <code>file</code> during destruction, their declaration order must make that dependency safe. A clever-looking initialiser order does not renegotiate the class layout or its destruction sequence.</p>
+
+<h3>Object lifetime and storage are connected, but they are not the same thing</h3>
+<p>An automatic object's destructor runs when its block exits normally or through stack unwinding. Its storage belongs to the automatic-storage mechanism. For the usual dynamic-allocation path, a delete-<a class="glossary-term" id="glossary-origin-24-0053" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0053&amp;lesson=24#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> requests both destruction of the object and release of the allocation; those remain separate responsibilities even though one expression initiates both. A destructor can release a file or mutex without deallocating the storage occupied by the owning object.</p>
+<p>This distinction removes two common errors. First, <code>delete</code> operates on an appropriate pointer expression, not a reference. Secondly, calling a destructor is not a general replacement for <code>delete</code>, because an explicit destructor call does not by itself establish the matching storage-deallocation policy. Most application code should express ownership through established RAII types rather than manage either step explicitly.</p>
+
+<h3>Partial construction is already an ownership test</h3>
+<p>If a constructor exits by throwing, the complete object's destructor is not called because that complete object was never successfully constructed. Subobjects whose construction completed are destroyed in reverse completion order. A raw resource acquired between subobject construction and the throw can therefore leak unless it has already been placed under an owner.</p>
+<p>This is one of RAII's strongest consequences. Store a file, allocation, lock or handle in a member whose own construction establishes ownership. If a later member fails, the earlier owner is destroyed automatically during unwinding. The containing class does not need to guess how far its constructor progressed, and a destructor for an object that never existed is not asked to repair the situation.</p>
+
+<h3>Rule of Zero is the default; the other rules are ownership reviews</h3>
+<p>If members and bases already express the correct resource semantics, allow their special members to compose. That is the Rule of Zero. It does not promise that every operation exists. A <code>std::unique_ptr</code> member normally makes copying unavailable while allowing exclusive ownership to move. A <code>std::string</code> or <code>std::vector</code> normally supports <a class="glossary-term" id="glossary-origin-24-0054" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0054&amp;lesson=24#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> copying. The generated <a class="glossary-term" id="glossary-origin-24-0055" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0055&amp;lesson=24#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> follows the members' capabilities.</p>
+<table>
+<thead><tr><th>Representation</th><th>Likely ownership meaning</th><th>Special-member review</th></tr></thead>
+<tbody>
+<tr><td>Value members such as <code>std::string</code></td><td>The object owns its value.</td><td>Generated copy, move and destruction are often correct.</td></tr>
+<tr><td><code>std::unique_ptr&lt;T&gt;</code></td><td>Exclusive transferable ownership.</td><td>Copy is unavailable; move and destruction follow the member.</td></tr>
+<tr><td><code>std::shared_ptr&lt;T&gt;</code></td><td>Shared lifetime responsibility.</td><td>Copy shares ownership; the last owner releases the object.</td></tr>
+<tr><td>Raw non-owning pointer</td><td>Observation without ownership.</td><td>The destructor must not release the pointee; lifetime validity is external.</td></tr>
+<tr><td>Raw owning handle</td><td>Custom responsibility not yet encoded.</td><td>Prefer an existing owner or design copy, move, assignment and destruction together.</td></tr>
+</tbody>
+</table>
+<p>If a type directly manages a raw resource, a custom destructor raises the Rule-of-Three questions about copy construction and copy assignment. Move construction and move assignment add the Rule-of-Five questions. A user-declared destructor also prevents the usual implicit declaration of a move constructor, so adding an apparently harmless destructor can make an <a class="glossary-term" id="glossary-origin-24-0056" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0056&amp;lesson=24#term-rvalue" aria-label="Look up rvalue in the programming glossary" title="Look up rvalue in the programming glossary">rvalue</a> copy instead or make the operation unavailable. The rule names are prompts to inspect the complete ownership interface, not quotas for boilerplate.</p>
+
+<h3>Polymorphic destruction is a base-interface policy</h3>
+<p>If clients may destroy a derived object through a pointer to its base, the base needs a <a class="glossary-term" id="glossary-origin-24-0057" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0057&amp;lesson=24#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public</a> virtual destructor. This applies equally when an owning <a class="glossary-term" id="glossary-origin-24-0058" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0058&amp;lesson=24#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> stores a <code>Base*</code> and its ordinary deleter eventually performs that deletion. Virtual <a class="glossary-term" id="glossary-origin-24-0059" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0059&amp;lesson=24#term-dispatch" aria-label="Look up dispatch in the programming glossary" title="Look up dispatch in the programming glossary">dispatch</a> then reaches the derived destructor before the base subobject is destroyed.</p>
+<p>There is a second coherent policy: make the base destructor protected and non-virtual when destruction through a base pointer is deliberately forbidden. The <a class="glossary-term" id="glossary-origin-24-0060" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0060&amp;lesson=24#term-access-control" aria-label="Look up access control in the programming glossary" title="Look up access control in the programming glossary">access control</a> prevents clients from making the invalid request. A public non-virtual destructor on a polymorphic base offers an operation that cannot safely complete the derived lifetime. Merely adding another virtual member function does not fix that contradiction.</p>
+
+<h3>Cleanup failure needs a policy before the destructor begins</h3>
+<p>A destructor with no explicit exception specification derives that specification from the destructors of its potentially constructed subobjects and, where relevant, virtual bases. It is therefore inaccurate to say that a destructor is <a class="glossary-term" id="glossary-origin-24-0061" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0061&amp;lesson=24#term-noexcept" aria-label="Look up noexcept in the programming glossary" title="Look up noexcept in the programming glossary">non-throwing</a> simply because its body contains no written <code>throw</code>. The members participate in the rule.</p>
+<p>Nevertheless, ownership destructors should be designed not to let exceptions escape. If a non-throwing destructor exits through an exception, the program terminates. If a destructor directly invoked during stack unwinding throws, termination also follows because another exception is already being handled. Catching and ignoring every failure is not automatically correct either.</p>
+<p>If a release operation can fail and the caller must react, expose an explicit operation such as <code>close()</code> that reports the result while normal error handling remains possible. The destructor can provide a non-throwing fallback and preserve process-local safety, but it cannot promise that an external transaction was committed merely because the C++ object went out of scope.</p>
+
+<h3>Deterministic destruction is an ordinary-path guarantee, not an immortality policy</h3>
+<table>
+<thead><tr><th>Exit path</th><th>What happens to relevant automatic objects?</th><th>What this proves</th></tr></thead>
+<tbody>
+<tr><td>Normal block exit or <a class="glossary-term" id="glossary-origin-24-0062" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0062&amp;lesson=24#term-guard-clause" aria-label="Look up guard clause in the programming glossary" title="Look up guard clause in the programming glossary">early return</a></td><td>Constructed <a class="glossary-term" id="glossary-origin-24-0063" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0063&amp;lesson=24#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local objects</a> are destroyed.</td><td>RAII handles ordinary <a class="glossary-term" id="glossary-origin-24-0064" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0064&amp;lesson=24#term-control-flow" aria-label="Look up control flow in the programming glossary" title="Look up control flow in the programming glossary">control flow</a>.</td></tr>
+<tr><td>Exception with stack unwinding</td><td>Completed local objects are destroyed on the unwound path.</td><td>RAII handles exception paths that actually unwind.</td></tr>
+<tr><td>Return from <code>main</code></td><td>Its local objects are destroyed before normal program termination continues.</td><td>Returning is not the same as abandoning the current block.</td></tr>
+<tr><td><code>std::exit</code> inside a block</td><td>Automatic objects in active scopes are not destroyed by that call.</td><td>Process termination is not ordinary scope exit.</td></tr>
+<tr><td><code>std::abort</code> or <code>std::_Exit</code></td><td>Ordinary destructor processing is not performed.</td><td>No destructor can guarantee recovery from abrupt termination.</td></tr>
+</tbody>
+</table>
+<p>A destructor is therefore the right place for process-local resource release, not the sole durability mechanism for persistent data. Files may still require flush, sync, commit, journalling or an application protocol. Power loss does not consult the class definition.</p>
+
+<div class="concept-panel">
+<p><strong>Corrections to the earlier destruction examples:</strong> deletion operates through a pointer expression, not a reference. The raw <code>C1</code> owner has a destructor but still permits default copying of its pointer, so two copied objects can attempt to delete one allocation. The <code>Buffer2</code> and <code>File2</code> wrappers gain destruction and movable ownership from <code>unique_ptr</code>, but copying is ordinarily deleted rather than automatically implemented. The file example also needs <code>&lt;cstdio&gt;</code> for <code>FILE</code>, <code>std::fopen</code> and <code>std::fclose</code>, plus an explicit opening-failure policy. Finally, a destructor's exception specification depends on its declaration and the destructors of its subobjects; the shorthand "implicitly <code>noexcept(true)</code> if it does not throw" omits the governing language rule.</p>
+</div>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> audit every route by which ownership can end</summary>
+<div>
+<p>For an AI-generated owner, require an ownership table before accepting code. It must identify each resource, the member that owns it, the empty <a class="glossary-term" id="glossary-origin-24-0065" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0065&amp;lesson=24#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a>, acquisition point, release operation, copy meaning, move meaning and failure policy. Then require traces for successful construction, failure after each acquisition, normal scope exit, early return, exception unwinding and a move followed by destruction of both source and destination.</p>
+<p><a class="glossary-term" id="glossary-origin-24-0066" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0066&amp;lesson=24#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">Compile</a> the design and use appropriate <a class="glossary-term" id="glossary-origin-24-0067" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0067&amp;lesson=24#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> diagnostics, but keep the semantic review. A <a class="glossary-term" id="glossary-origin-24-0068" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0068&amp;lesson=24#term-sanitizer" aria-label="Look up sanitizer in the programming glossary" title="Look up sanitizer in the programming glossary">sanitizer</a> can expose a double deletion in an executed path; it does not prove that the proposed copy policy is the policy the domain wanted. A destructor that appears once in generated code is not yet an ownership proof.</p>
+</div>
+</details>
+
+<h3>Transfer task: design the end of a resource-owning session</h3>
+<p>Design a <code>Session</code> that owns a log file, a network connection and a temporary receive buffer. Construction may fail after any acquisition. Closing the network connection may report an error that the caller needs to see, while releasing the buffer cannot fail. Decide which existing RAII members should represent the resources and in which declaration order they belong. State whether <code>Session</code> is copyable, movable or neither.</p>
+<p>Trace successful construction, failure after each completed member, an early return, an exception during use, an explicit successful <code>close()</code>, a failed <code>close()</code>, and destruction of both sides after a move. If a base interface owns sessions polymorphically, choose and justify either public virtual destruction or protected non-virtual destruction. The result is complete only when every trace releases each acquired resource once and every reportable failure still has a route to the caller.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The members should own the resources directly. A checked <code>std::ofstream</code> owns the log file, a move-only <code>Connection</code> wrapper owns the native network handle, and <code>std::vector&lt;std::byte&gt;</code> owns the receive storage. The connection wrapper provides both an explicit reporting <code>close()</code> and a non-throwing destructor fallback.</p>
+<pre><code class="language-cpp">#include &lt;cstddef&gt;
+#include &lt;filesystem&gt;
+#include &lt;fstream&gt;
+#include &lt;string_view&gt;
+#include &lt;system_error&gt;
+#include &lt;vector&gt;
+
+class Connection {
+public:
+    static Connection connect(std::string_view endpoint); // throws on failure
+
+    Connection(const Connection&amp;) = delete;
+    Connection&amp; operator=(const Connection&amp;) = delete;
+    Connection(Connection&amp;&amp;) noexcept;
+    Connection&amp; operator=(Connection&amp;&amp;) = delete;
+
+    ~Connection() noexcept; // best-effort release if still owning
+
+    [[nodiscard]] std::error_code close() noexcept;
+    [[nodiscard]] bool is_open() const noexcept;
+};
+
+class Session {
+public:
+    Session(const std::filesystem::path&amp; log_path,
+            std::string_view endpoint,
+            std::size_t buffer_size);
+
+    Session(const Session&amp;) = delete;
+    Session&amp; operator=(const Session&amp;) = delete;
+    Session(Session&amp;&amp;) = default;
+    Session&amp; operator=(Session&amp;&amp;) = delete;
+
+    ~Session() = default;
+
+    [[nodiscard]] std::error_code close() noexcept {
+        return connection_.close();
+    }
+
+private:
+    static std::ofstream open_log(const std::filesystem::path&amp; path);
+
+    std::ofstream log_;                 // constructed first, destroyed last
+    Connection connection_;             // constructed second
+    std::vector&lt;std::byte&gt; buffer_;     // constructed last, destroyed first
+};
+</code></pre>
+<p><code>open_log</code> opens and validates the <a class="glossary-term" id="glossary-origin-24-0069" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0069&amp;lesson=24#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> before returning it; a stream with only <code>failbit</code> set is not a successful acquisition. The constructor initialises <code>log_</code> with that helper, then calls <code>Connection::connect</code>, then allocates the buffer. Members are constructed in declaration order, whatever order is written in the member-initialiser list.</p>
+<p>This order assumes connection shutdown does not need the receive buffer. It keeps the log alive while the connection is released, so a close outcome can still be recorded. If the connection's release operation genuinely needs the buffer, the buffer must instead be declared before the connection so that it is destroyed afterwards. Dependency decides the order; visual neatness does not.</p>
+<p><code>Session</code> is move-constructible but neither copyable nor move-assignable. Move construction transfers each owner and leaves the source members in their documented empty, destructible states. That requires the <code>Connection</code> move constructor to invalidate the source handle. Move assignment is deleted because replacing an already live destination could otherwise release its connection through an operation which has no route to return the reportable close error. Merely copying the native handle would create two alleged owners and is also forbidden.</p>
+<table>
+<thead><tr><th>Route</th><th>Ownership result</th><th>Failure report</th></tr></thead>
+<tbody>
+<tr><td>Log acquisition fails</td><td>No later member is constructed; the failed stream object cleans up its own partial state.</td><td>The constructor reports the opening failure.</td></tr>
+<tr><td>Connection acquisition fails</td><td>The completed <code>log_</code> member is destroyed during unwinding.</td><td><code>connect</code> reports the connection failure.</td></tr>
+<tr><td>Buffer allocation fails</td><td><code>connection_</code> is destroyed first, then <code>log_</code>.</td><td>The allocation exception continues after completed members are released.</td></tr>
+<tr><td>Constructor body fails after buffer acquisition</td><td><code>buffer_</code>, <code>connection_</code> and <code>log_</code> are all destroyed in reverse declaration order.</td><td>The constructor-body exception continues after all completed members are released.</td></tr>
+<tr><td>Successful construction</td><td>One member owns each resource.</td><td>No failure.</td></tr>
+<tr><td>Early return or exception during use</td><td><code>buffer_</code>, <code>connection_</code> and <code>log_</code> are destroyed in reverse declaration order.</td><td>A destructor cannot return a close error; code which must react must call <code>close()</code> before leaving.</td></tr>
+<tr><td>Explicit successful <code>close()</code></td><td>The connection relinquishes its handle and becomes empty. Later destruction is a no-op for that handle; the buffer and log remain owned until their normal destruction.</td><td>A success error code is returned to the caller.</td></tr>
+<tr><td>Explicit failed <code>close()</code></td><td>Under this wrapper's contract, the close attempt consumes the owned handle and leaves the wrapper empty, even when it reports failure. Later destruction cannot release it again.</td><td>The non-zero error code reaches the caller while ordinary error handling is still possible.</td></tr>
+<tr><td>Move then destroy both objects</td><td>The destination releases the transferred resources once. Destruction of the empty source releases none.</td><td>Any required reporting close is performed on the destination before destruction.</td></tr>
+</tbody>
+</table>
+<p>The consuming rule for a failed close must be implemented against a network <a class="glossary-term" id="glossary-origin-24-0070" href="glossary.html?from=lesson-24.html%23glossary-origin-24-0070&amp;lesson=24#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> whose ownership semantics support it. A different platform wrapper may retain ownership for a permitted retry, but that is a different contract and needs a corresponding trace. What <code>Session</code> must not do is guess, retry an already consumed native handle, or discard an error the caller was required to see.</p>
+<p>If sessions are owned through a base pointer, the base needs public virtual destruction:</p>
+<pre><code class="language-cpp">class ISession {
+public:
+    virtual ~ISession() = default;
+    [[nodiscard]] virtual std::error_code close() noexcept = 0;
+};
+</code></pre>
+<p>A protected non-virtual destructor would deliberately prevent deletion through the base and is therefore the wrong policy for the stated owning interface. Public virtual destruction lets <code>std::unique_ptr&lt;ISession&gt;</code> reach the complete derived object. It does not replace explicit <code>close()</code>: polymorphic destruction releases resources, while the reporting operation gives a recoverable network failure to the caller.</p>
+</div>
+</details>
+
+<p>Destruction completes the course's treatment of state, scope, ownership and behaviour. The final function in an object's life should contain no surprises because the ownership policy was decided when the type was designed. When that policy is expressed by members, the best custom destructor is often the one you never needed to write.</p>
+</section>
+<!-- lesson-enhancement:24:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-23.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">23. Templates</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <span></span>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

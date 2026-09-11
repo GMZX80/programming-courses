@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Let one successful intersection create another ray and place a strict limit on the resulting computation.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 11 - Reflection and Recursive Rays</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="11" data-ray-stage="11" data-art-pattern="branch">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 11 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html" aria-current="page"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 11</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">11. Reflection and Recursive Rays</h1>
+            <p class="lesson-deck">Let one successful intersection create another ray and place a strict limit on the resulting computation.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-10.html">&larr; Lesson 10</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-12.html">Lesson 12 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>30 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-11-api" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-api&amp;lesson=11#term-api" aria-label="Look up API in the graphics glossary" title="Look up API in the graphics glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-11-bounce-limit" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-bounce-limit&amp;lesson=11#term-bounce-limit" aria-label="Look up bounce limit in the graphics glossary" title="Look up bounce limit in the graphics glossary">bounce limit</a> <a class="glossary-chip" id="glossary-panel-origin-11-diffuse" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-diffuse&amp;lesson=11#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> <a class="glossary-chip" id="glossary-panel-origin-11-direction" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-direction&amp;lesson=11#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-11-finite-precision" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-finite-precision&amp;lesson=11#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite precision</a> <a class="glossary-chip" id="glossary-panel-origin-11-fresnel" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-fresnel&amp;lesson=11#term-fresnel" aria-label="Look up Fresnel in the graphics glossary" title="Look up Fresnel in the graphics glossary">Fresnel</a> <a class="glossary-chip" id="glossary-panel-origin-11-gpu" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-gpu&amp;lesson=11#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-11-hit" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-hit&amp;lesson=11#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-11-image" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-image&amp;lesson=11#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-11-javascript" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-javascript&amp;lesson=11#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> <a class="glossary-chip" id="glossary-panel-origin-11-material" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-material&amp;lesson=11#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-11-miss-shader" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-miss-shader&amp;lesson=11#term-miss-shader" aria-label="Look up miss shader in the graphics glossary" title="Look up miss shader in the graphics glossary">miss shader</a> <a class="glossary-chip" id="glossary-panel-origin-11-normalise" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-normalise&amp;lesson=11#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-11-pixel" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-pixel&amp;lesson=11#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-11-plane" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-plane&amp;lesson=11#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a> <a class="glossary-chip" id="glossary-panel-origin-11-point" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-point&amp;lesson=11#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-11-primary-ray" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-primary-ray&amp;lesson=11#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-11-ray-query" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-ray-query&amp;lesson=11#term-ray-query" aria-label="Look up ray query in the graphics glossary" title="Look up ray query in the graphics glossary">ray query</a> <a class="glossary-chip" id="glossary-panel-origin-11-recursion" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-recursion&amp;lesson=11#term-recursion" aria-label="Look up recursion in the graphics glossary" title="Look up recursion in the graphics glossary">recursion</a> <a class="glossary-chip" id="glossary-panel-origin-11-reflection" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-reflection&amp;lesson=11#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-11-refraction" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-refraction&amp;lesson=11#term-refraction" aria-label="Look up refraction in the graphics glossary" title="Look up refraction in the graphics glossary">refraction</a> <a class="glossary-chip" id="glossary-panel-origin-11-scene" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-scene&amp;lesson=11#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-11-secondary-ray" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-secondary-ray&amp;lesson=11#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary ray</a> <a class="glossary-chip" id="glossary-panel-origin-11-shader-stage" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-shader-stage&amp;lesson=11#term-shader-stage" aria-label="Look up shader stage in the graphics glossary" title="Look up shader stage in the graphics glossary">shader stage</a> <a class="glossary-chip" id="glossary-panel-origin-11-specular" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-specular&amp;lesson=11#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> <a class="glossary-chip" id="glossary-panel-origin-11-sphere" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-sphere&amp;lesson=11#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-11-surface-normal" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-surface-normal&amp;lesson=11#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a> <a class="glossary-chip" id="glossary-panel-origin-11-termination" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-termination&amp;lesson=11#term-termination" aria-label="Look up termination in the graphics glossary" title="Look up termination in the graphics glossary">termination</a> <a class="glossary-chip" id="glossary-panel-origin-11-throughput" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-throughput&amp;lesson=11#term-throughput" aria-label="Look up throughput in the graphics glossary" title="Look up throughput in the graphics glossary">throughput</a> <a class="glossary-chip" id="glossary-panel-origin-11-vector" href="glossary.html?from=lesson-11.html%23glossary-panel-origin-11-vector&amp;lesson=11#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>Local <a class="glossary-term" id="glossary-origin-11-0001" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0001&amp;lesson=11#term-specular" aria-label="Look up specular in the graphics glossary" title="Look up specular in the graphics glossary">specular</a> lighting produces a highlight, but it does not show the <a class="glossary-term" id="glossary-origin-11-0002" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0002&amp;lesson=11#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> reflected in a surface. A mirror requires another visibility question. At the <a class="glossary-term" id="glossary-origin-11-0003" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0003&amp;lesson=11#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-term" id="glossary-origin-11-0004" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0004&amp;lesson=11#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a>, the incoming <a class="glossary-term" id="glossary-origin-11-0005" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0005&amp;lesson=11#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> is reflected about the <a class="glossary-term" id="glossary-origin-11-0006" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0006&amp;lesson=11#term-surface-normal" aria-label="Look up surface normal in the graphics glossary" title="Look up surface normal in the graphics glossary">surface normal</a>. The new ray searches the scene, and its returned colour contributes to the original <a class="glossary-term" id="glossary-origin-11-0007" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0007&amp;lesson=11#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a>.</p>
+<p>This is the first time a successful hit creates a ray whose result depends on another hit. The arithmetic of <a class="glossary-term" id="glossary-origin-11-0008" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0008&amp;lesson=11#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> is simple. The important engineering question is how to stop the chain. Two facing mirrors can keep generating rays without reaching a miss. A renderer must impose a <a class="glossary-term" id="glossary-origin-11-0009" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0009&amp;lesson=11#term-termination" aria-label="Look up termination in the graphics glossary" title="Look up termination in the graphics glossary">termination</a> rule and account for the work it permits.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Derive and calculate a direction reflected about a unit normal.</li>
+<li>Trace a reflected ray from a biased surface origin and combine its contribution with the local result.</li>
+<li>Use a <a class="glossary-term" id="glossary-origin-11-0010" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0010&amp;lesson=11#term-bounce-limit" aria-label="Look up bounce limit in the graphics glossary" title="Look up bounce limit in the graphics glossary">bounce limit</a> as an explicit termination rule and measure its cost.</li>
+</ul>
+</section>
+
+<h2>Reflect the direction</h2>
+<p>Let <code>D</code> be the incoming unit direction and <code>N</code> the unit normal oriented against it. The component of <code>D</code> along <code>N</code> is <code>(D · N)N</code>. Subtracting twice that component mirrors the <a class="glossary-term" id="glossary-origin-11-0011" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0011&amp;lesson=11#term-vector" aria-label="Look up vector in the graphics glossary" title="Look up vector in the graphics glossary">vector</a> to the other side of the tangent <a class="glossary-term" id="glossary-origin-11-0012" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0012&amp;lesson=11#term-plane" aria-label="Look up plane in the graphics glossary" title="Look up plane in the graphics glossary">plane</a>:</p>
+<p class="equation">R = D − 2(D · N)N</p>
+
+<pre><code class="language-js">function reflect(direction, normal) {
+    return subtract(
+        direction,
+        scale(normal, 2 * dot(direction, normal))
+    );
+}
+</code></pre>
+
+<p>If <code>D</code> and <code>N</code> are <a class="glossary-term" id="glossary-origin-11-0013" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0013&amp;lesson=11#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">unit vectors</a>, the result should also have unit length apart from <a class="glossary-term" id="glossary-origin-11-0014" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0014&amp;lesson=11#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite-precision</a> error. Normalising it defensively is inexpensive in this teaching renderer. More importantly, the signs must agree with the direction convention. Our <code>D</code> points towards the surface and <code>N</code> points against it. Changing either convention without changing the formula can send the reflected ray into the object.</p>
+
+<h2>Make tracing a function that can call itself</h2>
+<p>The trace function takes a ray and remaining depth. A miss returns sky. An opaque <a class="glossary-term" id="glossary-origin-11-0015" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0015&amp;lesson=11#term-diffuse" aria-label="Look up diffuse in the graphics glossary" title="Look up diffuse in the graphics glossary">diffuse</a> hit returns local lighting. A reflective hit constructs <code>R</code>, offsets the origin and calls <code>trace</code> again with one less permitted bounce.</p>
+
+<pre><code class="language-js">function trace(ray, remainingBounces) {
+    const hit = closestHit(ray, scene.objects, epsilon, farLimit);
+    if (hit === null) {
+        return sky(ray.direction);
+    }
+
+    const local = shadeLocal(ray, hit);
+    const amount = hit.material.reflectivity;
+
+    if (amount === 0 || remainingBounces === 0) {
+        return local;
+    }
+
+    const reflectedRay = {
+        origin: add(hit.position, scale(hit.normal, epsilon)),
+        direction: normalise(reflect(ray.direction, hit.normal))
+    };
+
+    const reflected = trace(reflectedRay, remainingBounces - 1);
+    return mix(local, reflected, amount);
+}
+</code></pre>
+
+<p>The simple <code>mix</code> uses reflectivity as a teaching weight. A physically based conductor model would use wavelength-dependent <a class="glossary-term" id="glossary-origin-11-0016" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0016&amp;lesson=11#term-fresnel" aria-label="Look up Fresnel in the graphics glossary" title="Look up Fresnel in the graphics glossary">Fresnel</a> response and energy-aware <a class="glossary-term" id="glossary-origin-11-0017" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0017&amp;lesson=11#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> parameters. We are establishing recursive transport and work accounting before replacing the material approximation.</p>
+
+<section class="ray-lab concept-lab stage-11-lab" data-ray-lab data-stage="11" aria-labelledby="ray-lab-title-11">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Reflection-work laboratory</p><h2 id="ray-lab-title-11">See What One More Bounce Costs</h2></div>
+        <p>Increase the reflection limit and compare the unchanged primary-ray count with the additional reflected routes that are actually created.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Change the bounce limit. The reflection direction stays fixed; only permitted depth and the number of successful reflection rays can change.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 11 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Recursive-reflection image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Reflected scene</strong><small>A mirror sphere rendered with the selected maximum reflection depth.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">A mirror sphere rendered with the selected maximum reflection depth.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Reflection-direction diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>One reflected route</strong><small>An incident direction, normal, reflected direction and the selected recursion limit.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">An incident direction, normal, reflected direction and the selected recursion limit.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Bounce limit</dt><dd><output data-reflection-limit>3</output></dd></div><div><dt>Primary rays</dt><dd><output data-metric="primary">0</output></dd></div><div><dt>Reflection rays</dt><dd><output data-metric="reflection">0</output></dd></div><div><dt>Primary + reflection</dt><dd><output data-total-rays>0</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-reflection-formula>R = D − 2(D · N)N</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Count what <a class="glossary-term" id="glossary-origin-11-0018" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0018&amp;lesson=11#term-recursion" aria-label="Look up recursion in the graphics glossary" title="Look up recursion in the graphics glossary">recursion</a> buys</h2>
+<p>Set the bounce limit to zero. The mirror <a class="glossary-term" id="glossary-origin-11-0019" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0019&amp;lesson=11#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> can show only its local term. Increase the limit and it begins to return the plane, sky and nearby objects reached by reflected rays. The primary-ray count does not change; the reflection-ray count and primitive-test count do.</p>
+<p>A higher limit is not automatically a better <a class="glossary-term" id="glossary-origin-11-0020" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0020&amp;lesson=11#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a>. If later bounces carry negligible contribution, the added work may not produce a visible difference. Conversely, one required mirror-to-mirror route may remain incomplete at a low limit. The operative criterion is the error and contribution permitted by the termination policy, not the largest number the device can tolerate.</p>
+
+<div class="worked-trace">
+<h3>A three-step path</h3>
+<p>A <a class="glossary-term" id="glossary-origin-11-0021" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0021&amp;lesson=11#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> hits a mirror with three bounces remaining. It creates a reflection with two remaining. That ray hits a second reflective surface and creates one with one remaining. The third hit may create a final reflection with zero remaining. At the next reflective hit the trace returns local contribution without spawning another ray. A miss at any earlier stage ends that branch immediately with the sky value.</p>
+</div>
+
+<h2>Recursion is a description, not a requirement</h2>
+<p>The <a class="glossary-term" id="glossary-origin-11-0022" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0022&amp;lesson=11#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> function uses recursion because it expresses the path clearly. A renderer can perform the same process iteratively, carrying the current ray, accumulated colour and <a class="glossary-term" id="glossary-origin-11-0023" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0023&amp;lesson=11#term-throughput" aria-label="Look up throughput in the graphics glossary" title="Look up throughput in the graphics glossary">throughput</a> through a loop. <a class="glossary-term" id="glossary-origin-11-0024" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0024&amp;lesson=11#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> implementations often prefer iterative control because call stacks, <a class="glossary-term" id="glossary-origin-11-0025" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0025&amp;lesson=11#term-shader-stage" aria-label="Look up shader stage in the graphics glossary" title="Look up shader stage in the graphics glossary">shader stages</a> or implementation limits make general recursion unsuitable.</p>
+<p>Do not confuse the code shape with the light path. The essential state is a current ray, remaining budget and accumulated contribution. Whether a programming language stores that state in stack frames or explicit variables is an implementation choice.</p>
+
+<h2>Contribution should also guide termination</h2>
+<p>A fixed depth gives a clear upper bound and reproducible teaching result. It can waste work on tiny contributions and truncate an important path at the same depth. More advanced tracers track path throughput and may use Russian roulette to terminate low-contribution paths without introducing systematic bias when weighted correctly.</p>
+<p>We shall not add that estimator here because it would combine material transport, probability and termination before <a class="glossary-term" id="glossary-origin-11-0026" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0026&amp;lesson=11#term-refraction" aria-label="Look up refraction in the graphics glossary" title="Look up refraction in the graphics glossary">refraction</a> has been introduced. The limitation is nevertheless important: a bounce count proves finiteness, not optimality and not physical completeness.</p>
+
+<div class="checkpoint">
+<h3>Check the reflected direction</h3>
+<p>An incoming unit direction is <code>D = (1, -1, 0) / √2</code> and the normal is <code>N = (0, 1, 0)</code>. What direction results from the reflection formula?</p>
+<details class="reveal-answer"><summary>Reveal the calculation</summary><div><p><code>D · N = -1/√2</code>. The term <code>2(D · N)N</code> is <code>(0, -√2, 0)</code>. Subtracting it from <code>D</code> changes the negative Y component to positive while preserving X, giving <code>(1, 1, 0) / √2</code>. The incident and reflected angles match across the surface normal.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Trace one reflected pixel on paper</h2>
+<p>Select a pixel that hits the mirror. Record the primary hit position and normal, calculate the reflected direction, then record the next object and distance. Repeat until the laboratory's bounce limit ends the path or it misses. Compare the written chain with the reflection-ray counter. If they disagree, locate the first unaccounted ray.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>Vulkan ray tracing can express <a class="glossary-term" id="glossary-origin-11-0027" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0027&amp;lesson=11#term-secondary-ray" aria-label="Look up secondary ray in the graphics glossary" title="Look up secondary ray in the graphics glossary">secondary rays</a> through ray-generation, hit and <a class="glossary-term" id="glossary-origin-11-0028" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0028&amp;lesson=11#term-miss-shader" aria-label="Look up miss shader in the graphics glossary" title="Look up miss shader in the graphics glossary">miss shaders</a>. A compute implementation may use an explicit loop and <a class="glossary-term" id="glossary-origin-11-0029" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0029&amp;lesson=11#term-ray-query" aria-label="Look up ray query in the graphics glossary" title="Look up ray query in the graphics glossary">ray queries</a>. Both need a payload or state record, a termination policy and a numerical origin rule. The <a class="glossary-term" id="glossary-origin-11-0030" href="glossary.html?from=lesson-11.html%23glossary-origin-11-0030&amp;lesson=11#term-api" aria-label="Look up API in the graphics glossary" title="Look up API in the graphics glossary">API</a> changes how the work is scheduled; it does not decide which reflected direction or contribution is correct.</p>
+</section>
+
+<p>Reflection keeps the ray on the incident side of a boundary. Lesson 12 allows a transparent material to transmit a ray into another medium and uses Fresnel response to divide contribution between the reflected and transmitted routes.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-10.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">10. Triangles and Barycentric Coordinates</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-12.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">12. Refraction, Fresnel and Glass</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

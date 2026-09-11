@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A complete 50-minute C++ lecture on the appropriate computer programmer, state, memory representation and evidence.">
+    <meta name="theme-color" content="#03100d">
+    <title>Lecture 1: The Appropriate Computer Programmer</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lecture.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lecture-01.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="Lecture 1: The Appropriate Computer Programmer">
+    <meta property="og:description" content="A complete 50-minute C++ lecture on the appropriate programmer, state, memory representation and evidence.">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lecture-01.html">
+</head>
+<body class="course-page lecture-page">
+<a class="skip-link" href="#lecture-content">Skip to lecture content</a>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lecture 01 · 50 minutes</div>
+    <div class="lecture-header-links">
+        <a href="#slides">Slides</a>
+        <a href="#written-account">Written account</a>
+        <a href="lectures.html">All lectures</a>
+    </div>
+</header>
+<main id="lecture-content">
+    <section class="lecture-hero lecture-hero-01" aria-labelledby="lecture-title">
+        <div class="lecture-hero-inner">
+            <p class="lecture-kicker">Lecture 01 · Programming culture, state and evidence</p>
+            <h1 id="lecture-title">The Appropriate Computer Programmer</h1>
+            <p class="lecture-hero-deck">A 50-minute account of what the running program remembers, who is responsible for changing it, and why a convincing result is not yet a sufficient argument.</p>
+            <div class="lecture-hero-actions">
+                <a class="lecture-button lecture-button-primary" href="#operative-question">Begin the lecture</a>
+                <a class="lecture-button" href="#slides">View the 21 slides</a>
+                <a class="lecture-button" href="assets/files/lectures/lecture-01/lecture-01-slides.pptx" download>Download PowerPoint</a>
+                <a class="lecture-button" href="lesson-01.html">Open Lesson 1</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="lecture-timeline" aria-label="Lecture timing">
+        <div class="lecture-timeline-item"><span class="lecture-time">00–05</span><strong>The tempting proxy</strong><p>Separate a result from the claim made about it.</p></div>
+        <div class="lecture-timeline-item"><span class="lecture-time">05–17</span><strong>Rules become questions</strong><p>Turn the seven principles into a method for reviewing a program.</p></div>
+        <div class="lecture-timeline-item"><span class="lecture-time">17–36</span><strong>Trace the state</strong><p>Construct and change one controlled object by hand.</p></div>
+        <div class="lecture-timeline-item"><span class="lecture-time">36–47</span><strong>Bound the evidence</strong><p>Say what output, assertions and review establish.</p></div>
+        <div class="lecture-timeline-item"><span class="lecture-time">47–50</span><strong>Transfer the method</strong><p>Account for another representation before coding it.</p></div>
+    </section>
+
+    <section class="lecture-section" id="operative-question" aria-labelledby="operative-question-title">
+        <div class="lecture-section-inner lecture-thesis">
+            <aside class="lecture-thesis-callout">
+                <p>Lesson 1 asks: “The screen says 42. Good. What does this prove?”</p>
+            </aside>
+            <div class="lecture-prose">
+                <p class="lecture-section-kicker">The operative question</p>
+                <h2 id="operative-question-title">Producing an answer is the tempting proxy</h2>
+                <p>One build has finished and one path has produced one value. That is an observation. It may be useful evidence, but it is not yet an account of the computation. It says nothing about an empty input, an invalid state, a much larger workload or a resource that was never released. The program may still be appropriate. The point is that the displayed answer has not established it.</p>
+                <p>Typing source code was never the whole responsibility. The programmer decides what the program should do, identifies the states that may exist, controls the changes that are permitted, and judges whether the available evidence supports the claim being made. An AI system, a library or a colleague may provide an implementation. None of them removes that responsibility from the person who accepts it.</p>
+                <h3>Appropriateness is a judgement</h3>
+                <p>The judgement is earned by connecting five things: a requirement, a model of state, an implementation, proportionate evidence and a conclusion that remains within the limits of that evidence. If one link is vague, the conclusion must remain bounded. Source that appears polished cannot repair an absent requirement. A large test suite cannot establish a property that nobody stated. A fast demonstration cannot define the workload that matters.</p>
+                <div class="lecture-question-grid" aria-label="Five review questions">
+                    <article class="lecture-question"><strong>What must be true?</strong><p>Turn a wish into observable behaviour and explicit constraints.</p></article>
+                    <article class="lecture-question"><strong>What state exists?</strong><p>Name the values and the valid transitions between them.</p></article>
+                    <article class="lecture-question"><strong>Who is responsible?</strong><p>Give each invariant and important resource a clear owner.</p></article>
+                    <article class="lecture-question"><strong>What may vary?</strong><p>Hide volatile detail without hiding policy or consequence.</p></article>
+                    <article class="lecture-question"><strong>What counts as evidence?</strong><p>Decide how the claim will be challenged before the convenient case becomes persuasive.</p></article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lecture-section" aria-labelledby="seven-rules-title">
+        <div class="lecture-section-inner">
+            <div class="lecture-section-heading">
+                <div><p class="lecture-section-kicker">From values to method</p><h2 id="seven-rules-title">Seven rules become seven review questions</h2></div>
+                <p>A principle becomes operational when it changes what we inspect. Each rule therefore earns a question that can be asked of the running program rather than merely admired on a poster. The full rule statements below are retained from <a href="lesson-01.html">Lesson 1</a>; the questions are the lecture’s review prompts.</p>
+            </div>
+            <div class="lecture-question-grid">
+                <article class="lecture-question"><strong>1 · Be capable of estimating the timeliness of your computation</strong><p>Which path threatens which stated resource budget?</p></article>
+                <article class="lecture-question"><strong>2 · Understand what a program is actually doing in a computational sense</strong><p>Where can invalid state enter, and who prevents it?</p></article>
+                <article class="lecture-question"><strong>3 · Use automated and human-based approaches to evaluate correctness</strong><p>What does this evidence justify, and where does it stop?</p></article>
+                <article class="lecture-question"><strong>4 · Utilise existing program code and expertise</strong><p>Which contract are we trusting when we rely upon this component?</p></article>
+                <article class="lecture-question"><strong>5 · Realise value and worth</strong><p>Which useful consequence has changed for the user or the system?</p></article>
+                <article class="lecture-question"><strong>6 · Be capable of spotting and nurturing fellow computer programmers</strong><p>Can another programmer understand and extend the decision safely?</p></article>
+                <article class="lecture-question"><strong>7 · Ensure that gaining an appropriate solution is a by-product of an enjoyable journey</strong><p>Did the evidence challenge the model, or does it support retaining it?</p></article>
+            </div>
+        </div>
+    </section>
+
+    <section class="lecture-section" aria-labelledby="memory-account-title">
+        <div class="lecture-section-inner lecture-section-narrow">
+            <div class="lecture-section-heading">
+                <div><p class="lecture-section-kicker">The recurring course model</p><h2 id="memory-account-title">The memory account</h2></div>
+                <p>This is a language-level account, not an exact diagram of bytes in a particular build. Later lectures will add addresses, storage duration, layout and ownership without pretending that the first diagram knows more than it does.</p>
+            </div>
+            <ol class="lecture-memory-account">
+                <li>Name</li><li>Type</li><li>Object</li><li>Stored state</li><li>Derived state</li>
+                <li>Valid states</li><li>Permitted changes</li><li>Responsibility</li><li>Lifetime</li><li>Evidence</li>
+            </ol>
+            <div class="lecture-prose">
+                <p>For each example we ask the same questions. What object exists? Which value does it actually store? Which observations can be calculated from that value? Which states are valid? Which operation may change the state? Who owns the rule? For how long does the object exist? What evidence supports the account?</p>
+                <p>The account is intentionally modest. The C++ language tells us that the example below contains an <code>int</code> data member called <code>points_</code>. It does not entitle this lecture to announce a universal byte size, physical address or layout for every implementation. Precision includes refusing to claim the detail that has not been established.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="lecture-section lecture-slides" id="slides" aria-labelledby="slides-title">
+        <div class="lecture-section-inner">
+            <div class="lecture-section-heading">
+                <div><p class="lecture-section-kicker">Complete visual sequence</p><h2 id="slides-title">The 21-slide lecture deck</h2></div>
+                <p>The controls change the picture immediately. Use the previous and next buttons, choose a numbered thumbnail, or use the left and right arrow keys while the viewer has focus.</p>
+            </div>
+            <div data-lecture-slides tabindex="0" aria-label="Lecture slide viewer">
+                <div class="lecture-slide-stage">
+                    <div class="lecture-slide-frame"><img data-slide-image src="assets/images/lectures/lecture-01/slides/slide-01.png" alt="Title slide: The Appropriate Computer Programmer"></div>
+                    <div class="lecture-slide-status">
+                        <button type="button" data-slide-previous>← Previous</button>
+                        <div class="lecture-slide-copy"><strong data-slide-title>The Appropriate Computer Programmer</strong><span data-slide-counter aria-live="polite">01 / 21</span></div>
+                        <button type="button" data-slide-next>Next →</button>
+                    </div>
+                </div>
+                <div class="lecture-slide-thumbnails" aria-label="Choose a lecture slide">
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="01" data-slide-src="assets/images/lectures/lecture-01/slides/slide-01.png" data-slide-title="The Appropriate Computer Programmer" data-slide-alt="Title slide: The Appropriate Computer Programmer" aria-label="Show slide 1: The Appropriate Computer Programmer"><img src="assets/images/lectures/lecture-01/slides/slide-01.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="02" data-slide-src="assets/images/lectures/lecture-01/slides/slide-02.png" data-slide-title="Producing an answer is the tempting proxy" data-slide-alt="Slide comparing code production with computational judgement" aria-label="Show slide 2: Producing an answer is the tempting proxy"><img src="assets/images/lectures/lecture-01/slides/slide-02.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="03" data-slide-src="assets/images/lectures/lecture-01/slides/slide-03.png" data-slide-title="Appropriateness is a judgement" data-slide-alt="Slide connecting requirement, state model, implementation, evidence and judgement" aria-label="Show slide 3: Appropriateness is a judgement"><img src="assets/images/lectures/lecture-01/slides/slide-03.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="04" data-slide-src="assets/images/lectures/lecture-01/slides/slide-04.png" data-slide-title="Seven rules become seven review questions" data-slide-alt="Slide mapping seven programming rules to review questions" aria-label="Show slide 4: Seven rules become seven review questions"><img src="assets/images/lectures/lecture-01/slides/slide-04.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="05" data-slide-src="assets/images/lectures/lecture-01/slides/slide-05.png" data-slide-title="One successful path is an event" data-slide-alt="Slide showing observed output 42 beside four unexamined cases" aria-label="Show slide 5: One successful path is an event"><img src="assets/images/lectures/lecture-01/slides/slide-05.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="06" data-slide-src="assets/images/lectures/lecture-01/slides/slide-06.png" data-slide-title="Think in state changes" data-slide-alt="Slide tracing health state from 10 to 7 to 0" aria-label="Show slide 6: Think in state changes"><img src="assets/images/lectures/lecture-01/slides/slide-06.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="07" data-slide-src="assets/images/lectures/lecture-01/slides/slide-07.png" data-slide-title="The memory account" data-slide-alt="Slide listing ten parts of the course memory account" aria-label="Show slide 7: The memory account"><img src="assets/images/lectures/lecture-01/slides/slide-07.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="08" data-slide-src="assets/images/lectures/lecture-01/slides/slide-08.png" data-slide-title="The requirement defines the boundary" data-slide-alt="PlayerHealth requirement diagram with four constraints" aria-label="Show slide 8: The requirement defines the boundary"><img src="assets/images/lectures/lecture-01/slides/slide-08.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="09" data-slide-src="assets/images/lectures/lecture-01/slides/slide-09.png" data-slide-title="The invariant" data-slide-alt="PlayerHealth valid-state range from zero to one hundred" aria-label="Show slide 9: The invariant"><img src="assets/images/lectures/lecture-01/slides/slide-09.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="10" data-slide-src="assets/images/lectures/lecture-01/slides/slide-10.png" data-slide-title="Stored state is not derived state" data-slide-alt="Diagram distinguishing the stored points member from class policy and the derived alive query" aria-label="Show slide 10: Stored state is not derived state"><img src="assets/images/lectures/lecture-01/slides/slide-10.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="11" data-slide-src="assets/images/lectures/lecture-01/slides/slide-11.png" data-slide-title="The class owns the rule" data-slide-alt="PlayerHealth class code and its constructor, queries and transition" aria-label="Show slide 11: The class owns the rule"><img src="assets/images/lectures/lecture-01/slides/slide-11.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="12" data-slide-src="assets/images/lectures/lecture-01/slides/slide-12.png" data-slide-title="One local object in main" data-slide-alt="Main function and expected output for one local PlayerHealth object" aria-label="Show slide 12: One local object in main"><img src="assets/images/lectures/lecture-01/slides/slide-12.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="13" data-slide-src="assets/images/lectures/lecture-01/slides/slide-13.png" data-slide-title="Construction: no completed object to 10" data-slide-alt="Construction transition from a request through validation to a completed object" aria-label="Show slide 13: Construction"><img src="assets/images/lectures/lecture-01/slides/slide-13.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="14" data-slide-src="assets/images/lectures/lecture-01/slides/slide-14.png" data-slide-title="Damage: 10 to 7" data-slide-alt="Damage transition from ten health points to seven" aria-label="Show slide 14: Damage from 10 to 7"><img src="assets/images/lectures/lecture-01/slides/slide-14.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="15" data-slide-src="assets/images/lectures/lecture-01/slides/slide-15.png" data-slide-title="Large damage: 7 to 0" data-slide-alt="Large damage creates a negative candidate which is clamped to zero" aria-label="Show slide 15: Large damage from 7 to 0"><img src="assets/images/lectures/lecture-01/slides/slide-15.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="16" data-slide-src="assets/images/lectures/lecture-01/slides/slide-16.png" data-slide-title="Invalid request: state unchanged" data-slide-alt="Negative damage is rejected before the object state changes" aria-label="Show slide 16: Invalid request"><img src="assets/images/lectures/lecture-01/slides/slide-16.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="17" data-slide-src="assets/images/lectures/lecture-01/slides/slide-17.png" data-slide-title="The boundary earns its place" data-slide-alt="Diagram of four reasons for the PlayerHealth boundary" aria-label="Show slide 17: The boundary earns its place"><img src="assets/images/lectures/lecture-01/slides/slide-17.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="18" data-slide-src="assets/images/lectures/lecture-01/slides/slide-18.png" data-slide-title="What do the output and assertions establish?" data-slide-alt="Comparison of claims supported and not yet supported by the example" aria-label="Show slide 18: Evidence and its limits"><img src="assets/images/lectures/lecture-01/slides/slide-18.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="19" data-slide-src="assets/images/lectures/lecture-01/slides/slide-19.png" data-slide-title="Evidence is a portfolio" data-slide-alt="Layered evidence portfolio from requirement to measurement" aria-label="Show slide 19: Evidence is a portfolio"><img src="assets/images/lectures/lecture-01/slides/slide-19.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="20" data-slide-src="assets/images/lectures/lecture-01/slides/slide-20.png" data-slide-title="The seven rules after the trace" data-slide-alt="Seven concise responsibilities after tracing the PlayerHealth object" aria-label="Show slide 20: The seven rules after the trace"><img src="assets/images/lectures/lecture-01/slides/slide-20.png" alt=""></button>
+                    <button class="lecture-slide-thumb" type="button" data-slide-number="21" data-slide-src="assets/images/lectures/lecture-01/slides/slide-21.png" data-slide-title="Account for the state" data-slide-alt="Transfer task asking students to account for a simple Health structure" aria-label="Show slide 21: Account for the state"><img src="assets/images/lectures/lecture-01/slides/slide-21.png" alt=""></button>
+                </div>
+            </div>
+            <noscript><p>The slide viewer requires JavaScript. The complete editable deck remains available as a <a href="assets/files/lectures/lecture-01/lecture-01-slides.pptx" download>PowerPoint download</a>.</p></noscript>
+        </div>
+    </section>
+
+    <section class="lecture-section" id="written-account" aria-labelledby="worked-example-title">
+        <div class="lecture-section-inner lecture-section-narrow lecture-prose">
+            <p class="lecture-section-kicker">The worked development</p>
+            <h2 id="worked-example-title">Health as controlled state</h2>
+            <p>Suppose a small game gives the player health. It must start between zero and one hundred. Damage must never increase it or take it below zero. Other code needs to ask how many points remain and whether the player is alive. Calling this “just an integer” discards the very information that must direct the design.</p>
+            <p><strong>Invariant:</strong> while a <code>PlayerHealth</code> object is valid, <code>0 &lt;= points &lt;= 100</code>.</p>
+            <h3>Stored state, class-wide policy and derived state</h3>
+            <p>Each <code>PlayerHealth</code> object contains one non-static <code>int</code> data member called <code>points_</code>, and that member stores the health value. The name <code>maximum</code> describes class-wide policy; it is not a separate per-object health value. The function <code>alive()</code> derives an answer from <code>points_</code>; the object does not need to store a second flag and keep two values in agreement.</p>
+            <p>This is a language-level account. It deliberately makes no universal claim about an exact byte size or physical location. Those matters depend upon details that have not been fixed here and will be treated when the course has the machinery to treat them honestly.</p>
+            <pre class="lecture-code"><code>#include &lt;algorithm&gt;
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+class PlayerHealth {
+public:
+    static constexpr int maximum = 100;
+
+    explicit PlayerHealth(int initial) : points_{initial}
+    {
+        if (initial &lt; 0 || initial &gt; maximum) {
+            throw std::out_of_range{"health must be between 0 and 100"};
+        }
+    }
+
+    [[nodiscard]] int points() const noexcept { return points_; }
+    [[nodiscard]] bool alive() const noexcept { return points_ &gt; 0; }
+
+    void take_damage(int amount)
+    {
+        if (amount &lt; 0) {
+            throw std::invalid_argument{"damage cannot be negative"};
+        }
+        points_ = std::max(0, points_ - amount);
+    }
+
+private:
+    int points_;
+};
+
+int main()
+{
+    PlayerHealth health{10};
+    std::cout &lt;&lt; "start: " &lt;&lt; health.points() &lt;&lt; '\n';
+
+    health.take_damage(3);
+    assert(health.points() == 7);
+    std::cout &lt;&lt; "after 3 damage: " &lt;&lt; health.points() &lt;&lt; '\n';
+
+    health.take_damage(20);
+    assert(health.points() == 0);
+    assert(!health.alive());
+    std::cout &lt;&lt; "after 20 damage: " &lt;&lt; health.points() &lt;&lt; '\n';
+}</code></pre>
+            <h3>Trace every transition</h3>
+            <p>The source is not the trace. The trace is the account of what exists before the operation, which condition is checked, which stored value changes and what remains true afterwards.</p>
+            <table class="lecture-transition-table">
+                <thead><tr><th>Event</th><th>State before</th><th>Check or transition</th><th>State after</th><th>Invariant</th></tr></thead>
+                <tbody>
+                    <tr><td>Construct with 10</td><td>No completed object</td><td>10 is within the permitted range</td><td><code>points_ = 10</code>, alive</td><td>Preserved</td></tr>
+                    <tr><td><code>take_damage(3)</code></td><td>10, alive</td><td>3 is valid; subtract and clamp at zero</td><td>7, alive</td><td>Preserved</td></tr>
+                    <tr><td><code>take_damage(20)</code></td><td>7, alive</td><td>The candidate −13 is clamped at zero</td><td>0, not alive</td><td>Preserved</td></tr>
+                    <tr><td><code>take_damage(-2)</code></td><td>Any valid state</td><td>Reject the invalid request before mutation</td><td>Unchanged</td><td>Preserved</td></tr>
+                </tbody>
+            </table>
+            <h3>Construction is also a transition</h3>
+            <p>Before <code>PlayerHealth health{10};</code>, there is no completed <code>health</code> object. The constructor receives a requested initial value and checks it. With 10, construction completes and a valid object becomes available. With an invalid value, the constructor throws and no completed <code>PlayerHealth</code> object emerges from that construction. Describing the failed case as an object containing invalid health would therefore be the wrong state account.</p>
+            <h3>The invalid request is a reasoned case</h3>
+            <p>The shown <code>main</code> function does not call <code>take_damage(-2)</code>. The table includes that case because the method has explicit failure behaviour which belongs in the model. It must not be presented as output that the shown program produced. The assignment is not reached, so the existing object’s state is unchanged when the exception is thrown. Handling determines whether surrounding execution can continue and observe that unchanged object; it does not determine whether the assignment occurred.</p>
+            <h3>The boundary earns its place</h3>
+            <p>The class gives one component responsibility for one invariant. Callers request a domain operation instead of assigning representation directly. Failure is detected near its cause. The representation can later change without forcing every caller’s source to change, provided the public promise remains stable. A layout change can still require recompilation or break a binary interface. These are reasons for the boundary, not permission to ignore that boundary.</p>
+            <p>The word <code>private</code> is ordinary C++ access control. It prevents normal direct access from code that lacks permission; it is not a universal memory-safety barrier. The class is appropriate here because all permitted health changes share a rule. If the data had no shared rule, a class could add ceremony without protecting anything.</p>
+        </div>
+    </section>
+
+    <section class="lecture-section" aria-labelledby="evidence-title">
+        <div class="lecture-section-inner">
+            <div class="lecture-section-heading">
+                <div><p class="lecture-section-kicker">Evidence before confidence</p><h2 id="evidence-title">What do the output and assertions establish?</h2></div>
+                <p>The expected output and assertions support selected observations in this one example. They do not convert selected observations into proof of every future state transition.</p>
+            </div>
+            <div class="lecture-output">
+                <pre class="lecture-code"><code>start: 10
+after 3 damage: 7
+after 20 damage: 0</code></pre>
+                <div class="lecture-claim lecture-prose">
+                    <p><strong>This supports:</strong> construction with 10, one transition from 10 to 7, one transition from 7 to 0, and the derived observation that zero is not alive.</p>
+                    <p><strong>This does not yet support:</strong> every permitted initial value, invalid construction, execution of the negative-damage case, every sequence of future calls or behaviour in the larger game.</p>
+                    <p><code>assert</code> is useful development evidence, but a build may remove its checks when <code>NDEBUG</code> is defined. A requirement that must be enforced in every supported build cannot depend solely upon an assertion remaining active.</p>
+                </div>
+            </div>
+            <div class="lecture-evidence-grid" aria-label="Evidence portfolio">
+                <article class="lecture-evidence"><strong>Requirement and invariant</strong><p>State what must be preserved before an observation can be interpreted.</p></article>
+                <article class="lecture-evidence"><strong>Boundary examples</strong><p>Exercise zero, one hundred, excessive damage and invalid requests deliberately.</p></article>
+                <article class="lecture-evidence"><strong>Properties and analysis</strong><p>Explore broader input spaces and inspect lifetime, bounds and undefined-behaviour risks.</p></article>
+                <article class="lecture-evidence"><strong>Human review</strong><p>Challenge the requirement, ownership decision, interface and readability with context.</p></article>
+                <article class="lecture-evidence"><strong>Relevant measurement</strong><p>Measure only when a stated workload and resource budget make the cost consequential.</p></article>
+                <article class="lecture-evidence"><strong>Bounded conclusion</strong><p>Say: this evidence supports this property under these conditions.</p></article>
+            </div>
+        </div>
+    </section>
+
+    <section class="lecture-section" aria-labelledby="transfer-title">
+        <div class="lecture-section-inner lecture-section-narrow lecture-prose">
+            <p class="lecture-section-kicker">Minutes 47–50 · transfer</p>
+            <h2 id="transfer-title">Account for the state before you improve the code</h2>
+            <p>Consider the deliberately weak representation <code>struct Health { int points; };</code>. Do not begin by decorating it with syntax. First write four things:</p>
+            <ol>
+                <li>the valid-state rule;</li>
+                <li>the permitted transitions, including rejected requests;</li>
+                <li>the component responsible for preserving the rule; and</li>
+                <li>the evidence that would challenge the convenient example.</li>
+            </ol>
+            <p>Now ask which value the object must actually store and which answers can be derived. Ask whether the proposed boundary prevents a real error or merely changes the appearance of the source. Ask what happens before construction, after failure and when the object’s lifetime ends. The implementation follows those decisions. It cannot substitute for them.</p>
+            <p>The next lecture begins with the simplest apparent piece of C++ and refuses to leave it simple: what, precisely, is a variable remembering?</p>
+        </div>
+    </section>
+
+    <section class="lecture-section lecture-materials" id="materials" aria-labelledby="materials-title">
+        <div class="lecture-section-inner">
+            <div class="lecture-section-heading">
+                <div><p class="lecture-section-kicker">Lecture materials</p><h2 id="materials-title">Continue the account</h2></div>
+                <p>The page, slides and lesson are separate views of the same argument. The PowerPoint contains editable objects and complete speaker notes for delivery.</p>
+            </div>
+            <div class="lecture-material-grid">
+                <article class="lecture-material"><span class="lecture-card-number">Presentation</span><h3>21-slide PowerPoint</h3><p>The complete visual sequence, with source notes and a paced lecture account in the speaker notes.</p><a href="assets/files/lectures/lecture-01/lecture-01-slides.pptx" download>Download the editable deck →</a></article>
+                <article class="lecture-material"><span class="lecture-card-number">Detailed teaching page</span><h3>Lesson 1</h3><p>The preserved course lesson, its original seven rules and the longer system-scale development.</p><a href="lesson-01.html">Open The Appropriate Computer Programmer →</a></article>
+                <article class="lecture-material"><span class="lecture-card-number">Terminology</span><h3>Programming glossary</h3><p>Definitions remain available behind the course, including state, object, invariant, ownership and evidence-related terms.</p><a href="glossary.html">Open the programming glossary →</a></article>
+                <article class="lecture-material"><span class="lecture-card-number">Lecture sequence</span><h3>All ten lectures</h3><p>See how the memory account develops through variables, functions, builds, control flow, addresses, lifetimes and types.</p><a href="lectures.html">Return to the lecture programme →</a></article>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+<script src="assets/js/course.js" defer></script>
+<script src="assets/js/lecture.js" defer></script>
+</body>
+</html>

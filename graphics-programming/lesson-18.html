@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Turn a pipeline and its resources into ordered device work whose image writes are made visible before presentation.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 18 - Record, Dispatch, Synchronise, Present</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson vulkan-lesson" data-lesson="18" data-ray-stage="18" data-art-pattern="flow">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 18 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html" aria-current="page"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 18</span></nav>
+            <p class="hero-kicker">Part 2 &middot; Vulkan implementation</p>
+            <h1 id="lesson-title">18. Record, Dispatch, Synchronise, Present</h1>
+            <p class="lesson-deck">Turn a pipeline and its resources into ordered device work whose image writes are made visible before presentation.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-17.html">&larr; Lesson 17</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-19.html">Lesson 19 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>49 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-18-access-mask" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-access-mask&amp;lesson=18#term-access-mask" aria-label="Look up access mask in the graphics glossary" title="Look up access mask in the graphics glossary">access mask</a> <a class="glossary-chip" id="glossary-panel-origin-18-accumulation-image" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-accumulation-image&amp;lesson=18#term-accumulation-image" aria-label="Look up accumulation image in the graphics glossary" title="Look up accumulation image in the graphics glossary">accumulation image</a> <a class="glossary-chip" id="glossary-panel-origin-18-bounds-check" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-bounds-check&amp;lesson=18#term-bounds-check" aria-label="Look up bounds check in the graphics glossary" title="Look up bounds check in the graphics glossary">bounds check</a> <a class="glossary-chip" id="glossary-panel-origin-18-buffer" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-buffer&amp;lesson=18#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-18-c" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-c&amp;lesson=18#term-c" aria-label="Look up C++ in the graphics glossary" title="Look up C++ in the graphics glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-18-camera" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-camera&amp;lesson=18#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-18-ceiling-division" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-ceiling-division&amp;lesson=18#term-ceiling-division" aria-label="Look up ceiling division in the graphics glossary" title="Look up ceiling division in the graphics glossary">ceiling division</a> <a class="glossary-chip" id="glossary-panel-origin-18-command-buffer" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-command-buffer&amp;lesson=18#term-command-buffer" aria-label="Look up command buffer in the graphics glossary" title="Look up command buffer in the graphics glossary">command buffer</a> <a class="glossary-chip" id="glossary-panel-origin-18-command-pool" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-command-pool&amp;lesson=18#term-command-pool" aria-label="Look up command pool in the graphics glossary" title="Look up command pool in the graphics glossary">command pool</a> <a class="glossary-chip" id="glossary-panel-origin-18-compute-pipeline" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-compute-pipeline&amp;lesson=18#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> <a class="glossary-chip" id="glossary-panel-origin-18-compute-shader" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-compute-shader&amp;lesson=18#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a> <a class="glossary-chip" id="glossary-panel-origin-18-descriptor" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-descriptor&amp;lesson=18#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a> <a class="glossary-chip" id="glossary-panel-origin-18-descriptor-set" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-descriptor-set&amp;lesson=18#term-descriptor-set" aria-label="Look up descriptor set in the graphics glossary" title="Look up descriptor set in the graphics glossary">descriptor set</a> <a class="glossary-chip" id="glossary-panel-origin-18-direction" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-direction&amp;lesson=18#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-18-dispatch" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-dispatch&amp;lesson=18#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> <a class="glossary-chip" id="glossary-panel-origin-18-edge" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-edge&amp;lesson=18#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-18-execution-dependency" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-execution-dependency&amp;lesson=18#term-execution-dependency" aria-label="Look up execution dependency in the graphics glossary" title="Look up execution dependency in the graphics glossary">execution dependency</a> <a class="glossary-chip" id="glossary-panel-origin-18-fence" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-fence&amp;lesson=18#term-fence" aria-label="Look up fence in the graphics glossary" title="Look up fence in the graphics glossary">fence</a> <a class="glossary-chip" id="glossary-panel-origin-18-global-invocation-id" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-global-invocation-id&amp;lesson=18#term-global-invocation-id" aria-label="Look up global invocation ID in the graphics glossary" title="Look up global invocation ID in the graphics glossary">global invocation ID</a> <a class="glossary-chip" id="glossary-panel-origin-18-host" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-host&amp;lesson=18#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> <a class="glossary-chip" id="glossary-panel-origin-18-image" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-image&amp;lesson=18#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-18-image-acquisition" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-image-acquisition&amp;lesson=18#term-image-acquisition" aria-label="Look up image acquisition in the graphics glossary" title="Look up image acquisition in the graphics glossary">image acquisition</a> <a class="glossary-chip" id="glossary-panel-origin-18-image-layout" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-image-layout&amp;lesson=18#term-image-layout" aria-label="Look up image layout in the graphics glossary" title="Look up image layout in the graphics glossary">image layout</a> <a class="glossary-chip" id="glossary-panel-origin-18-intersection-shader" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-intersection-shader&amp;lesson=18#term-intersection-shader" aria-label="Look up intersection shader in the graphics glossary" title="Look up intersection shader in the graphics glossary">intersection shader</a> <a class="glossary-chip" id="glossary-panel-origin-18-invocation" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-invocation&amp;lesson=18#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-18-javascript" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-javascript&amp;lesson=18#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> <a class="glossary-chip" id="glossary-panel-origin-18-local-size" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-local-size&amp;lesson=18#term-local-size" aria-label="Look up local size in the graphics glossary" title="Look up local size in the graphics glossary">local size</a> <a class="glossary-chip" id="glossary-panel-origin-18-memory-availability" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-memory-availability&amp;lesson=18#term-memory-availability" aria-label="Look up memory availability in the graphics glossary" title="Look up memory availability in the graphics glossary">memory availability</a> <a class="glossary-chip" id="glossary-panel-origin-18-memory-dependency" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-memory-dependency&amp;lesson=18#term-memory-dependency" aria-label="Look up memory dependency in the graphics glossary" title="Look up memory dependency in the graphics glossary">memory dependency</a> <a class="glossary-chip" id="glossary-panel-origin-18-memory-visibility" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-memory-visibility&amp;lesson=18#term-memory-visibility" aria-label="Look up memory visibility in the graphics glossary" title="Look up memory visibility in the graphics glossary">memory visibility</a> <a class="glossary-chip" id="glossary-panel-origin-18-pipeline-barrier" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-pipeline-barrier&amp;lesson=18#term-pipeline-barrier" aria-label="Look up pipeline barrier in the graphics glossary" title="Look up pipeline barrier in the graphics glossary">pipeline barrier</a> <a class="glossary-chip" id="glossary-panel-origin-18-pipeline-stage" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-pipeline-stage&amp;lesson=18#term-pipeline-stage" aria-label="Look up pipeline stage in the graphics glossary" title="Look up pipeline stage in the graphics glossary">pipeline stage</a> <a class="glossary-chip" id="glossary-panel-origin-18-pixel" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-pixel&amp;lesson=18#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-18-queue" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-queue&amp;lesson=18#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a> <a class="glossary-chip" id="glossary-panel-origin-18-queue-family" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-queue-family&amp;lesson=18#term-queue-family" aria-label="Look up queue family in the graphics glossary" title="Look up queue family in the graphics glossary">queue family</a> <a class="glossary-chip" id="glossary-panel-origin-18-queue-submission" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-queue-submission&amp;lesson=18#term-queue-submission" aria-label="Look up queue submission in the graphics glossary" title="Look up queue submission in the graphics glossary">queue submission</a> <a class="glossary-chip" id="glossary-panel-origin-18-queue-family-ownership-transfer" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-queue-family-ownership-transfer&amp;lesson=18#term-queue-family-ownership-transfer" aria-label="Look up queue-family ownership transfer in the graphics glossary" title="Look up queue-family ownership transfer in the graphics glossary">queue-family ownership transfer</a> <a class="glossary-chip" id="glossary-panel-origin-18-scene" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-scene&amp;lesson=18#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-18-semaphore" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-semaphore&amp;lesson=18#term-semaphore" aria-label="Look up semaphore in the graphics glossary" title="Look up semaphore in the graphics glossary">semaphore</a> <a class="glossary-chip" id="glossary-panel-origin-18-sphere" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-sphere&amp;lesson=18#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-18-stage-mask" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-stage-mask&amp;lesson=18#term-stage-mask" aria-label="Look up stage mask in the graphics glossary" title="Look up stage mask in the graphics glossary">stage mask</a> <a class="glossary-chip" id="glossary-panel-origin-18-storage-image" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-storage-image&amp;lesson=18#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a> <a class="glossary-chip" id="glossary-panel-origin-18-swapchain" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-swapchain&amp;lesson=18#term-swapchain" aria-label="Look up swapchain in the graphics glossary" title="Look up swapchain in the graphics glossary">swapchain</a> <a class="glossary-chip" id="glossary-panel-origin-18-swapchain-image" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-swapchain-image&amp;lesson=18#term-swapchain-image" aria-label="Look up swapchain image in the graphics glossary" title="Look up swapchain image in the graphics glossary">swapchain image</a> <a class="glossary-chip" id="glossary-panel-origin-18-synchronization2" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-synchronization2&amp;lesson=18#term-synchronization2" aria-label="Look up Synchronization2 in the graphics glossary" title="Look up Synchronization2 in the graphics glossary">Synchronization2</a> <a class="glossary-chip" id="glossary-panel-origin-18-texel" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-texel&amp;lesson=18#term-texel" aria-label="Look up texel in the graphics glossary" title="Look up texel in the graphics glossary">texel</a> <a class="glossary-chip" id="glossary-panel-origin-18-transfer-operation" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-transfer-operation&amp;lesson=18#term-transfer-operation" aria-label="Look up transfer operation in the graphics glossary" title="Look up transfer operation in the graphics glossary">transfer operation</a> <a class="glossary-chip" id="glossary-panel-origin-18-workgroup" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-workgroup&amp;lesson=18#term-workgroup" aria-label="Look up workgroup in the graphics glossary" title="Look up workgroup in the graphics glossary">workgroup</a> <a class="glossary-chip" id="glossary-panel-origin-18-workgroup-count" href="glossary.html?from=lesson-18.html%23glossary-panel-origin-18-workgroup-count&amp;lesson=18#term-workgroup-count" aria-label="Look up workgroup count in the graphics glossary" title="Look up workgroup count in the graphics glossary">workgroup count</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A <a class="glossary-term" id="glossary-origin-18-0001" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0001&amp;lesson=18#term-compute-pipeline" aria-label="Look up compute pipeline in the graphics glossary" title="Look up compute pipeline in the graphics glossary">compute pipeline</a> does not run when it is created. A <a class="glossary-term" id="glossary-origin-18-0002" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0002&amp;lesson=18#term-descriptor-set" aria-label="Look up descriptor set in the graphics glossary" title="Look up descriptor set in the graphics glossary">descriptor set</a> does not become active when it is updated. Vulkan commands must be recorded into a <a class="glossary-term" id="glossary-origin-18-0003" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0003&amp;lesson=18#term-command-buffer" aria-label="Look up command buffer in the graphics glossary" title="Look up command buffer in the graphics glossary">command buffer</a>, the command buffer must be submitted to a compatible <a class="glossary-term" id="glossary-origin-18-0004" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0004&amp;lesson=18#term-queue" aria-label="Look up queue in the graphics glossary" title="Look up queue in the graphics glossary">queue</a>, and the resources touched by one operation must be made available and visible to later operations. The apparent order of <a class="glossary-term" id="glossary-origin-18-0005" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0005&amp;lesson=18#term-c" aria-label="Look up C++ in the graphics glossary" title="Look up C++ in the graphics glossary">C++</a> statements is not a substitute for a device dependency.</p>
+<p>The first presented <a class="glossary-term" id="glossary-origin-18-0006" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0006&amp;lesson=18#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> in Part II is deliberately only the diagnostic gradient from Lesson 17. A recognisable <a class="glossary-term" id="glossary-origin-18-0007" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0007&amp;lesson=18#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> would provide a tempting distraction from the execution route we need to inspect: acquire a presentation image, transition the <a class="glossary-term" id="glossary-origin-18-0008" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0008&amp;lesson=18#term-storage-image" aria-label="Look up storage image in the graphics glossary" title="Look up storage image in the graphics glossary">storage image</a>, bind and <a class="glossary-term" id="glossary-origin-18-0009" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0009&amp;lesson=18#term-dispatch" aria-label="Look up dispatch in the graphics glossary" title="Look up dispatch in the graphics glossary">dispatch</a> compute work, make its writes visible to a transfer, copy the image, transition the destination for presentation, submit and present with suitable synchronisation.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Allocate a command buffer from a pool associated with the selected <a class="glossary-term" id="glossary-origin-18-0010" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0010&amp;lesson=18#term-queue-family" aria-label="Look up queue family in the graphics glossary" title="Look up queue family in the graphics glossary">queue family</a>.</li>
+<li>Calculate dispatch <a class="glossary-term" id="glossary-origin-18-0011" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0011&amp;lesson=18#term-workgroup" aria-label="Look up workgroup in the graphics glossary" title="Look up workgroup in the graphics glossary">workgroups</a> from image extent and <a class="glossary-term" id="glossary-origin-18-0012" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0012&amp;lesson=18#term-local-size" aria-label="Look up local size in the graphics glossary" title="Look up local size in the graphics glossary">local size</a> while guarding extra <a class="glossary-term" id="glossary-origin-18-0013" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0013&amp;lesson=18#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocations</a>.</li>
+<li>State the source operation, destination operation, accesses and layouts represented by each image barrier.</li>
+</ul>
+</section>
+
+<h2>Record commands for the selected family</h2>
+<p>A <a class="glossary-term" id="glossary-origin-18-0014" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0014&amp;lesson=18#term-command-pool" aria-label="Look up command pool in the graphics glossary" title="Look up command pool in the graphics glossary">command pool</a> is associated with one queue-family index. Command buffers allocated from it may record operations supported by that family. The compute-and-present family selected in Lesson 15 also supports the <a class="glossary-term" id="glossary-origin-18-0015" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0015&amp;lesson=18#term-transfer-operation" aria-label="Look up transfer operation in the graphics glossary" title="Look up transfer operation in the graphics glossary">transfer operations</a> used in this route. If an application chooses separate families, it must additionally account for <a class="glossary-term" id="glossary-origin-18-0016" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0016&amp;lesson=18#term-queue-family-ownership-transfer" aria-label="Look up queue-family ownership transfer in the graphics glossary" title="Look up queue-family ownership transfer in the graphics glossary">queue ownership transfers</a> and cross-queue synchronisation. We shall not add that complexity before the single-family route is correct.</p>
+
+<pre><code class="language-cpp">VkCommandPoolCreateInfo poolInfo{
+    .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+    .flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
+    .queueFamilyIndex = queueFamilyIndex
+};
+
+VkCommandPool commandPool = VK_NULL_HANDLE;
+check(vkCreateCommandPool(
+    device, &amp;poolInfo, nullptr, &amp;commandPool));
+
+VkCommandBufferAllocateInfo commandInfo{
+    .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+    .commandPool = commandPool,
+    .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+    .commandBufferCount = 1
+};
+
+VkCommandBuffer commandBuffer = VK_NULL_HANDLE;
+check(vkAllocateCommandBuffers(
+    device, &amp;commandInfo, &amp;commandBuffer));</code></pre>
+
+<p>Resetting or re-recording this <a class="glossary-term" id="glossary-origin-18-0017" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0017&amp;lesson=18#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> is permitted only when no pending submission still uses it. A per-frame <a class="glossary-term" id="glossary-origin-18-0018" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0018&amp;lesson=18#term-fence" aria-label="Look up fence in the graphics glossary" title="Look up fence in the graphics glossary">fence</a> will provide that evidence. The flag permits individual reset; it does not make unsafe reset valid.</p>
+
+<h2>Make the image ready for compute writes</h2>
+<p>On its first use, the output image moves from <code>UNDEFINED</code> to <code>GENERAL</code>. No previous contents need to be preserved, so the source stage and access may be none. The destination is the <a class="glossary-term" id="glossary-origin-18-0019" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0019&amp;lesson=18#term-compute-shader" aria-label="Look up compute shader in the graphics glossary" title="Look up compute shader in the graphics glossary">compute shader</a>'s storage write.</p>
+
+<pre><code class="language-cpp">VkImageMemoryBarrier2 toGeneral{
+    .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2,
+    .srcStageMask = VK_PIPELINE_STAGE_2_NONE,
+    .srcAccessMask = VK_ACCESS_2_NONE,
+    .dstStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,
+    .dstAccessMask = VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT,
+    .oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+    .newLayout = VK_IMAGE_LAYOUT_GENERAL,
+    .image = outputImage,
+    .subresourceRange = colourRange
+};
+
+VkDependencyInfo firstUse{
+    .sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO,
+    .imageMemoryBarrierCount = 1,
+    .pImageMemoryBarriers = &amp;toGeneral
+};
+
+vkCmdPipelineBarrier2(commandBuffer, &amp;firstUse);</code></pre>
+
+<p>On later frames, the old layout must describe the layout left by the previous route, or a separate barrier must restore <code>GENERAL</code>. Hard-coding <code>UNDEFINED</code> every frame discards the previous contents, which is acceptable for a complete rewrite but not for the <a class="glossary-term" id="glossary-origin-18-0020" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0020&amp;lesson=18#term-accumulation-image" aria-label="Look up accumulation image in the graphics glossary" title="Look up accumulation image in the graphics glossary">accumulation image</a> introduced in Lesson 26.</p>
+
+<h2>Bind state and count workgroups</h2>
+<p>The shader uses local size 16 by 16. A 640 by 360 image therefore requires 40 workgroups horizontally and 23 vertically. The last vertical group launches invocations for rows 368 through 367 in its full mathematical range, of which rows 360 through 367 are outside the image. The shader's <a class="glossary-term" id="glossary-origin-18-0021" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0021&amp;lesson=18#term-bounds-check" aria-label="Look up bounds check in the graphics glossary" title="Look up bounds check in the graphics glossary">bounds check</a> prevents those invocations from writing.</p>
+
+<pre><code class="language-cpp">vkCmdBindPipeline(
+    commandBuffer,
+    VK_PIPELINE_BIND_POINT_COMPUTE,
+    computePipeline);
+
+vkCmdBindDescriptorSets(
+    commandBuffer,
+    VK_PIPELINE_BIND_POINT_COMPUTE,
+    pipelineLayout,
+    0,
+    1,
+    &amp;descriptorSet,
+    0,
+    nullptr);
+
+const uint32_t groupsX = (width  + 15) / 16;
+const uint32_t groupsY = (height + 15) / 16;
+vkCmdDispatch(commandBuffer, groupsX, groupsY, 1);</code></pre>
+
+<p>Dispatch dimensions count workgroups, not <a class="glossary-term" id="glossary-origin-18-0022" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0022&amp;lesson=18#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixels</a>. Multiplying 40 by 23 by 256 gives 235,520 invocations for 230,400 <a class="glossary-term" id="glossary-origin-18-0023" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0023&amp;lesson=18#term-texel" aria-label="Look up texel in the graphics glossary" title="Look up texel in the graphics glossary">texels</a>. The 5,120 extras are a deliberate consequence of <a class="glossary-term" id="glossary-origin-18-0024" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0024&amp;lesson=18#term-ceiling-division" aria-label="Look up ceiling division in the graphics glossary" title="Look up ceiling division in the graphics glossary">ceiling division</a>. Removing the shader guard would turn an arithmetic convenience into out-of-range image access.</p>
+
+<section class="vulkan-worked-account" aria-labelledby="vulkan-account-title-18">
+    <header class="vulkan-account-heading">
+        <p class="vulkan-account-kicker">Worked Vulkan account</p>
+        <h2 id="vulkan-account-title-18">How Recorded Work Becomes Visible Work</h2>
+        <p>Dispatch coverage, <a class="glossary-term" id="glossary-origin-18-0025" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0025&amp;lesson=18#term-memory-visibility" aria-label="Look up memory visibility in the graphics glossary" title="Look up memory visibility in the graphics glossary">memory visibility</a> and presentation are separate parts of one frame. The command sequence must state each responsibility rather than relying on apparent order.</p>
+    </header>
+    <div class="vulkan-account-prose">
+        <section class="vulkan-account-mechanism">
+            <h3>What the code must establish</h3>
+            <p>The command buffer binds the pipeline and descriptor set, dispatches enough workgroups to cover the image, records a dependency from compute writes to transfer reads, copies the result and participates in the acquire-submit-present sequence. Dispatch coverage and memory visibility are separate responsibilities. One decides which invocations exist; the other decides whether a later operation may observe their writes.</p>
+        </section>
+        <section class="vulkan-account-evidence">
+            <h3>What to inspect</h3>
+            <p>Record the local size, <a class="glossary-term" id="glossary-origin-18-0026" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0026&amp;lesson=18#term-workgroup-count" aria-label="Look up workgroup count in the graphics glossary" title="Look up workgroup count in the graphics glossary">workgroup counts</a> and shader bounds check. Then inspect the barrier independently: its source stage and access must name the compute shader write, while its destination stage and access must name the transfer read. Retain the <a class="glossary-term" id="glossary-origin-18-0027" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0027&amp;lesson=18#term-image-layout" aria-label="Look up image layout in the graphics glossary" title="Look up image layout in the graphics glossary">image layouts</a> before and after the dependency and the <a class="glossary-term" id="glossary-origin-18-0028" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0028&amp;lesson=18#term-semaphore" aria-label="Look up semaphore in the graphics glossary" title="Look up semaphore in the graphics glossary">semaphores</a> used by submission and presentation.</p>
+        </section>
+    </div>
+    <aside class="vulkan-account-example">
+        <h3>A concrete account</h3>
+        <p>A 640 by 360 image dispatched with 16 by 16 local workgroups needs 40 by 23 workgroups. This launches 235,520 invocations for 230,400 texels, so 5,120 invocations lie outside the image and must return before accessing it. Removing the guard does not make the dispatch more exact; it makes the extra invocations unsafe.</p>
+        <p class="vulkan-account-formula"><code>groups = ceil(extent ÷ local size)</code></p>
+    </aside>
+    <p class="vulkan-account-boundary"><strong>What this establishes, and what it does not:</strong> Seeing an image presented establishes that some submitted work completed. It does not prove that the dependency names the narrow and correct producer-consumer route, because queue-idle waits or accidental serialisation can conceal a defective barrier.</p>
+</section>
+
+<h2>Make compute writes visible to the copy</h2>
+<p>The copy follows the dispatch in command order, but ordering alone does not state that shader storage writes are available and visible to transfer reads. The barrier names both operations and transitions the output image into the source layout required by the copy.</p>
+
+<pre><code class="language-cpp">VkImageMemoryBarrier2 toTransferSource{
+    .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2,
+    .srcStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT,
+    .srcAccessMask = VK_ACCESS_2_SHADER_STORAGE_WRITE_BIT,
+    .dstStageMask = VK_PIPELINE_STAGE_2_COPY_BIT,
+    .dstAccessMask = VK_ACCESS_2_TRANSFER_READ_BIT,
+    .oldLayout = VK_IMAGE_LAYOUT_GENERAL,
+    .newLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+    .image = outputImage,
+    .subresourceRange = colourRange
+};
+
+VkDependencyInfo beforeCopy{
+    .sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO,
+    .imageMemoryBarrierCount = 1,
+    .pImageMemoryBarriers = &amp;toTransferSource
+};
+
+vkCmdPipelineBarrier2(commandBuffer, &amp;beforeCopy);</code></pre>
+
+<p><code>VK_PIPELINE_STAGE_2_COPY_BIT</code> identifies the destination operation more precisely than a broad all-transfer stage. The access is a transfer read because the output image supplies copy data. The destination <a class="glossary-term" id="glossary-origin-18-0029" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0029&amp;lesson=18#term-swapchain-image" aria-label="Look up swapchain image in the graphics glossary" title="Look up swapchain image in the graphics glossary">swapchain image</a> requires its own transition to <code>TRANSFER_DST_OPTIMAL</code>, a transfer write access and a later transition to <code>PRESENT_SRC_KHR</code>.</p>
+
+<h2>Do not assume the <a class="glossary-term" id="glossary-origin-18-0030" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0030&amp;lesson=18#term-swapchain" aria-label="Look up swapchain in the graphics glossary" title="Look up swapchain in the graphics glossary">swapchain</a> accepts the route</h2>
+<p>Before creating the swapchain with transfer-destination usage, check the surface capabilities' <code>supportedUsageFlags</code>. The copy route also needs compatible source and destination formats and extents. If the surface cannot provide transfer-destination swapchain images, use a supported presentation route such as sampling the compute output in a fullscreen graphics pass. The lesson's criterion is not “copy at all costs”. It is an explicit route whose usage, format and synchronisation requirements are satisfied.</p>
+
+<pre><code class="language-cpp">VkImageCopy copyRegion{
+    .srcSubresource = {
+        .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+        .mipLevel = 0,
+        .baseArrayLayer = 0,
+        .layerCount = 1
+    },
+    .dstSubresource = {
+        .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+        .mipLevel = 0,
+        .baseArrayLayer = 0,
+        .layerCount = 1
+    },
+    .extent = { width, height, 1 }
+};
+
+vkCmdCopyImage(
+    commandBuffer,
+    outputImage,
+    VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+    swapchainImages[imageIndex],
+    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+    1,
+    &amp;copyRegion);</code></pre>
+
+<p>After the copy, a barrier transitions the swapchain image from transfer destination to present source. Its source names the copy write. Presentation itself is outside a <a class="glossary-term" id="glossary-origin-18-0031" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0031&amp;lesson=18#term-pipeline-stage" aria-label="Look up pipeline stage in the graphics glossary" title="Look up pipeline stage in the graphics glossary">pipeline stage</a>, so the layout transition and semaphore relationship together establish the route used by the presentation engine.</p>
+
+<h2>Submit with <a class="glossary-term" id="glossary-origin-18-0032" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0032&amp;lesson=18#term-host" aria-label="Look up host in the graphics glossary" title="Look up host in the graphics glossary">host</a> and presentation synchronisation</h2>
+<p>Acquire supplies an image index and signals an image-available semaphore. Submission waits for that semaphore before the transfer stage needs the swapchain image, executes the command buffer and signals a render-complete semaphore. Presentation waits for render complete. A fence attached to the submission lets the host know when it may reset this frame's command buffer and reuse its per-frame resources.</p>
+
+<pre><code class="language-cpp">VkCommandBufferSubmitInfo commandSubmit{
+    .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_SUBMIT_INFO,
+    .commandBuffer = commandBuffer
+};
+
+VkSemaphoreSubmitInfo waitAcquire{
+    .sType = VK_STRUCTURE_TYPE_SEMAPHORE_SUBMIT_INFO,
+    .semaphore = imageAvailable,
+    .stageMask = VK_PIPELINE_STAGE_2_COPY_BIT
+};
+
+VkSemaphoreSubmitInfo signalComplete{
+    .sType = VK_STRUCTURE_TYPE_SEMAPHORE_SUBMIT_INFO,
+    .semaphore = renderComplete,
+    .stageMask = VK_PIPELINE_STAGE_2_ALL_COMMANDS_BIT
+};
+
+VkSubmitInfo2 submit{
+    .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO_2,
+    .waitSemaphoreInfoCount = 1,
+    .pWaitSemaphoreInfos = &amp;waitAcquire,
+    .commandBufferInfoCount = 1,
+    .pCommandBufferInfos = &amp;commandSubmit,
+    .signalSemaphoreInfoCount = 1,
+    .pSignalSemaphoreInfos = &amp;signalComplete
+};
+
+check(vkQueueSubmit2(queue, 1, &amp;submit, frameFence));</code></pre>
+
+<div class="worked-trace">
+<h3>Separate coverage from visibility</h3>
+<p>A dispatch may launch exactly the required invocations and still produce an invalid presentation route if its writes are not made visible to the copy. Conversely, a correct barrier does not repair too few workgroups. For 641 by 361 with local size 16 by 16, use 41 by 23 workgroups. That launches 241,408 invocations for 231,401 texels. The edge guard handles 10,007 extras. The compute-to-copy barrier then handles an entirely different question: whether the copy can observe accepted shader writes.</p>
+</div>
+
+<div class="checkpoint">
+<h3>Name the source and destination</h3>
+<p>A compute shader writes a storage image, and the next command copies from it. What source stage/access and destination stage/access belong in the dependency?</p>
+<div class="worked-answer"><h4>The answer</h4><p>The source is compute shader with shader storage write access. The destination is copy with transfer read access. The image moves from <code>GENERAL</code> to <code>TRANSFER_SRC_OPTIMAL</code>. Using a barrier that names only layouts but no relevant writes and reads fails to state the <a class="glossary-term" id="glossary-origin-18-0033" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0033&amp;lesson=18#term-memory-dependency" aria-label="Look up memory dependency in the graphics glossary" title="Look up memory dependency in the graphics glossary">memory dependency</a> we require.</p></div>
+</div>
+
+<p class="official-reference"><strong>Official reference:</strong> compare this route with the Khronos <a href="https://docs.vulkan.org/guide/latest/synchronization_examples.html">synchronisation examples</a>, the specification's <a href="https://docs.vulkan.org/spec/latest/chapters/cmdbuffers.html">command-buffer chapter</a> and the <a href="https://docs.vulkan.org/spec/latest/chapters/synchronization.html">synchronisation chapter</a>.</p>
+
+<section class="transfer-task">
+<h2>Prove each part of the route separately</h2>
+<p>Log the image extent, local size, group count, launched invocation count and out-of-range count. Then remove only the shader bounds check and choose an extent not divisible by the local size; validation should provide evidence of the invalid <a class="glossary-term" id="glossary-origin-18-0034" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0034&amp;lesson=18#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> access where supported. Restore it. Next remove only the compute-to-copy dependency while leaving command order unchanged. Do not accept a visually correct frame as proof that the omission is safe. Restore the barrier and record its source, destination, <a class="glossary-term" id="glossary-origin-18-0035" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0035&amp;lesson=18#term-access-mask" aria-label="Look up access mask in the graphics glossary" title="Look up access mask in the graphics glossary">access masks</a> and layouts in plain language.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep the execution route stable</h2>
+<p>Lessons 19 to 26 will replace the diagnostic shader calculation while retaining the storage-image <a class="glossary-term" id="glossary-origin-18-0036" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0036&amp;lesson=18#term-descriptor" aria-label="Look up descriptor in the graphics glossary" title="Look up descriptor in the graphics glossary">descriptor</a>, dispatch, compute-to-copy dependency and presentation route. That stability is useful. If the <a class="glossary-term" id="glossary-origin-18-0037" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0037&amp;lesson=18#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> or <a class="glossary-term" id="glossary-origin-18-0038" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0038&amp;lesson=18#term-intersection-shader" aria-label="Look up intersection shader in the graphics glossary" title="Look up intersection shader in the graphics glossary">intersection shader</a> later produces a wrong pixel, we can compare it with a presentation path already demonstrated by the gradient. Lesson 19 now supplies camera state and reconstructs the same primary <a class="glossary-term" id="glossary-origin-18-0039" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0039&amp;lesson=18#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> that Part I calculated in <a class="glossary-term" id="glossary-origin-18-0040" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0040&amp;lesson=18#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a>.</p>
+</section>
+
+<p>The first Part II image is now visible, but its content is only a diagnostic coordinate field. That modest result establishes more than an unexplained <a class="glossary-term" id="glossary-origin-18-0041" href="glossary.html?from=lesson-18.html%23glossary-origin-18-0041&amp;lesson=18#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> would: one descriptor reaches one shader, workgroups cover the image, edge invocations are rejected, writes become visible to a copy and presentation waits for completion. We can now change what each invocation computes without changing how its answer reaches the screen.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-17.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">17. Descriptors Give the Shader Its Resources</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-19.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">19. The Camera Becomes Shader Input</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+
+</body>
+</html>

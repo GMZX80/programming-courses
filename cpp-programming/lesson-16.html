@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Managing the availability of identifiers">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 16 - 16. Scope and Extent</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-16.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 16 - 16. Scope and Extent">
+    <meta property="og:description" content="Managing the availability of identifiers">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-16.html">
+</head>
+<body class="course-page lesson-page" data-lesson="16" data-art-pattern="grid" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 16 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html" aria-current="page"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 16</span>
+            </nav>
+            <p class="hero-kicker">Lesson 16 · 24 lesson course</p>
+            <h1 id="lesson-title">16. Scope and Extent</h1>
+            <p class="lesson-deck">Managing the availability of identifiers</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-15.html">← Lesson 15</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-17.html">Lesson 17 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>68 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-16-address" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-address&amp;lesson=16#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-16-api" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-api&amp;lesson=16#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-16-assignment" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-assignment&amp;lesson=16#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-16-block" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-block&amp;lesson=16#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-16-buffer" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-buffer&amp;lesson=16#term-buffer" aria-label="Look up buffer in the programming glossary" title="Look up buffer in the programming glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-16-bug" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-bug&amp;lesson=16#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-16-byte" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-byte&amp;lesson=16#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">byte</a> <a class="glossary-chip" id="glossary-panel-origin-16-cpp" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-cpp&amp;lesson=16#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-16-reference" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-reference&amp;lesson=16#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-16-class" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-class&amp;lesson=16#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-16-code" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-code&amp;lesson=16#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-16-compile-time" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-compile-time&amp;lesson=16#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-16-compiler" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-compiler&amp;lesson=16#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-16-concept" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-concept&amp;lesson=16#term-concept" aria-label="Look up concept in the programming glossary" title="Look up concept in the programming glossary">concept</a> <a class="glossary-chip" id="glossary-panel-origin-16-condition" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-condition&amp;lesson=16#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-16-container" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-container&amp;lesson=16#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-16-correctness" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-correctness&amp;lesson=16#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-16-dangling-pointer" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-dangling-pointer&amp;lesson=16#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling pointer</a> <a class="glossary-chip" id="glossary-panel-origin-16-declaration" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-declaration&amp;lesson=16#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-16-definition" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-definition&amp;lesson=16#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-16-destructor" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-destructor&amp;lesson=16#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructor</a> <a class="glossary-chip" id="glossary-panel-origin-16-encapsulation" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-encapsulation&amp;lesson=16#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">encapsulation</a> <a class="glossary-chip" id="glossary-panel-origin-16-expression" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-expression&amp;lesson=16#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-16-final-specifier" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-final-specifier&amp;lesson=16#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-16-function" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-function&amp;lesson=16#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-16-heap" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-heap&amp;lesson=16#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a> <a class="glossary-chip" id="glossary-panel-origin-16-identifier" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-identifier&amp;lesson=16#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-16-include-directive" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-include-directive&amp;lesson=16#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-16-initialisation" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-initialisation&amp;lesson=16#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-16-interface" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-interface&amp;lesson=16#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-16-invariant" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-invariant&amp;lesson=16#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-16-iterator" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-iterator&amp;lesson=16#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterator</a> <a class="glossary-chip" id="glossary-panel-origin-16-iterator-invalidation" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-iterator-invalidation&amp;lesson=16#term-iterator-invalidation" aria-label="Look up iterator invalidation in the programming glossary" title="Look up iterator invalidation in the programming glossary">iterator invalidation</a> <a class="glossary-chip" id="glossary-panel-origin-16-library" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-library&amp;lesson=16#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> <a class="glossary-chip" id="glossary-panel-origin-16-lifetime" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-lifetime&amp;lesson=16#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-16-lifetime-extension" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-lifetime-extension&amp;lesson=16#term-lifetime-extension" aria-label="Look up lifetime extension in the programming glossary" title="Look up lifetime extension in the programming glossary">lifetime extension</a> <a class="glossary-chip" id="glossary-panel-origin-16-local-variable" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-local-variable&amp;lesson=16#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local variable</a> <a class="glossary-chip" id="glossary-panel-origin-16-main-function" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-main-function&amp;lesson=16#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-16-memory-allocation" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-memory-allocation&amp;lesson=16#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">memory allocation</a> <a class="glossary-chip" id="glossary-panel-origin-16-memory-leak" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-memory-leak&amp;lesson=16#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">memory leak</a> <a class="glossary-chip" id="glossary-panel-origin-16-move-assignment" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-move-assignment&amp;lesson=16#term-move-assignment" aria-label="Look up move assignment in the programming glossary" title="Look up move assignment in the programming glossary">move assignment</a> <a class="glossary-chip" id="glossary-panel-origin-16-namespace" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-namespace&amp;lesson=16#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">namespace</a> <a class="glossary-chip" id="glossary-panel-origin-16-null-pointer" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-null-pointer&amp;lesson=16#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> <a class="glossary-chip" id="glossary-panel-origin-16-object" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-object&amp;lesson=16#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-16-operator" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-operator&amp;lesson=16#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-16-ownership" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-ownership&amp;lesson=16#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-16-pointer" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-pointer&amp;lesson=16#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-16-program" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-program&amp;lesson=16#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-16-raii" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-raii&amp;lesson=16#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-chip" id="glossary-panel-origin-16-raw-pointer" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-raw-pointer&amp;lesson=16#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointer</a> <a class="glossary-chip" id="glossary-panel-origin-16-resource" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-resource&amp;lesson=16#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">resource</a> <a class="glossary-chip" id="glossary-panel-origin-16-return-type" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-return-type&amp;lesson=16#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> <a class="glossary-chip" id="glossary-panel-origin-16-return-value" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-return-value&amp;lesson=16#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-16-runtime" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-runtime&amp;lesson=16#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-16-scope" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-scope&amp;lesson=16#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-16-smart-pointer" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-smart-pointer&amp;lesson=16#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> <a class="glossary-chip" id="glossary-panel-origin-16-stack" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-stack&amp;lesson=16#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> <a class="glossary-chip" id="glossary-panel-origin-16-state" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-state&amp;lesson=16#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-16-static-keyword" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-static-keyword&amp;lesson=16#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> <a class="glossary-chip" id="glossary-panel-origin-16-static-local-variable" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-static-local-variable&amp;lesson=16#term-static-local-variable" aria-label="Look up static local variable in the programming glossary" title="Look up static local variable in the programming glossary">static local variable</a> <a class="glossary-chip" id="glossary-panel-origin-16-static-storage-duration" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-static-storage-duration&amp;lesson=16#term-static-storage-duration" aria-label="Look up static storage duration in the programming glossary" title="Look up static storage duration in the programming glossary">static storage duration</a> <a class="glossary-chip" id="glossary-panel-origin-16-storage-duration" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-storage-duration&amp;lesson=16#term-storage-duration" aria-label="Look up storage duration in the programming glossary" title="Look up storage duration in the programming glossary">storage duration</a> <a class="glossary-chip" id="glossary-panel-origin-16-string" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-string&amp;lesson=16#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-16-string-view" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-string-view&amp;lesson=16#term-string-view" aria-label="Look up string_view in the programming glossary" title="Look up string_view in the programming glossary">string_view</a> <a class="glossary-chip" id="glossary-panel-origin-16-type" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-type&amp;lesson=16#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-16-value" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-value&amp;lesson=16#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-16-variable" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-variable&amp;lesson=16#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-16-vector" href="glossary.html?from=lesson-16.html%23glossary-panel-origin-16-vector&amp;lesson=16#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<p>&nbsp;</p>
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="16">
+<img src="assets/images/lesson-art/lesson-16-scope-extent.png" alt="Abstract nested scope boundaries crossed by lifetime threads that begin and end independently." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p>&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-16-0001" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0001&amp;lesson=16#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">Scope</a> vs <a class="glossary-term" id="glossary-origin-16-0002" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0002&amp;lesson=16#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">Extent</a> (Lifetime) in <a class="glossary-term" id="glossary-origin-16-0003" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0003&amp;lesson=16#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a></h2>
+
+<p>
+When you can explicitly manage memory, a big challenge is aligning <em>when names are visible</em> with <em>when the data actually exists</em>.
+Two questions nail it:
+</p>
+
+<ul>
+  <li><strong>Scope</strong> — <em>Is this <a class="glossary-term" id="glossary-origin-16-0004" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0004&amp;lesson=16#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> (name) visible here in the <a class="glossary-term" id="glossary-origin-16-0005" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0005&amp;lesson=16#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">source code</a>?</em></li>
+  <li><strong>Extent (Lifetime)</strong> — <em>Does this state (<a class="glossary-term" id="glossary-origin-16-0006" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0006&amp;lesson=16#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a>) exist at <a class="glossary-term" id="glossary-origin-16-0007" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0007&amp;lesson=16#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> now?</em></li>
+</ul>
+
+<p>
+<strong>Scope</strong> is a <a class="glossary-term" id="glossary-origin-16-0008" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0008&amp;lesson=16#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile-time</a> visibility rule (what <a class="glossary-term" id="glossary-origin-16-0009" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0009&amp;lesson=16#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifiers</a> you may refer to in a region of code).
+<strong>Extent</strong> is a runtime property (how long an object lives in memory). They are often discussed together, but they are <strong>different <a class="glossary-term" id="glossary-origin-16-0010" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0010&amp;lesson=16#term-concept" aria-label="Look up concept in the programming glossary" title="Look up concept in the programming glossary">concepts</a></strong>.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Draw Scope vs Extent</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste a <a class="glossary-term" id="glossary-origin-16-0011" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0011&amp;lesson=16#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a>/<a class="glossary-term" id="glossary-origin-16-0012" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0012&amp;lesson=16#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a>; ask AI to sketch a two-row timeline: <em>name scope</em> (where visible) vs <em>object lifetime</em> (when it exists).</li>
+      <li>Have AI flag mismatches (name visible but object dead, or object alive but only reachable via a <a class="glossary-term" id="glossary-origin-16-0013" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0013&amp;lesson=16#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a>).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) Scope: Where a Name Is Visible</h3>
+
+<ul>
+  <li><strong><a class="glossary-term" id="glossary-origin-16-0014" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0014&amp;lesson=16#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">Block</a>/lexical scope</strong> — inside <code>{ ... }</code> (including function bodies).</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-16-0015" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0015&amp;lesson=16#term-namespace" aria-label="Look up namespace in the programming glossary" title="Look up namespace in the programming glossary">Namespace</a> scope</strong> — names <a class="glossary-term" id="glossary-origin-16-0016" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0016&amp;lesson=16#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declared</a> at file/namespace level.</li>
+  <li><strong>Class scope</strong> — members inside a class/struct.</li>
+</ul>
+
+<pre><code class="language-cpp">void g() {
+    int x = 42;     // 'x' is visible only inside g() (scope)
+}
+// x;              // ❌ out of scope (name not visible)
+</code></pre>
+
+<p>
+Scope does <em>not</em> say anything about memory layout or lifetime; it’s a compile-time visibility/lookup rule.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Reduce Scope</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to shrink <a class="glossary-term" id="glossary-origin-16-0017" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0017&amp;lesson=16#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> scope to the smallest block where used (reduces <a class="glossary-term" id="glossary-origin-16-0018" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0018&amp;lesson=16#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bugs</a> and shadowing).</li>
+      <li>Have AI rename shadowed identifiers and add <code>const</code> where applicable.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) Extent (Lifetime): When the Object Exists</h3>
+
+<ul>
+  <li><strong>Automatic (<a class="glossary-term" id="glossary-origin-16-0019" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0019&amp;lesson=16#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a>)</strong> — created when its block is entered; destroyed when the block ends.</li>
+  <li><strong><a class="glossary-term" id="glossary-origin-16-0020" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0020&amp;lesson=16#term-static-storage-duration" aria-label="Look up static storage duration in the programming glossary" title="Look up static storage duration in the programming glossary">Static storage</a></strong> — exists for the whole <a class="glossary-term" id="glossary-origin-16-0021" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0021&amp;lesson=16#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> run (<code>global</code> objects and <code>static</code> locals).</li>
+  <li><strong>Thread storage</strong> — exists for the lifetime of a thread (<code>thread_local</code>).</li>
+  <li><strong>Dynamic (<a class="glossary-term" id="glossary-origin-16-0022" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0022&amp;lesson=16#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a>)</strong> — exists from <code>new</code>/<code>make_unique</code> until <code>delete</code>/<a class="glossary-term" id="glossary-origin-16-0023" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0023&amp;lesson=16#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">owner</a> <a class="glossary-term" id="glossary-origin-16-0024" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0024&amp;lesson=16#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destruction</a>.</li>
+</ul>
+
+<pre><code class="language-cpp">// Automatic lifetime (stack)
+void f() {
+    int a = 1;  // a exists only during f()
+}
+
+// Static lifetime (for entire program)
+static int s = 0;
+int g = 0;     // also static storage duration
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pick the Right Lifetime</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Describe usage/ownership; ask AI to recommend automatic vs <a class="glossary-term" id="glossary-origin-16-0025" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0025&amp;lesson=16#term-static-keyword" aria-label="Look up static in the programming glossary" title="Look up static in the programming glossary">static</a> vs dynamic, with pros/cons.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>3) Scope ≠ Extent — They Often Diverge</h3>
+
+<p><strong>A) Object outlives the name</strong> (extent &gt; scope):</p>
+<pre><code class="language-cpp">std::unique_ptr&lt;int&gt; make() {
+    auto p = std::make_unique&lt;int&gt;(42); // 'p' name is scoped to this function
+    return p;                            // object continues to live with the caller
+} // name 'p' goes out of scope; object lifetime continues (owned by return)
+</code></pre>
+
+<p><strong>B) Name remains, object is gone</strong> (scope &gt; extent) — the dangerous case:</p>
+<pre><code class="language-cpp">int* d;
+{
+    int local = 7;  // automatic lifetime ends at block end
+    d = &amp;local;     // ❌ d now points to an object that will soon die
+}                    // local destroyed here
+//*d = 9;           // ❌ dangling pointer (name 'd' is in scope, object is dead)
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Find <a class="glossary-term" id="glossary-origin-16-0026" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0026&amp;lesson=16#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">Dangling</a> Risks</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to mark every pointer/reference and the lifetime of the bound object; flag uses after destruction or move.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) <a class="glossary-term" id="glossary-origin-16-0027" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0027&amp;lesson=16#term-static-local-variable" aria-label="Look up static local variable in the programming glossary" title="Look up static local variable in the programming glossary">Static Local</a>: Narrow Scope, Long Extent</h3>
+
+<pre><code class="language-cpp">int counter() {
+    static int c = 0;  // scope: only inside counter(), extent: entire program
+    return ++c;
+}
+</code></pre>
+
+<p>Great for memoisation/stateful helpers, but remember the object persists across calls (and threads!).</p>
+
+<hr>
+
+<h3>5) Heap + Pointer: Wide Extent, Limited Scope Name</h3>
+
+<pre><code class="language-cpp">void build() {
+    int* p = new int(5); // dynamic lifetime (until delete)
+    // ...
+    delete p;            // MUST free; better: use smart pointers instead
+}
+</code></pre>
+
+<p>The name <code>p</code> is scoped to <code>build()</code>, but the object’s lifetime is whatever you decide; mismatches cause <a class="glossary-term" id="glossary-origin-16-0028" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0028&amp;lesson=16#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">leaks</a>/dangling.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Scope-Bound <a class="glossary-term" id="glossary-origin-16-0029" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0029&amp;lesson=16#term-resource" aria-label="Look up resource in the programming glossary" title="Look up resource in the programming glossary">Resource</a> Management</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to convert <a class="glossary-term" id="glossary-origin-16-0030" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0030&amp;lesson=16#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointers</a> to <code>std::unique_ptr</code>/<code>std::vector</code> so extent ends when scope ends (<a class="glossary-term" id="glossary-origin-16-0031" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0031&amp;lesson=16#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a>).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>6) Reference/Pointer Bugs Caused by Lifetime Mismatch</h3>
+
+<ul>
+  <li><strong>Return reference to a local:</strong> scope of the name at caller is fine; object is dead.</li>
+</ul>
+
+<pre><code class="language-cpp">int&amp; bad() {
+    int x = 42;
+    return x;      // ❌ returns reference to destroyed object
+}
+</code></pre>
+
+<ul>
+  <li><strong>Lambda capturing a dead reference:</strong></li>
+</ul>
+
+<pre><code class="language-cpp">std::function&lt;void()&gt; f;
+{
+    int v = 1;
+    f = [&amp;v]{ std::cout &lt;&lt; v &lt;&lt; '\n'; }; // captures by reference
+} // v destroyed
+// f(); // ❌ dangling reference
+</code></pre>
+
+<ul>
+  <li><strong>Thread uses reference to a local after it ends:</strong></li>
+</ul>
+
+<pre><code class="language-cpp">void tfunc(const int&amp; r);
+std::thread t;
+{
+    int local = 5;
+    t = std::thread(tfunc, std::cref(local)); // uses local by reference
+} // local destroyed
+t.join(); // ❌ thread reads dead object
+</code></pre>
+
+<p><strong>Fixes:</strong> capture/forward by <a class="glossary-term" id="glossary-origin-16-0032" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0032&amp;lesson=16#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> when needed; keep objects alive longer than users; or join before scope ends.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Capture Audit</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Paste your lambda/thread code; ask AI to convert unsafe reference captures to value captures or extend lifetime correctly.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>7) Borrowing Views: <code>string_view</code>, <a class="glossary-term" id="glossary-origin-16-0033" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0033&amp;lesson=16#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterators</a>, and <a class="glossary-term" id="glossary-origin-16-0034" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0034&amp;lesson=16#term-iterator-invalidation" aria-label="Look up iterator invalidation in the programming glossary" title="Look up iterator invalidation in the programming glossary">invalidation</a></h3>
+
+<p>
+Non-owning <a class="glossary-term" id="glossary-origin-16-0035" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0035&amp;lesson=16#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a> borrow another object’s storage. Their extent must not outlive the owner’s extent.
+</p>
+
+<pre><code class="language-cpp">std::string_view sv;
+{
+    std::string s = "hello";
+    sv = s;                  // sv refers to s's buffer
+} // s destroyed
+// sv.data();               // ❌ dangling view
+</code></pre>
+
+<p>Likewise, <a class="glossary-term" id="glossary-origin-16-0036" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0036&amp;lesson=16#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vectors</a> can reallocate on growth; iterators/pointers become invalid.</p>
+
+<pre><code class="language-cpp">std::vector&lt;int&gt; v{1,2,3};
+int* p = v.data();
+v.push_back(4);              // may reallocate
+// *p;                       // ❌ p may be invalid now
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Choose Owning/Non-Owning Types</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI to replace fragile borrows with owning copies where needed, or to add <code>reserve()</code> to prevent reallocation.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) <a class="glossary-term" id="glossary-origin-16-0037" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0037&amp;lesson=16#term-lifetime-extension" aria-label="Look up lifetime extension in the programming glossary" title="Look up lifetime extension in the programming glossary">Lifetime Extension</a> &amp; Moves (subtle but useful)</h3>
+
+<ul>
+  <li><strong>Const reference binding to a temporary</strong> extends the temporary’s lifetime to the reference’s scope:</li>
+</ul>
+
+<pre><code class="language-cpp">const std::string&amp; r = std::string("hi"); // OK: temporary lives as long as 'r'
+</code></pre>
+
+<ul>
+  <li><strong>Moves</strong> transfer resources; the moved-from object remains in scope but its <em><a class="glossary-term" id="glossary-origin-16-0038" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0038&amp;lesson=16#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariants</a> only</em> are guaranteed (don’t use its old data):</li>
+</ul>
+
+<pre><code class="language-cpp">std::string a = "data";
+std::string b = std::move(a); // a is valid but unspecified content afterwards
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Spot Subtle Lifetime Rules</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Ask AI whether a reference extends a temporary’s lifetime and whether a moved-from object is safe to use in a given way.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>9) Worked Examples — Align Scope with Extent</h3>
+
+<p><strong>A) Return by value (tie lifetime to owner):</strong></p>
+<pre><code class="language-cpp">std::string make_name() {           // value returned; lifetime owned by caller
+    std::string s = "Graham";
+    return s; // NRVO/move
+}
+</code></pre>
+
+<p><strong>B) Scope-bound resources with RAII:</strong></p>
+<pre><code class="language-cpp">struct File {
+    FILE* f{};
+    explicit File(const char* path): f(std::fopen(path, "r")) {}
+    ~File(){ if (f) std::fclose(f); }
+    File(const File&amp;) = delete;
+    File&amp; operator=(const File&amp;) = delete;
+};
+void read() { File in("data.txt"); /* use in.f */ } // closed at scope end
+</code></pre>
+
+<p><strong>C) Safe lambda capture:</strong></p>
+<pre><code class="language-cpp">auto f = [name = std::string("Alice")] { std::cout &lt;&lt; name &lt;&lt; '\n'; };
+// capture by value ensures extent covers use
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Generate RAII Wrappers</summary>
+<ul style="margin:0 0 0 18px; padding:0;">
+      <li>Provide your resource <a class="glossary-term" id="glossary-origin-16-0039" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0039&amp;lesson=16#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a>; ask AI to emit a small RAII wrapper (ctor acquires, dtor releases) with copy/move policy.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>10) Mini Exercise — Diagnose the Mismatch</h3>
+
+<p><strong>1)</strong> What’s wrong? Fix it.</p>
+<pre><code class="language-cpp">const std::string&amp; ref() {
+    return std::string("temp");    // ❌ returns ref to a temporary (dies at return)
+}
+</code></pre>
+
+<p><em>Target:</em> return by value <code>std::string</code>, or keep a static (understand consequences), or store in the caller.</p>
+
+<p><strong>2)</strong> Why can this crash?</p>
+<pre><code class="language-cpp">std::string_view head_of_file() {
+    std::string s = load();
+    return std::string_view{s}.substr(0, 10); // ❌ view to destroyed string
+}
+</code></pre>
+
+<p><em>Target:</em> return <code>std::string</code>, or make the owner live longer, or pass the view within the same scope.</p>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li><strong>Scope</strong> = where a <em>name</em> is visible; <strong>Extent</strong> = when the <em>object</em> exists.</li>
+  <li>Treat them separately; align them deliberately (prefer RAII so extent ends when scope ends).</li>
+  <li>Beware names that outlive objects (dangling) and objects that outlive names (leaks/stranded resources).</li>
+  <li>Use value semantics &amp; <a class="glossary-term" id="glossary-origin-16-0040" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0040&amp;lesson=16#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointers</a> to encode ownership; capture by value when crossing scopes/threads.</li>
+  <li>Non-owning views/iterators are fragile: never outlive their owners; watch reallocation invalidation.</li>
+</ul>
+
+<p><em>Takeaway:</em> expert C++ design makes scope and extent <strong>obvious</strong> from types and structure — that’s how we prevent memory bugs.</p>
+        
+<!-- lesson-enhancement:16:start -->
+<section class="lesson-enhancement" id="scope-storage-and-lifetime">
+<p class="lesson-enhancement-kicker">Advanced perspective: visibility does not establish validity</p>
+<h2>A name in scope is not evidence that an object may still be used</h2>
+<p>Braces make the ordinary <a class="glossary-term" id="glossary-origin-16-0041" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0041&amp;lesson=16#term-local-variable" aria-label="Look up local variable in the programming glossary" title="Look up local variable in the programming glossary">local variable</a> look simple. Its name becomes available after the declaration, its object is created during execution, and both cease to matter when control leaves the block. From that familiar case it is tempting to make one timeline do all the work. C++ requires three.</p>
+<p>Scope governs where a declaration can contribute a name to lookup. <a class="glossary-term" id="glossary-origin-16-0042" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0042&amp;lesson=16#term-storage-duration" aria-label="Look up storage duration in the programming glossary" title="Look up storage duration in the programming glossary">Storage duration</a> classifies the broad rules under which storage is retained. Lifetime is the interval during which an object exists, with its type and usable state, in some storage. These facts often align, but <a class="glossary-term" id="glossary-origin-16-0043" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0043&amp;lesson=16#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> depends upon knowing when they do not. A <a class="glossary-term" id="glossary-origin-16-0044" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0044&amp;lesson=16#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> accepting a name proves that lookup succeeded. It does not prove that a pointer or reference reached through that name still designates a live object.</p>
+<table>
+<thead><tr><th>Concept</th><th>The question it answers</th><th>Evidence it does not provide</th></tr></thead>
+<tbody>
+<tr><td>Scope</td><td>Can this declaration's name be found from this source location?</td><td>That an object reached through the name is alive.</td></tr>
+<tr><td>Storage duration</td><td>Which language rules govern how long the storage persists?</td><td>That an object currently occupies and may be used in that storage.</td></tr>
+<tr><td>Lifetime</td><td>Has this particular object's lifetime begun, and has it not yet ended?</td><td>That a convenient name for the object is visible here.</td></tr>
+<tr><td>Access validity</td><td>Does this pointer, reference, iterator or view still designate the intended live object or range?</td><td>Ownership, merely because an <a class="glossary-term" id="glossary-origin-16-0045" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0045&amp;lesson=16#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> can be followed.</td></tr>
+</tbody>
+</table>
+<p>The language defines automatic, static, thread and dynamic storage durations. A call stack and a heap are common implementation mechanisms, but they are not <a class="glossary-term" id="glossary-origin-16-0046" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0046&amp;lesson=16#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definitions</a> of these language properties. Saying "it is on the stack" may help to sketch an implementation. It cannot replace the reasoning needed to decide whether a particular access is valid.</p>
+
+<h3>Separate the declaration, the name and the object</h3>
+<p>A declaration can introduce a name and arrange for an object to be created, yet name and object are not interchangeable. Shadowing demonstrates the first separation. An inner declaration can hide an outer name while the outer object remains alive. When the inner block ends, lookup can find the outer declaration again; the outer object has not been destroyed and recreated merely because its name was hidden.</p>
+<p>A stored pointer demonstrates the more dangerous separation. The pointer variable can remain alive and its own name can remain in scope after the pointee's lifetime has ended. We may still <a class="glossary-term" id="glossary-origin-16-0047" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0047&amp;lesson=16#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assign</a> <code>nullptr</code> to that pointer or destroy the pointer itself. What we may not do is treat the expired address as access to the former object. The living pointer object and the dead pointee are two different lifetime claims.</p>
+<table>
+<thead><tr><th>Observation</th><th>What it proves</th><th>What must still be checked</th></tr></thead>
+<tbody>
+<tr><td>The identifier compiles here.</td><td>A suitable declaration participated in lookup.</td><td>Any object reached indirectly is alive and the access is permitted.</td></tr>
+<tr><td>The address value is non-null.</td><td>The stored representation is not the <a class="glossary-term" id="glossary-origin-16-0048" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0048&amp;lesson=16#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> value.</td><td>It designates a live object of the required kind.</td></tr>
+<tr><td>The <a class="glossary-term" id="glossary-origin-16-0049" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0049&amp;lesson=16#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">bytes</a> have not visibly changed.</td><td>Only an observation about the current run and inspection.</td><td>An object lifetime still authorises reading those bytes as that object.</td></tr>
+<tr><td>The owner remains alive.</td><td>The owner object exists.</td><td>No operation has released, replaced or invalidated the borrowed target.</td></tr>
+</tbody>
+</table>
+
+<h3>Returning a value creates a result, not a reference to an expired local</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+std::string make_label(int level) {
+    std::string label{"Level "};
+    label += std::to_string(level);
+    return label;
+}
+
+int main() {
+    const std::string label{make_label(7)};
+    std::cout &lt;&lt; label &lt;&lt; '\n';
+}
+</code></pre>
+<p>Inside <code>make_label</code>, the local name <code>label</code> can be used only within its scope after its declaration. Its local object is alive until the function completes. The return statement supplies a <code>std::string</code> value to <a class="glossary-term" id="glossary-origin-16-0050" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0050&amp;lesson=16#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialise</a> the caller's result. Named <a class="glossary-term" id="glossary-origin-16-0051" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0051&amp;lesson=16#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> optimisation may construct the result directly in its destination; when that optimisation does not apply, the language's move or copy rules still produce a value result. None of these cases gives the caller a reference to the destroyed local object.</p>
+<table>
+<thead><tr><th>Stage</th><th>Name available</th><th>Live object</th><th>Permitted conclusion</th></tr></thead>
+<tbody>
+<tr><td>While building the text</td><td>The callee's <code>label</code>.</td><td>The callee's local result candidate.</td><td>It may be modified inside <code>make_label</code>.</td></tr>
+<tr><td>During value return</td><td>The return <a class="glossary-term" id="glossary-origin-16-0052" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0052&amp;lesson=16#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> names the candidate.</td><td>A value result is produced, with permitted elision or transfer.</td><td>The <a class="glossary-term" id="glossary-origin-16-0053" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0053&amp;lesson=16#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> returns a <code>std::string</code>, not an alias.</td></tr>
+<tr><td>After the call</td><td>The caller's different <code>label</code>.</td><td>The caller's <code>const std::string</code> is alive.</td><td>Printing it is independent of the callee's expired local name.</td></tr>
+</tbody>
+</table>
+<p>Change the <a class="glossary-term" id="glossary-origin-16-0054" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0054&amp;lesson=16#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> to <code>const std::string&amp;</code> and the reasoning fails. A reference value can escape the function, but the local <a class="glossary-term" id="glossary-origin-16-0055" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0055&amp;lesson=16#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a>'s lifetime still ends. The caller can possess a perfectly visible reference variable that refers to no live string. Visibility has survived; validity has not.</p>
+
+<h3>Every borrower carries a lifetime dependency</h3>
+<p>Raw pointers, <a class="glossary-term" id="glossary-origin-16-0056" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0056&amp;lesson=16#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a>, iterators, <code>std::string_view</code> and spans can express non-owning access. Their low cost is not a lifetime guarantee. A borrower is usable only while the relevant owner keeps the target alive and while no operation invalidates the access relationship. The second <a class="glossary-term" id="glossary-origin-16-0057" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0057&amp;lesson=16#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> matters because destruction is not the only invalidating event.</p>
+<table>
+<thead><tr><th>Borrowed relationship</th><th>Event to inspect</th><th>Why owner existence is insufficient</th></tr></thead>
+<tbody>
+<tr><td>Pointer or iterator into a <code>vector</code></td><td>An operation that reallocates its storage.</td><td>The vector remains alive while its elements move to a different <a class="glossary-term" id="glossary-origin-16-0058" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0058&amp;lesson=16#term-memory-allocation" aria-label="Look up memory allocation in the programming glossary" title="Look up memory allocation in the programming glossary">allocation</a>.</td></tr>
+<tr><td><code>string_view</code> into a string</td><td>String destruction or a modifying operation that invalidates the viewed characters.</td><td>The view owns neither the string nor its character storage.</td></tr>
+<tr><td>Reference captured by a callable</td><td>Invocation after the referred object has ended.</td><td>The callable object can outlive the environment from which it borrowed.</td></tr>
+<tr><td>Reference used by another thread</td><td>The owner's destruction before the <a class="glossary-term" id="glossary-origin-16-0059" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0059&amp;lesson=16#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> threaded use.</td><td>A running or joinable activity does not extend an unrelated local object's lifetime.</td></tr>
+</tbody>
+</table>
+<p><code>reserve()</code> can sometimes make a particular sequence of vector insertions avoid reallocation, but it is not a general repair for an undocumented borrow. The required capacity, every relevant mutation and the duration of the borrow must still be known. If the relationship crosses an interface or is stored for later use, express the lifetime expectation plainly enough that a caller can satisfy it.</p>
+
+<h3>Temporary lifetime extension is precise, not contagious</h3>
+<p>Binding a suitable reference directly to a temporary can extend that temporary's lifetime in specified initialisation contexts. This is a rule attached to the particular binding, not a property that travels through any later reference, return statement or view. Returning a reference to a temporary created inside the function does not make the caller's reference a new extension. Constructing a non-owning view from temporary storage does not turn the view into an owner.</p>
+<p>When reviewing such code, do not ask only whether a <code>const</code> reference appears. Identify the full expression that created the temporary, the exact reference initialisation, and the point at which the applicable rule ends the temporary's lifetime. If that chain cannot be shown, the reassuring keyword is doing more emotional work than technical work.</p>
+
+<h3>A move changes state or ownership, not the fact that the source object lives</h3>
+<p>After a valid move, the source object has not gone out of scope and its lifetime has not automatically ended. Its state is determined by the type's contract. Standard-<a class="glossary-term" id="glossary-origin-16-0060" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0060&amp;lesson=16#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> types are generally required to remain valid but may have an otherwise unspecified state after being moved from, unless a stronger guarantee applies. User-defined types must be judged by their own valid operations and invariants.</p>
+<p>This distinction prevents two opposite mistakes. Assuming that the old value remains unchanged can lead to faulty use. Assuming that the object is dead can lead to skipping required destruction or denying operations that its contract permits, such as assignment of a new value. Mark the move as a state transition. Do not mark it as an imaginary closing brace.</p>
+
+<h3>Long lifetime does not justify wide visibility</h3>
+<p>A static local provides the useful counterexample to the idea that scope and lifetime should always be widened together. Its name remains local to the function, while the object has static storage duration and persists across calls after initialisation. This can <a class="glossary-term" id="glossary-origin-16-0061" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0061&amp;lesson=16#term-encapsulation" aria-label="Look up encapsulation in the programming glossary" title="Look up encapsulation in the programming glossary">encapsulate</a> persistent state, but it also means that one call can affect the next. Narrow scope limits where the name can be used; it does not make the stored state transient.</p>
+<p>Dynamic storage provides another separation. A local owning smart pointer may transfer ownership to a caller before its own name disappears. The allocated object's lifetime continues because another owner accepts the responsibility, not because the original local name somehow remains in scope. Conversely, losing the last owning handle without release can strand a resource even though no useful name remains. No name is not the same as no object.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> demand three timelines and an invalidation ledger</summary>
+<div>
+<p>Ask an AI system to draw separate lines for each declaration's scope, each object's lifetime and each relevant storage interval. Add arrows for every pointer, reference, iterator, view and captured alias. Then mark construction, move, reallocation, release and destruction at the exact program points where they occur. If the explanation uses "out of scope" for every fault, it has collapsed distinct causes into one convenient phrase.</p>
+<p>Require the proposed repair to state what changed. Returning by value creates an owned result. Capturing by value gives the callable its own state. Joining before block exit constrains the user's operation to the owner's lifetime. Merely moving a declaration to a wider scope may silence one failure while creating unnecessary shared state. The mechanism decides whether the repair is sound.</p>
+</div>
+</details>
+
+<h3>Transfer task: prove the final use, not just the final name</h3>
+<p>Consider a function that creates a <code>std::vector&lt;std::string&gt;</code>, stores a <code>std::string_view</code> of its first element, moves the vector into a result object, appends another element to that result, and finally prints through the saved view. Draw the scope of each name, the lifetime of the vector and strings, and the period during which the view is valid.</p>
+<p>You are not being asked to guess whether one run happens to print the expected characters. Identify the first operation whose specified effects might invalidate the view, and explain why the continued existence of the result vector does or does not settle the matter. Then redesign the interface in two ways: once by returning an owning string value, and once by keeping a non-owning view whose permitted lifetime is confined to a caller-controlled operation. State the cost and contract of each answer.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>For this trace I shall call the creating function's local vector <code>values</code>, its saved view <code>firstView</code> and its local result object <code>result</code>. Each name has block scope from its declaration to the function's closing brace. Moving from <code>values</code> does not end that scope: the name remains usable for the operations permitted on a moved-from vector. The strings are elements reached through the <a class="glossary-term" id="glossary-origin-16-0062" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0062&amp;lesson=16#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> rather than independent local names. If the result is returned, a caller's receiving name has a different scope and denotes the returned object; it does not extend the scope of any name in the completed call.</p>
+<table>
+<thead><tr><th>Program point</th><th>Owner and object state</th><th>View judgement</th></tr></thead>
+<tbody>
+<tr><td>After the local vector and its first string are created</td><td>The local vector owns a live first <code>std::string</code> and its character storage.</td><td>A view made from that string may inspect its current character range.</td></tr>
+<tr><td>After ordinary allocator-preserving move construction of the result</td><td>The result owns the transferred vector storage. The moved-from vector object remains alive but no longer owns those elements.</td><td>The transfer of the vector storage does not by itself invalidate the saved access; it now reaches an element owned by the result.</td></tr>
+<tr><td>While appending another element</td><td>The result remains alive, but the append may reallocate its element storage.</td><td>If reallocation occurs, the strings are relocated and the old view must be treated as invalid. If no reallocation occurs and the first string is not modified, the view remains valid.</td></tr>
+<tr><td>At the final print</td><td>The result vector still exists.</td><td>Printing is permitted only if the preceding operations are known not to have invalidated the view.</td></tr>
+</tbody>
+</table>
+<p>Under the ordinary move construction described above, the append is the first operation that might invalidate the view. Continued existence of the result vector does not settle the matter because an owner can remain alive while an operation relocates its elements. Capacity, the append and the representation of the contained strings are part of the evidence.</p>
+<p>If the actual code uses an allocator-mismatched move construction or a <a class="glossary-term" id="glossary-origin-16-0063" href="glossary.html?from=lesson-16.html%23glossary-origin-16-0063&amp;lesson=16#term-move-assignment" aria-label="Look up move assignment in the programming glossary" title="Look up move assignment in the programming glossary">move assignment</a> that must move elements individually, the move itself needs a separate invalidation analysis and may be the earlier risk. The answer depends on the operation actually written; the word <em>move</em> is not enough.</p>
+<p>The owning redesign copies the required text into the result before any later vector mutation:</p>
+<pre><code class="language-cpp">struct BuildResult {
+    std::vector&lt;std::string&gt; values;
+    std::string firstValue;
+};
+
+BuildResult build_values() {
+    std::vector&lt;std::string&gt; values{"first"};
+
+    BuildResult result;
+    result.firstValue = values.front();
+    result.values = std::move(values);
+    result.values.emplace_back("second");
+    return result;
+}
+</code></pre>
+<p><code>firstValue</code> owns its characters, so vector reallocation and destruction do not invalidate it. The cost is a copy proportional to the number of characters, with a possible allocation. The contract is simple: the caller receives an independent string value.</p>
+<p>The non-owning redesign finishes mutations first, then creates and consumes the view inside one caller-controlled operation:</p>
+<pre><code class="language-cpp">void print_first(const std::vector&lt;std::string&gt;&amp; values) {
+    if (values.empty()) {
+        return;
+    }
+
+    const std::string_view first{values.front()};
+    std::cout &lt;&lt; first &lt;&lt; '\n';
+}
+
+void finish_and_print(std::vector&lt;std::string&gt;&amp; result) {
+    result.emplace_back("second");
+    print_first(result);
+}
+</code></pre>
+<p>This version performs no character copy and normally needs no allocation for the view. Its contract is narrower: the vector and first string must remain alive and unmodified for the complete call, no concurrent operation may invalidate them, and <code>print_first</code> must not store the view. The caller controls that interval by completing the append before the call. Cheap borrowing is useful only because the lifetime boundary is now visible.</p>
+</div>
+</details>
+
+<p>Scope is a rule about names. Lifetime is a rule about objects. Storage duration is a rule about storage. Safe C++ begins when those statements remain separate in the explanation and are deliberately connected in the design.</p>
+</section>
+<!-- lesson-enhancement:16:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-15.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">15. Heap Memory</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-17.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">17. The Array</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

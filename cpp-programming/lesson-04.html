@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How to alter the flow of a program through jumps">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 04 - 4. The Function</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-04.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 04 - 4. The Function">
+    <meta property="og:description" content="How to alter the flow of a program through jumps">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-04.html">
+</head>
+<body class="course-page lesson-page" data-lesson="04" data-art-pattern="flow" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 04 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html" aria-current="page"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 04</span>
+            </nav>
+            <p class="hero-kicker">Lesson 04 · 24 lesson course</p>
+            <h1 id="lesson-title">4. The Function</h1>
+            <p class="lesson-deck">How to alter the flow of a program through jumps</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-03.html">← Lesson 03</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-05.html">Lesson 05 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>55 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-04-abstraction" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-abstraction&amp;lesson=04#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> <a class="glossary-chip" id="glossary-panel-origin-04-algorithm" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-algorithm&amp;lesson=04#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-04-api" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-api&amp;lesson=04#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-04-argument" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-argument&amp;lesson=04#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-04-benchmark" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-benchmark&amp;lesson=04#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">benchmark</a> <a class="glossary-chip" id="glossary-panel-origin-04-block" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-block&amp;lesson=04#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-04-bug" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-bug&amp;lesson=04#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-04-byte" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-byte&amp;lesson=04#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">byte</a> <a class="glossary-chip" id="glossary-panel-origin-04-cpp" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-cpp&amp;lesson=04#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-04-reference" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-reference&amp;lesson=04#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-04-cache" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-cache&amp;lesson=04#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> <a class="glossary-chip" id="glossary-panel-origin-04-call-site" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-call-site&amp;lesson=04#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> <a class="glossary-chip" id="glossary-panel-origin-04-code" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-code&amp;lesson=04#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-04-compile-time" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-compile-time&amp;lesson=04#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-04-compiler" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-compiler&amp;lesson=04#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-04-compiler-optimisation" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-compiler-optimisation&amp;lesson=04#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">compiler optimisation</a> <a class="glossary-chip" id="glossary-panel-origin-04-container" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-container&amp;lesson=04#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-04-correctness" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-correctness&amp;lesson=04#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-04-debugging" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-debugging&amp;lesson=04#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-04-declaration" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-declaration&amp;lesson=04#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-04-definition" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-definition&amp;lesson=04#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-04-expression" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-expression&amp;lesson=04#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-04-final-specifier" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-final-specifier&amp;lesson=04#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-04-function" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-function&amp;lesson=04#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-04-function-call" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-function-call&amp;lesson=04#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function call</a> <a class="glossary-chip" id="glossary-panel-origin-04-function-signature" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-function-signature&amp;lesson=04#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-04-identifier" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-identifier&amp;lesson=04#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-04-include-directive" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-include-directive&amp;lesson=04#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-04-initialisation" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-initialisation&amp;lesson=04#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-04-inline" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-inline&amp;lesson=04#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a> <a class="glossary-chip" id="glossary-panel-origin-04-input-output" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-input-output&amp;lesson=04#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">input/output</a> <a class="glossary-chip" id="glossary-panel-origin-04-integer" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-integer&amp;lesson=04#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-04-interface" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-interface&amp;lesson=04#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-04-iterator" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-iterator&amp;lesson=04#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterator</a> <a class="glossary-chip" id="glossary-panel-origin-04-lifetime" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-lifetime&amp;lesson=04#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-04-macro" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-macro&amp;lesson=04#term-macro" aria-label="Look up macro in the programming glossary" title="Look up macro in the programming glossary">macro</a> <a class="glossary-chip" id="glossary-panel-origin-04-main-function" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-main-function&amp;lesson=04#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-04-object" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-object&amp;lesson=04#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-04-ownership" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-ownership&amp;lesson=04#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-04-parameter" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-parameter&amp;lesson=04#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-04-pass-by-value" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-pass-by-value&amp;lesson=04#term-pass-by-value" aria-label="Look up pass by value in the programming glossary" title="Look up pass by value in the programming glossary">pass by value</a> <a class="glossary-chip" id="glossary-panel-origin-04-postcondition" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-postcondition&amp;lesson=04#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postcondition</a> <a class="glossary-chip" id="glossary-panel-origin-04-precondition" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-precondition&amp;lesson=04#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">precondition</a> <a class="glossary-chip" id="glossary-panel-origin-04-program" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-program&amp;lesson=04#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-04-return-type" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-return-type&amp;lesson=04#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> <a class="glossary-chip" id="glossary-panel-origin-04-return-value" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-return-value&amp;lesson=04#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-04-scope" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-scope&amp;lesson=04#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-04-side-effect" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-side-effect&amp;lesson=04#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side effect</a> <a class="glossary-chip" id="glossary-panel-origin-04-state" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-state&amp;lesson=04#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-04-string" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-string&amp;lesson=04#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-04-testing" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-testing&amp;lesson=04#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-04-type" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-type&amp;lesson=04#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-04-using-directive" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-using-directive&amp;lesson=04#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">using directive</a> <a class="glossary-chip" id="glossary-panel-origin-04-value" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-value&amp;lesson=04#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-04-vector" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-vector&amp;lesson=04#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="04">
+<img src="assets/images/lesson-art/lesson-04-function.png" alt="Abstract modular chamber transforming several input streams into one clear output." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+<p>&nbsp;</p>
+
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-04-0001" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0001&amp;lesson=04#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">Functions</a> in <a class="glossary-term" id="glossary-origin-04-0002" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0002&amp;lesson=04#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a></h2>
+<p>Functions are structured entities that allow programmers to <strong>logically organise</strong> their <a class="glossary-term" id="glossary-origin-04-0003" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0003&amp;lesson=04#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a>. Instead of rewriting the same sequence many times, you can group it into a function and reuse it with different input <a class="glossary-term" id="glossary-origin-04-0004" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0004&amp;lesson=04#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">values</a>. This improves clarity, maintainability, and <a class="glossary-term" id="glossary-origin-04-0005" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0005&amp;lesson=04#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a>.</p>
+<hr>
+<h3>1) Why Use Functions?</h3>
+<p>Imagine you need to sort numbers at multiple points in your <a class="glossary-term" id="glossary-origin-04-0006" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0006&amp;lesson=04#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a>. Instead of copying the sorting code everywhere, you write it once in a function. Then, whenever you need sorting, you <strong>call</strong> that function. The function does not change; only the <em><a class="glossary-term" id="glossary-origin-04-0007" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0007&amp;lesson=04#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameters</a></em> (data you give it) change.</p>
+<pre><code class="language-cpp">// Function to sort a vector of integers
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+void sort_numbers(vector&lt;int&gt;&amp; nums) {
+    sort(nums.begin(), nums.end());
+}
+
+int main() {
+    vector&lt;int&gt; a = {4, 1, 3};
+    vector&lt;int&gt; b = {10, -2, 7};
+
+    sort_numbers(a); // reuse the function
+    sort_numbers(b);
+
+    for (int n : b) cout &lt;&lt; n &lt;&lt; " ";
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Spot Repetition</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Paste repeated code into AI and ask: “Can this be turned into a function?”</li>
+                    <li>AI can extract reusable code into parameterised functions with minimal effort.</li>
+                    <li>It can also propose <a class="glossary-term" id="glossary-origin-04-0008" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0008&amp;lesson=04#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signatures</a> that best match your use cases.</li>
+                </ul>
+</details>
+<hr>
+<h3>2) Features of a Function</h3>
+<ul>
+    <li>An <strong><a class="glossary-term" id="glossary-origin-04-0009" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0009&amp;lesson=04#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a></strong> (name) is required so you can call it.</li>
+    <li><strong>Parameters</strong> must have known memory size at <a class="glossary-term" id="glossary-origin-04-0010" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0010&amp;lesson=04#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a>.</li>
+    <li>The <strong><a class="glossary-term" id="glossary-origin-04-0011" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0011&amp;lesson=04#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a></strong> defines what value is given back.</li>
+    <li><strong>Curly brackets</strong> enclose the body of the function.</li>
+    <li>Anything <a class="glossary-term" id="glossary-origin-04-0012" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0012&amp;lesson=04#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declared</a> inside ceases to exist when the function returns.</li>
+    <li>Functions may <strong>return nothing</strong> (<code>void</code>).</li>
+</ul>
+<pre><code class="language-cpp">// Example: Function with parameters and return value
+int add(int x, int y) {
+    return x + y;
+}
+
+int main() {
+    int sum = add(3, 5);
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Naming &amp; Contracts</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>AI can propose clearer function names (<code>calculateAverage</code> vs <code>avg</code>).</li>
+                    <li>Ask it to draft docstrings or comments explaining parameters and <a class="glossary-term" id="glossary-origin-04-0013" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0013&amp;lesson=04#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return values</a>.</li>
+                    <li>Generate function contracts (<a class="glossary-term" id="glossary-origin-04-0014" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0014&amp;lesson=04#term-precondition" aria-label="Look up precondition in the programming glossary" title="Look up precondition in the programming glossary">preconditions</a>/<a class="glossary-term" id="glossary-origin-04-0015" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0015&amp;lesson=04#term-postcondition" aria-label="Look up postcondition in the programming glossary" title="Look up postcondition in the programming glossary">postconditions</a>) to reduce misuse.</li>
+                </ul>
+</details>
+<hr>
+<h3>3) Functions, Memory, and Performance</h3>
+<p>Some novices avoid functions, fearing “extra jumps” in memory will hurt performance. This is a mistake. <a class="glossary-term" id="glossary-origin-04-0016" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0016&amp;lesson=04#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">Compilers</a> <a class="glossary-term" id="glossary-origin-04-0017" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0017&amp;lesson=04#term-compiler-optimisation" aria-label="Look up compiler optimisation in the programming glossary" title="Look up compiler optimisation in the programming glossary">optimise</a> <a class="glossary-term" id="glossary-origin-04-0018" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0018&amp;lesson=04#term-function-call" aria-label="Look up function call in the programming glossary" title="Look up function call in the programming glossary">function calls</a> aggressively (inlining, <a class="glossary-term" id="glossary-origin-04-0019" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0019&amp;lesson=04#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a>-aware placement). As a beginner, you should <strong>always use functions when they make sense</strong>. Organised, correct code matters more than micro-performance tweaks.</p>
+<pre><code class="language-cpp">// Compiler often inlines short functions
+inline int square(int x) {
+    return x * x;
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Function &amp; Performance</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI: “Would this function likely be inlined by the compiler?”</li>
+                    <li>Have AI generate <a class="glossary-term" id="glossary-origin-04-0020" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0020&amp;lesson=04#term-benchmark" aria-label="Look up benchmark in the programming glossary" title="Look up benchmark in the programming glossary">benchmarks</a> comparing function call vs <a class="glossary-term" id="glossary-origin-04-0021" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0021&amp;lesson=04#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a> vs <a class="glossary-term" id="glossary-origin-04-0022" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0022&amp;lesson=04#term-macro" aria-label="Look up macro in the programming glossary" title="Look up macro in the programming glossary">macro</a>.</li>
+                    <li>AI can explain compiler optimisation reports in plain English.</li>
+                </ul>
+</details>
+<hr>
+<h3>4) Guidelines for Writing Functions</h3>
+<ul>
+    <li>Do <strong>one</strong> clearly <a class="glossary-term" id="glossary-origin-04-0023" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0023&amp;lesson=04#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">defined</a> task.</li>
+    <li>Be no more than ~15 lines if possible (shorter is usually clearer).</li>
+    <li>Use meaningful names; comments should explain parameters/returns.</li>
+</ul>
+<pre><code class="language-cpp">// Clear, single-purpose function
+double calculate_average(const vector&lt;int&gt;&amp; scores) {
+    int sum = 0;
+    for (int s : scores) sum += s;
+    return static_cast&lt;double&gt;(sum) / scores.size();
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Refactor Into Functions</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Paste long functions into AI; ask it to split into smaller, single-purpose ones.</li>
+                    <li>AI can check if functions are too long, too nested, or doing more than one task.</li>
+                    <li>Ask AI for alternative function signatures (e.g., return <code>std::optional&lt;T&gt;</code> when a failure is possible).</li>
+                </ul>
+</details>
+<hr>
+<h3>5) Functions That Return Nothing</h3>
+<pre><code class="language-cpp">void print_message(const string&amp; msg) {
+    cout &lt;&lt; msg &lt;&lt; endl;
+}
+</code></pre>
+<p>Sometimes you want an effect (printing, logging) rather than a returned value. Such functions use the <code>void</code> return type.</p>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Effects vs Values</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI if your function should return a value instead of being <code>void</code>.</li>
+                    <li>AI can suggest splitting effectful code (<a class="glossary-term" id="glossary-origin-04-0024" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0024&amp;lesson=04#term-input-output" aria-label="Look up input/output in the programming glossary" title="Look up input/output in the programming glossary">I/O</a>, logging) from pure computations.</li>
+                </ul>
+</details>
+<hr>
+<h3>Summary</h3>
+<p>Functions are the building <a class="glossary-term" id="glossary-origin-04-0025" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0025&amp;lesson=04#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">blocks</a> of structured programming. They provide reuse, clarity, and correctness. A good function:</p>
+<ul>
+    <li>Has a clear name.</li>
+    <li>Does one task.</li>
+    <li>Has well-defined parameters and return type.</li>
+    <li>Does not exceed its <a class="glossary-term" id="glossary-origin-04-0026" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0026&amp;lesson=04#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a>.</li>
+</ul>
+<p>Use functions freely; let the compiler optimise. Focus on correctness and clarity, not premature performance worries.</p>
+<h3>Mini Exercise — Design, Refactor, and <a class="glossary-term" id="glossary-origin-04-0027" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0027&amp;lesson=04#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">Debug</a> Functions</h3>
+
+<p><em>Goal:</em> practise extracting reusable functions, choosing clear signatures (parameters/returns), avoiding <a class="glossary-term" id="glossary-origin-04-0028" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0028&amp;lesson=04#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-term" id="glossary-origin-04-0029" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0029&amp;lesson=04#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bugs</a>, separating effects (I/O) from pure computation, and adding simple contracts.</p>
+
+<ol style="list-style-type: upper-alpha;">
+  <li>
+    <strong>Extract &amp; generalise</strong><br>
+    The code repeats the same idea twice. Refactor into <code>compute_average</code> and <code>print_report</code> with clear names and <a class="glossary-term" id="glossary-origin-04-0030" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0030&amp;lesson=04#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a>.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector&lt;int&gt; maths   = {70, 60, 80};
+    vector&lt;int&gt; physics = {10, -2, 7};
+
+    int sum1 = 0; for (int s : maths)   sum1 += s;
+    double avg1 = sum1 / 3.0;
+    cout &lt;&lt; "Average: " &lt;&lt; avg1 &lt;&lt; (avg1 &gt;= 50 ? " PASS" : " FAIL") &lt;&lt; "\n";
+
+    int sum2 = 0; for (int s : physics) sum2 += s;
+    double avg2 = sum2 / 3.0;
+    cout &lt;&lt; "Average: " &lt;&lt; avg2 &lt;&lt; (avg2 &gt;= 50 ? " PASS" : " FAIL") &lt;&lt; "\n";
+}
+</code></pre>
+    <ul>
+      <li>Propose function signatures (parameters as <code>const &amp;</code> where appropriate; return a value, not print).</li>
+      <li>Ensure functions do one task each (compute vs print).</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Pick the right parameter passing</strong><br>
+    Choose an <a class="glossary-term" id="glossary-origin-04-0031" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0031&amp;lesson=04#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> for “top-k sorted” that is clear and efficient. Fix the version below.
+    <pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+// ❌ Copies input twice and sorts whole vector unnecessarily
+std::vector&lt;int&gt; top_k_sorted(std::vector&lt;int&gt; data, std::size_t k) {
+    std::sort(data.begin(), data.end());             // O(n log n)
+    if (k &gt; data.size()) k = data.size();
+    return std::vector&lt;int&gt;(data.end()-k, data.end());
+}
+</code></pre>
+    <ul>
+      <li>Refactor to take input by <code>const std::vector&lt;int&gt;&amp;</code> and avoid full sort (hint: <code>std::partial_sort_copy</code> or <code>nth_element</code>).</li>
+      <li>Explain your parameter/return choices in one sentence.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Fix lifetime &amp; <a class="glossary-term" id="glossary-origin-04-0032" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0032&amp;lesson=04#term-side-effect" aria-label="Look up side effect in the programming glossary" title="Look up side effect in the programming glossary">side-effects</a></strong><br>
+    Identify the bug and rewrite safely.
+    <pre><code class="language-cpp">const int&amp; largest_ref(const std::vector&lt;int&gt;&amp; v) {
+    int max = v.empty() ? 0 : v.front();
+    for (int x : v) if (x &gt; max) max = x;
+    return max; // ❌ returns reference to a dead local
+}
+</code></pre>
+    <ul>
+      <li>Return by value (<code>int</code>) or return an <a class="glossary-term" id="glossary-origin-04-0033" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0033&amp;lesson=04#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterator</a> (<code>std::vector&lt;int&gt;::const_iterator</code>) instead.</li>
+      <li>Briefly justify: when is returning by value preferable?</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Separate effects from values</strong><br>
+    Split this function into a pure calculator and a printer; then write a tiny <a class="glossary-term" id="glossary-origin-04-0034" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0034&amp;lesson=04#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">test</a> for the pure function.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+double avg_and_print(const std::vector&lt;int&gt;&amp; scores) { // ❌ mixes concerns
+    long long sum = 0; for (int s : scores) sum += s;
+    double avg = scores.empty() ? 0.0 : (double)sum / scores.size();
+    std::cout &lt;&lt; "Avg: " &lt;&lt; avg &lt;&lt; "\n";
+    return avg;
+}
+</code></pre>
+    <ul>
+      <li>Create <code>double calculate_average(const std::vector&lt;int&gt;&amp;)</code> and <code>void print_average(double)</code>.</li>
+      <li>Show a <a class="glossary-term" id="glossary-origin-04-0035" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0035&amp;lesson=04#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> that uses the value without printing.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Add a simple contract (preconditions)</strong><br>
+    Guard against empty inputs without crashing or dividing by zero.
+    <pre><code class="language-cpp">#include &lt;optional&gt;
+// Write: std::optional&lt;double&gt; safe_average(const std::vector&lt;int&gt;&amp; scores);
+// Return empty optional if scores.size() == 0; otherwise the average.
+</code></pre>
+    <ul>
+      <li>Show example usage (if/has_value) and a fallback message when there’s no data.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Function vs macro (correctness first)</strong><br>
+    Explain the difference when <code>i == 2</code>. Which is safer and why?
+    <pre><code class="language-cpp">#define SQUARE(x) ((x) * (x))
+inline int square(int x) { return x * x; }
+
+int i = 2;
+int a = SQUARE(i++); // ?
+int b = square(i++); // ?
+</code></pre>
+    <ul>
+      <li><a class="glossary-term" id="glossary-origin-04-0036" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0036&amp;lesson=04#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">State</a> the <a class="glossary-term" id="glossary-origin-04-0037" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0037&amp;lesson=04#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> value of <code>i</code>, <code>a</code>, and <code>b</code> in your environment, and why macros can be hazardous here.</li>
+    </ul>
+  </li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Function Coach</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li><strong>Extract helper:</strong> “Find repeated code and propose function boundaries + signatures.”</li>
+      <li><strong>API reviewer:</strong> “Should params be by value, <code>const&amp;</code>, or non-const <code>&amp;</code>? What should this return?”</li>
+      <li><strong>Contract writer:</strong> “Draft pre/postconditions and edge-case tests for each function.”</li>
+      <li><strong>Perf explainer:</strong> “Would the compiler likely inline this? Any needless copies?”</li>
+    </ul>
+</details>
+        
+<!-- lesson-enhancement:04:start -->
+<section class="lesson-enhancement" id="functions-as-contracts">
+<p class="lesson-enhancement-kicker">Lesson 4 extension · judge the boundary, not the line count</p>
+<h2>What has the function promised, and to whom?</h2>
+<p>Repeated code is easy to see, so removing repetition is often the first reason given for creating a function. It is a useful reason, but it is not the deciding one. Six repeated lines may belong to one operation, two different operations or no useful operation at all. Extracting them changes the shape of the program; it does not prove that the new shape is better.</p>
+<p>The stronger test is the boundary the function creates. Its name and declaration should tell the caller what operation is available, which values must cross into it and what comes back. Its body must then honour that account. If a reader has to inspect the body to discover a hidden input or an unexpected change elsewhere in the program, the boundary has concealed a responsibility rather than controlled it.</p>
+<p>This is why a function is more than a convenient <a class="glossary-term" id="glossary-origin-04-0038" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0038&amp;lesson=04#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> for statements. It is the first practical unit in which we can separate a claim from the evidence for that claim. The declaration makes the claim. The body supplies the evidence. Tests can then ask whether the evidence holds for the cases the function promises to handle.</p>
+
+<h3>A call is a sequence, not a mysterious jump</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int square(int value) {
+    return value * value;
+}
+
+int main() {
+    const int sideLength{6};
+    const int area{square(sideLength)};
+    std::cout &lt;&lt; "Area: " &lt;&lt; area &lt;&lt; '\n';
+}
+</code></pre>
+<p>Begin at the call site. In <code>square(sideLength)</code>, <code>sideLength</code> is the <a class="glossary-term" id="glossary-origin-04-0039" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0039&amp;lesson=04#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-term" id="glossary-origin-04-0040" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0040&amp;lesson=04#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> and its value is 6. The call creates and initialises the parameter <a class="glossary-term" id="glossary-origin-04-0041" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0041&amp;lesson=04#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <code>value</code> for this invocation. Because this parameter is passed by value, <code>value</code> is a separate object. Changing it inside <code>square</code> would not change <code>sideLength</code>.</p>
+<p>Control enters the function body. The expression <code>value * value</code> produces 36, and the <code>return</code> statement supplies that value to the call expression. The expression <code>square(sideLength)</code> therefore has the value 36, which is used to <a class="glossary-term" id="glossary-origin-04-0042" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0042&amp;lesson=04#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialise</a> <code>area</code>. The parameter <code>value</code> reaches the end of its lifetime when this call finishes, and control continues in <code>main</code>.</p>
+<table>
+<thead><tr><th>Stage</th><th>Control location</th><th>What can be established</th></tr></thead>
+<tbody>
+<tr><td>Before the call</td><td><code>main</code></td><td><code>sideLength</code> has the value 6</td></tr>
+<tr><td>Parameter initialisation</td><td>Entering <code>square</code></td><td>A new <code>value</code> object is initialised with 6</td></tr>
+<tr><td>Return expression</td><td><code>square</code></td><td><code>value * value</code> produces 36</td></tr>
+<tr><td>After the call</td><td><code>main</code></td><td>The returned 36 initialises <code>area</code></td></tr>
+</tbody>
+</table>
+<p>The distinction between an argument and a parameter is not decorative terminology. The argument belongs to the caller. The parameter belongs to this invocation of the function. That distinction becomes essential when the course reaches copying, <a class="glossary-term" id="glossary-origin-04-0043" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0043&amp;lesson=04#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> and <a class="glossary-term" id="glossary-origin-04-0044" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0044&amp;lesson=04#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a>. If the two words are treated as synonyms now, later explanations will have no precise way to say which object changed.</p>
+<p>A returned value is also not printed output. <code>square</code> returns an <a class="glossary-term" id="glossary-origin-04-0045" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0045&amp;lesson=04#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> to its caller and performs no input/output. <code>main</code> chooses to print the result. Replace the console with a graphical <a class="glossary-term" id="glossary-origin-04-0046" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0046&amp;lesson=04#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> or a test, and the calculation remains usable because it has not acquired a printing side effect. Seeing 36 on the screen proves that some output occurred; it does not, by itself, prove that <code>square</code> returned 36 to its caller.</p>
+<p>A compiler may inline a small function, but that implementation decision does not alter this semantic account. We still reason about an argument, a parameter, a body and a returned value. Performance is measured against a real program and a real requirement. It is not guessed from the mere presence of a function call.</p>
+
+<h3>Read the declaration as a partial contract</h3>
+<p>A declaration gives important evidence, but not the whole contract. For a small function, force the missing parts into the open with three questions:</p>
+<ol>
+<li>What must be true about the arguments when the function is called?</li>
+<li>What value or observable effect does the function promise?</li>
+<li>Which state, if any, is the function permitted to change?</li>
+</ol>
+<p>Now test <code>square</code> against the type it advertises. On an implementation where a 32-bit <code>int</code> has a maximum value of 2,147,483,647, the mathematical result of <code>square(50'000)</code> is 2,500,000,000. The call is well-formed, but the signed multiplication overflows and C++ does not define the resulting behaviour. Successful compilation has proved the syntax and type checks that the compiler performed. It has not proved that the operation is valid for every <code>int</code> value.</p>
+<p>The real design must therefore decide what the accepted input range is and how failure is represented. The function could reject an unsuitable value, use a wider checked representation or return an explicit failure. Until that decision is made, <code>int square(int value)</code> describes the types crossing the boundary but overstates the safe mathematical operation.</p>
+<p>Return types require the same care. Suppose <code>save_game()</code> returns <code>void</code>. That does not mean nothing happened. The function may open a file, write <a class="glossary-term" id="glossary-origin-04-0047" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0047&amp;lesson=04#term-byte" aria-label="Look up byte in the programming glossary" title="Look up byte in the programming glossary">bytes</a> and update error state before returning no value. Those observable effects belong in its contract. Conversely, a function named <code>calculate_score()</code> that also resets the current level carries out an action its name and return type fail to admit. The caller needs to know what changes, not merely what comes back.</p>
+
+<h3>Coherence matters more than a preferred size</h3>
+<p>Line count is a proxy. A six-line function can mix unrelated decisions, while a longer function can still express one coherent operation at one level of <a class="glossary-term" id="glossary-origin-04-0048" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0048&amp;lesson=04#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a>. I want to know whether the function has one responsibility that can be named, tested and understood without keeping the whole program in mind.</p>
+<p><code>process()</code> tells me almost nothing. <code>load_level_description()</code> makes a narrower claim, but a better name cannot rescue a confused body. If the only honest name contains "and", that is evidence that two responsibilities may have been forced together. It is evidence, not an automatic splitting rule: the body and its effects decide the matter.</p>
+<p>Every split creates an interface. A parameter carries an admitted dependency into the function. A return value or side effect carries an outcome out. A read from a hidden global is still a dependency, only one that the declaration has failed to reveal. Creating the greatest possible number of tiny functions would merely replace one kind of confusion with another. The useful decomposition is the one that makes important decisions visible and keeps each boundary truthful.</p>
+<p>Generated code should be judged in this order as well. Begin with the proposed declarations. Do the boundaries match the responsibilities in the problem? Can every required input and every permitted mutation be accounted for? Is the promised result testable? Only then inspect the bodies. Elegant statements behind the wrong interface still produce the wrong design.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> make the proposed boundary account for every read and write</summary>
+<div>
+<p>An AI tool notices that six lines appear twice and offers <code>do_lines(a, b, c, d, e)</code>. Repetition explains why the tool looked there; it does not justify the extraction. Write down what each of the five values means, every global the body reads, every object it changes and every result a caller can observe. Then compare that account with both original locations. If the two copies serve different responsibilities, a shared helper would remove duplicated syntax while creating a dishonest interface. Rejecting that helper is not resistance to reuse. It is a decision that the proposed boundary has failed its evidence test.</p>
+</div>
+</details>
+
+<h3>Test the two sides of the boundary</h3>
+<p>Choose one function declaration from the lesson. Without opening its body, write four short statements: what the caller supplies, which parameter objects are initialised, what value or effect is promised, and what other state may change. Then inspect every read, write and <code>return</code> in the body. Mark each place where the implementation requires more than the declaration and surrounding explanation admitted.</p>
+<p>Finish by tracing two calls to <code>square</code>, first with 6 and then with 7. Give each invocation its own parameter object and follow each returned value to its destination. If your trace cannot distinguish the caller's argument from the callee's parameter, repair the vocabulary before adding more code. The purpose of the exercise is not to recite four function parts. It is to show that the claim at the boundary and the work inside it agree.</p>
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>I shall use <code>int square(int value)</code>. The declaration establishes that one value suitable for initialising an <code>int</code> parameter crosses into the call and that an <code>int</code> value comes back. The surrounding explanation gives that returned value its intended meaning: the mathematical square of the supplied value.</p>
+<ol>
+<li>The caller supplies one argument expression whose value can initialise an <code>int</code>.</li>
+<li>Each invocation creates and initialises its own by-<a class="glossary-term" id="glossary-origin-04-0049" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0049&amp;lesson=04#term-pass-by-value" aria-label="Look up pass by value in the programming glossary" title="Look up pass by value in the programming glossary">value parameter</a> object called <code>value</code>.</li>
+<li>The function promises to return the square when that result is representable by <code>int</code>.</li>
+<li>The declaration alone does not prove the absence of hidden state changes. Inspection of this body shows that it changes no external object and performs no input or output.</li>
+</ol>
+<p>The body reads <code>value</code> twice in <code>value * value</code>, writes no object and returns the product. It also exposes a requirement that the short declaration does not express: the multiplication result must fit in <code>int</code>. On a common implementation with a 32-bit <code>int</code>, values from -46,340 to 46,340 have representable squares. Portable code must derive its limit from the implementation rather than assuming that width.</p>
+<table>
+<thead><tr><th>Invocation</th><th>Argument</th><th>Parameter object</th><th>Returned value</th><th>Destination</th></tr></thead>
+<tbody>
+<tr><td><code>square(6)</code></td><td>The literal produces 6.</td><td>A new <code>value</code> is initialised with 6.</td><td><code>6 * 6</code> produces 36.</td><td>For example, <code>const int first{square(6)};</code> initialises <code>first</code> with 36.</td></tr>
+<tr><td><code>square(7)</code></td><td>The literal produces 7.</td><td>A different <code>value</code> is initialised with 7.</td><td><code>7 * 7</code> produces 49.</td><td>For example, <code>const int second{square(7)};</code> initialises <code>second</code> with 49.</td></tr>
+</tbody>
+</table>
+<p>The first parameter object reaches the end of its lifetime when its call finishes. The second call creates another parameter object with the same name. Neither call changes an object belonging to the caller, because the parameter is passed by value.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:04:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-03.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">03. Declaring &amp; Assigning Variables</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-05.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">05. The Main Function</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

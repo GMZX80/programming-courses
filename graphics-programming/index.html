@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Twenty-eight practical lessons that construct a ray tracer by hand and then implement the same responsibilities through Vulkan.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Ray Tracing and Vulkan</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page course-index-page ray-index-page">
+<a class="skip-link" href="#lesson-index">Skip to lesson index</a>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">28 lessons available</div>
+    <a class="header-index-link" href="index.html">All lessons</a>
+</header>
+<main>
+    <section class="index-hero" aria-labelledby="course-title"><div class="index-hero-inner">
+        <section class="course-declaration" aria-labelledby="course-declaration-title">
+            <p class="course-declaration-label" id="course-declaration-title">The purpose of this course</p>
+            <div class="course-declaration-copy"><p>A rendered image can look convincing while leaving its maker unable to explain why a particular surface was visible, why a shadow began where it did or how much work the computer performed to produce one pixel. That is not sufficient. In these lessons we construct the camera, intersections, light transport and sampling ourselves. Canvas will display the pixels, but it will not decide their values for us. By the end, every colour in the scene has an inspectable route back through a ray, a hit and a bounded calculation.</p><p>The Vulkan half then preserves those questions while changing where and how they are executed. Resources, descriptors, commands, synchronisation, acceleration structures and shader stages are introduced as explicit responsibilities. Hardware traversal may answer a geometric query; it does not decide what the query meant.</p></div>
+        </section>
+        <div><p class="index-kicker">Static Carnival</p><h1 id="course-title">Graphics Programming</h1><p class="index-deck">Twenty-eight lessons: construct ray tracing by hand, then implement the same contracts through Vulkan.</p><p class="index-hero-actions"><a class="course-button course-button-primary" href="lesson-01.html">Begin Lesson 01</a><a class="course-button course-button-secondary" href="lesson-15.html">Begin Vulkan Part II</a><a class="course-button course-button-secondary" href="glossary.html">Open graphics glossary</a></p></div>
+        <aside class="index-summary" aria-label="Course summary"><span class="index-summary-label">Complete sequence</span><strong>28</strong><p>Fourteen manual ray-tracing lessons followed by fourteen Vulkan implementation lessons. The calculations remain inspectable across both halves.</p></aside>
+    </div></section>
+    <div class="index-main" id="lesson-index"><section class="lesson-group" aria-labelledby="group-01">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 01-03</p><h2 id="group-01">Rays and the camera</h2></div><p>Begin with the raster, construct the ray and give every pixel a camera direction.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-01.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 01</span>
+                <h3>A Pixel Is a Question</h3>
+                <p>Begin with the image itself and ask what one pixel is expected to know.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-02.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 02</span>
+                <h3>Vectors, Points and Rays</h3>
+                <p>Construct the small collection of vector operations on which every later image depends.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-03.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 03</span>
+                <h3>The Pinhole Camera</h3>
+                <p>Give every pixel a direction and turn a rectangular grid into a view of three-dimensional space.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section><section class="lesson-group" aria-labelledby="group-04">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 04-06</p><h2 id="group-04">Hits and surfaces</h2></div><p>Solve intersections, retain the nearest answer and describe the surface that was found.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-04.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 04</span>
+                <h3>Meeting a Sphere</h3>
+                <p>Solve the first visibility equation and produce a shape without asking the canvas to draw one.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-05.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 05</span>
+                <h3>The Closest Visible Surface</h3>
+                <p>Add several objects and make a deliberate decision about which result a pixel is permitted to keep.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-06.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 06</span>
+                <h3>Normals and Surface Materials</h3>
+                <p>Separate the fact that a ray hit something from the information required to shade that surface.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section><section class="lesson-group" aria-labelledby="group-07">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 07-10</p><h2 id="group-07">Light and geometry</h2></div><p>Illuminate the hit, test visibility and extend the scene from spheres to planes and triangles.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-07.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 07</span>
+                <h3>Light Is Another Direction</h3>
+                <p>Compute local illumination from the directions that meet at a surface point.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-08.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 08</span>
+                <h3>Shadows and the Problem of Zero</h3>
+                <p>Send a second ray towards the light and handle the numerical boundary at the surface that created it.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-09.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 09</span>
+                <h3>Planes and a Grounded Scene</h3>
+                <p>Introduce a second geometric primitive without changing the contract used by the rest of the renderer.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-10.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 10</span>
+                <h3>Triangles and Barycentric Coordinates</h3>
+                <p>Intersect the primitive from which general meshes are assembled and retain enough information to interpolate it.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section><section class="lesson-group" aria-labelledby="group-11">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 11-14</p><h2 id="group-11">Secondary rays and the complete scene</h2></div><p>Add reflection, transmission and sampling before measuring the completed renderer.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-11.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 11</span>
+                <h3>Reflection and Recursive Rays</h3>
+                <p>Let one successful intersection create another ray and place a strict limit on the resulting computation.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-12.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 12</span>
+                <h3>Refraction, Fresnel and Glass</h3>
+                <p>Transmit a ray across a boundary while keeping its direction, medium and possible reflection under control.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-13.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 13</span>
+                <h3>Sampling the Pixel</h3>
+                <p>Replace the convenient centre of a pixel with several measured positions and explain what the extra work buys.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-14.html">
+                <span class="lesson-card-number">PART I &middot; LESSON 14</span>
+                <h3>A Complete Scene and the Cost of Seeing It</h3>
+                <p>Assemble the renderer, measure the questions it asks and prepare the model that the Vulkan half will implement.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section><section class="lesson-group" aria-labelledby="group-15">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 15-18</p><h2 id="group-15">Vulkan foundations</h2></div><p>Create the device, resources, pipeline and synchronised dispatch that can own a shader-written image.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-15.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 15</span>
+                <h3>Vulkan Makes Ownership Explicit</h3>
+                <p>Create the API, device and queue relationships that will own every later resource and command.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-16.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 16</span>
+                <h3>An Image Is Not Its Memory</h3>
+                <p>Create the storage image, obtain its requirements and bind memory before asking a shader to write a pixel.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-17.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 17</span>
+                <h3>Descriptors Give the Shader Its Resources</h3>
+                <p>Make the storage image visible to a compute shader through one inspectable descriptor and pipeline layout.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-18.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 18</span>
+                <h3>Record, Dispatch, Synchronise, Present</h3>
+                <p>Turn a pipeline and its resources into ordered device work whose image writes are made visible before presentation.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section><section class="lesson-group" aria-labelledby="group-19">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 19-21</p><h2 id="group-19">The manual tracer in compute</h2></div><p>Transfer camera rays, sphere intersections and closest-hit traversal into independent compute invocations.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-19.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 19</span>
+                <h3>The Camera Becomes Shader Input</h3>
+                <p>Transfer the Part I camera basis into shader-visible data and reconstruct one primary direction per invocation.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-20.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 20</span>
+                <h3>Move the Sphere Equation into Compute</h3>
+                <p>Run the known ray-sphere equation independently for many pixels without changing its roots or accepted interval.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-21.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 21</span>
+                <h3>Scene Buffers and the Closest Hit</h3>
+                <p>Place several sphere records in shader storage and retain the smallest valid intersection independently of record order.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section><section class="lesson-group" aria-labelledby="group-22">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 22-26</p><h2 id="group-22">Completing the compute renderer</h2></div><p>Add materials, light, shadows, triangles, secondary-ray state and sample accumulation without hiding their contracts.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-22.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 22</span>
+                <h3>Materials and Light Remain Separate</h3>
+                <p>Carry hit records and material indices into local lighting without allowing resource layout to merge their responsibilities.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-23.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 23</span>
+                <h3>A Shadow Query Is Still Bounded</h3>
+                <p>Implement any-hit visibility in the compute shader and preserve the interval from surface to light.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-24.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 24</span>
+                <h3>Triangles Need a Buffer Contract</h3>
+                <p>Store vertices and indices with an explicit shader layout before applying the familiar triangle intersection test.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-25.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 25</span>
+                <h3>Secondary Rays Need Bounded State</h3>
+                <p>Replace recursive control flow with an explicit per-invocation path loop, throughput and termination rule.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-26.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 26</span>
+                <h3>Accumulate Samples Without Losing the Average</h3>
+                <p>Keep linear sample sums in a floating-point image and reset them whenever the represented scene changes.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section><section class="lesson-group" aria-labelledby="group-27">
+            <div class="group-heading"><div><p class="index-kicker">Lessons 27-28</p><h2 id="group-27">Hardware traversal and the complete renderer</h2></div><p>Build acceleration structures, introduce ray queries and the ray-tracing pipeline, then compare all three execution routes.</p></div>
+            <div class="lesson-card-grid"><a class="lesson-card" href="lesson-27.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 27</span>
+                <h3>Build BLAS and TLAS Before Asking Hardware</h3>
+                <p>Describe triangle geometry and instances to Vulkan, build their acceleration structures and query them from compute.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a><a class="lesson-card" href="lesson-28.html">
+                <span class="lesson-card-number">PART II &middot; LESSON 28</span>
+                <h3>The Ray Tracing Pipeline and the Complete Renderer</h3>
+                <p>Move traversal into the ray-tracing pipeline, construct its shader binding table and audit what still belongs to the renderer.</p>
+                <span class="lesson-card-cta">Open lesson &rarr;</span>
+            </a></div>
+        </section></div>
+</main>
+<footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+</body></html>

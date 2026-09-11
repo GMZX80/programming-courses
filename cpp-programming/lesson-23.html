@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reusing code by getting the compiler to generate it">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 23 - 23. Templates</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-23.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 23 - 23. Templates">
+    <meta property="og:description" content="Reusing code by getting the compiler to generate it">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-23.html">
+</head>
+<body class="course-page lesson-page" data-lesson="23" data-art-pattern="grid" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 23 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html" aria-current="page"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 23</span>
+            </nav>
+            <p class="hero-kicker">Lesson 23 · 24 lesson course</p>
+            <h1 id="lesson-title">23. Templates</h1>
+            <p class="lesson-deck">Reusing code by getting the compiler to generate it</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-22.html">← Lesson 22</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-24.html">Lesson 24 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>81 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-23-abstraction" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-abstraction&amp;lesson=23#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> <a class="glossary-chip" id="glossary-panel-origin-23-address" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-address&amp;lesson=23#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-23-algorithm" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-algorithm&amp;lesson=23#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-23-api" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-api&amp;lesson=23#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-23-argument" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-argument&amp;lesson=23#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-23-associativity" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-associativity&amp;lesson=23#term-associativity" aria-label="Look up associativity in the programming glossary" title="Look up associativity in the programming glossary">associativity</a> <a class="glossary-chip" id="glossary-panel-origin-23-binary" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-binary&amp;lesson=23#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> <a class="glossary-chip" id="glossary-panel-origin-23-boolean" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-boolean&amp;lesson=23#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> <a class="glossary-chip" id="glossary-panel-origin-23-cpp" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-cpp&amp;lesson=23#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-23-reference" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-reference&amp;lesson=23#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-23-template" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-template&amp;lesson=23#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">C++ template</a> <a class="glossary-chip" id="glossary-panel-origin-23-cache" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-cache&amp;lesson=23#term-cache" aria-label="Look up cache in the programming glossary" title="Look up cache in the programming glossary">cache</a> <a class="glossary-chip" id="glossary-panel-origin-23-call-site" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-call-site&amp;lesson=23#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> <a class="glossary-chip" id="glossary-panel-origin-23-cast" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-cast&amp;lesson=23#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a> <a class="glossary-chip" id="glossary-panel-origin-23-class" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-class&amp;lesson=23#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-23-class-template" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-class-template&amp;lesson=23#term-class-template" aria-label="Look up class template in the programming glossary" title="Look up class template in the programming glossary">class template</a> <a class="glossary-chip" id="glossary-panel-origin-23-code" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-code&amp;lesson=23#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-23-code-bloat" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-code-bloat&amp;lesson=23#term-code-bloat" aria-label="Look up code bloat in the programming glossary" title="Look up code bloat in the programming glossary">code bloat</a> <a class="glossary-chip" id="glossary-panel-origin-23-compile-time" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-compile-time&amp;lesson=23#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a> <a class="glossary-chip" id="glossary-panel-origin-23-compiler" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-compiler&amp;lesson=23#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-23-complexity" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-complexity&amp;lesson=23#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a> <a class="glossary-chip" id="glossary-panel-origin-23-concept" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-concept&amp;lesson=23#term-concept" aria-label="Look up concept in the programming glossary" title="Look up concept in the programming glossary">concept</a> <a class="glossary-chip" id="glossary-panel-origin-23-constant" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-constant&amp;lesson=23#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constant</a> <a class="glossary-chip" id="glossary-panel-origin-23-constraint" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-constraint&amp;lesson=23#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">constraint</a> <a class="glossary-chip" id="glossary-panel-origin-23-constructor" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-constructor&amp;lesson=23#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-23-container" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-container&amp;lesson=23#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-23-conversion" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-conversion&amp;lesson=23#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-23-correctness" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-correctness&amp;lesson=23#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> <a class="glossary-chip" id="glossary-panel-origin-23-debugging" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-debugging&amp;lesson=23#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-23-declaration" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-declaration&amp;lesson=23#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-23-definition" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-definition&amp;lesson=23#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-23-exception" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-exception&amp;lesson=23#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-23-expression" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-expression&amp;lesson=23#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-23-function" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-function&amp;lesson=23#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-23-function-overloading" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-function-overloading&amp;lesson=23#term-function-overloading" aria-label="Look up function overloading in the programming glossary" title="Look up function overloading in the programming glossary">function overloading</a> <a class="glossary-chip" id="glossary-panel-origin-23-function-template" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-function-template&amp;lesson=23#term-function-template" aria-label="Look up function template in the programming glossary" title="Look up function template in the programming glossary">function template</a> <a class="glossary-chip" id="glossary-panel-origin-23-generic-programming" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-generic-programming&amp;lesson=23#term-generic-programming" aria-label="Look up generic programming in the programming glossary" title="Look up generic programming in the programming glossary">generic programming</a> <a class="glossary-chip" id="glossary-panel-origin-23-header-file" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-header-file&amp;lesson=23#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header file</a> <a class="glossary-chip" id="glossary-panel-origin-23-heap" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-heap&amp;lesson=23#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a> <a class="glossary-chip" id="glossary-panel-origin-23-include-directive" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-include-directive&amp;lesson=23#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-23-inline" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-inline&amp;lesson=23#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a> <a class="glossary-chip" id="glossary-panel-origin-23-instantiation" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-instantiation&amp;lesson=23#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">instantiation</a> <a class="glossary-chip" id="glossary-panel-origin-23-integer" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-integer&amp;lesson=23#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-23-interface" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-interface&amp;lesson=23#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-23-invariant" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-invariant&amp;lesson=23#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariant</a> <a class="glossary-chip" id="glossary-panel-origin-23-lifetime" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-lifetime&amp;lesson=23#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-23-linker" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-linker&amp;lesson=23#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">linker</a> <a class="glossary-chip" id="glossary-panel-origin-23-main-function" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-main-function&amp;lesson=23#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-23-memory-leak" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-memory-leak&amp;lesson=23#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">memory leak</a> <a class="glossary-chip" id="glossary-panel-origin-23-new-delete" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-new-delete&amp;lesson=23#term-new-delete" aria-label="Look up new and delete in the programming glossary" title="Look up new and delete in the programming glossary">new and delete</a> <a class="glossary-chip" id="glossary-panel-origin-23-noexcept" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-noexcept&amp;lesson=23#term-noexcept" aria-label="Look up noexcept in the programming glossary" title="Look up noexcept in the programming glossary">noexcept</a> <a class="glossary-chip" id="glossary-panel-origin-23-non-type-template-parameter" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-non-type-template-parameter&amp;lesson=23#term-non-type-template-parameter" aria-label="Look up non-type template parameter in the programming glossary" title="Look up non-type template parameter in the programming glossary">non-type template parameter</a> <a class="glossary-chip" id="glossary-panel-origin-23-object" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-object&amp;lesson=23#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-23-one-definition-rule" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-one-definition-rule&amp;lesson=23#term-one-definition-rule" aria-label="Look up One Definition Rule in the programming glossary" title="Look up One Definition Rule in the programming glossary">One Definition Rule</a> <a class="glossary-chip" id="glossary-panel-origin-23-operator" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-operator&amp;lesson=23#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-23-overload-resolution" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-overload-resolution&amp;lesson=23#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload resolution</a> <a class="glossary-chip" id="glossary-panel-origin-23-ownership" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-ownership&amp;lesson=23#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-23-parameter" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-parameter&amp;lesson=23#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-23-perfect-forwarding" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-perfect-forwarding&amp;lesson=23#term-perfect-forwarding" aria-label="Look up perfect forwarding in the programming glossary" title="Look up perfect forwarding in the programming glossary">perfect forwarding</a> <a class="glossary-chip" id="glossary-panel-origin-23-pointer" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-pointer&amp;lesson=23#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-23-program" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-program&amp;lesson=23#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-23-access-levels" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-access-levels&amp;lesson=23#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-23-raii" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-raii&amp;lesson=23#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-chip" id="glossary-panel-origin-23-return-type" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-return-type&amp;lesson=23#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> <a class="glossary-chip" id="glossary-panel-origin-23-return-value" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-return-value&amp;lesson=23#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-23-rule-of-three-five-zero" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-rule-of-three-five-zero&amp;lesson=23#term-rule-of-three-five-zero" aria-label="Look up Rule of Three, Five and Zero in the programming glossary" title="Look up Rule of Three, Five and Zero in the programming glossary">Rule of Three, Five and Zero</a> <a class="glossary-chip" id="glossary-panel-origin-23-runtime" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-runtime&amp;lesson=23#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a> <a class="glossary-chip" id="glossary-panel-origin-23-sfinae" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-sfinae&amp;lesson=23#term-sfinae" aria-label="Look up SFINAE in the programming glossary" title="Look up SFINAE in the programming glossary">SFINAE</a> <a class="glossary-chip" id="glossary-panel-origin-23-smart-pointer" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-smart-pointer&amp;lesson=23#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> <a class="glossary-chip" id="glossary-panel-origin-23-specialisation" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-specialisation&amp;lesson=23#term-specialisation" aria-label="Look up specialisation in the programming glossary" title="Look up specialisation in the programming glossary">specialisation</a> <a class="glossary-chip" id="glossary-panel-origin-23-state" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-state&amp;lesson=23#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-23-static-type" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-static-type&amp;lesson=23#term-static-type" aria-label="Look up static type in the programming glossary" title="Look up static type in the programming glossary">static type</a> <a class="glossary-chip" id="glossary-panel-origin-23-string" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-string&amp;lesson=23#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-23-template-argument" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-template-argument&amp;lesson=23#term-template-argument" aria-label="Look up template argument in the programming glossary" title="Look up template argument in the programming glossary">template argument</a> <a class="glossary-chip" id="glossary-panel-origin-23-template-argument-deduction" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-template-argument-deduction&amp;lesson=23#term-template-argument-deduction" aria-label="Look up template argument deduction in the programming glossary" title="Look up template argument deduction in the programming glossary">template argument deduction</a> <a class="glossary-chip" id="glossary-panel-origin-23-template-parameter" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-template-parameter&amp;lesson=23#term-template-parameter" aria-label="Look up template parameter in the programming glossary" title="Look up template parameter in the programming glossary">template parameter</a> <a class="glossary-chip" id="glossary-panel-origin-23-testing" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-testing&amp;lesson=23#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-23-translation-unit" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-translation-unit&amp;lesson=23#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation unit</a> <a class="glossary-chip" id="glossary-panel-origin-23-type" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-type&amp;lesson=23#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-23-value" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-value&amp;lesson=23#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-23-variable" href="glossary.html?from=lesson-23.html%23glossary-panel-origin-23-variable&amp;lesson=23#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="23">
+<img src="assets/images/lesson-art/lesson-23-templates.png" alt="Abstract generic scaffold producing a family of concrete forms made from different materials." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p style="text-align: left;">&nbsp;</p>
+<h2>Lesson: <a class="glossary-term" id="glossary-origin-23-0001" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0001&amp;lesson=23#term-template" aria-label="Look up C++ template in the programming glossary" title="Look up C++ template in the programming glossary">Templates</a> in <a class="glossary-term" id="glossary-origin-23-0002" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0002&amp;lesson=23#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> — <a class="glossary-term" id="glossary-origin-23-0003" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0003&amp;lesson=23#term-generic-programming" aria-label="Look up generic programming in the programming glossary" title="Look up generic programming in the programming glossary">Generic Code</a>, <a class="glossary-term" id="glossary-origin-23-0004" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0004&amp;lesson=23#term-constraint" aria-label="Look up constraint in the programming glossary" title="Look up constraint in the programming glossary">Constraints</a> &amp; <a class="glossary-term" id="glossary-origin-23-0005" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0005&amp;lesson=23#term-instantiation" aria-label="Look up instantiation in the programming glossary" title="Look up instantiation in the programming glossary">Instantiation</a></h2>
+
+<p>
+Templates let us write <a class="glossary-term" id="glossary-origin-23-0006" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0006&amp;lesson=23#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> that is <em>parameterised over <a class="glossary-term" id="glossary-origin-23-0007" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0007&amp;lesson=23#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a> (and <a class="glossary-term" id="glossary-origin-23-0008" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0008&amp;lesson=23#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">values</a>)</em>. The template itself is a blueprint; the <a class="glossary-term" id="glossary-origin-23-0009" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0009&amp;lesson=23#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a>
+generates concrete <a class="glossary-term" id="glossary-origin-23-0010" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0010&amp;lesson=23#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">functions</a>/<a class="glossary-term" id="glossary-origin-23-0011" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0011&amp;lesson=23#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">classes</a> only when you <em>use</em> the template with specific <a class="glossary-term" id="glossary-origin-23-0012" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0012&amp;lesson=23#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">arguments</a> (this step is called
+<strong>instantiation</strong>). Type checking therefore happens at the points of use, not when the template is first seen.
+</p>
+
+<p style="padding:8px 12px;border-left:4px solid #0ea5e9;background:#f0f9ff;">
+<strong>Succinctly:</strong> A template is source code for generating other source code at <a class="glossary-term" id="glossary-origin-23-0013" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0013&amp;lesson=23#term-compile-time" aria-label="Look up compile time in the programming glossary" title="Look up compile time in the programming glossary">compile time</a>. The instantiated code is what actually compiles and runs.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — “Show me the instantiations”</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste a TU (<a class="glossary-term" id="glossary-origin-23-0014" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0014&amp;lesson=23#term-translation-unit" aria-label="Look up translation unit in the programming glossary" title="Look up translation unit in the programming glossary">translation unit</a>); ask AI to list which template <a class="glossary-term" id="glossary-origin-23-0015" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0015&amp;lesson=23#term-specialisation" aria-label="Look up specialisation in the programming glossary" title="Look up specialisation in the programming glossary">specialisations</a> are instantiated and where, including deduced arguments.</li>
+      <li>Ask for a map of errors: which <a class="glossary-term" id="glossary-origin-23-0016" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0016&amp;lesson=23#term-call-site" aria-label="Look up call site in the programming glossary" title="Look up call site in the programming glossary">call site</a> triggers which long template diagnostic.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) <a class="glossary-term" id="glossary-origin-23-0017" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0017&amp;lesson=23#term-class-template" aria-label="Look up class template in the programming glossary" title="Look up class template in the programming glossary">Class Templates</a> — your example, modernised</h3>
+
+<p>Original idea:</p>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+class C1 {
+private:
+    T* a;
+public:
+    C1(T b) { a = new T; *a = b; }  // raw new, no delete → leak &amp; exception-safety issues
+};
+
+// int main() {
+//     C1&lt;int&gt; b(1);
+//     bool ans = b &gt; 5; // ❌ no operator&gt; for C1&lt;int&gt; vs int
+// }
+</code></pre>
+
+<p><strong>Issues:</strong> manual <code>new</code>/<code>delete</code> (<a class="glossary-term" id="glossary-origin-23-0018" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0018&amp;lesson=23#term-rule-of-three-five-zero" aria-label="Look up Rule of Three, Five and Zero in the programming glossary" title="Look up Rule of Three, Five and Zero in the programming glossary">Rule of Zero</a> violated) and an attempt to use <code>&gt;</code> without defining it. Here’s a safe, idiomatic version:</p>
+
+<pre><code class="language-cpp">#include &lt;memory&gt;
+#include &lt;concepts&gt;
+
+template &lt;typename T&gt;
+  requires std::movable&lt;T&gt;  // C++20 concept: constrain what T must support
+class Box {
+public:
+    // Constructors
+    Box() = default;
+    explicit Box(T value) : ptr_(std::make_unique&lt;T&gt;(std::move(value))) {}
+
+    // Observers
+    const T&amp; get() const { return *ptr_; }
+    bool has_value() const noexcept { return static_cast&lt;bool&gt;(ptr_); }
+
+    // Mutators
+    void set(T value) { ptr_ = std::make_unique&lt;T&gt;(std::move(value)); }
+
+    // Comparisons (only if T is comparable)
+    friend bool operator==(const Box&amp; a, const Box&amp; b)
+      requires requires { {*a.ptr_} == {*b.ptr_}; }
+    {
+        if (!a.ptr_ || !b.ptr_) return a.ptr_ == b.ptr_;
+        return *a.ptr_ == *b.ptr_;
+    }
+
+    friend auto operator&lt;=&gt;(const Box&amp; a, const Box&amp; b)
+      requires requires { {*a.ptr_} &lt;=&gt; {*b.ptr_}; }
+      = default; // defaulted spaceship when T supports it
+
+private:
+    std::unique_ptr&lt;T&gt; ptr_{}; // RAII: no raw new/delete
+};
+</code></pre>
+
+<p>
+This keeps <a class="glossary-term" id="glossary-origin-23-0019" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0019&amp;lesson=23#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> safe, constrains usage with <strong><a class="glossary-term" id="glossary-origin-23-0020" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0020&amp;lesson=23#term-concept" aria-label="Look up concept in the programming glossary" title="Look up concept in the programming glossary">concepts</a></strong>, and only makes comparisons available when <code>T</code> supports them.
+Your previously failing line <code>b &gt; 5</code> still won’t compile (by design), unless you <a class="glossary-term" id="glossary-origin-23-0021" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0021&amp;lesson=23#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> how a <code>Box&lt;int&gt;</code> compares to an <code>int</code>.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Add the <em>right</em> constraints</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Describe intended operations on <code>T</code> (copy? move? &lt;? ==?). Ask AI to propose <code>requires</code>-clauses or ready-made concepts.</li>
+      <li>Get a fallback design when the constraint cannot be satisfied (e.g., customise via policy <a class="glossary-term" id="glossary-origin-23-0022" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0022&amp;lesson=23#term-template-parameter" aria-label="Look up template parameter in the programming glossary" title="Look up template parameter in the programming glossary">template parameter</a>).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>2) <a class="glossary-term" id="glossary-origin-23-0023" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0023&amp;lesson=23#term-function-template" aria-label="Look up function template in the programming glossary" title="Look up function template in the programming glossary">Function Templates</a> — <a class="glossary-term" id="glossary-origin-23-0024" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0024&amp;lesson=23#term-template-argument-deduction" aria-label="Look up template argument deduction in the programming glossary" title="Look up template argument deduction in the programming glossary">deduction</a>, <a class="glossary-term" id="glossary-origin-23-0025" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0025&amp;lesson=23#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a>, and mixed arguments</h3>
+
+<p>Generic add with safe return type using <code>std::common_type_t</code> and constraints:</p>
+<pre><code class="language-cpp">#include &lt;type_traits&gt;
+#include &lt;concepts&gt;
+
+template &lt;class A, class B&gt;
+  requires requires(A a, B b) { a + b; } // expression constraint: 'a+b' must compile
+auto add(A a, B b) -&gt; std::common_type_t&lt;A,B&gt; {
+    return a + b; // returned as common type (e.g., int + double → double)
+}
+
+// use:
+// auto x = add(2, 3.5); // double
+</code></pre>
+
+<p>
+This resolves the “<em>int and double are logically fine in one place but not another</em>” concern by defining a single, explicit rule
+for the result type. If you need stricter semantics (e.g., disallow narrowing), add stronger concepts or <code>static_assert</code>s.
+</p>
+
+<hr>
+
+<h3>3) Concepts vs <a class="glossary-term" id="glossary-origin-23-0026" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0026&amp;lesson=23#term-sfinae" aria-label="Look up SFINAE in the programming glossary" title="Look up SFINAE in the programming glossary">SFINAE</a> — readable constraints win (C++20+)</h3>
+
+<ul>
+  <li><strong>Old school:</strong> SFINAE (<em>Substitution Failure Is Not An Error</em>) with <code>std::enable_if</code> made error messages cryptic.</li>
+  <li><strong>Modern:</strong> Prefer <code>requires</code> and standard concepts (e.g., <code>std::regular</code>, <code>std::totally_ordered</code>, <code>std::ranges::range</code>).</li>
+</ul>
+
+<pre><code class="language-cpp">#include &lt;concepts&gt;
+template &lt;std::totally_ordered T&gt;
+const T&amp; minv(const T&amp; a, const T&amp; b) { return (b &lt; a) ? b : a; }
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Decode the template error</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste the long diagnostic; ask AI to translate it and point to the offending requirement/call site with a concrete fix.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) <a class="glossary-term" id="glossary-origin-23-0027" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0027&amp;lesson=23#term-non-type-template-parameter" aria-label="Look up non-type template parameter in the programming glossary" title="Look up non-type template parameter in the programming glossary">Non-Type Template Parameters</a> (NTTP) — values at compile time</h3>
+
+<p>Sizes, policies, and even <a class="glossary-term" id="glossary-origin-23-0028" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0028&amp;lesson=23#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointers</a>/<a class="glossary-term" id="glossary-origin-23-0029" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0029&amp;lesson=23#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a> can parameterise templates:</p>
+<pre><code class="language-cpp">template &lt;typename T, std::size_t N&gt;
+struct Fixed {
+    T data[N]{};
+    constexpr std::size_t size() const noexcept { return N; }
+};
+
+Fixed&lt;int, 16&gt; buf; // N chosen at compile time: no heap, contiguous &amp; cache-friendly
+</code></pre>
+
+<p>
+C++20 allows <code>auto</code> NTTPs for literal types — helpful for policies and small compile-time <a class="glossary-term" id="glossary-origin-23-0030" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0030&amp;lesson=23#term-constant" aria-label="Look up constant in the programming glossary" title="Look up constant in the programming glossary">constants</a>.
+</p>
+
+<hr>
+
+<h3>5) Specialisation — customise behaviour for some arguments</h3>
+
+<p><strong>Full specialisation</strong> replaces a template for a specific argument set; <strong>partial specialisation</strong> matches a family.</p>
+<pre><code class="language-cpp">// Primary
+template &lt;typename T&gt; struct Wrapper { using type = T; };
+
+// Partial: pointer types
+template &lt;typename T&gt; struct Wrapper&lt;T*&gt; { using type = T; }; // unwrap one level
+
+// Full: exactly 'Wrapper&lt;void&gt;'
+template &lt;&gt; struct Wrapper&lt;void&gt; { using type = void; };
+</code></pre>
+
+<p>
+Use specialisation to preserve intent across tricky cases (e.g., pointers, <a class="glossary-term" id="glossary-origin-23-0031" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0031&amp;lesson=23#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> literals) — not as a first resort. Prefer concepts/overloads where possible.
+</p>
+
+<hr>
+
+<h3>6) <a class="glossary-term" id="glossary-origin-23-0032" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0032&amp;lesson=23#term-perfect-forwarding" aria-label="Look up perfect forwarding in the programming glossary" title="Look up perfect forwarding in the programming glossary">Perfect Forwarding</a> (briefly)</h3>
+
+<p>Forwarding references keep value category and cv-qualifiers for factory/adapter patterns.</p>
+<pre><code class="language-cpp">#include &lt;utility&gt;
+template &lt;class T, class... Args&gt;
+T make_with(Args&amp;&amp;... args) {
+    return T(std::forward&lt;Args&gt;(args)...);
+}
+</code></pre>
+
+<p>Use sparingly and <a class="glossary-term" id="glossary-origin-23-0033" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0033&amp;lesson=23#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">test</a> carefully; forwarding can amplify <a class="glossary-term" id="glossary-origin-23-0034" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0034&amp;lesson=23#term-overload-resolution" aria-label="Look up overload resolution in the programming glossary" title="Look up overload resolution in the programming glossary">overload resolution</a> surprises.</p>
+
+<hr>
+
+<h3>7) Where to put template definitions — “it’s in the <a class="glossary-term" id="glossary-origin-23-0035" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0035&amp;lesson=23#term-header-file" aria-label="Look up header file in the programming glossary" title="Look up header file in the programming glossary">header</a>”</h3>
+
+<ul>
+  <li>Because instantiation happens at use sites, the compiler must <em>see the definition</em>. Put function/class template definitions in headers, not only in <code>.cpp</code> files.</li>
+  <li>Alternatively, use <strong>explicit instantiation</strong> in a <code>.cpp</code> to reduce <a class="glossary-term" id="glossary-origin-23-0036" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0036&amp;lesson=23#term-code-bloat" aria-label="Look up code bloat in the programming glossary" title="Look up code bloat in the programming glossary">code bloat</a> for known types:
+<pre><code class="language-cpp">// In header:
+template &lt;typename T&gt; void foo(T);
+
+// In .cpp:
+template void foo&lt;int&gt;(int);      // explicit instantiation definition
+</code></pre>
+  </li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — <a class="glossary-term" id="glossary-origin-23-0037" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0037&amp;lesson=23#term-linker" aria-label="Look up linker in the programming glossary" title="Look up linker in the programming glossary">Linker</a> gotchas</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to flag templates implemented in <code>.cpp</code> that aren’t explicitly instantiated → potential “undefined reference” errors.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) <a class="glossary-term" id="glossary-origin-23-0038" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0038&amp;lesson=23#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">Debugging</a> Templates — make failures readable</h3>
+
+<ul>
+  <li><strong>Constrain</strong> templates so invalid calls fail early with clear messages (concepts).</li>
+  <li>Use <code>static_assert</code> with helpful text:
+<pre><code class="language-cpp">static_assert(std::is_integral_v&lt;T&gt;, "Box&lt;T&gt; requires integral T for this overload");
+</code></pre>
+  </li>
+  <li>Break complex templates into helpers; test helpers with concrete types.</li>
+</ul>
+
+<hr>
+
+<h3>9) Performance &amp; Practicalities</h3>
+
+<ul>
+  <li>Templates can <a class="glossary-term" id="glossary-origin-23-0039" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0039&amp;lesson=23#term-inline" aria-label="Look up inline in the programming glossary" title="Look up inline in the programming glossary">inline</a> aggressively and remove <a class="glossary-term" id="glossary-origin-23-0040" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0040&amp;lesson=23#term-abstraction" aria-label="Look up abstraction in the programming glossary" title="Look up abstraction in the programming glossary">abstraction</a> overhead; they can also increase <em>code size</em> (one copy per specialisation). Consider type erasure or explicit instantiation if bloat matters.</li>
+  <li>Keep <a class="glossary-term" id="glossary-origin-23-0041" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0041&amp;lesson=23#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">APIs</a> focused; don’t template “just because”. Use concepts to encode the <em>real</em> requirements (not “any type”).</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Code size &amp; instantiation plan</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to list heavy templates and suggest where explicit instantiation or type erasure reduces <a class="glossary-term" id="glossary-origin-23-0042" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0042&amp;lesson=23#term-binary" aria-label="Look up binary in the programming glossary" title="Look up binary in the programming glossary">binary</a> size.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>10) Worked Example — A Constrained <code>Time</code> Sum</h3>
+
+<p>We combine your original <code>Time</code> idea with clean <a class="glossary-term" id="glossary-origin-23-0043" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0043&amp;lesson=23#term-invariant" aria-label="Look up invariant in the programming glossary" title="Look up invariant in the programming glossary">invariants</a> and a template that accepts “minute-like” values.</p>
+
+<pre><code class="language-cpp">#include &lt;concepts&gt;
+#include &lt;iostream&gt;
+
+struct Time {
+    int hours{};
+    int minutes{}; // invariant: 0 ≤ minutes &lt; 60
+
+    void normalise() {
+        if (minutes &gt;= 60) { hours += minutes / 60; minutes %= 60; }
+        if (minutes &lt; 0)    { int b = (-minutes + 59)/60; hours -= b; minutes += 60*b; }
+    }
+};
+
+// Accept any type convertible to minutes (e.g., int, long, etc.)
+template &lt;class M&gt;
+  requires std::convertible_to&lt;M,int&gt;
+Time add_minutes(Time t, M deltaMinutes) {
+    t.minutes += static_cast&lt;int&gt;(deltaMinutes);
+    t.normalise();
+    return t;
+}
+
+// Non-member + for Time + Time (symmetry)
+inline Time operator+(Time a, const Time&amp; b) { a.hours += b.hours; a.minutes += b.minutes; a.normalise(); return a; }
+
+inline std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Time&amp; t) {
+    return os &lt;&lt; t.hours &lt;&lt; "h " &lt;&lt; t.minutes &lt;&lt; "m";
+}
+</code></pre>
+
+<p>
+This shows how templates (with concepts) let you accept a family of “minute-like” types while maintaining <a class="glossary-term" id="glossary-origin-23-0044" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0044&amp;lesson=23#term-correctness" aria-label="Look up correctness in the programming glossary" title="Look up correctness in the programming glossary">correctness</a> and clarity.
+</p>
+
+<hr>
+
+<h3>11) Common Pitfalls (and fixes)</h3>
+
+<ul>
+  <li><strong>Definitions not visible:</strong> put template definitions in headers or explicitly instantiate — avoid “undefined reference”.</li>
+  <li><strong>Unconstrained templates:</strong> lead to surprising overload resolution and unreadable errors. Add <code>requires</code>.</li>
+  <li><strong>Ambiguous overloads with mixed types:</strong> guide resolution via return type traits, <code>common_type</code>, or separate overloads.</li>
+  <li><strong>Over-general <a class="glossary-term" id="glossary-origin-23-0045" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0045&amp;lesson=23#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interfaces</a>:</strong> template everything → hard to test and maintain. Start narrow; generalise only with need.</li>
+  <li><strong>Manual memory in templates:</strong> prefer <a class="glossary-term" id="glossary-origin-23-0046" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0046&amp;lesson=23#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-term" id="glossary-origin-23-0047" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0047&amp;lesson=23#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">containers</a>; avoid raw <code>new</code>/<code>delete</code> in generic code.</li>
+</ul>
+
+<hr>
+
+<h3>12) Mini Exercises</h3>
+
+<ol>
+  <li><strong>Constrain it:</strong> Write <code>dot(a,b)</code> for containers of arithmetic types using <code>std::ranges</code> and concepts; ensure sizes match at <a class="glossary-term" id="glossary-origin-23-0048" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0048&amp;lesson=23#term-runtime" aria-label="Look up runtime in the programming glossary" title="Look up runtime in the programming glossary">runtime</a>.</li>
+  <li><strong>Partial specialisation:</strong> Create <code>as_string&lt;T&gt;</code> that formats values; specialise for <code>const char*</code> to avoid printing pointer values.</li>
+  <li><strong>NTTP:</strong> Implement <code>Matrix&lt;T, R, C&gt;</code> with <code>operator()</code> indexing; add <code>multiply</code> with a <code>requires(C1 == R2)</code> constraint.</li>
+  <li><strong>Error clarity:</strong> Replace an <code>enable_if</code> design with <code>requires</code>; compare compiler diagnostics before/after.</li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Check my templates</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste solutions; AI will validate constraints, recommend clearer concepts, and flag <a class="glossary-term" id="glossary-origin-23-0049" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0049&amp;lesson=23#term-one-definition-rule" aria-label="Look up One Definition Rule in the programming glossary" title="Look up One Definition Rule in the programming glossary">ODR</a>/linker risks.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li>Templates are <strong>blueprints</strong>; only instantiations are compiled. Type checking occurs at use sites.</li>
+  <li><strong>Constrain</strong> with concepts so errors are early and readable; avoid unconstrained “catch-all” templates.</li>
+  <li>Prefer <strong>RAII</strong> and the Rule of Zero in generic code; don’t <a class="glossary-term" id="glossary-origin-23-0050" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0050&amp;lesson=23#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">leak</a> ownership <a class="glossary-term" id="glossary-origin-23-0051" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0051&amp;lesson=23#term-complexity" aria-label="Look up complexity in the programming glossary" title="Look up complexity in the programming glossary">complexity</a> into templates.</li>
+  <li>Put definitions where the compiler can see them (headers) or use <strong>explicit instantiation</strong>.</li>
+  <li>When mixing types, define the result type policy (<code>common_type</code>, concepts) explicitly.</li>
+  <li>Specialise deliberately; prefer overloads/concepts before partial specialisation when possible.</li>
+</ul>
+        
+<!-- lesson-enhancement:23:start -->
+<section class="lesson-enhancement" id="templates-as-compile-time-interfaces">
+<p class="lesson-enhancement-kicker">Advanced perspective: generality must be earned at the boundary</p>
+<h2>A template earns its generality only when every admitted argument preserves the same relationship</h2>
+<p>A template defines a family of <a class="glossary-term" id="glossary-origin-23-0052" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0052&amp;lesson=23#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declarations</a>. It is not one function or class that changes type at runtime, and it is not untyped text pasted into a <a class="glossary-term" id="glossary-origin-23-0053" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0053&amp;lesson=23#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a>. <a class="glossary-term" id="glossary-origin-23-0054" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0054&amp;lesson=23#term-template-argument" aria-label="Look up template argument in the programming glossary" title="Look up template argument in the programming glossary">Template arguments</a> determine which member of the family is considered, constraints decide whether that use is admitted, and the resulting specialisation is checked as C++.</p>
+<p>The tempting measure of success is that one definition compiles for several types. That proves reuse of syntax. It does not prove reuse of meaning. If an operation called <code>add</code> truncates one type, overflows another and has no sensible interpretation for a third, increasing the number of accepted types has made the interface broader without making it better.</p>
+
+<h3>Trace the preserved program before claiming that it is generic</h3>
+<pre><code class="language-cpp">#include &lt;concepts&gt;
+#include &lt;iostream&gt;
+
+template&lt;std::integral T&gt;
+T add(T left, T right) {
+    return left + right;
+}
+
+int main() {
+    std::cout &lt;&lt; add(4, 7) &lt;&lt; '\n';
+    std::cout &lt;&lt; add(20L, 22L) &lt;&lt; '\n';
+}
+</code></pre>
+<p>The first call presents two <code>int</code> arguments, so deduction selects <code>T = int</code>. The associated constraint is satisfied, the program can use the <code>add&lt;int&gt;</code> specialisation, and the call prints 11. The second call presents two <code>long</code> arguments. It uses <code>add&lt;long&gt;</code> and prints 42. Nothing in either call asks a runtime <a class="glossary-term" id="glossary-origin-23-0055" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0055&amp;lesson=23#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> which implementation it prefers. The types have already settled the relationship during compilation.</p>
+<table>
+<thead><tr><th>Call</th><th>Deduced argument</th><th>Specialisation used</th><th>Observed result</th></tr></thead>
+<tbody>
+<tr><td><code>add(4, 7)</code></td><td><code>T = int</code></td><td><code>add&lt;int&gt;(int, int)</code></td><td>11</td></tr>
+<tr><td><code>add(20L, 22L)</code></td><td><code>T = long</code></td><td><code>add&lt;long&gt;(long, long)</code></td><td>42</td></tr>
+<tr><td><code>add(4, 22L)</code></td><td>Conflicting deductions for the single <code>T</code>.</td><td>None from this call.</td><td>The call is rejected.</td></tr>
+</tbody>
+</table>
+<p>The mixed call is important. The compiler does not silently invent a common template argument merely because <code>int</code> can convert to <code>long</code>. This template asks both <a class="glossary-term" id="glossary-origin-23-0056" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0056&amp;lesson=23#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">function parameters</a> to establish the same <code>T</code>, and deduction finds different answers. An explicit <code>add&lt;long&gt;(4, 22L)</code> would <a class="glossary-term" id="glossary-origin-23-0057" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0057&amp;lesson=23#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> a <a class="glossary-term" id="glossary-origin-23-0058" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0058&amp;lesson=23#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> policy visibly. A two-parameter template could state another policy. The interface must choose; the word <em>generic</em> cannot choose on its behalf.</p>
+
+<h3>Deduction, viability, selection and instantiation answer different questions</h3>
+<p>A long diagnostic becomes less mysterious when the compilation decisions are separated. The precise language rules contain qualifications, but the following trace is a useful account of these calls:</p>
+<table>
+<thead><tr><th>Stage</th><th>Question</th><th>Possible outcome</th></tr></thead>
+<tbody>
+<tr><td>Name lookup</td><td>Which declarations named <code>add</code> are visible?</td><td>A set of ordinary functions and function templates.</td></tr>
+<tr><td>Argument deduction</td><td>Can template arguments be inferred from the call?</td><td>A candidate specialisation, or deduction failure.</td></tr>
+<tr><td>Substitution and constraints</td><td>Is the candidate well-formed at its boundary and are its associated constraints satisfied?</td><td>The candidate remains viable or is removed.</td></tr>
+<tr><td>Overload resolution</td><td>Which viable candidate is the best match?</td><td>One selected function, ambiguity or no match.</td></tr>
+<tr><td>Instantiation when required</td><td>Is a definition needed for the selected specialisation?</td><td>The relevant definition is used to form and check it.</td></tr>
+<tr><td>Program evidence</td><td>Does the selected operation produce the promised result?</td><td>A testable value, state change or failure.</td></tr>
+</tbody>
+</table>
+<p>Failure at one stage does not justify changing another at random. If deduction conflicts, removing a concept does not repair deduction. If a constraint fails, adding a <a class="glossary-term" id="glossary-origin-23-0059" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0059&amp;lesson=23#term-cast" aria-label="Look up cast in the programming glossary" title="Look up cast in the programming glossary">cast</a> inside the function body cannot make the candidate satisfy that constraint. If two viable overloads are ambiguous, proving that either body would compile does not select between them.</p>
+
+<h3>A constraint states what may enter; it does not establish what the operation means</h3>
+<p><code>std::integral</code> is a precise type-category requirement. It admits the language's integral types, which include <a class="glossary-term" id="glossary-origin-23-0060" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0060&amp;lesson=23#term-boolean" aria-label="Look up Boolean in the programming glossary" title="Look up Boolean in the programming glossary">Boolean</a> and character types as well as the familiar signed and unsigned <a class="glossary-term" id="glossary-origin-23-0061" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0061&amp;lesson=23#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer types</a>. Consequently, <code>add(true, true)</code> satisfies this constraint: built-in addition produces an <code>int</code>, which is converted back to the declared <code>bool</code> result. The call compiles and returns <code>true</code>. Whether that deserves to be called addition is a design question the concept does not answer.</p>
+<p>The same boundary does not prevent signed overflow, guarantee that a result is representable, reconcile signed and unsigned arithmetic or prove algebraic laws. Concepts and requires-<a class="glossary-term" id="glossary-origin-23-0062" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0062&amp;lesson=23#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expressions</a> can state operations and type relationships that the compiler can check. The behavioural contract must still explain what valid inputs mean and what result the caller is entitled to expect.</p>
+<table>
+<thead><tr><th>Claim</th><th>Compiler evidence available</th><th>What remains for the design</th></tr></thead>
+<tbody>
+<tr><td>The argument is integral.</td><td><code>std::integral&lt;T&gt;</code> is satisfied.</td><td>Whether every admitted integral type belongs to this domain.</td></tr>
+<tr><td>An expression is available.</td><td>A requires-expression can check that <code>a + b</code> is well-formed.</td><td>Whether the expression has the intended meaning.</td></tr>
+<tr><td>A result has a required type relationship.</td><td>A compound requirement can constrain the expression result.</td><td>Range, precision, overflow and failure policy.</td></tr>
+<tr><td>An operation obeys a law.</td><td>Selected examples can be compiled and tested.</td><td>Evidence for identity, ordering, <a class="glossary-term" id="glossary-origin-23-0063" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0063&amp;lesson=23#term-associativity" aria-label="Look up associativity in the programming glossary" title="Look up associativity in the programming glossary">associativity</a> or other domain laws.</td></tr>
+</tbody>
+</table>
+
+<h3>Template checking occurs at more than one point</h3>
+<p>A template definition is parsed when it is declared, and non-dependent names and constructs can be checked in that definition context. Other constructs depend on template parameters. Their meaning can only be completed after substitution for a particular specialisation. It is therefore too broad to say either that the template is fully checked when first seen or that no checking occurs until use.</p>
+<p>This distinction matters when reading an error. A misspelled visible function name may be diagnosed while the template is defined. An expression such as <code>value.process()</code>, where the validity depends on <code>T</code>, may fail for a particular attempted specialisation. The location of the diagnostic tells you where the compiler discovered the problem; the dependency tells you why it could or could not decide earlier.</p>
+
+<h3>Choose parameters that expose the real variation</h3>
+<p>A type parameter is appropriate when an <a class="glossary-term" id="glossary-origin-23-0064" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0064&amp;lesson=23#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> retains one relationship across a family of types. A constant template parameter records a compile-time value, such as the <a class="glossary-term" id="glossary-origin-23-0065" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0065&amp;lesson=23#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">extent</a> in <code>Fixed&lt;T, N&gt;</code>. A template template parameter accepts another template. These are not three ways to make code look more advanced. Each exposes a different decision to the caller and creates a different family of specialisations.</p>
+<table>
+<thead><tr><th>Variation</th><th>Candidate mechanism</th><th>Boundary question</th></tr></thead>
+<tbody>
+<tr><td>Element or value type</td><td>Type template parameter.</td><td>Which operations and semantics must every admitted type provide?</td></tr>
+<tr><td>Compile-time extent or policy value</td><td>Constant template parameter.</td><td>Must the value affect the type or generated implementation?</td></tr>
+<tr><td>Container or policy family</td><td>Template template parameter.</td><td>Is accepting a family clearer than accepting an object or callable?</td></tr>
+<tr><td>Runtime choice</td><td>Ordinary function parameter or dynamic abstraction.</td><td>Would making a new <a class="glossary-term" id="glossary-origin-23-0066" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0066&amp;lesson=23#term-static-type" aria-label="Look up static type in the programming glossary" title="Look up static type in the programming glossary">compile-time type</a> merely multiply specialisations?</td></tr>
+</tbody>
+</table>
+<p>Class templates add another useful qualification. Naming a class specialisation does not necessarily instantiate every member definition immediately. The language instantiates what the context requires. A member that would be invalid for one <code>T</code> may remain irrelevant until that member is used, although the class boundary and any constraints still need coherent design.</p>
+
+<h3>Definition visibility is a reachability rule, not a header superstition</h3>
+<p>An implicitly instantiated function or member needs a reachable definition. Headers are the usual solution because each translation unit that needs a specialisation can see the template definition. That does not make a header the only possible organisation. Explicit instantiation can place selected specialisations in a controlled translation unit, provided declarations, definitions and the supported argument set are organised consistently.</p>
+<p>The trade-off is real. A visible general definition permits new specialisations wherever the interface allows them. A controlled explicit-instantiation set can reduce repeated work and hide implementation detail, but it also turns the supported types into a list that must be maintained. Choose according to the intended extension boundary, not from the slogan that templates live in headers.</p>
+
+<h3>Overload or specialise only when the variation genuinely changes</h3>
+<p>Constraints can order function-template candidates when one expresses a more specific admitted set. An ordinary overload is often clearer when one type needs different behaviour. Class and <a class="glossary-term" id="glossary-origin-23-0067" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0067&amp;lesson=23#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> templates can be partially specialised for a family of arguments; function templates cannot be partially specialised, so <a class="glossary-term" id="glossary-origin-23-0068" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0068&amp;lesson=23#term-function-overloading" aria-label="Look up function overloading in the programming glossary" title="Look up function overloading in the programming glossary">function overloading</a> normally expresses that form of variation. Full explicit specialisation exists, but it introduces reachability and ordering obligations that should not be hidden behind a convenient <a class="glossary-term" id="glossary-origin-23-0069" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0069&amp;lesson=23#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a>.</p>
+<p>The criterion is whether the variation belongs to the interface. If every type follows the same operation and only its representation differs, a primary template may be enough. If one family has a stronger requirement, a constrained overload or partial specialisation may state it. If the meaning changes completely, a different named operation may be more honest than forcing the case into the same template family.</p>
+
+<h3>Generic code moves costs; it does not abolish them</h3>
+<p>Templates can expose types and operations to optimisation and remove some runtime indirection. They can also increase compilation work, diagnostic volume and generated code size when many distinct specialisations are formed. Linkers and compilers may merge or remove some generated material, and a larger binary is not proof of a runtime problem. Measure the build or execution concern that matters, then decide whether explicit instantiation, a non-template boundary or type erasure <a class="glossary-term" id="glossary-origin-23-0070" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0070&amp;lesson=23#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">addresses</a> that measured cost.</p>
+
+<div class="concept-panel">
+<p><strong>Corrections to the earlier generic examples:</strong> replace the pointer-based <code>Box</code>; do not try to repair it one line at a time. Its requires-expressions are ill-formed. A default-constructed box may also be empty when <code>get()</code> dereferences it, while equality compares pointed-to values and the defaulted ordering compares the smart-pointer representation. Those are incompatible accounts of value identity. For mixed-type <code>add</code>, use <code>decltype(a + b)</code> when the expression's result is the intended policy, or state and validate a deliberate conversion policy. Placeholder <code>auto</code> for constant template parameters arrived in C++17; C++20 expanded the permitted structural types. Finally, templates are parsed at definition and non-dependent constructs may be checked there. It is too broad to claim that all type checking waits for use.</p>
+</div>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> demand a compilation trace, not a confidence statement</summary>
+<div>
+<p>Give an AI system one translation unit and require a table containing every call, candidate template, deduced argument, failed or satisfied constraint, selected specialisation and definition location. Ask for the smallest accepted call and the smallest rejected call on each boundary. Then compile those cases. A list of plausible specialisations is not evidence that the compiler forms them, selects them or finds their definitions.</p>
+<p>When a diagnostic is long, reduce it to the first failed deduction, substitution or constraint. Do not accept a repair that merely deletes the constraint, adds a broad conversion or changes the return type until the message disappears. The repaired interface must still state the original relationship and reject the cases that do not belong.</p>
+</div>
+</details>
+
+<h3>Transfer task: test whether one arithmetic template really has one meaning</h3>
+<p>Consider <code>template&lt;std::integral T&gt; T mean(T left, T right)</code> with the body <code>return (left + right) / 2;</code>. Trace deduction, constraint satisfaction, intermediate expression types and the <a class="glossary-term" id="glossary-origin-23-0071" href="glossary.html?from=lesson-23.html%23glossary-origin-23-0071&amp;lesson=23#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">returned value</a> for <code>mean(3, 4)</code>, two maximum <code>int</code> values, two <code>bool</code> values, two character values and a mixed <code>int</code>/<code>long</code> call. Separate rejection at the boundary from truncation, overflow and surprising admitted types inside the boundary.</p>
+<p>Produce two designs. The first may remain a constrained template, but it must state its admitted types, result type, rounding rule and overflow policy, with tests for every boundary. The second should be a narrower ordinary function or overload set for the domain that actually needs a mean. Choose between them by the relationship callers can rely upon, not by the number of types made to compile.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>The original constraint admits every integral type, not merely the types for which this particular mean is useful. The important stages are:</p>
+<table>
+<thead><tr><th>Call</th><th>Deduction and constraint</th><th>Intermediate expression</th><th>Outcome</th></tr></thead>
+<tbody>
+<tr><td><code>mean(3, 4)</code></td><td><code>T = int</code>; <code>std::integral&lt;int&gt;</code> is true.</td><td><code>3 + 4</code> and division by 2 both have type <code>int</code>.</td><td>7 is truncated by integer division to 3, which is returned as <code>int</code>.</td></tr>
+<tr><td><code>mean(INT_MAX, INT_MAX)</code></td><td><code>T = int</code>; the constraint is true.</td><td>The addition is performed as signed <code>int</code> before division.</td><td>The addition overflows, so behaviour is undefined. There is no valid returned value to analyse.</td></tr>
+<tr><td><code>mean(true, true)</code></td><td><code>T = bool</code>; <code>std::integral&lt;bool&gt;</code> is true.</td><td>Both operands undergo integral promotion; <code>2 / 2</code> has type <code>int</code>.</td><td>The integer 1 converts back to <code>bool</code>, giving <code>true</code>.</td></tr>
+<tr><td><code>mean(false, true)</code></td><td><code>T = bool</code>; the constraint is true.</td><td><code>1 / 2</code> is integer zero.</td><td>Zero converts back to <code>false</code>. The call compiles, but its meaning as a mean is doubtful.</td></tr>
+<tr><td><code>mean('0', '2')</code></td><td><code>T = char</code>; <code>std::integral&lt;char&gt;</code> is true.</td><td>The characters promote to <code>int</code>. Decimal digit codes are contiguous, so their integer mean is the code for <code>'1'</code>.</td><td>The integer result converts back to <code>char</code>, giving <code>'1'</code>. Character arithmetic was admitted even though the constraint never said it was intended.</td></tr>
+<tr><td><code>mean(3, 4L)</code></td><td>The first argument suggests <code>T = int</code>; the second suggests <code>T = long</code>.</td><td>No single <code>T</code> is deduced, so no function body is formed.</td><td>The call is rejected at deduction. This is not truncation or overflow inside the function.</td></tr>
+</tbody>
+</table>
+<p>Two other Boolean combinations follow the same promotions: <code>false, false</code> returns <code>false</code>, while <code>true, false</code> also truncates to <code>false</code>. Other character pairs follow their promoted integer values and convert the averaged result back to the deduced character type.</p>
+<h4>Design one: a deliberately integral mean</h4>
+<p>This version admits equal argument types drawn from the ordinary signed and unsigned integer types, while excluding Boolean and character types. It returns that same type. For an odd mathematical sum, <code>std::midpoint</code> rounds towards the first argument, and its integer implementation avoids overflow.</p>
+<pre><code class="language-cpp">#include &lt;concepts&gt;
+#include &lt;numeric&gt;
+#include &lt;type_traits&gt;
+
+template&lt;class T&gt;
+concept MeanInteger =
+    std::integral&lt;T&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, bool&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, char&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, signed char&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, unsigned char&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, wchar_t&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, char8_t&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, char16_t&gt;
+    &amp;&amp; !std::same_as&lt;std::remove_cv_t&lt;T&gt;, char32_t&gt;;
+
+template&lt;MeanInteger T&gt;
+T mean(T left, T right) noexcept
+{
+    return std::midpoint(left, right);
+}
+</code></pre>
+<p>The boundary is now testable: ordinary integers of one type compile; Boolean and character calls do not; a mixed <code>int</code>/<code>long</code> call does not silently select a conversion policy. Tests should include equal values, adjacent values in both argument orders, negative odd totals, zero, the minimum and maximum values, two maxima, and opposite extremes. The reversed adjacent-value test is necessary because rounding towards the first argument is part of this contract.</p>
+<h4>Design two: name the domain and remove unused generality</h4>
+<p>If the actual requirement is the mean of two assessment marks from 0 to 100, an ordinary function states more and needs less machinery:</p>
+<pre><code class="language-cpp">#include &lt;stdexcept&gt;
+
+int mean_mark(int left, int right)
+{
+    if (left &lt; 0 || left &gt; 100 || right &lt; 0 || right &gt; 100) {
+        throw std::out_of_range{"mark must be in [0, 100]"};
+    }
+
+    return (left + right) / 2; // round down for a non-negative odd total
+}
+</code></pre>
+<p>Here the sum cannot overflow, the result is an <code>int</code>, and the rounding rule is floor for the permitted non-negative inputs. Tests cover 0 and 100, equal marks, an even total, an odd total and every rejected endpoint. Choose the template only when callers genuinely need its whole admitted family and accept its first-argument rounding rule. Choose the ordinary function when the domain supplies the real bounds and meaning. Making <code>bool</code> compile is not useful generality.</p>
+</div>
+</details>
+
+<p>A useful template preserves one named relationship while types or compile-time values vary. Deduction and constraints can police the entrance to that family. They cannot decide the family should exist. Generalise only after the invariant operation, the admitted variation and the evidence for both are clear.</p>
+</section>
+<!-- lesson-enhancement:23:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-22.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">22. Operator Overloading</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-24.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">24. The Destructor</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

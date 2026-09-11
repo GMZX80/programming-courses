@@ -1,0 +1,12 @@
+.movie-main { width: min(100% - 3rem, 76rem); margin: 2rem auto 4rem; }
+.movie-main .breadcrumbs { margin-bottom: 1.5rem; }
+.movie-kicker { color: var(--course-gold); font: 0.875rem/1.5 var(--mono); }
+.movie-main h1 { max-width: 58rem; margin: 0.5rem 0 1rem; font: 500 clamp(2rem, 4.5vw, 3.4rem)/1.12 var(--display); }
+.movie-summary { color: var(--course-soft); margin: 0 0 1.5rem; }
+.movie-main video { display: block; width: 100%; aspect-ratio: 16/9; height: auto; background: #000; border: 1px solid var(--course-line-strong); border-radius: var(--radius); }
+.movie-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.25rem 0 2rem; }
+.movie-notes { max-width: 58rem; padding: 1.5rem 2rem; background: var(--paper); color: var(--paper-ink); border-radius: var(--radius); }
+.movie-notes h2 { margin: 0; font: 600 1.5rem/1.3 var(--display); }
+.movie-notes p { margin: 1rem 0 0; }
+.movie-notes a { color: var(--paper-green); text-underline-offset: 0.15em; }
+@media (max-width: 40rem) { .movie-main { width: calc(100% - 2rem); margin-top: 1.25rem; } .movie-notes { padding: 1.25rem; } .movie-page .course-header-context { display: none; } }

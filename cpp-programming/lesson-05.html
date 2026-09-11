@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Telling the compiler where your program starts from">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 05 - 5. The Main Function</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-05.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 05 - 5. The Main Function">
+    <meta property="og:description" content="Telling the compiler where your program starts from">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-05.html">
+</head>
+<body class="course-page lesson-page" data-lesson="05" data-art-pattern="branch" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 05 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html" aria-current="page"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 05</span>
+            </nav>
+            <p class="hero-kicker">Lesson 05 · 24 lesson course</p>
+            <h1 id="lesson-title">5. The Main Function</h1>
+            <p class="lesson-deck">Telling the compiler where your program starts from</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-04.html">← Lesson 04</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-06.html">Lesson 06 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>46 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-05-address" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-address&amp;lesson=05#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-05-argument" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-argument&amp;lesson=05#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-05-array" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-array&amp;lesson=05#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">array</a> <a class="glossary-chip" id="glossary-panel-origin-05-cpp" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-cpp&amp;lesson=05#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-05-code" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-code&amp;lesson=05#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-05-command-line-interface" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-command-line-interface&amp;lesson=05#term-command-line-interface" aria-label="Look up command-line interface in the programming glossary" title="Look up command-line interface in the programming glossary">command-line interface</a> <a class="glossary-chip" id="glossary-panel-origin-05-compiler" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-compiler&amp;lesson=05#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-05-condition" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-condition&amp;lesson=05#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <a class="glossary-chip" id="glossary-panel-origin-05-conversion" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-conversion&amp;lesson=05#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-05-declaration" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-declaration&amp;lesson=05#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-05-definition" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-definition&amp;lesson=05#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-05-destructor" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-destructor&amp;lesson=05#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructor</a> <a class="glossary-chip" id="glossary-panel-origin-05-entry-point" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-entry-point&amp;lesson=05#term-entry-point" aria-label="Look up entry point in the programming glossary" title="Look up entry point in the programming glossary">entry point</a> <a class="glossary-chip" id="glossary-panel-origin-05-enumeration" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-enumeration&amp;lesson=05#term-enumeration" aria-label="Look up enumeration in the programming glossary" title="Look up enumeration in the programming glossary">enumeration</a> <a class="glossary-chip" id="glossary-panel-origin-05-exception" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-exception&amp;lesson=05#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exception</a> <a class="glossary-chip" id="glossary-panel-origin-05-executable" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-executable&amp;lesson=05#term-executable" aria-label="Look up executable in the programming glossary" title="Look up executable in the programming glossary">executable</a> <a class="glossary-chip" id="glossary-panel-origin-05-exit-code" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-exit-code&amp;lesson=05#term-exit-code" aria-label="Look up exit code in the programming glossary" title="Look up exit code in the programming glossary">exit code</a> <a class="glossary-chip" id="glossary-panel-origin-05-expression" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-expression&amp;lesson=05#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-05-final-specifier" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-final-specifier&amp;lesson=05#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final specifier</a> <a class="glossary-chip" id="glossary-panel-origin-05-function" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-function&amp;lesson=05#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-05-function-signature" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-function-signature&amp;lesson=05#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-05-include-directive" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-include-directive&amp;lesson=05#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-05-integer" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-integer&amp;lesson=05#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-05-library" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-library&amp;lesson=05#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> <a class="glossary-chip" id="glossary-panel-origin-05-loop" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-loop&amp;lesson=05#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-05-main-function" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-main-function&amp;lesson=05#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-05-null-pointer" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-null-pointer&amp;lesson=05#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> <a class="glossary-chip" id="glossary-panel-origin-05-observable-behaviour" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-observable-behaviour&amp;lesson=05#term-observable-behaviour" aria-label="Look up observable behaviour in the programming glossary" title="Look up observable behaviour in the programming glossary">observable behaviour</a> <a class="glossary-chip" id="glossary-panel-origin-05-out-of-bounds-access" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-out-of-bounds-access&amp;lesson=05#term-out-of-bounds-access" aria-label="Look up out-of-bounds access in the programming glossary" title="Look up out-of-bounds access in the programming glossary">out-of-bounds access</a> <a class="glossary-chip" id="glossary-panel-origin-05-parameter" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-parameter&amp;lesson=05#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-05-pointer" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-pointer&amp;lesson=05#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-05-pragma-once" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-pragma-once&amp;lesson=05#term-pragma-once" aria-label="Look up pragma once in the programming glossary" title="Look up pragma once in the programming glossary">pragma once</a> <a class="glossary-chip" id="glossary-panel-origin-05-program" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-program&amp;lesson=05#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-05-return-type" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-return-type&amp;lesson=05#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> <a class="glossary-chip" id="glossary-panel-origin-05-return-value" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-return-value&amp;lesson=05#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">return value</a> <a class="glossary-chip" id="glossary-panel-origin-05-sentinel" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-sentinel&amp;lesson=05#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel</a> <a class="glossary-chip" id="glossary-panel-origin-05-stack" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-stack&amp;lesson=05#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> <a class="glossary-chip" id="glossary-panel-origin-05-stream" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-stream&amp;lesson=05#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-05-stream-insertion-extraction" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-stream-insertion-extraction&amp;lesson=05#term-stream-insertion-extraction" aria-label="Look up stream insertion and extraction in the programming glossary" title="Look up stream insertion and extraction in the programming glossary">stream insertion and extraction</a> <a class="glossary-chip" id="glossary-panel-origin-05-string" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-string&amp;lesson=05#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">string</a> <a class="glossary-chip" id="glossary-panel-origin-05-testing" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-testing&amp;lesson=05#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-05-type" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-type&amp;lesson=05#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-05-unit-test" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-unit-test&amp;lesson=05#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit test</a> <a class="glossary-chip" id="glossary-panel-origin-05-using-directive" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-using-directive&amp;lesson=05#term-using-directive" aria-label="Look up using directive in the programming glossary" title="Look up using directive in the programming glossary">using directive</a> <a class="glossary-chip" id="glossary-panel-origin-05-value" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-value&amp;lesson=05#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-05-vector" href="glossary.html?from=lesson-05.html%23glossary-panel-origin-05-vector&amp;lesson=05#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="05">
+<img src="assets/images/lesson-art/lesson-05-main-function.png" alt="Abstract origin node starting and illuminating a larger program network." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+<p>&nbsp;</p>
+
+<h2>Lesson: The <code>main</code> <a class="glossary-term" id="glossary-origin-05-0001" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0001&amp;lesson=05#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">Function</a> in <a class="glossary-term" id="glossary-origin-05-0002" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0002&amp;lesson=05#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a></h2>
+<p>When creating a C++ <a class="glossary-term" id="glossary-origin-05-0003" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0003&amp;lesson=05#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a>, you often need to tell the <a class="glossary-term" id="glossary-origin-05-0004" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0004&amp;lesson=05#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <strong>where execution begins</strong>. If your <a class="glossary-term" id="glossary-origin-05-0005" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0005&amp;lesson=05#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> is meant to be integrated into another <a class="glossary-term" id="glossary-origin-05-0006" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0006&amp;lesson=05#term-library" aria-label="Look up library in the programming glossary" title="Look up library in the programming glossary">library</a> or program, you don’t need this. But if you are producing an <a class="glossary-term" id="glossary-origin-05-0007" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0007&amp;lesson=05#term-executable" aria-label="Look up executable in the programming glossary" title="Look up executable in the programming glossary">executable</a> that the operating system will run, you must provide an <a class="glossary-term" id="glossary-origin-05-0008" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0008&amp;lesson=05#term-entry-point" aria-label="Look up entry point in the programming glossary" title="Look up entry point in the programming glossary">entry point</a>. This is done by writing a function named <code>main</code>.</p>
+<hr>
+<h3>1) Why <code>main</code>?</h3>
+<p>The operating system looks for a single <code>main</code> function as the starting point of your program. It acts as the handshake between your program and the system.</p>
+<ul>
+    <li>There can only be <strong>one</strong> <code>main</code> function in a program.</li>
+    <li><code>main</code> can take <a class="glossary-term" id="glossary-origin-05-0009" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0009&amp;lesson=05#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameters</a> (for <a class="glossary-term" id="glossary-origin-05-0010" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0010&amp;lesson=05#term-command-line-interface" aria-label="Look up command-line interface in the programming glossary" title="Look up command-line interface in the programming glossary">command-line</a> <a class="glossary-term" id="glossary-origin-05-0011" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0011&amp;lesson=05#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">arguments</a>).</li>
+    <li>You cannot call <code>main</code> explicitly in your program.</li>
+    <li>You should not use or take the <a class="glossary-term" id="glossary-origin-05-0012" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0012&amp;lesson=05#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> of <code>main</code>.</li>
+    <li>Other advanced aspects exist, but we focus on the basics here.</li>
+</ul>
+<pre><code class="language-cpp">// Simplest valid C++ program
+int main() {
+    return 0;  // exit successfully
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Simplifying Entry Points</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI to check whether your project needs a <code>main</code> (application) or not (library).</li>
+                    <li>AI can generate a minimal <code>main</code> scaffold for <a class="glossary-term" id="glossary-origin-05-0013" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0013&amp;lesson=05#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a>, then scale it up as your project grows.</li>
+                </ul>
+</details>
+<hr>
+<h3>2) <code>main</code> with Parameters</h3>
+<p>Often, you want your program to accept input from the command line. This is handled by parameters passed into <code>main</code>:</p>
+<pre><code class="language-cpp">int main(int argc, char* argv[]) {
+    // argc = argument count
+    // argv = argument vector (array of C-style strings)
+    return 0;
+}
+</code></pre>
+<p>Here:</p>
+<ul>
+    <li><code>argc</code> is the number of arguments (at least 1: the program name).</li>
+    <li><code>argv</code> points to the arguments themselves (as C-<a class="glossary-term" id="glossary-origin-05-0014" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0014&amp;lesson=05#term-string" aria-label="Look up string in the programming glossary" title="Look up string in the programming glossary">strings</a>).</li>
+</ul>
+<p>For example, running <code>./program hello world</code> gives:</p>
+<pre><code>argc = 3
+argv[0] = "./program"
+argv[1] = "hello"
+argv[2] = "world"
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Handling Arguments</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>AI can generate safe <a class="glossary-term" id="glossary-origin-05-0015" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0015&amp;lesson=05#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loops</a> to print or parse <code>argv</code> contents.</li>
+                    <li>Ask AI to convert <code>argv</code> into modern <code>std::vector&lt;std::string&gt;</code> for easier handling.</li>
+                    <li>It can also scaffold command-line parsers (flags, options) to avoid manual parsing.</li>
+                </ul>
+</details>
+<hr>
+<h3>3) <a class="glossary-term" id="glossary-origin-05-0016" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0016&amp;lesson=05#term-return-value" aria-label="Look up return value in the programming glossary" title="Look up return value in the programming glossary">Return Values</a> from <code>main</code></h3>
+<p>The <code>main</code> function returns an <code>int</code>. Returning <code>0</code> means success. Returning a nonzero <a class="glossary-term" id="glossary-origin-05-0017" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0017&amp;lesson=05#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> signals an error or abnormal termination. This convention allows the operating system, scripts, and other programs to know whether your program ran correctly.</p>
+<pre><code class="language-cpp">int main() {
+    if (/* something went wrong */) {
+        return 1; // nonzero = error
+    }
+    return 0;     // success
+}
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Error Codes &amp; Conventions</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Ask AI: “What return codes are standard for my OS/toolchain?”</li>
+                    <li>AI can map error codes to meaningful exit statuses (e.g., POSIX conventions).</li>
+                    <li>Generate boilerplate that logs and returns consistent <a class="glossary-term" id="glossary-origin-05-0018" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0018&amp;lesson=05#term-exit-code" aria-label="Look up exit code in the programming glossary" title="Look up exit code in the programming glossary">exit codes</a> across functions.</li>
+                </ul>
+</details>
+<hr>
+<h3>4) Worked Example — Printing Arguments</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char* argv[]) {
+    cout &lt;&lt; "You passed " &lt;&lt; argc-1 &lt;&lt; " arguments:" &lt;&lt; endl;
+    for (int i = 1; i &lt; argc; ++i) {
+        cout &lt;&lt; "  arg[" &lt;&lt; i &lt;&lt; "] = " &lt;&lt; argv[i] &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre>
+<p>If you run <code>./program apple banana</code>, the output will be:</p>
+<pre><code>You passed 2 arguments:
+  arg[1] = apple
+  arg[2] = banana
+</code></pre>
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Safer Parsing</summary>
+<ul style="margin: 0 0 0 18px; padding: 0;">
+                    <li>Have AI transform this into modern C++ with <code>std::vector&lt;std::string&gt;</code>.</li>
+                    <li>Ask AI to integrate a command-line parsing library (e.g., <code>cxxopts</code> or <code>Boost.Program_options</code>).</li>
+                    <li>Generate <a class="glossary-term" id="glossary-origin-05-0019" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0019&amp;lesson=05#term-unit-test" aria-label="Look up unit test in the programming glossary" title="Look up unit test in the programming glossary">unit tests</a> where AI simulates command-line inputs to check parsing logic.</li>
+                </ul>
+</details>
+<hr>
+<h3>5) Summary</h3>
+<ul>
+    <li><code>main</code> is the <strong>entry point</strong> of every executable program in C++.</li>
+    <li>It may or may not take arguments, depending on your needs.</li>
+    <li>Return <code>0</code> for success, nonzero for errors.</li>
+    <li>Arguments let you interact with the program via the command line.</li>
+    <li>Only one <code>main</code> is allowed in a program.</li>
+</ul>
+<h3>Mini Exercise — Mastering <code>main</code>: entry, args, and exits</h3>
+
+<p><em>Goal:</em> practise correct <code>main</code> <a class="glossary-term" id="glossary-origin-05-0020" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0020&amp;lesson=05#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">signatures</a>, safe argument handling, meaningful exit codes, and avoiding anti-patterns (calling/taking the address of <code>main</code>).</p>
+
+<ol style="list-style-type: upper-alpha;">
+  <li>
+    <strong>Pick the valid signature</strong><br>
+    Which of these are valid and portable forms of <code>main</code>? Explain why for each.
+    <pre><code class="language-cpp">int main();
+int main(int argc, char* argv[]);
+int main(int argc, char** argv);
+int main(char** argv, int argc);          // ?
+int main(const int argc, const char**);   // ?
+auto main() -&gt; int;                       // (C++ trailing return)
+</code></pre>
+    <ul>
+      <li>Choose one signature you’ll use in this course and justify (readability + portability).</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Don’t call <code>main</code></strong><br>
+    Identify the problem and refactor so the program has a testable entry <em>function</em> you call from <code>main</code>.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+int main(int argc, char* argv[]) {
+    std::cout &lt;&lt; "Start\n";
+    if (argc &lt; 2) { std::cout &lt;&lt; "Retry\n"; return main(argc+1, argv); } // ❌
+    std::cout &lt;&lt; "Done\n";
+    return 0;
+}
+</code></pre>
+    <ul>
+      <li>Create <code>int run(int argc, char* argv[])</code> and have <code>main</code> call <code>run</code> once.</li>
+      <li>Explain why calling <code>main</code> is undefined/forbidden.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Off-by-one with <code>argc/argv</code></strong><br>
+    The program intends to echo user args, but it’s wrong. Fix it and convert to modern C++ strings.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+int main(int argc, char* argv[]) {
+    for (int i = 0; i &lt;= argc; ++i) {               // ❌ out-of-bounds
+        std::cout &lt;&lt; "arg[" &lt;&lt; i &lt;&lt; "] = " &lt;&lt; argv[i] &lt;&lt; "\n";
+    }
+    return 0;
+}
+</code></pre>
+    <ul>
+      <li>Print only user-provided arguments (skip program name).</li>
+      <li>Build <code>std::vector&lt;std::string&gt;</code> from <code>argv</code> and print that instead.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Parse numbers safely &amp; return meaningful codes</strong><br>
+    Implement a program that sums <a class="glossary-term" id="glossary-origin-05-0021" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0021&amp;lesson=05#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> arguments: on success prints the sum and returns 0; on the first non-integer, prints an error and returns a nonzero code.
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;charconv&gt;   // from_chars
+
+enum ExitCode { Ok = 0, BadUsage = 64, ParseError = 65 };
+
+int main(int argc, char* argv[]) {
+    // TODO: parse argv[1..]
+}
+</code></pre>
+    <ul>
+      <li>Use <code>std::from_chars</code> (no <a class="glossary-term" id="glossary-origin-05-0022" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0022&amp;lesson=05#term-exception" aria-label="Look up exception in the programming glossary" title="Look up exception in the programming glossary">exceptions</a>, no locales) to parse each arg.</li>
+      <li>Choose and document your exit codes (e.g., <code>ParseError</code> when an arg isn’t an integer).</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong><code>return</code> vs <code>std::exit</code> (<a class="glossary-term" id="glossary-origin-05-0023" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0023&amp;lesson=05#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructors</a> &amp; atexit)</strong><br>
+    Predict output order, then test: which lines print if you replace <code>return 0;</code> with <code>std::exit(0);</code>?
+    <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+
+struct Trace {
+    ~Trace(){ std::cout &lt;&lt; "~Trace\n"; }
+} t;
+
+void on_exit(){ std::cout &lt;&lt; "atexit\n"; }
+
+int main() {
+    std::atexit(on_exit);
+    std::cout &lt;&lt; "main body\n";
+    return 0;          // try std::exit(0) instead
+}
+</code></pre>
+    <ul>
+      <li>Explain when <a class="glossary-term" id="glossary-origin-05-0024" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0024&amp;lesson=05#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a>/unwinding-based destructors run and how <code>std::exit</code> differs.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Minimal app vs. library</strong><br>
+    You’re writing a reusable library function and a tiny executable to exercise it. Fill in the blanks.
+    <pre><code class="language-cpp">// lib.hpp
+#pragma once
+#include &lt;vector&gt;
+int sum(const std::vector&lt;int&gt;&amp;);
+
+// lib.cpp
+#include "lib.hpp"
+int sum(const std::vector&lt;int&gt;&amp; v) {
+    int s = 0; for (int x : v) s += x; return s;
+}
+
+// main.cpp
+#include &lt;iostream&gt;
+#include "lib.hpp"
+int main(int argc, char* argv[]) {
+    // TODO: parse argv[1..] to ints, call sum, print result, return 0 on success
+}
+</code></pre>
+    <ul>
+      <li>Explain why only the executable needs <code>main</code> and the library should not <a class="glossary-term" id="glossary-origin-05-0025" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0025&amp;lesson=05#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> one.</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Unicode/spacing in args (quoting)</strong> <em>(bonus)</em><br>
+    How would you correctly handle arguments containing spaces (e.g., <code>"New York"</code>)? What happens to <code>argc/argv</code>? Briefly describe how your shell passes quoted args to <code>main</code>.
+  </li>
+</ol>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Entry Point Coach</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li><strong>Signature check:</strong> “Validate my <code>main</code> signature and portability.”</li>
+      <li><strong>Arg parser scaffold:</strong> “Convert <code>argv</code> to <code>std::vector&lt;std::string&gt;</code>, parse ints with <code>from_chars</code>, handle errors.”</li>
+      <li><strong>Exit codes:</strong> “Propose a small <a class="glossary-term" id="glossary-origin-05-0026" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0026&amp;lesson=05#term-enumeration" aria-label="Look up enumeration in the programming glossary" title="Look up enumeration in the programming glossary">enum</a> of exit codes and where to return them.”</li>
+      <li><strong>Termination audit:</strong> “Show differences between <code>return</code> and <code>std::exit</code> for my code (destructors/atexit).”</li>
+    </ul>
+</details>
+        
+<!-- lesson-enhancement:05:start -->
+<section class="lesson-enhancement" id="main-as-program-boundary">
+<p class="lesson-enhancement-kicker">Lesson 5 extension · one boundary, two directions</p>
+<h2><code>main</code> admits input and reports an outcome</h2>
+<p>The smallest <code>main</code> can look like a ceremonial marker placed at the top of a program. Execution begins here, so the explanation appears finished. It is not. The important question is what crosses this boundary in each direction: invocation data enters the program, and a termination status returns to the invoking environment.</p>
+<p>The special role of <code>main</code> is defined by C++. The operating system does not search through C++ source code until it finds a function with the right spelling. In a hosted implementation, the program provides one global function called <code>main</code>, and the implementation arranges for it to be called after the required start-up work. A toolchain and operating system do lower-level work before that point, but those mechanisms are outside the portable source-level model.</p>
+<p>Begin with the two common portable forms: <code>int main()</code> and <code>int main(int argc, char* argv[])</code>. The second parameter can equivalently be written as a <a class="glossary-term" id="glossary-origin-05-0027" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0027&amp;lesson=05#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> to pointer. An implementation may permit other forms, but that does not make them portable course material. The <a class="glossary-term" id="glossary-origin-05-0028" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0028&amp;lesson=05#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declared</a> <a class="glossary-term" id="glossary-origin-05-0029" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0029&amp;lesson=05#term-return-type" aria-label="Look up return type in the programming glossary" title="Look up return type in the programming glossary">return type</a> is <code>int</code>; <code>void main()</code> is not a portable C++ form.</p>
+
+<h3>Count first, then justify every index</h3>
+<p>The parameter names are chosen by the programmer, so the example below uses <code>argumentCount</code> and <code>arguments</code> rather than relying on the traditional abbreviations. The rule is unchanged. <code>argumentCount</code> is non-negative, and <code>arguments[argumentCount]</code> is a <a class="glossary-term" id="glossary-origin-05-0030" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0030&amp;lesson=05#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> marking the end of the <a class="glossary-term" id="glossary-origin-05-0031" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0031&amp;lesson=05#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">array</a>. Valid argument strings occupy the indices below that boundary.</p>
+<p>If <code>argumentCount</code> is greater than zero, <code>arguments[0]</code> represents the name used to invoke the program, or it may point to an empty string when that information is unavailable. Do not turn a common observation, such as seeing a full executable path, into a guarantee. Later elements contain text supplied through the invoking environment. Quoting and tokenisation are handled before <code>main</code> receives the array, so quote characters typed in a shell are not necessarily present in the resulting argument string.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main(int argumentCount, char* arguments[]) {
+    std::cout &lt;&lt; "Argument count: " &lt;&lt; argumentCount &lt;&lt; '\n';
+
+    for (int index{0}; index &lt; argumentCount; ++index) {
+        std::cout &lt;&lt; index &lt;&lt; ": " &lt;&lt; arguments[index] &lt;&lt; '\n';
+    }
+
+    return 0;
+}
+</code></pre>
+<p>Suppose the executable is invoked as <code>course_demo alpha beta</code>. A typical environment supplies an argument count of 3. The first loop iteration reads index 0, the second reads index 1 and the third reads index 2. When <code>index</code> becomes 3, the <a class="glossary-term" id="glossary-origin-05-0032" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0032&amp;lesson=05#term-condition" aria-label="Look up condition in the programming glossary" title="Look up condition in the programming glossary">condition</a> <code>index &lt; argumentCount</code> is false and the loop stops. The program has accounted for every argument string without crossing the boundary.</p>
+<table>
+<thead><tr><th>Element</th><th>What it can mean in this invocation</th><th>What the program must establish</th></tr></thead>
+<tbody>
+<tr><td><code>arguments[0]</code></td><td>Invocation text such as <code>course_demo</code>, or an empty string</td><td>Do not assume one path or naming format</td></tr>
+<tr><td><code>arguments[1]</code></td><td>The text <code>alpha</code></td><td>Validate its presence and meaning before using it</td></tr>
+<tr><td><code>arguments[2]</code></td><td>The text <code>beta</code></td><td>Validate syntax and range if another <a class="glossary-term" id="glossary-origin-05-0033" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0033&amp;lesson=05#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> is intended</td></tr>
+<tr><td><code>arguments[3]</code></td><td>The required null pointer <a class="glossary-term" id="glossary-origin-05-0034" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0034&amp;lesson=05#term-sentinel" aria-label="Look up sentinel in the programming glossary" title="Look up sentinel in the programming glossary">sentinel</a></td><td>Recognise the boundary; this is not an argument string</td></tr>
+</tbody>
+</table>
+<p>Changing the loop condition to <code>index &lt;= argumentCount</code> does not include one more useful element. It attempts to <a class="glossary-term" id="glossary-origin-05-0035" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0035&amp;lesson=05#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> the null sentinel as though it pointed to a character sequence. The error is not merely that the loop ran once too often; the program confused the marker of the boundary with data inside the boundary.</p>
+<p>All later arguments remain text. If a person intends <code>arguments[1]</code> to mean the number 50, intention has not performed a <a class="glossary-term" id="glossary-origin-05-0036" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0036&amp;lesson=05#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> or proved that 50 is acceptable. The program must check that the argument exists, that its complete syntax represents the required value and that the value lies within the accepted range. A generated parser that works for one friendly example has passed one example, not the input contract.</p>
+
+<h3>Printed output and termination status answer different questions</h3>
+<p><code>std::cout</code> communicates text through an output stream. Returning from <code>main</code> communicates a termination status to the host environment. They are separate channels. A program can print a correct partial report and still return failure because a later operation could not be completed. It can also print the word "success" and return a status that tells an automated caller the opposite. The printed word is not in charge.</p>
+<p>Returning zero denotes successful termination in the portable C++ model. <code>EXIT_SUCCESS</code> and <code>EXIT_FAILURE</code> from <code>&lt;cstdlib&gt;</code> provide portable values for successful and unsuccessful termination. Other integer meanings belong to the surrounding platform or application convention and must be checked against the relevant specification rather than invented. Reaching the closing brace of <code>main</code> has the same success effect as <code>return 0;</code>, although the explicit return remains useful while the contract is being taught.</p>
+<p>This distinction becomes visible when another program is the caller. A test runner, build script or deployment pipeline may ignore ordinary output and make its next decision from the termination status alone. If the program reports an error in prose but returns success, a person may notice the message while the automation proceeds as though the operation succeeded.</p>
+
+<h3>A short <code>main</code> still contains policy</h3>
+<p>Line count is a poor measure of the responsibility at the top of a program. A short <code>main</code> can still decide how invocation text is validated, where configuration comes from, which operation runs, how diagnostics are reported and how an application result becomes a process status. Moving detailed work into named functions makes those decisions easier to inspect; it does not make them disappear.</p>
+<p>Consider a <code>main</code> containing four calls: read the command line, load configuration, run the application and translate the result into an exit status. The code may fit on one screen. The test is whether each failure has one accountable route. If configuration cannot be loaded, which function describes the problem, which channel carries the diagnostic and which status reaches the invoking process? Those are boundary decisions, not decoration around the real program.</p>
+<p>I therefore want <code>main</code> to show policy without absorbing every mechanism. It should make the route from external input to application decision and back to external status visible. Parsing details, file operations and application logic can live elsewhere, where they can be named and tested. The top-level account must still be honest.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> make the proposed entry point survive unfriendly invocations</summary>
+<div>
+<p>Ask an AI tool for cases before asking it for a parser. Include no additional arguments, the expected arguments, too many arguments, malformed numbers, empty text and boundary values. For each invocation, write the expected output channel and termination status before running generated code. Then inspect every index and conversion. The tool's table is useful only when it exposes a missing case; it is not evidence until the program's <a class="glossary-term" id="glossary-origin-05-0037" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0037&amp;lesson=05#term-observable-behaviour" aria-label="Look up observable behaviour in the programming glossary" title="Look up observable behaviour in the programming glossary">observable behaviour</a> agrees with the contract you wrote.</p>
+</div>
+</details>
+
+<h3>Trace the complete exchange</h3>
+<p>Draw the argument array for two invocations of the example: <code>course_demo</code> and <code>course_demo alpha beta</code>. Label every valid index, add the null pointer at <code>arguments[argumentCount]</code>, and trace the loop condition before each access. Do not borrow an argument count from the example; derive it from the array you drew.</p>
+<p>For each run, record two results separately: the text written to standard output and the status returned by <code>main</code>. Then make one deliberate mistake by changing <code>&lt;</code> to <code>&lt;=</code> and identify the first <a class="glossary-term" id="glossary-origin-05-0038" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0038&amp;lesson=05#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> that no longer satisfies its obligation. If your explanation says only "<a class="glossary-term" id="glossary-origin-05-0039" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0039&amp;lesson=05#term-out-of-bounds-access" aria-label="Look up out-of-bounds access in the programming glossary" title="Look up out-of-bounds access in the programming glossary">out of bounds</a>", continue. Name the value reached, explain why it is a sentinel rather than an argument string, and show which earlier condition should have prevented the access.</p>
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>For these traces I shall use the invocation text shown in the question. A real implementation may provide different text, or an empty string, for <code>arguments[0]</code>; that qualification does not alter the indexing rule.</p>
+<h4><code>course_demo</code></h4>
+<table>
+<thead><tr><th>Element</th><th>Value</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>arguments[0]</code></td><td><code>"course_demo"</code></td><td>The invocation name in this example</td></tr>
+<tr><td><code>arguments[1]</code></td><td><code>nullptr</code></td><td>The required sentinel at <code>arguments[argumentCount]</code></td></tr>
+</tbody>
+</table>
+<p>The derived <code>argumentCount</code> is 1. With <code>index == 0</code>, the condition <code>0 &lt; 1</code> is true and index 0 is printed. After the increment, <code>1 &lt; 1</code> is false, so no access occurs at index 1.</p>
+<pre><code>Argument count: 1
+0: course_demo
+</code></pre>
+<p>The function then returns zero, reporting successful termination.</p>
+<h4><code>course_demo alpha beta</code></h4>
+<table>
+<thead><tr><th>Element</th><th>Value</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>arguments[0]</code></td><td><code>"course_demo"</code></td><td>The invocation name</td></tr>
+<tr><td><code>arguments[1]</code></td><td><code>"alpha"</code></td><td>The first user-supplied argument</td></tr>
+<tr><td><code>arguments[2]</code></td><td><code>"beta"</code></td><td>The second user-supplied argument</td></tr>
+<tr><td><code>arguments[3]</code></td><td><code>nullptr</code></td><td>The sentinel at <code>arguments[argumentCount]</code></td></tr>
+</tbody>
+</table>
+<p>The derived <code>argumentCount</code> is 3. The conditions <code>0 &lt; 3</code>, <code>1 &lt; 3</code> and <code>2 &lt; 3</code> are true. The next condition, <code>3 &lt; 3</code>, is false.</p>
+<pre><code>Argument count: 3
+0: course_demo
+1: alpha
+2: beta
+</code></pre>
+<p>This run also returns zero.</p>
+<h4>The deliberate mistake</h4>
+<p>With <code>index &lt;= argumentCount</code>, the condition remains true when <code>index == argumentCount</code>. The subscript reaches the valid sentinel element and produces a null pointer. The first failed obligation is therefore not simply that the array was indexed one place too far. It is the attempt to pass that null pointer to character-string <a class="glossary-term" id="glossary-origin-05-0040" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0040&amp;lesson=05#term-stream-insertion-extraction" aria-label="Look up stream insertion and extraction in the programming glossary" title="Look up stream insertion and extraction in the programming glossary">stream insertion</a> as though it denoted a null-terminated character sequence.</p>
+<p>Once that invalid operation is attempted, no particular <a class="glossary-term" id="glossary-origin-05-0041" href="glossary.html?from=lesson-05.html%23glossary-origin-05-0041&amp;lesson=05#term-final-specifier" aria-label="Look up final specifier in the programming glossary" title="Look up final specifier in the programming glossary">final</a> line or termination status is portable. The earlier condition <code>index &lt; argumentCount</code> is the condition that keeps every string access below the sentinel.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:05:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-04.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">04. The Function</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-06.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">06. Calling and Returning with Functions</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Using pointers and references">
+    <meta name="theme-color" content="#03100d">
+    <title>C++ Programming - Lesson 14 - 14. Manipulating Memory</title>
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/lesson-art.css">
+    <link rel="canonical" href="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-14.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="C++ Programming">
+    <meta property="og:title" content="C++ Programming - Lesson 14 - 14. Manipulating Memory">
+    <meta property="og:description" content="Using pointers and references">
+    <meta property="og:url" content="https://GMZX80.github.io/programming-courses/cpp-programming/lesson-14.html">
+</head>
+<body class="course-page lesson-page" data-lesson="14" data-art-pattern="cells" data-art-layout="focus-right">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="C++ Programming course index">
+        <span class="course-brand-mark">C++</span>
+        <span class="course-brand-text">Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 14 of 24</div>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Course sequence</p>
+        <h2>24 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation">
+        <ol class="lesson-list">
+            <li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">The Appropriate Computer Programmer</span></a></li>
+            <li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">The Variable</span></a></li>
+            <li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">Declaring &amp; Assigning Variables</span></a></li>
+            <li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">The Function</span></a></li>
+            <li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Main Function</span></a></li>
+            <li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Calling and Returning with Functions</span></a></li>
+            <li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Header Files</span></a></li>
+            <li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Namespaces</span></a></li>
+            <li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">&quot;Hello, World&quot;, (good night Vienna)</span></a></li>
+            <li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">The For Loop</span></a></li>
+            <li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">The While (and Do) Loops</span></a></li>
+            <li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">The IF Statement</span></a></li>
+            <li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">The Conditional Operator</span></a></li>
+            <li><a href="lesson-14.html" aria-current="page"><span class="lesson-list-number">14</span><span class="lesson-list-title">Manipulating Memory</span></a></li>
+            <li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Heap Memory</span></a></li>
+            <li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">Scope and Extent</span></a></li>
+            <li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">The Array</span></a></li>
+            <li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Classes and Objects</span></a></li>
+            <li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">Inheritance</span></a></li>
+            <li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">The Friend Function</span></a></li>
+            <li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Polymorphism</span></a></li>
+            <li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Operator Overloading</span></a></li>
+            <li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">Templates</span></a></li>
+            <li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">The Destructor</span></a></li>
+        </ol>
+    </nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <a href="index.html">C++ Programming</a><span aria-hidden="true">/</span><span>Lesson 14</span>
+            </nav>
+            <p class="hero-kicker">Lesson 14 · 24 lesson course</p>
+            <h1 id="lesson-title">14. Manipulating Memory</h1>
+            <p class="lesson-deck">Using pointers and references</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-13.html">← Lesson 13</a> <a class="course-button course-button-primary" href="index.html">View all lessons</a> <a class="course-button course-button-secondary" href="lesson-15.html">Lesson 15 →</a>
+ <!-- glossary:lesson-action:start --><a class="course-button course-button-secondary glossary-course-link" href="glossary.html">Programming glossary</a><!-- glossary:lesson-action:end --></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+<!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Programming glossary <span>71 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips">
+<a class="glossary-chip" id="glossary-panel-origin-14-address" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-address&amp;lesson=14#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">address</a> <a class="glossary-chip" id="glossary-panel-origin-14-address-of-operator" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-address-of-operator&amp;lesson=14#term-address-of-operator" aria-label="Look up address-of operator in the programming glossary" title="Look up address-of operator in the programming glossary">address-of operator</a> <a class="glossary-chip" id="glossary-panel-origin-14-algorithm" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-algorithm&amp;lesson=14#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithm</a> <a class="glossary-chip" id="glossary-panel-origin-14-api" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-api&amp;lesson=14#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-14-argument" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-argument&amp;lesson=14#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">argument</a> <a class="glossary-chip" id="glossary-panel-origin-14-array" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-array&amp;lesson=14#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">array</a> <a class="glossary-chip" id="glossary-panel-origin-14-assignment" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-assignment&amp;lesson=14#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assignment</a> <a class="glossary-chip" id="glossary-panel-origin-14-automatic-storage-duration" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-automatic-storage-duration&amp;lesson=14#term-automatic-storage-duration" aria-label="Look up automatic storage duration in the programming glossary" title="Look up automatic storage duration in the programming glossary">automatic storage duration</a> <a class="glossary-chip" id="glossary-panel-origin-14-block" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-block&amp;lesson=14#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a> <a class="glossary-chip" id="glossary-panel-origin-14-bug" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-bug&amp;lesson=14#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bug</a> <a class="glossary-chip" id="glossary-panel-origin-14-cpp" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-cpp&amp;lesson=14#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a> <a class="glossary-chip" id="glossary-panel-origin-14-reference" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-reference&amp;lesson=14#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">C++ reference</a> <a class="glossary-chip" id="glossary-panel-origin-14-class" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-class&amp;lesson=14#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a> <a class="glossary-chip" id="glossary-panel-origin-14-code" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-code&amp;lesson=14#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a> <a class="glossary-chip" id="glossary-panel-origin-14-compiler" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-compiler&amp;lesson=14#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> <a class="glossary-chip" id="glossary-panel-origin-14-const-correctness" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-const-correctness&amp;lesson=14#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">const-correctness</a> <a class="glossary-chip" id="glossary-panel-origin-14-constructor" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-constructor&amp;lesson=14#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructor</a> <a class="glossary-chip" id="glossary-panel-origin-14-container" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-container&amp;lesson=14#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">container</a> <a class="glossary-chip" id="glossary-panel-origin-14-conversion" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-conversion&amp;lesson=14#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> <a class="glossary-chip" id="glossary-panel-origin-14-dangling-pointer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-dangling-pointer&amp;lesson=14#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">dangling pointer</a> <a class="glossary-chip" id="glossary-panel-origin-14-debugging" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-debugging&amp;lesson=14#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">debugging</a> <a class="glossary-chip" id="glossary-panel-origin-14-declaration" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-declaration&amp;lesson=14#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declaration</a> <a class="glossary-chip" id="glossary-panel-origin-14-definition" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-definition&amp;lesson=14#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">definition</a> <a class="glossary-chip" id="glossary-panel-origin-14-dereference-operator" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-dereference-operator&amp;lesson=14#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereference operator</a> <a class="glossary-chip" id="glossary-panel-origin-14-destructor" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-destructor&amp;lesson=14#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destructor</a> <a class="glossary-chip" id="glossary-panel-origin-14-double-deletion" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-double-deletion&amp;lesson=14#term-double-deletion" aria-label="Look up double deletion in the programming glossary" title="Look up double deletion in the programming glossary">double deletion</a> <a class="glossary-chip" id="glossary-panel-origin-14-expression" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-expression&amp;lesson=14#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expression</a> <a class="glossary-chip" id="glossary-panel-origin-14-function" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-function&amp;lesson=14#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a> <a class="glossary-chip" id="glossary-panel-origin-14-function-signature" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-function-signature&amp;lesson=14#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signature</a> <a class="glossary-chip" id="glossary-panel-origin-14-heap" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-heap&amp;lesson=14#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a> <a class="glossary-chip" id="glossary-panel-origin-14-identifier" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-identifier&amp;lesson=14#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a> <a class="glossary-chip" id="glossary-panel-origin-14-include-directive" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-include-directive&amp;lesson=14#term-include-directive" aria-label="Look up include directive in the programming glossary" title="Look up include directive in the programming glossary">include directive</a> <a class="glossary-chip" id="glossary-panel-origin-14-initialisation" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-initialisation&amp;lesson=14#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">initialisation</a> <a class="glossary-chip" id="glossary-panel-origin-14-integer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-integer&amp;lesson=14#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> <a class="glossary-chip" id="glossary-panel-origin-14-interface" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-interface&amp;lesson=14#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> <a class="glossary-chip" id="glossary-panel-origin-14-iterator" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-iterator&amp;lesson=14#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterator</a> <a class="glossary-chip" id="glossary-panel-origin-14-lifetime" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-lifetime&amp;lesson=14#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> <a class="glossary-chip" id="glossary-panel-origin-14-loop" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-loop&amp;lesson=14#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loop</a> <a class="glossary-chip" id="glossary-panel-origin-14-main-function" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-main-function&amp;lesson=14#term-main-function" aria-label="Look up main function in the programming glossary" title="Look up main function in the programming glossary">main function</a> <a class="glossary-chip" id="glossary-panel-origin-14-memory-leak" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-memory-leak&amp;lesson=14#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">memory leak</a> <a class="glossary-chip" id="glossary-panel-origin-14-memory-safety" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-memory-safety&amp;lesson=14#term-memory-safety" aria-label="Look up memory safety in the programming glossary" title="Look up memory safety in the programming glossary">memory safety</a> <a class="glossary-chip" id="glossary-panel-origin-14-new-delete" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-new-delete&amp;lesson=14#term-new-delete" aria-label="Look up new and delete in the programming glossary" title="Look up new and delete in the programming glossary">new and delete</a> <a class="glossary-chip" id="glossary-panel-origin-14-null-pointer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-null-pointer&amp;lesson=14#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> <a class="glossary-chip" id="glossary-panel-origin-14-object" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-object&amp;lesson=14#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a> <a class="glossary-chip" id="glossary-panel-origin-14-operator" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-operator&amp;lesson=14#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">operator</a> <a class="glossary-chip" id="glossary-panel-origin-14-out-of-bounds-access" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-out-of-bounds-access&amp;lesson=14#term-out-of-bounds-access" aria-label="Look up out-of-bounds access in the programming glossary" title="Look up out-of-bounds access in the programming glossary">out-of-bounds access</a> <a class="glossary-chip" id="glossary-panel-origin-14-ownership" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-ownership&amp;lesson=14#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> <a class="glossary-chip" id="glossary-panel-origin-14-parameter" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-parameter&amp;lesson=14#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> <a class="glossary-chip" id="glossary-panel-origin-14-pass-by-reference" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-pass-by-reference&amp;lesson=14#term-pass-by-reference" aria-label="Look up pass by reference in the programming glossary" title="Look up pass by reference in the programming glossary">pass by reference</a> <a class="glossary-chip" id="glossary-panel-origin-14-pointer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-pointer&amp;lesson=14#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">pointer</a> <a class="glossary-chip" id="glossary-panel-origin-14-pointer-arithmetic" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-pointer-arithmetic&amp;lesson=14#term-pointer-arithmetic" aria-label="Look up pointer arithmetic in the programming glossary" title="Look up pointer arithmetic in the programming glossary">pointer arithmetic</a> <a class="glossary-chip" id="glossary-panel-origin-14-program" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-program&amp;lesson=14#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> <a class="glossary-chip" id="glossary-panel-origin-14-access-levels" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-access-levels&amp;lesson=14#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">public, protected and private</a> <a class="glossary-chip" id="glossary-panel-origin-14-raii" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-raii&amp;lesson=14#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a> <a class="glossary-chip" id="glossary-panel-origin-14-raw-pointer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-raw-pointer&amp;lesson=14#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointer</a> <a class="glossary-chip" id="glossary-panel-origin-14-sanitizer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-sanitizer&amp;lesson=14#term-sanitizer" aria-label="Look up sanitizer in the programming glossary" title="Look up sanitizer in the programming glossary">sanitizer</a> <a class="glossary-chip" id="glossary-panel-origin-14-scope" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-scope&amp;lesson=14#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a> <a class="glossary-chip" id="glossary-panel-origin-14-smart-pointer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-smart-pointer&amp;lesson=14#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointer</a> <a class="glossary-chip" id="glossary-panel-origin-14-stack" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-stack&amp;lesson=14#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a> <a class="glossary-chip" id="glossary-panel-origin-14-state" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-state&amp;lesson=14#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a> <a class="glossary-chip" id="glossary-panel-origin-14-storage-duration" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-storage-duration&amp;lesson=14#term-storage-duration" aria-label="Look up storage duration in the programming glossary" title="Look up storage duration in the programming glossary">storage duration</a> <a class="glossary-chip" id="glossary-panel-origin-14-stream" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-stream&amp;lesson=14#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">stream</a> <a class="glossary-chip" id="glossary-panel-origin-14-testing" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-testing&amp;lesson=14#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">testing</a> <a class="glossary-chip" id="glossary-panel-origin-14-type" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-type&amp;lesson=14#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">type</a> <a class="glossary-chip" id="glossary-panel-origin-14-undefined-behaviour" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-undefined-behaviour&amp;lesson=14#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a> <a class="glossary-chip" id="glossary-panel-origin-14-use-after-free" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-use-after-free&amp;lesson=14#term-use-after-free" aria-label="Look up use-after-free in the programming glossary" title="Look up use-after-free in the programming glossary">use-after-free</a> <a class="glossary-chip" id="glossary-panel-origin-14-value" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-value&amp;lesson=14#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> <a class="glossary-chip" id="glossary-panel-origin-14-variable" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-variable&amp;lesson=14#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a> <a class="glossary-chip" id="glossary-panel-origin-14-vector" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-vector&amp;lesson=14#term-vector" aria-label="Look up vector in the programming glossary" title="Look up vector in the programming glossary">vector</a> <a class="glossary-chip" id="glossary-panel-origin-14-virtual-memory" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-virtual-memory&amp;lesson=14#term-virtual-memory" aria-label="Look up virtual memory in the programming glossary" title="Look up virtual memory in the programming glossary">virtual memory</a> <a class="glossary-chip" id="glossary-panel-origin-14-wild-pointer" href="glossary.html?from=lesson-14.html%23glossary-panel-origin-14-wild-pointer&amp;lesson=14#term-wild-pointer" aria-label="Look up wild pointer in the programming glossary" title="Look up wild pointer in the programming glossary">wild pointer</a>
+</div>
+</details>
+<!-- glossary:lesson-terms:end -->
+<!-- lesson-art:start -->
+<figure class="lesson-visual" data-lesson-art="14">
+<img src="assets/images/lesson-art/lesson-14-manipulating-memory.png" alt="Abstract memory address lattice with controlled luminous pointer connections to exact cells." width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high">
+</figure>
+<!-- lesson-art:end -->
+
+<p style="text-align: left;">&nbsp;</p>
+<h2>Lesson: Direct Memory Manipulation &amp; <a class="glossary-term" id="glossary-origin-14-0001" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0001&amp;lesson=14#term-pointer" aria-label="Look up pointer in the programming glossary" title="Look up pointer in the programming glossary">Pointers</a> (<a class="glossary-term" id="glossary-origin-14-0002" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0002&amp;lesson=14#term-cpp" aria-label="Look up C++ in the programming glossary" title="Look up C++ in the programming glossary">C++</a>)</h2>
+
+<p>
+C++ gives you enormous power — including direct access to memory. That power can produce brilliant performance or catastrophic <a class="glossary-term" id="glossary-origin-14-0003" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0003&amp;lesson=14#term-bug" aria-label="Look up bug in the programming glossary" title="Look up bug in the programming glossary">bugs</a>. 
+The most failure-prone features are <a class="glossary-term" id="glossary-origin-14-0004" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0004&amp;lesson=14#term-raw-pointer" aria-label="Look up raw pointer in the programming glossary" title="Look up raw pointer in the programming glossary">raw pointers</a> and manual memory handling. Use them <em>only</em> when necessary and with care.
+</p>
+
+<ul>
+  <li>Absolutely need to?</li>
+  <li>Know what you’re doing?</li>
+  <li>Understand the <a class="glossary-term" id="glossary-origin-14-0005" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0005&amp;lesson=14#term-lifetime" aria-label="Look up lifetime in the programming glossary" title="Look up lifetime in the programming glossary">lifetime</a> and <a class="glossary-term" id="glossary-origin-14-0006" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0006&amp;lesson=14#term-ownership" aria-label="Look up ownership in the programming glossary" title="Look up ownership in the programming glossary">ownership</a> of the memory?</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Safety First</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to convert raw pointers to <code>std::unique_ptr</code>, <code>std::shared_ptr</code>, <a class="glossary-term" id="glossary-origin-14-0007" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0007&amp;lesson=14#term-reference" aria-label="Look up C++ reference in the programming glossary" title="Look up C++ reference in the programming glossary">references</a>, or <a class="glossary-term" id="glossary-origin-14-0008" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0008&amp;lesson=14#term-container" aria-label="Look up container in the programming glossary" title="Look up container in the programming glossary">containers</a> (<code>std::vector</code>).</li>
+      <li>Have AI add <a class="glossary-term" id="glossary-origin-14-0009" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0009&amp;lesson=14#term-sanitizer" aria-label="Look up sanitizer in the programming glossary" title="Look up sanitizer in the programming glossary">sanitizer</a> flags and a quick memory-safety checklist to your build.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>1) Virtual vs <a class="glossary-term" id="glossary-origin-14-0010" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0010&amp;lesson=14#term-virtual-memory" aria-label="Look up virtual memory in the programming glossary" title="Look up virtual memory in the programming glossary">Physical Memory</a> (just enough to reason safely)</h3>
+<p>
+Your <a class="glossary-term" id="glossary-origin-14-0011" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0011&amp;lesson=14#term-program" aria-label="Look up program in the programming glossary" title="Look up program in the programming glossary">program</a> runs in a <strong>virtual address space</strong>. <a class="glossary-term" id="glossary-origin-14-0012" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0012&amp;lesson=14#term-address" aria-label="Look up address in the programming glossary" title="Look up address in the programming glossary">Addresses</a> you see are virtual; the OS/MMU maps them to physical memory and keeps processes isolated. 
+You can still crash <em>your</em> process via bad pointers (<a class="glossary-term" id="glossary-origin-14-0013" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0013&amp;lesson=14#term-use-after-free" aria-label="Look up use-after-free in the programming glossary" title="Look up use-after-free in the programming glossary">use-after-free</a>, <a class="glossary-term" id="glossary-origin-14-0014" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0014&amp;lesson=14#term-out-of-bounds-access" aria-label="Look up out-of-bounds access in the programming glossary" title="Look up out-of-bounds access in the programming glossary">out-of-bounds</a>, <a class="glossary-term" id="glossary-origin-14-0015" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0015&amp;lesson=14#term-wild-pointer" aria-label="Look up wild pointer in the programming glossary" title="Look up wild pointer in the programming glossary">wild pointers</a>), even if you can’t easily crash other processes.
+</p>
+
+<hr>
+
+<h3>2) The Two Unary <a class="glossary-term" id="glossary-origin-14-0016" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0016&amp;lesson=14#term-operator" aria-label="Look up operator in the programming glossary" title="Look up operator in the programming glossary">Operators</a>: <code>&amp;</code> and <code>*</code></h3>
+
+<ul>
+  <li><strong><code>&amp;</code> (<a class="glossary-term" id="glossary-origin-14-0017" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0017&amp;lesson=14#term-address-of-operator" aria-label="Look up address-of operator in the programming glossary" title="Look up address-of operator in the programming glossary">address-of operator</a>):</strong> given an <a class="glossary-term" id="glossary-origin-14-0018" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0018&amp;lesson=14#term-object" aria-label="Look up object in the programming glossary" title="Look up object in the programming glossary">object</a>, yields its address.</li>
+  <li><strong><code>*</code> (<a class="glossary-term" id="glossary-origin-14-0019" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0019&amp;lesson=14#term-dereference-operator" aria-label="Look up dereference operator in the programming glossary" title="Look up dereference operator in the programming glossary">dereference operator</a>):</strong> given a pointer (an address), yields the object stored there.</li>
+</ul>
+
+<pre><code class="language-cpp">int y = 5;      // a plain int object
+int* x;         // a pointer that can hold the address of an int (uninitialised — DANGER)
+x = &amp;y;         // x now holds y's address
+int v = *x;     // v == 5 (read the value at the address in x)
+*x = 42;        // writes 42 into y (because x points to y)
+</code></pre>
+
+<p>
+Be careful: <code>*</code> is used in two roles — in <a class="glossary-term" id="glossary-origin-14-0020" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0020&amp;lesson=14#term-declaration" aria-label="Look up declaration in the programming glossary" title="Look up declaration in the programming glossary">declarations</a> (<code>int* p;</code>) it means “pointer to”, and in <a class="glossary-term" id="glossary-origin-14-0021" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0021&amp;lesson=14#term-expression" aria-label="Look up expression in the programming glossary" title="Look up expression in the programming glossary">expressions</a> (<code>*p</code>) it means “follow this pointer”.
+</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Pointers vs References</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI whether a <a class="glossary-term" id="glossary-origin-14-0022" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0022&amp;lesson=14#term-parameter" aria-label="Look up parameter in the programming glossary" title="Look up parameter in the programming glossary">parameter</a> should be a <em>reference</em> (<code>T&amp;</code>) or a <em>pointer</em> (<code>T*</code>): use references for required, non-null inputs; pointers to mean “optional may be null”.</li>
+      <li>Have AI rewrite pointer-based <a class="glossary-term" id="glossary-origin-14-0023" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0023&amp;lesson=14#term-api" aria-label="Look up API in the programming glossary" title="Look up API in the programming glossary">APIs</a> to references/optionals for clarity.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>3) <a class="glossary-term" id="glossary-origin-14-0024" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0024&amp;lesson=14#term-initialisation" aria-label="Look up initialisation in the programming glossary" title="Look up initialisation in the programming glossary">Initialization</a> Matters: <code>nullptr</code>, <a class="glossary-term" id="glossary-origin-14-0025" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0025&amp;lesson=14#term-dangling-pointer" aria-label="Look up dangling pointer in the programming glossary" title="Look up dangling pointer in the programming glossary">Dangling</a> &amp; Wild Pointers</h3>
+
+<pre><code class="language-cpp">int* p;                 // ❌ uninitialised (wild) — do not use
+int* q = nullptr;       // ✅ explicit "points to nothing"
+if (q) { /* ... */ }    // null checks are now meaningful
+</code></pre>
+
+<p><strong>Dangling pointers:</strong> point to memory that no longer exists.</p>
+<pre><code class="language-cpp">int* d;
+{
+    int local = 7;
+    d = &amp;local;         // bad: &amp;local becomes invalid after the block
+}                        // local is destroyed here
+//*d;                    // ❌ undefined behaviour
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Lifetime Audit</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Paste a <a class="glossary-term" id="glossary-origin-14-0026" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0026&amp;lesson=14#term-function" aria-label="Look up function in the programming glossary" title="Look up function in the programming glossary">function</a>; ask AI to map object lifetimes and flag potential dangling pointers.</li>
+      <li>Have AI convert raw owning pointers to <code>std::unique_ptr</code> (<a class="glossary-term" id="glossary-origin-14-0027" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0027&amp;lesson=14#term-raii" aria-label="Look up RAII in the programming glossary" title="Look up RAII in the programming glossary">RAII</a>) and return references where safe.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>4) Pointers vs References (C++ <a class="glossary-term" id="glossary-origin-14-0028" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0028&amp;lesson=14#term-type" aria-label="Look up type in the programming glossary" title="Look up type in the programming glossary">types</a>)</h3>
+
+<ul>
+  <li><strong>Reference (<code>T&amp;</code>):</strong> must bind to a valid object at initialisation; not reseatable; cannot be null (in normal use).</li>
+  <li><strong>Pointer (<code>T*</code>):</strong> holds an address; can be reseated; can be null; must be checked and dereferenced explicitly.</li>
+</ul>
+
+<pre><code class="language-cpp">void set_to_42(int&amp; r) { r = 42; }       // requires a valid int
+void maybe_set(int* p) { if (p) *p = 42; } // optional, check for null
+</code></pre>
+
+<hr>
+
+<h3>5) <a class="glossary-term" id="glossary-origin-14-0029" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0029&amp;lesson=14#term-const-correctness" aria-label="Look up const-correctness in the programming glossary" title="Look up const-correctness in the programming glossary">Const-Correctness</a> with Pointers</h3>
+
+<ul>
+  <li><code>const int* p</code> — pointer to <em>const int</em> (you can reseat <code>p</code>, but not change the int through <code>p</code>).</li>
+  <li><code>int* const p</code> — <em>const pointer</em> to int (can change the int, not the pointer).</li>
+  <li><code>const int* const p</code> — neither changes.</li>
+</ul>
+
+<pre><code class="language-cpp">int v = 1, w = 2;
+const int* a = &amp;v; // *a read-only
+int* const b = &amp;v; // b fixed, *b writable
+a = &amp;w;            // ok: reseat a
+//*a = 3;          // ❌ cannot modify through a
+</code></pre>
+
+<hr>
+
+<h3>6) <a class="glossary-term" id="glossary-origin-14-0030" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0030&amp;lesson=14#term-array" aria-label="Look up array in the programming glossary" title="Look up array in the programming glossary">Arrays</a> &amp; <a class="glossary-term" id="glossary-origin-14-0031" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0031&amp;lesson=14#term-pointer-arithmetic" aria-label="Look up pointer arithmetic in the programming glossary" title="Look up pointer arithmetic in the programming glossary">Pointer Arithmetic</a> (handle with care)</h3>
+
+<p>
+Array names decay to pointers to their first element; pointer arithmetic walks elements by type size.
+</p>
+
+<pre><code class="language-cpp">int arr[3] = {10, 20, 30};
+int* p = arr;           // same as &amp;arr[0]
+int first = *p;         // 10
+++p;                    // now points to arr[1]
+int second = *p;        // 20
+</code></pre>
+
+<p><strong>Never</strong> walk past array bounds; that’s <a class="glossary-term" id="glossary-origin-14-0032" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0032&amp;lesson=14#term-undefined-behaviour" aria-label="Look up undefined behaviour in the programming glossary" title="Look up undefined behaviour in the programming glossary">undefined behaviour</a>. Prefer <code>std::array</code>/<code>std::vector</code> and <a class="glossary-term" id="glossary-origin-14-0033" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0033&amp;lesson=14#term-iterator" aria-label="Look up iterator in the programming glossary" title="Look up iterator in the programming glossary">iterators</a>.</p>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — From Pointers to Iterators</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to replace manual pointer <a class="glossary-term" id="glossary-origin-14-0034" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0034&amp;lesson=14#term-loop" aria-label="Look up loop in the programming glossary" title="Look up loop in the programming glossary">loops</a> with range-based <code>for</code> or STL <a class="glossary-term" id="glossary-origin-14-0035" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0035&amp;lesson=14#term-algorithm" aria-label="Look up algorithm in the programming glossary" title="Look up algorithm in the programming glossary">algorithms</a> (<code>std::transform</code>, <code>std::accumulate</code>).</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>7) Dynamic Memory: Avoid <code>new</code>/<code>delete</code> in Modern C++</h3>
+
+<p>
+Prefer RAII containers and <a class="glossary-term" id="glossary-origin-14-0036" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0036&amp;lesson=14#term-smart-pointer" aria-label="Look up smart pointer in the programming glossary" title="Look up smart pointer in the programming glossary">smart pointers</a>. Manual <code>new</code>/<code>delete</code> invites <a class="glossary-term" id="glossary-origin-14-0037" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0037&amp;lesson=14#term-memory-leak" aria-label="Look up memory leak in the programming glossary" title="Look up memory leak in the programming glossary">leaks</a> and double frees.
+</p>
+
+<pre><code class="language-cpp">// Prefer this
+#include &lt;memory&gt;
+auto p = std::make_unique&lt;int&gt;(5);
+*p = 6;               // use like a pointer
+int* raw = p.get();   // raw view if needed (non-owning)
+
+// Instead of this
+// int* q = new int(5);
+// delete q; // ❌ easy to forget; leaks or double free bugs
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Ownership Refactor</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Have AI identify owning raw pointers and convert them to <code>unique_ptr</code>/<code>shared_ptr</code> with clear ownership semantics.</li>
+      <li>Ask AI to add move-only <a class="glossary-term" id="glossary-origin-14-0038" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0038&amp;lesson=14#term-constructor" aria-label="Look up constructor in the programming glossary" title="Look up constructor in the programming glossary">constructors</a> and delete copy ops to prevent accidental sharing.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>8) Printing Addresses (and understanding types)</h3>
+
+<p>Use <code>static_cast&lt;const void*&gt;</code> to print addresses portably with <a class="glossary-term" id="glossary-origin-14-0039" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0039&amp;lesson=14#term-stream" aria-label="Look up stream in the programming glossary" title="Look up stream in the programming glossary">streams</a>.</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main() {
+    int y = 5;
+    int* x = &amp;y;
+    std::cout &lt;&lt; "y value = " &lt;&lt; y &lt;&lt; "\n";
+    std::cout &lt;&lt; "y addr  = " &lt;&lt; static_cast&lt;const void*&gt;(&amp;y) &lt;&lt; "\n";
+    std::cout &lt;&lt; "x holds = " &lt;&lt; static_cast&lt;const void*&gt;(x) &lt;&lt; "\n";
+    std::cout &lt;&lt; "*x      = " &lt;&lt; *x &lt;&lt; "\n";
+}
+</code></pre>
+
+<hr>
+
+<h3>9) Common Pointer Bugs (and how to avoid them)</h3>
+
+<ul>
+  <li><strong>Uninitialised pointer:</strong> declare but don’t set → <code>nullptr</code>-initialise or <a class="glossary-term" id="glossary-origin-14-0040" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0040&amp;lesson=14#term-assignment" aria-label="Look up assignment in the programming glossary" title="Look up assignment in the programming glossary">assign</a> immediately.</li>
+  <li><strong>Dangling pointer:</strong> pointing to a destroyed object (<a class="glossary-term" id="glossary-origin-14-0041" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0041&amp;lesson=14#term-stack" aria-label="Look up stack in the programming glossary" title="Look up stack in the programming glossary">stack</a>, freed <a class="glossary-term" id="glossary-origin-14-0042" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0042&amp;lesson=14#term-heap" aria-label="Look up heap in the programming glossary" title="Look up heap in the programming glossary">heap</a>).</li>
+  <li><strong>Use-after-free / <a class="glossary-term" id="glossary-origin-14-0043" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0043&amp;lesson=14#term-double-deletion" aria-label="Look up double deletion in the programming glossary" title="Look up double deletion in the programming glossary">double delete</a>:</strong> manual <a class="glossary-term" id="glossary-origin-14-0044" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0044&amp;lesson=14#term-memory-safety" aria-label="Look up memory safety in the programming glossary" title="Look up memory safety in the programming glossary">memory errors</a> — prefer RAII.</li>
+  <li><strong>Out-of-bounds:</strong> pointer arithmetic crosses array limits — use containers/iterators.</li>
+  <li><strong>Aliasing surprises:</strong> two pointers refer to the same object; writes through one affect reads through the other.</li>
+  <li><strong>Invalidated pointers:</strong> pointers/iterators into a <code>std::vector</code> become invalid after reallocation (e.g., <code>push_back</code> grows capacity).</li>
+</ul>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — Memory <a class="glossary-term" id="glossary-origin-14-0045" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0045&amp;lesson=14#term-debugging" aria-label="Look up debugging in the programming glossary" title="Look up debugging in the programming glossary">Debug</a> Toolkit</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI for <a class="glossary-term" id="glossary-origin-14-0046" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0046&amp;lesson=14#term-compiler" aria-label="Look up compiler in the programming glossary" title="Look up compiler in the programming glossary">compiler</a> flags (UBSan/ASan), and to set up a minimal repro to catch a suspected pointer bug.</li>
+      <li>Have AI annotate lifetimes and add assertions (<code>assert(p)</code>, bounds checks) around risky <a class="glossary-term" id="glossary-origin-14-0047" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0047&amp;lesson=14#term-code" aria-label="Look up code in the programming glossary" title="Look up code in the programming glossary">code</a>.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>10) Worked Example — From Raw Pointer to Safe API</h3>
+
+<p><strong>Original (fragile):</strong></p>
+<pre><code class="language-cpp">void write_value(int* out, int v) { *out = v; } // ❌ out may be null
+</code></pre>
+
+<p><strong>Safer alternatives:</strong></p>
+<pre><code class="language-cpp">void write_value(int&amp; out, int v) { out = v; }                // required (non-null)
+void write_value_opt(int* out, int v) { if (out) *out = v; }   // optional pointer, guarded
+</code></pre>
+
+<p><strong>Owning pointer → RAII:</strong></p>
+<pre><code class="language-cpp">#include &lt;memory&gt;
+std::unique_ptr&lt;int&gt; make_value(int v) {
+    auto p = std::make_unique&lt;int&gt;(v);
+    return p; // move
+}
+</code></pre>
+
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI)</strong> — API Intent via Types</summary>
+<ul style="margin:0 0 0 18px;padding:0;">
+      <li>Ask AI to redesign <a class="glossary-term" id="glossary-origin-14-0048" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0048&amp;lesson=14#term-function-signature" aria-label="Look up function signature in the programming glossary" title="Look up function signature in the programming glossary">function signatures</a> to encode intent (owning vs non-owning, required vs optional) using types.</li>
+    </ul>
+</details>
+
+<hr>
+
+<h3>11) Mini Exercise — Explain This Snippet</h3>
+
+<pre><code class="language-cpp">int y = 5;
+int* x;        // (1) What does this declare? What's its initial value?
+x = &amp;y;        // (2) What goes into x?
+int a = *x;    // (3) What value is read? Why?
+*x = 99;       // (4) Which object changed? What is y now?
+</code></pre>
+
+<p><strong>Answers (hover or discuss in <a class="glossary-term" id="glossary-origin-14-0049" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0049&amp;lesson=14#term-class" aria-label="Look up class in the programming glossary" title="Look up class in the programming glossary">class</a>):</strong> (1) a pointer to int, uninitialised; (2) the address of <code>y</code>; (3) 5 (<a class="glossary-term" id="glossary-origin-14-0050" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0050&amp;lesson=14#term-value" aria-label="Look up value in the programming glossary" title="Look up value in the programming glossary">value</a> at that address); (4) <code>y</code> changed to 99.</p>
+
+<hr>
+
+<h3>Summary Checklist</h3>
+<ul>
+  <li>Prefer containers, references, and smart pointers to raw pointers.</li>
+  <li>Initialise pointers (<code>nullptr</code>), guard before dereference, and respect lifetimes.</li>
+  <li>Avoid manual <code>new</code>/<code>delete</code>; use RAII (<code>make_unique</code>, <code>make_shared</code>).</li>
+  <li>Don’t return or store addresses of temporaries/locals beyond their lifetime.</li>
+  <li>Be wary of pointer arithmetic; prefer iterators and algorithms.</li>
+  <li>Use sanitizers and <a class="glossary-term" id="glossary-origin-14-0051" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0051&amp;lesson=14#term-testing" aria-label="Look up testing in the programming glossary" title="Look up testing in the programming glossary">tests</a>; let tools (and AI) catch memory bugs early.</li>
+</ul>
+        
+<!-- lesson-enhancement:14:start -->
+<section class="lesson-enhancement" id="addresses-aliases-and-validity">
+<p class="lesson-enhancement-kicker">Advanced perspective: identity and access paths</p>
+<h2>A pointer is a typed value that may identify an object</h2>
+<p>Calling pointers powerful or dangerous is not yet a useful model. The decision at each use depends on more ordinary facts: which object is designated, whether that object is still alive, whether the access stays within its permitted extent and which other expressions can change it. An address-like value on the screen proves none of those facts by itself.</p>
+<p>An object has a type, a value, a lifetime and storage. Applying the address-of operator to a suitable object can produce a pointer value that identifies it. A pointer object stores such a value and has its own type, value and lifetime. Pointer and pointee are not one thing. Changing the stored pointer value can select another object without moving either object, while changing the pointee through a dereference does not reseat the pointer.</p>
+
+<h3>Separate declaration, address formation and access</h3>
+<table>
+<thead><tr><th>Source form</th><th>Role</th><th>What it establishes</th></tr></thead>
+<tbody>
+<tr><td><code>int score{20};</code></td><td>Defines an <code>int</code> object</td><td><code>score</code> is alive and initially holds 20.</td></tr>
+<tr><td><code>int* pointer{&amp;score};</code></td><td>Defines and initialises a pointer object</td><td><code>pointer</code> holds a pointer value identifying <code>score</code>.</td></tr>
+<tr><td><code>&amp;score</code></td><td>Address-of expression</td><td>Produces the pointer value used to identify <code>score</code>; it does not create <code>score</code>.</td></tr>
+<tr><td><code>*pointer</code></td><td>Dereference expression</td><td>Designates the object identified by a valid dereferenceable pointer.</td></tr>
+<tr><td><code>*pointer = 30;</code></td><td>Assignment through the access path</td><td>Changes the designated <code>int</code> object, not the stored pointer value.</td></tr>
+</tbody>
+</table>
+<p>In <code>int* pointer</code>, the asterisk belongs to the pointer declarator. It is not the unary dereference operator being executed. In <code>*pointer = 30</code>, the asterisk is an expression operator. The same token appears in two grammatical roles, and confusing them produces a false picture of what the declaration does.</p>
+<p>Forming a pointer is also different from dereferencing it. A <a class="glossary-term" id="glossary-origin-14-0052" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0052&amp;lesson=14#term-null-pointer" aria-label="Look up null pointer in the programming glossary" title="Look up null pointer in the programming glossary">null pointer</a> value can be stored, copied and tested without identifying an object, but it cannot be dereferenced. A pointer one position past an array can participate in the limited operations for which that value is permitted, but it does not designate an element and must not be dereferenced. "Contains an address" is therefore weaker than "may be used for this access".</p>
+
+<h3>Trace every alias to the same <a class="glossary-term" id="glossary-origin-14-0053" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0053&amp;lesson=14#term-state" aria-label="Look up state in the programming glossary" title="Look up state in the programming glossary">state</a></h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+void apply_bonus(int&amp; score, int bonus) {
+    score += bonus;
+}
+
+int main() {
+    int score{20};
+    int* scorePointer{&amp;score};
+
+    apply_bonus(score, 5);
+    *scorePointer += 10;
+
+    std::cout &lt;&lt; score &lt;&lt; '\n';
+}
+</code></pre>
+<p>The original <a class="glossary-term" id="glossary-origin-14-0054" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0054&amp;lesson=14#term-identifier" aria-label="Look up identifier in the programming glossary" title="Look up identifier in the programming glossary">identifier</a>, the <a class="glossary-term" id="glossary-origin-14-0055" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0055&amp;lesson=14#term-pass-by-reference" aria-label="Look up pass by reference in the programming glossary" title="Look up pass by reference in the programming glossary">reference parameter</a> and the dereferenced pointer are three expressions that can designate the same <code>score</code> object at different points in execution. This is aliasing. There are not three <a class="glossary-term" id="glossary-origin-14-0056" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0056&amp;lesson=14#term-integer" aria-label="Look up integer in the programming glossary" title="Look up integer in the programming glossary">integer</a> objects and the pointer does not contain a <a class="glossary-term" id="glossary-origin-14-0057" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0057&amp;lesson=14#term-access-levels" aria-label="Look up public, protected and private in the programming glossary" title="Look up public, protected and private in the programming glossary">private</a> copy of 20.</p>
+<table>
+<thead><tr><th>Program point</th><th>Access path used</th><th><code>score</code> value</th><th>Pointer state</th></tr></thead>
+<tbody>
+<tr><td>After <code>int score{20}</code></td><td><code>score</code></td><td>20</td><td><code>scorePointer</code> does not yet exist.</td></tr>
+<tr><td>After pointer initialisation</td><td><code>&amp;score</code> supplies the stored pointer value</td><td>20</td><td><code>scorePointer</code> identifies the live <code>score</code> object.</td></tr>
+<tr><td>During <code>apply_bonus</code></td><td>Reference parameter <code>score</code> in the function</td><td>25</td><td>The pointer in <code>main</code> still identifies the same object.</td></tr>
+<tr><td>After <code>*scorePointer += 10</code></td><td>Dereferenced pointer</td><td>35</td><td>The stored pointer value is unchanged.</td></tr>
+<tr><td>At output</td><td>Original identifier <code>score</code></td><td>35</td><td>The pointee remains alive until control leaves its <a class="glossary-term" id="glossary-origin-14-0058" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0058&amp;lesson=14#term-scope" aria-label="Look up scope in the programming glossary" title="Look up scope in the programming glossary">scope</a>.</td></tr>
+</tbody>
+</table>
+<p>A trace that follows only the spelling <code>score</code> misses two writes. When aliases are permitted, state reasoning must follow the object identity across every path that can designate it. This is why unrestricted writable aliases increase the evidence required: an apparently local read may observe a change made elsewhere through another name.</p>
+
+<h3>Null, uninitialised and dangling are different failures</h3>
+<table>
+<thead><tr><th>Pointer state</th><th>What is known</th><th>Dereference judgement</th></tr></thead>
+<tbody>
+<tr><td>Identifies a live suitable object or element</td><td>The object exists and the pointer is valid for the intended access.</td><td>Potentially permitted, subject to type, bounds and the other language rules.</td></tr>
+<tr><td>Null</td><td>The pointer deliberately identifies no object.</td><td>Not permitted.</td></tr>
+<tr><td>Uninitialised automatic pointer</td><td>No usable pointer value has been established.</td><td>The indeterminate value must not be read or dereferenced.</td></tr>
+<tr><td>Dangling</td><td>A former target's lifetime has ended, or an operation has invalidated the access path.</td><td>Not permitted for access to the former object.</td></tr>
+<tr><td>One-past an array</td><td>The value marks the boundary after the last element rather than an element.</td><td>It must not be dereferenced.</td></tr>
+</tbody>
+</table>
+<p>A null check answers only the null question; it does not prove that a live object is designated. Once the <a class="glossary-term" id="glossary-origin-14-0059" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0059&amp;lesson=14#term-storage-duration" aria-label="Look up storage duration in the programming glossary" title="Look up storage duration in the programming glossary">storage duration</a> of an automatic object ends, a pointer to that storage has an invalid pointer value. C++ does not require every later use of that invalid value, including an ordinary comparison, to have one portable result. An implementation may preserve a familiar non-null representation, but that observation would still provide no lifetime evidence.</p>
+<p>Consider a pointer assigned <code>&amp;local</code> inside a nested <a class="glossary-term" id="glossary-origin-14-0060" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0060&amp;lesson=14#term-block" aria-label="Look up block in the programming glossary" title="Look up block in the programming glossary">block</a>. While <code>local</code> is alive, the pointer may designate it. At the closing brace, <code>local</code>'s lifetime and <a class="glossary-term" id="glossary-origin-14-0061" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0061&amp;lesson=14#term-automatic-storage-duration" aria-label="Look up automatic storage duration in the programming glossary" title="Look up automatic storage duration in the programming glossary">automatic storage duration</a> end, so the pointer value outside the block is invalid. Overwriting the pointer object with <code>nullptr</code> can prevent a later accidental use through that <a class="glossary-term" id="glossary-origin-14-0062" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0062&amp;lesson=14#term-variable" aria-label="Look up variable in the programming glossary" title="Look up variable in the programming glossary">variable</a>, but it cannot restore the ended object or repair aliases copied elsewhere.</p>
+<p>The reverse misconception is equally important: setting one pointer to <code>nullptr</code> does not destroy an independently owned object. It changes that pointer object's value. Whether an object is destroyed depends on its lifetime and ownership mechanism, not on the disappearance of one non-owning access path.</p>
+
+<h3>References and pointers communicate different <a class="glossary-term" id="glossary-origin-14-0063" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0063&amp;lesson=14#term-interface" aria-label="Look up interface in the programming glossary" title="Look up interface in the programming glossary">interface</a> policies</h3>
+<p>A reference must be bound when it is initialised and cannot later be reseated to designate another object. In the C++ language model there is no ordinary null reference value. This makes <code>T&amp;</code> suitable for an interface that requires an existing <code>T</code> and intends to use it through the alias.</p>
+<p>A <code>T*</code> parameter can hold null, so an interface can use null by convention to mean that access is optional. That meaning is not supplied automatically by every pointer type. Pointers also represent positions, identity and non-owning views where null may be invalid. The function contract must say whether null is accepted and what happens when it is supplied.</p>
+<table>
+<thead><tr><th>Interface form</th><th>Useful claim</th><th>Claim it does not establish</th></tr></thead>
+<tbody>
+<tr><td><code>void update(T&amp; value)</code></td><td>The caller supplies an existing object and the function receives a required alias.</td><td>It does not specify the object's physical representation or transfer ownership.</td></tr>
+<tr><td><code>void maybe_update(T* value)</code></td><td>The contract may <a class="glossary-term" id="glossary-origin-14-0064" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0064&amp;lesson=14#term-definition" aria-label="Look up definition in the programming glossary" title="Look up definition in the programming glossary">define</a> null as "perform no update" and require a check.</td><td>The type alone does not prove null is accepted or that the pointer owns the object.</td></tr>
+<tr><td><code>const T&amp;</code> or <code>const T*</code></td><td>The object cannot be modified through that access path.</td><td>The object cannot change through every other alias.</td></tr>
+</tbody>
+</table>
+<p>Neither a raw pointer nor a reference carries an automatic ownership story. A raw pointer may historically participate in owning code, but the type does not reveal whether <a class="glossary-term" id="glossary-origin-14-0065" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0065&amp;lesson=14#term-destructor" aria-label="Look up destructor in the programming glossary" title="Look up destructor in the programming glossary">destruction</a> is the caller's duty, the callee's duty or nobody's. Ownership mechanisms belong to the next lesson; here the necessary discipline is to avoid inventing ownership from punctuation.</p>
+
+<h3>Constness identifies which part this access path may change</h3>
+<table>
+<thead><tr><th>Declaration</th><th>Pointee through this pointer</th><th>Pointer object</th></tr></thead>
+<tbody>
+<tr><td><code>const int* p</code></td><td>Cannot be modified through <code>p</code>.</td><td><code>p</code> may be reseated.</td></tr>
+<tr><td><code>int* const p</code></td><td>May be modified through <code>p</code>.</td><td><code>p</code> cannot be reseated after initialisation.</td></tr>
+<tr><td><code>const int* const p</code></td><td>Cannot be modified through <code>p</code>.</td><td><code>p</code> cannot be reseated.</td></tr>
+</tbody>
+</table>
+<p>Read from the declared name outwards: is the pointer itself const, is the pointed-to type const, or are both const? Constness of the pointee through one pointer is an access restriction, not a guarantee that the object is globally immutable. Another non-const alias may still be permitted to change it, and a later read through the const access path can observe that change.</p>
+
+<h3>An array <a class="glossary-term" id="glossary-origin-14-0066" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0066&amp;lesson=14#term-conversion" aria-label="Look up conversion in the programming glossary" title="Look up conversion in the programming glossary">conversion</a> loses the bound</h3>
+<p>In many expressions, an array is converted to a pointer to its first element. This is not universal: contexts such as <code>sizeof</code> applied directly to the array and unary address-of treat the array differently. Once code has only a pointer to the first element, that pointer does not carry the number of elements.</p>
+<p>Pointer arithmetic is defined only within the relevant array object and to its one-past boundary under the language rules. The one-past value can mark an end position, but dereferencing it is outside the array. A function that receives only <code>int*</code> must obtain the permitted count or end position from another trustworthy part of its contract. If pointer and count disagree, the pointer cannot correct the count.</p>
+<p>A later lesson introduces bounded views such as <code>std::span</code>, which keep an access path and element count together. That design reduces the chance that two independent <a class="glossary-term" id="glossary-origin-14-0067" href="glossary.html?from=lesson-14.html%23glossary-origin-14-0067&amp;lesson=14#term-argument" aria-label="Look up argument in the programming glossary" title="Look up argument in the programming glossary">arguments</a> drift apart, but it still does not own the elements or extend their lifetime. Bounds and lifetime remain separate obligations.</p>
+
+<details class="programming-insight">
+<summary><strong>Programming Insight (AI):</strong> draw objects, aliases, bounds and lifetimes</summary>
+<div>
+<p>Ask an AI system to draw each object in its own box and every pointer or reference as a separate access path. Mark the lifetime start and end, the array bound where relevant, and every operation that can invalidate an alias. Then inspect each dereference yourself. Which live object or element is designated? What proves the access is within its bound? What keeps the object alive? Reject a diagram that merges pointer and pointee into one box, because it has erased the relationship that must be audited.</p>
+</div>
+</details>
+
+<h3>Remove an alias without pretending to remove the object</h3>
+<p>Trace this sequence on paper: <code>int value{4}; int* p{&amp;value}; int&amp; r{value}; r += 3; *p *= 2; p = nullptr;</code>.</p>
+<p>Now place the definition of <code>value</code> in an inner block while keeping <code>p</code> outside. Mark the exact closing brace where the lifetime and automatic storage duration end. Do not use the invalid pointer value after that point. Instead, explain why even an implementation-defined non-null comparison result would not establish valid access, and identify which redesign would prevent the pointer from escaping the lifetime it depends upon. The exercise is complete only when object, pointer, aliases, bound and lifetime are separate facts in the explanation.</p>
+
+<details class="reveal-answer">
+<summary>Reveal answer</summary>
+<div>
+<p>After the reference write, <code>value</code> is 7. After the pointer write, it is 14. Setting <code>p</code> to null removes that access path from <code>p</code>; it does not change <code>value</code>, and the reference still designates the live object.</p>
+<table>
+<thead><tr><th>Program point</th><th><code>value</code></th><th><code>p</code></th><th><code>r</code></th></tr></thead>
+<tbody>
+<tr><td>After initialisation</td><td>4</td><td>Designates <code>value</code></td><td>Designates <code>value</code></td></tr>
+<tr><td>After <code>r += 3</code></td><td>7</td><td>Still designates <code>value</code></td><td>The write used this alias</td></tr>
+<tr><td>After <code>*p *= 2</code></td><td>14</td><td>The stored pointer value is unchanged</td><td>Still designates <code>value</code></td></tr>
+<tr><td>After <code>p = nullptr</code></td><td>14</td><td>Designates no object</td><td>Still designates the live <code>value</code></td></tr>
+</tbody>
+</table>
+<p>There is one integer object. The identifier, dereferenced pointer and reference are separate access paths to that object. Nulling one path neither changes the integer nor reseats the reference.</p>
+<pre><code class="language-cpp">int* p{nullptr};
+
+{
+    int value{4};
+    p = &amp;value;
+    // p may be dereferenced here.
+} // value's lifetime and storage duration end; p's value is invalid.
+
+// Do not compare or dereference the invalid value here.
+p = nullptr; // Overwrite it without reading the old value.
+</code></pre>
+<p>Leaving the block does not have to rewrite the pointer object's stored representation, but C++ classifies the resulting pointer value as invalid when the automatic storage duration ends. Using that value for an ordinary comparison has implementation-defined behaviour; a portable answer must not promise that <code>p != nullptr</code> evaluates to true. On an implementation where the comparison is permitted and reports non-null, the result still concerns only the pointer representation. It supplies no live <code>int</code> and therefore cannot authorise a dereference.</p>
+<p>The direct redesign is to confine the observer to the owner's lifetime and return an owned value if information is needed later:</p>
+<pre><code class="language-cpp">int result{0};
+
+{
+    int value{4};
+    int* p{&amp;value};
+    int&amp; r{value};
+
+    r += 3;
+    *p *= 2;
+    result = value;
+} // value, p and r all cease to be usable here.
+
+// result is an independent int value and may be used here.
+</code></pre>
+<p>In this scalar example the valid extent is the one live <code>int</code> object. There is no array range to traverse, and a one-past pointer would not designate another usable integer. The safe account is therefore complete: <code>value</code> owns the state, <code>p</code> and <code>r</code> borrow access within its lifetime, and <code>result</code> carries a copied value beyond that lifetime.</p>
+</div>
+</details>
+</section>
+<!-- lesson-enhancement:14:end --></article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons">
+    <a class="pagination-link" href="lesson-13.html"><span class="pagination-label">← Previous lesson</span><span class="pagination-title">13. The Conditional Operator</span></a>
+    <a class="pagination-index" href="index.html">All lessons</a>
+    <a class="pagination-link pagination-link-next" href="lesson-15.html"><span class="pagination-label">Next lesson →</span><span class="pagination-title">15. Heap Memory</span></a>
+</nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>C++ Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solve the first visibility equation and produce a shape without asking the canvas to draw one.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 04 - Meeting a Sphere</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="04" data-ray-stage="4" data-art-pattern="orbit">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 04 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html" aria-current="page"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 04</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">4. Meeting a Sphere</h1>
+            <p class="lesson-deck">Solve the first visibility equation and produce a shape without asking the canvas to draw one.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-03.html">&larr; Lesson 03</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-05.html">Lesson 05 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>22 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-04-api" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-api&amp;lesson=04#term-api" aria-label="Look up API in the graphics glossary" title="Look up API in the graphics glossary">API</a> <a class="glossary-chip" id="glossary-panel-origin-04-camera" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-camera&amp;lesson=04#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-04-canvas-2d" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-canvas-2d&amp;lesson=04#term-canvas-2d" aria-label="Look up Canvas 2D in the graphics glossary" title="Look up Canvas 2D in the graphics glossary">Canvas 2D</a> <a class="glossary-chip" id="glossary-panel-origin-04-direction" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-direction&amp;lesson=04#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-04-discriminant" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-discriminant&amp;lesson=04#term-discriminant" aria-label="Look up discriminant in the graphics glossary" title="Look up discriminant in the graphics glossary">discriminant</a> <a class="glossary-chip" id="glossary-panel-origin-04-epsilon" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-epsilon&amp;lesson=04#term-epsilon" aria-label="Look up epsilon in the graphics glossary" title="Look up epsilon in the graphics glossary">epsilon</a> <a class="glossary-chip" id="glossary-panel-origin-04-finite-precision" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-finite-precision&amp;lesson=04#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite precision</a> <a class="glossary-chip" id="glossary-panel-origin-04-floating-point" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-floating-point&amp;lesson=04#term-floating-point" aria-label="Look up floating-point in the graphics glossary" title="Look up floating-point in the graphics glossary">floating-point</a> <a class="glossary-chip" id="glossary-panel-origin-04-hit" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-hit&amp;lesson=04#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-04-image" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-image&amp;lesson=04#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-04-intersection" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-intersection&amp;lesson=04#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-04-invocation" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-invocation&amp;lesson=04#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-04-normalise" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-normalise&amp;lesson=04#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalise</a> <a class="glossary-chip" id="glossary-panel-origin-04-pixel" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-pixel&amp;lesson=04#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-04-point" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-point&amp;lesson=04#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-04-primary-ray" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-primary-ray&amp;lesson=04#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-04-quadratic" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-quadratic&amp;lesson=04#term-quadratic" aria-label="Look up quadratic in the graphics glossary" title="Look up quadratic in the graphics glossary">quadratic</a> <a class="glossary-chip" id="glossary-panel-origin-04-ray-interval" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-ray-interval&amp;lesson=04#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> <a class="glossary-chip" id="glossary-panel-origin-04-ray-parameter" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-ray-parameter&amp;lesson=04#term-ray-parameter" aria-label="Look up ray parameter in the graphics glossary" title="Look up ray parameter in the graphics glossary">ray parameter</a> <a class="glossary-chip" id="glossary-panel-origin-04-sample" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-sample&amp;lesson=04#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-04-scene" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-scene&amp;lesson=04#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-04-sphere" href="glossary.html?from=lesson-04.html%23glossary-panel-origin-04-sphere&amp;lesson=04#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>We are ready to produce the first recognisable object, but we shall not draw it. The distinction is the whole exercise. A drawing <a class="glossary-term" id="glossary-origin-04-0001" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0001&amp;lesson=04#term-api" aria-label="Look up API in the graphics glossary" title="Look up API in the graphics glossary">API</a> would project a circle and fill the <a class="glossary-term" id="glossary-origin-04-0002" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0002&amp;lesson=04#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixels</a> inside it. Our program will send one ray per <a class="glossary-term" id="glossary-origin-04-0003" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0003&amp;lesson=04#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a>, substitute that ray into a three-dimensional <a class="glossary-term" id="glossary-origin-04-0004" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0004&amp;lesson=04#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> equation and colour the pixel only when the resulting equation has an acceptable solution.</p>
+<p>A sphere is a particularly useful first primitive because its definition is compact and its <a class="glossary-term" id="glossary-origin-04-0005" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0005&amp;lesson=04#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> exposes several ideas that return throughout ray tracing: substitution, multiple mathematical solutions, a validity interval and the need to retain the nearest acceptable result.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Derive the ray-sphere <a class="glossary-term" id="glossary-origin-04-0006" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0006&amp;lesson=04#term-quadratic" aria-label="Look up quadratic in the graphics glossary" title="Look up quadratic in the graphics glossary">quadratic</a> from the ray and sphere equations.</li>
+<li>Use the <a class="glossary-term" id="glossary-origin-04-0007" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0007&amp;lesson=04#term-discriminant" aria-label="Look up discriminant in the graphics glossary" title="Look up discriminant in the graphics glossary">discriminant</a> to distinguish a miss, tangent and two-root intersection.</li>
+<li>Select the smallest root inside a positive query interval.</li>
+</ul>
+</section>
+
+<h2>Describe the surface before testing it</h2>
+<p>A sphere has centre <code>C</code> and radius <code>r</code>. A <a class="glossary-term" id="glossary-origin-04-0008" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0008&amp;lesson=04#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <code>P</code> lies on its surface when its displacement from the centre has length <code>r</code>. Squaring both sides avoids an unnecessary square root:</p>
+<p class="equation">(P − C) · (P − C) = r²</p>
+<p>The ray supplies possible points <code>P(t) = O + tD</code>. Substitute that expression for <code>P</code>:</p>
+<p class="equation">(O + tD − C) · (O + tD − C) = r²</p>
+<p>Expand and collect terms in <code>t</code>. Let <code>oc = O − C</code>:</p>
+<p class="equation">(D · D)t² + 2(oc · D)t + (oc · oc − r²) = 0</p>
+<p>This has the standard quadratic form <code>at² + bt + c = 0</code>. If the <a class="glossary-term" id="glossary-origin-04-0009" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0009&amp;lesson=04#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> is <a class="glossary-term" id="glossary-origin-04-0010" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0010&amp;lesson=04#term-normalise" aria-label="Look up normalise in the graphics glossary" title="Look up normalise in the graphics glossary">normalised</a>, <code>D · D</code> is one, but keeping <code>a</code> in the implementation makes the function correct for any non-zero direction and makes the derivation easier to compare with the code.</p>
+
+<h2>The discriminant classifies the question</h2>
+<p>The discriminant <code>b² − 4ac</code> determines the number of real roots. A negative value means the infinite line misses the sphere. Zero means it touches at one tangent point. A positive value produces two roots, normally the entry and exit positions along the line.</p>
+<p>We can use <code>halfB = oc · D</code> to remove repeated factors of two. The discriminant becomes <code>halfB² − ac</code>, and the roots become:</p>
+<p class="equation">t = (−halfB ± √(halfB² − ac)) / a</p>
+
+<pre><code class="language-js">function hitSphere(ray, sphere, tMin, tMax) {
+    const oc = subtract(ray.origin, sphere.centre);
+    const a = dot(ray.direction, ray.direction);
+    const halfB = dot(oc, ray.direction);
+    const c = dot(oc, oc) - sphere.radius * sphere.radius;
+    const discriminant = halfB * halfB - a * c;
+
+    if (discriminant &lt; 0) {
+        return null;
+    }
+
+    const rootTerm = Math.sqrt(discriminant);
+    let root = (-halfB - rootTerm) / a;
+    if (root &lt; tMin || root &gt; tMax) {
+        root = (-halfB + rootTerm) / a;
+        if (root &lt; tMin || root &gt; tMax) {
+            return null;
+        }
+    }
+
+    return root;
+}
+</code></pre>
+
+<p>The smaller root is tested first because the ray should normally report the first surface it encounters. The interval is part of the query. A root behind the <a class="glossary-term" id="glossary-origin-04-0011" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0011&amp;lesson=04#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> is mathematically real but irrelevant to camera visibility. A root beyond a nearer object may also be irrelevant once several objects are present. Geometry answers within the interval it is given; the caller decides why that interval matters.</p>
+
+<section class="ray-lab concept-lab stage-04-lab" data-ray-lab data-stage="4" aria-labelledby="ray-lab-title-04">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Intersection laboratory</p><h2 id="ray-lab-title-04">Watch the Discriminant Decide Hit or Miss</h2></div>
+        <p>Move the sphere across one diagnostic ray and compare its discriminant, roots and hit result with the silhouette produced by all camera rays.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Move the sphere sideways. Watch the selected ray change from two real roots and HIT to no real roots and MISS.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 4 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Sphere hit-and-miss image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Hit and miss image</strong><small>A sphere silhouette produced by primary-ray intersection tests.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">A sphere silhouette produced by primary-ray intersection tests.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Sphere quadratic diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>One diagnostic ray</strong><small>One ray crossing or missing a sphere, with its calculated roots.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">One ray crossing or missing a sphere, with its calculated roots.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Perpendicular offset</dt><dd><output data-sphere-offset>0.000</output></dd></div><div><dt>Discriminant</dt><dd><output data-sphere-discriminant>0.672</output></dd></div><div><dt>Roots</dt><dd><output data-sphere-roots>2.180, 3.820</output></dd></div><div><dt>Ray result</dt><dd><output data-sphere-result>HIT</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-sphere-formula>t = 3 ± √0.672</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Produce the silhouette</h2>
+<p>For every pixel centre, construct the <a class="glossary-term" id="glossary-origin-04-0012" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0012&amp;lesson=04#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> from Lesson 3 and call <code>hitSphere</code>. A valid root receives the sphere colour. A miss receives a sky colour derived from the vertical ray direction. The boundary of the resulting shape is not supplied to <a class="glossary-term" id="glossary-origin-04-0013" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0013&amp;lesson=04#term-canvas-2d" aria-label="Look up Canvas 2D in the graphics glossary" title="Look up Canvas 2D in the graphics glossary">Canvas</a>. It emerges where neighbouring camera rays change from negative to non-negative discriminants.</p>
+
+<pre><code class="language-js">const t = hitSphere(ray, sphere, 0.001, Number.POSITIVE_INFINITY);
+
+if (t !== null) {
+    writeLinearColour(pixel, [0.94, 0.68, 0.20]);
+} else {
+    writeLinearColour(pixel, sky(ray.direction));
+}
+</code></pre>
+
+<p>The <a class="glossary-term" id="glossary-origin-04-0014" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0014&amp;lesson=04#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> resembles a circle because a sphere viewed by a pinhole camera has a circular silhouette. It is not yet shaded, so it contains no evidence of curvature inside the boundary. Move the sphere horizontally. Its three-dimensional centre changes, the quadratic coefficients change for every ray and a different set of pixels obtains roots. That causal chain is the explanation of the movement.</p>
+
+<div class="worked-trace">
+<h3>A ray through the centre</h3>
+<p>Let the ray begin at <code>O = (0, 0, 0)</code> with <code>D = (0, 0, -1)</code>. Let the sphere centre be <code>C = (0, 0, -3)</code> and radius one. Then <code>oc = (0, 0, 3)</code>, <code>a = 1</code>, <code>halfB = -3</code> and <code>c = 8</code>. The discriminant is <code>9 - 8 = 1</code>. The roots are <code>3 - 1 = 2</code> and <code>3 + 1 = 4</code>. The ray enters at distance two and exits at distance four. A primary visibility query keeps two.</p>
+</div>
+
+<h2>Do not confuse the line with the ray</h2>
+<p>The quadratic describes intersections along the infinite line parameterised by <code>t</code>. Our visibility ray is one directed part of that line. Suppose the sphere is centred at positive Z while the camera looks down negative Z. The quadratic may still produce real roots, but both are negative. Accepting either would show an object behind the camera as if it were in front.</p>
+<p>This is why testing only <code>discriminant >= 0</code> is insufficient. It answers whether the line meets the sphere, not whether the requested <a class="glossary-term" id="glossary-origin-04-0015" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0015&amp;lesson=04#term-ray-interval" aria-label="Look up ray interval in the graphics glossary" title="Look up ray interval in the graphics glossary">ray interval</a> meets it. A result can be mathematically correct and operationally unusable because it answered an easier question than the renderer asked.</p>
+
+<div class="warning-note">
+<h3>Tangent values and <a class="glossary-term" id="glossary-origin-04-0016" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0016&amp;lesson=04#term-finite-precision" aria-label="Look up finite precision in the graphics glossary" title="Look up finite precision in the graphics glossary">finite precision</a></h3>
+<p>A discriminant that should be zero may be a very small positive or negative value after finite-precision arithmetic. We shall not hide every such case behind one universal <a class="glossary-term" id="glossary-origin-04-0017" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0017&amp;lesson=04#term-epsilon" aria-label="Look up epsilon in the graphics glossary" title="Look up epsilon in the graphics glossary">epsilon</a>. Tolerances depend on scale and on what decision is being protected. For this teaching <a class="glossary-term" id="glossary-origin-04-0018" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0018&amp;lesson=04#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a>, the direct comparison keeps the derivation clear. Later robustness work should test scenes at different scales and define a policy from those errors.</p>
+</div>
+
+<div class="checkpoint">
+<h3>Classify three results</h3>
+<p>A sphere test returns roots <code>-4</code> and <code>-2</code>. A second returns <code>0.0002</code> and <code>1.8</code>. A third has a negative discriminant. For a primary interval <code>[0.001, ∞)</code>, what happens in each case?</p>
+<details class="reveal-answer"><summary>Reveal the decisions</summary><div><p>The first sphere is behind the accepted ray interval, so it is a miss. The second sphere's first root is too close, but the second root is inside the interval, so the ray reports 1.8. This can occur when the origin is inside or numerically at a surface. The third has no real line intersection and is a miss without testing roots.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Interrogate the silhouette</h2>
+<p>For the centre row of a small image, print each pixel column, discriminant and accepted root. Locate the two columns around one silhouette boundary. Explain the transition using the discriminant, then move the sphere and repeat. Do not use the picture alone as your account of the <a class="glossary-term" id="glossary-origin-04-0019" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0019&amp;lesson=04#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a>.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>The same quadratic can run in many shader <a class="glossary-term" id="glossary-origin-04-0020" href="glossary.html?from=lesson-04.html%23glossary-origin-04-0020&amp;lesson=04#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocations</a> or inside a ray tracing intersection stage. Parallel execution does not change which coefficients are correct or which root is valid. The later implementation will make data layout and divergence important, but first it must preserve this interval-tested geometric result.</p>
+</section>
+
+<p>We can intersect one sphere and obtain its first valid distance. A scene contains several possible answers. Lesson 5 makes visibility explicit by retaining the smallest acceptable distance across all tested objects.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-03.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">03. The Pinhole Camera</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-05.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">05. The Closest Visible Surface</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

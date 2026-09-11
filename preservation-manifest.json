@@ -1,0 +1,1173 @@
+{
+  "scope": "Three existing public trees only, plus explicitly identified mirror navigation, hosting and movie-page additions",
+  "pages_base": "https://GMZX80.github.io/programming-courses/",
+  "source_tree_files": 160,
+  "source_trees_rehashed_unchanged": true,
+  "teaching_examples_checked_unchanged": true,
+  "lesson_articles_checked_unchanged": true,
+  "existing_21_slide_web_lecture_body_unchanged": true,
+  "changes": [
+    "GitHub metadata and sitemap URLs",
+    "Project-safe portal and 404 links",
+    "Distinct movie links outside preserved lesson article",
+    "GitHub hosting/privacy adaptations",
+    "One staged PPTX artwork citation path replaced; all other 102 ZIP payloads identical"
+  ],
+  "copied_files": [
+    {
+      "source": "lessons-portal/public/404.html",
+      "destination": "404.html",
+      "source_sha256": "300636500f8eee51ad8d353fe9242aa2754f73353fa2e27356e2ebb6b3a2a659",
+      "destination_sha256": "206b0440f5f45df1306b3511eae9bf591245800c5029a222d45484e255cedc0a",
+      "byte_identical": false
+    },
+    {
+      "source": "lessons-portal/public/assets/mark.svg",
+      "destination": "assets/mark.svg",
+      "source_sha256": "bda7baa6b89d3b8d15b18c140b74642089258ddff08c2b7e22192fbbc8b231db",
+      "destination_sha256": "bda7baa6b89d3b8d15b18c140b74642089258ddff08c2b7e22192fbbc8b231db",
+      "byte_identical": true
+    },
+    {
+      "source": "lessons-portal/public/assets/portal.css",
+      "destination": "assets/portal.css",
+      "source_sha256": "78b5c6f8932ad4d175075e2d07b20b48f0fc13ebe40f4db6aea0ea01b7dd4f30",
+      "destination_sha256": "78b5c6f8932ad4d175075e2d07b20b48f0fc13ebe40f4db6aea0ea01b7dd4f30",
+      "byte_identical": true
+    },
+    {
+      "source": "lessons-portal/public/index.html",
+      "destination": "index.html",
+      "source_sha256": "8c21783bf7daf0e813a89bd15d16ba4c59fc235910678a79b06142ea0da5bf58",
+      "destination_sha256": "cc00cc51c4ef5eabc6f9c011f6602f85d7604adbac9e6de14623a704bb44b7a8",
+      "byte_identical": false
+    },
+    {
+      "source": "lessons-portal/public/robots.txt",
+      "destination": "robots.txt",
+      "source_sha256": "d0019bb9714af50b46d1d3892f87385e627b8db7039732df7fc6010dd86e1609",
+      "destination_sha256": "05e1a7308055fda63bec7e59d05ecc6180efafbf11351edf5cd31b64624b4112",
+      "byte_identical": false
+    },
+    {
+      "source": "lessons-portal/public/sitemap.xml",
+      "destination": "sitemap.xml",
+      "source_sha256": "b818acefca81f66b6619c7a27834338682ab9f3a48662e3d4a2b108b4a64796c",
+      "destination_sha256": "9504cf483c725e867ed67239412d74f1845aeb9f8ec051f6f5bf5876792e35ba",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/404.html",
+      "destination": "cpp-programming/404.html",
+      "source_sha256": "c7098b7ad382a8cca4c78c9cd74227f85a9d129ecd5f065a7658c8260abf6842",
+      "destination_sha256": "c7098b7ad382a8cca4c78c9cd74227f85a9d129ecd5f065a7658c8260abf6842",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/accessibility.html",
+      "destination": "cpp-programming/accessibility.html",
+      "source_sha256": "0365b73fa9bc2de1b0373dffb0decb1d7b12655a3636f057ed1df9297d662c75",
+      "destination_sha256": "2072c462a0ba08c9c15c160f5dd51c3f6104124ad563c8d2ba9591d6a30b5c3d",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/assets/css/course.css",
+      "destination": "cpp-programming/assets/css/course.css",
+      "source_sha256": "bbf3ce86159aac06c1392817d0573299f06cacb9f66ee1e47c704021f41692dc",
+      "destination_sha256": "bbf3ce86159aac06c1392817d0573299f06cacb9f66ee1e47c704021f41692dc",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/css/lecture.css",
+      "destination": "cpp-programming/assets/css/lecture.css",
+      "source_sha256": "de34383eb19e281ede1e5cb56815f3fc3b942ed1513a15b5c2ec992aafebc816",
+      "destination_sha256": "de34383eb19e281ede1e5cb56815f3fc3b942ed1513a15b5c2ec992aafebc816",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/css/lesson-art.css",
+      "destination": "cpp-programming/assets/css/lesson-art.css",
+      "source_sha256": "a135794ff094653bf6a56a05cd3d8338888e253c2a0eade7a80e59ec5d25b287",
+      "destination_sha256": "a135794ff094653bf6a56a05cd3d8338888e253c2a0eade7a80e59ec5d25b287",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/lectures/lecture-01/lecture-01-slides.pptx",
+      "destination": "cpp-programming/assets/files/lectures/lecture-01/lecture-01-slides.pptx",
+      "source_sha256": "60ae2d8708fe25deccfce3e9f70e1f2efba6d119c16d4b77dc6ca3315d817bdd",
+      "destination_sha256": "5dc6975fb3065ff0b8c1d31b0658c23ee426ed6c0f4bdbacc4ab67a44d8235f4",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/arrays.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/arrays.png",
+      "source_sha256": "7a49a62e0f3075e9fda174d1d7c919a52b83eaf4442bb091aa47750f335b16e5",
+      "destination_sha256": "7a49a62e0f3075e9fda174d1d7c919a52b83eaf4442bb091aa47750f335b16e5",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/at_the_foot_of_the_megatree.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/at_the_foot_of_the_megatree.png",
+      "source_sha256": "65b80f1d8352421917ee8cb1649870ff813293c0406f99bd3e9d0a9c7308bd88",
+      "destination_sha256": "65b80f1d8352421917ee8cb1649870ff813293c0406f99bd3e9d0a9c7308bd88",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/at_the_foot_of_the_megatreecrop.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/at_the_foot_of_the_megatreecrop.png",
+      "source_sha256": "03167c63222fb005679793f9b4af5b424f402995e93c0db743cdec958e7cf8ed",
+      "destination_sha256": "03167c63222fb005679793f9b4af5b424f402995e93c0db743cdec958e7cf8ed",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/bath-1.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/bath-1.png",
+      "source_sha256": "8629c0b6b4c786c6952255433c7d35e8e769f5f5bbf9074a83e0cdbdcdeabcd2",
+      "destination_sha256": "8629c0b6b4c786c6952255433c7d35e8e769f5f5bbf9074a83e0cdbdcdeabcd2",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/classesAndObject-1.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/classesAndObject-1.png",
+      "source_sha256": "b09d62dbf35b5ff869ee29fd039206567d54b93727eb8c469cb0fca5b36bc147",
+      "destination_sha256": "b09d62dbf35b5ff869ee29fd039206567d54b93727eb8c469cb0fca5b36bc147",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/cold-2.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/cold-2.png",
+      "source_sha256": "654ea79b73409591b5bfe2c85c1d25dd962d196bb3bd52a8e4b678e26f9564fc",
+      "destination_sha256": "654ea79b73409591b5bfe2c85c1d25dd962d196bb3bd52a8e4b678e26f9564fc",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/cold_store.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/cold_store.png",
+      "source_sha256": "09f810071ebaeb74382ca64bea477a1bc38d7b7ecae94c50811707d29f31b9e6",
+      "destination_sha256": "09f810071ebaeb74382ca64bea477a1bc38d7b7ecae94c50811707d29f31b9e6",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/emergency_generator.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/emergency_generator.png",
+      "source_sha256": "0881197c4869ff420c8c6c384529f6952cdae0d5b90e936fa0ce502a0f6cad8d",
+      "destination_sha256": "0881197c4869ff420c8c6c384529f6952cdae0d5b90e936fa0ce502a0f6cad8d",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/friendfunction.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/friendfunction.png",
+      "source_sha256": "2297f4155d4dfd11cabb372be88a0fd71bb2cecb9bd4aa48892f61197abecc5b",
+      "destination_sha256": "2297f4155d4dfd11cabb372be88a0fd71bb2cecb9bd4aa48892f61197abecc5b",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/halfway_up_the_east_wall-1.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/halfway_up_the_east_wall-1.png",
+      "source_sha256": "6ba21b239808ed05a0868ed8c0536dbf3ae2e405e88feea133751c5c79f09f20",
+      "destination_sha256": "6ba21b239808ed05a0868ed8c0536dbf3ae2e405e88feea133751c5c79f09f20",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/halfway_up_the_east_wallcrop.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/halfway_up_the_east_wallcrop.png",
+      "source_sha256": "407e9bd41168a07732f3958b7b3279065b930bfbd5cbaede95db722997a05864",
+      "destination_sha256": "407e9bd41168a07732f3958b7b3279065b930bfbd5cbaede95db722997a05864",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/inheritance.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/inheritance.png",
+      "source_sha256": "72bd3be5f283d6f54461f55b8325d565d8991e1ffb49b741574f069c928ae544",
+      "destination_sha256": "72bd3be5f283d6f54461f55b8325d565d8991e1ffb49b741574f069c928ae544",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/inside_the_megatrunk.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/inside_the_megatrunk.png",
+      "source_sha256": "b3079f6d1a3a287f9a6387cebee17fcc081f050bc27cb013b19c6ce8eca9df43",
+      "destination_sha256": "b3079f6d1a3a287f9a6387cebee17fcc081f050bc27cb013b19c6ce8eca9df43",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/inside_the_megatrunkcrop-1.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/inside_the_megatrunkcrop-1.png",
+      "source_sha256": "357dde6de2cc9e0f02580ff47704cae93a1bd29e4349d7e3ae6adc15c836c7d1",
+      "destination_sha256": "357dde6de2cc9e0f02580ff47704cae93a1bd29e4349d7e3ae6adc15c836c7d1",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/js-1.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/js-1.png",
+      "source_sha256": "49e98885f30f5fdb19749a28e8c414eb0461d1091505a86e177b3c33121729c5",
+      "destination_sha256": "49e98885f30f5fdb19749a28e8c414eb0461d1091505a86e177b3c33121729c5",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/out_on_a_limb.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/out_on_a_limb.png",
+      "source_sha256": "c5a249b6ed997db88601ad45f96668cc944b1e960f02c1b1c7fa56a7bbe624bf",
+      "destination_sha256": "c5a249b6ed997db88601ad45f96668cc944b1e960f02c1b1c7fa56a7bbe624bf",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/polymorphism.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/polymorphism.png",
+      "source_sha256": "f6537fd6b4b286b94b7dc82ab7f22d636b9598b2179fe0e661af597d85fcb414",
+      "destination_sha256": "f6537fd6b4b286b94b7dc82ab7f22d636b9598b2179fe0e661af597d85fcb414",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/rocket-1.gif",
+      "destination": "cpp-programming/assets/files/Uploaded Media/rocket-1.gif",
+      "source_sha256": "4e23b3c16f9a250210982e16097dc3e1ade28dd6c4135f3d52305db8444304de",
+      "destination_sha256": "4e23b3c16f9a250210982e16097dc3e1ade28dd6c4135f3d52305db8444304de",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/scopeExtent.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/scopeExtent.png",
+      "source_sha256": "3dd32bc135ac186e1c35e7cdf8c35cb21d9262954ff06fff99a0c99db5041048",
+      "destination_sha256": "3dd32bc135ac186e1c35e7cdf8c35cb21d9262954ff06fff99a0c99db5041048",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/the_nightmare_roomcrop.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/the_nightmare_roomcrop.png",
+      "source_sha256": "fd270ace4b7939191a47fe8f7020423b230e7ea58c22503ef186d88d99d26628",
+      "destination_sha256": "fd270ace4b7939191a47fe8f7020423b230e7ea58c22503ef186d88d99d26628",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/the_nightmare_roomcrop2.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/the_nightmare_roomcrop2.png",
+      "source_sha256": "1efb101fab89dfacf978e2596243780575a946e1883c1372640a4987a06cef08",
+      "destination_sha256": "1efb101fab89dfacf978e2596243780575a946e1883c1372640a4987a06cef08",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/tool__shed.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/tool__shed.png",
+      "source_sha256": "abc9eb7c5d376eaa98ccadb88d851005588a9151ff481049e7e2fe523d9cba73",
+      "destination_sha256": "abc9eb7c5d376eaa98ccadb88d851005588a9151ff481049e7e2fe523d9cba73",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/tree_crop.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/tree_crop.png",
+      "source_sha256": "31df769b291f4274e9b46a7c2ff3e5bbb35039992848377491245815af774786",
+      "destination_sha256": "31df769b291f4274e9b46a7c2ff3e5bbb35039992848377491245815af774786",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/tree_root-1.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/tree_root-1.png",
+      "source_sha256": "9e533ad9cdb6239e1b78b8376c6b71be5ca3262bda58079702d959ec08bb0656",
+      "destination_sha256": "9e533ad9cdb6239e1b78b8376c6b71be5ca3262bda58079702d959ec08bb0656",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/under_the_megatree-1.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/under_the_megatree-1.png",
+      "source_sha256": "a90dcef600d27b519b953bef816c3aa8b75e070d75befc5450daa4cb122fff8d",
+      "destination_sha256": "a90dcef600d27b519b953bef816c3aa8b75e070d75befc5450daa4cb122fff8d",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/under_the_megatreecrop.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/under_the_megatreecrop.png",
+      "source_sha256": "400c09208386c83866b53d93cee48ed4ec721381b9be0ca09b33b59e8f1a9ebb",
+      "destination_sha256": "400c09208386c83866b53d93cee48ed4ec721381b9be0ca09b33b59e8f1a9ebb",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/files/Uploaded Media/west_wing_roof.png",
+      "destination": "cpp-programming/assets/files/Uploaded Media/west_wing_roof.png",
+      "source_sha256": "e29ae9349ee4aab9f1569232a8ee15ea78c03ebd36f3024730b8e470ca3dfb8c",
+      "destination_sha256": "e29ae9349ee4aab9f1569232a8ee15ea78c03ebd36f3024730b8e470ca3dfb8c",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-01.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-01.png",
+      "source_sha256": "a41a29ae2fdc776b09d5fc87c265f31376ed8ac92a8dbd840315d1bea017ad47",
+      "destination_sha256": "a41a29ae2fdc776b09d5fc87c265f31376ed8ac92a8dbd840315d1bea017ad47",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-02.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-02.png",
+      "source_sha256": "2164f2f2b15d84276d46f8fb4ad1ff311bff3ed5b730c91c51cf531c28d48ffe",
+      "destination_sha256": "2164f2f2b15d84276d46f8fb4ad1ff311bff3ed5b730c91c51cf531c28d48ffe",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-03.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-03.png",
+      "source_sha256": "c32b5971f69f0e729c38efd8bcd7cd87fcdb0b4b65da60e43ef1f08c8dc605b8",
+      "destination_sha256": "c32b5971f69f0e729c38efd8bcd7cd87fcdb0b4b65da60e43ef1f08c8dc605b8",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-04.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-04.png",
+      "source_sha256": "c8b8a9e35dda72e6081e718038c869a4a14117501b60a529968ed1fd5f18e676",
+      "destination_sha256": "c8b8a9e35dda72e6081e718038c869a4a14117501b60a529968ed1fd5f18e676",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-05.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-05.png",
+      "source_sha256": "ca96498d28d9ece973f7ef270f4921bfbd98cf51eb6331d2e7c584477a89f8c6",
+      "destination_sha256": "ca96498d28d9ece973f7ef270f4921bfbd98cf51eb6331d2e7c584477a89f8c6",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-06.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-06.png",
+      "source_sha256": "88e19f9aa23f92fa314f726db714b78f42d7e67cbcc0a6b8b7bb60aa36ed3290",
+      "destination_sha256": "88e19f9aa23f92fa314f726db714b78f42d7e67cbcc0a6b8b7bb60aa36ed3290",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-07.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-07.png",
+      "source_sha256": "14bbe5c9bb1fdabd9352ec5dc7fa2df8629f0cc7186830e45679a33607e05939",
+      "destination_sha256": "14bbe5c9bb1fdabd9352ec5dc7fa2df8629f0cc7186830e45679a33607e05939",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-08.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-08.png",
+      "source_sha256": "b07282e97a4b19da38e9e4087a13a0ce00bff9d273880381725b4a4c6c2a212b",
+      "destination_sha256": "b07282e97a4b19da38e9e4087a13a0ce00bff9d273880381725b4a4c6c2a212b",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-09.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-09.png",
+      "source_sha256": "22d1f50f36407e2d44759713c35a5bad903063bb678f679b4409069e24a13370",
+      "destination_sha256": "22d1f50f36407e2d44759713c35a5bad903063bb678f679b4409069e24a13370",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-10.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-10.png",
+      "source_sha256": "5499c2bb1b157f0bd818539383b2e38593874250a9c4a476f2a202dc00155c27",
+      "destination_sha256": "5499c2bb1b157f0bd818539383b2e38593874250a9c4a476f2a202dc00155c27",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-11.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-11.png",
+      "source_sha256": "0c8656db7b5ac99f7ba90bdd5a3d69eb09f33182c00cb9d96d3fd7dc4e5fefde",
+      "destination_sha256": "0c8656db7b5ac99f7ba90bdd5a3d69eb09f33182c00cb9d96d3fd7dc4e5fefde",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-12.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-12.png",
+      "source_sha256": "877a74c720863d7aaff59d978a7cd1fa5c5f36a5e5247ecde174cb9f21e10822",
+      "destination_sha256": "877a74c720863d7aaff59d978a7cd1fa5c5f36a5e5247ecde174cb9f21e10822",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-13.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-13.png",
+      "source_sha256": "e81da9c9a3d39feb544a6c50e4e4b131bd7d987fc5624a05846a9e0726812360",
+      "destination_sha256": "e81da9c9a3d39feb544a6c50e4e4b131bd7d987fc5624a05846a9e0726812360",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-14.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-14.png",
+      "source_sha256": "73e5e1504302c4d91b71af3c51f3ee8c5a36adb8cc2279867da483873a0838e8",
+      "destination_sha256": "73e5e1504302c4d91b71af3c51f3ee8c5a36adb8cc2279867da483873a0838e8",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-15.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-15.png",
+      "source_sha256": "e08737e70e6e2e4ebecc4554b66433e6f4df06a95fd9d85339b007d5978ccea2",
+      "destination_sha256": "e08737e70e6e2e4ebecc4554b66433e6f4df06a95fd9d85339b007d5978ccea2",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-16.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-16.png",
+      "source_sha256": "aecbe99e2596944b7097b5c2601aa654b831460b99b25b88d10726408d0d9065",
+      "destination_sha256": "aecbe99e2596944b7097b5c2601aa654b831460b99b25b88d10726408d0d9065",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-17.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-17.png",
+      "source_sha256": "20f87a3200042b9f76c207ee54cac816a4945a422d3ce507c09ba7761adf8595",
+      "destination_sha256": "20f87a3200042b9f76c207ee54cac816a4945a422d3ce507c09ba7761adf8595",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-18.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-18.png",
+      "source_sha256": "7e58952464d7d4fa5d30c62223991d9007fedf7ea01892efdf44b0c67bc73fa9",
+      "destination_sha256": "7e58952464d7d4fa5d30c62223991d9007fedf7ea01892efdf44b0c67bc73fa9",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-19.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-19.png",
+      "source_sha256": "394fff4906a50f3bfd330db6aa1e9de7db3f2321579a06795597f92de4349128",
+      "destination_sha256": "394fff4906a50f3bfd330db6aa1e9de7db3f2321579a06795597f92de4349128",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-20.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-20.png",
+      "source_sha256": "12606753dd4633af9b5b40e6cbeb5d75a8a2c22cdb4ab0503c30281b92193777",
+      "destination_sha256": "12606753dd4633af9b5b40e6cbeb5d75a8a2c22cdb4ab0503c30281b92193777",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lectures/lecture-01/slides/slide-21.png",
+      "destination": "cpp-programming/assets/images/lectures/lecture-01/slides/slide-21.png",
+      "source_sha256": "fc16d60e8001005d3a67f8fd4a456b7783fa48f13ad2a2bcb7d9ee56a5b6ac9b",
+      "destination_sha256": "fc16d60e8001005d3a67f8fd4a456b7783fa48f13ad2a2bcb7d9ee56a5b6ac9b",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-01-appropriate-programmer.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-01-appropriate-programmer.png",
+      "source_sha256": "6cd0f77b78f2d8cfa5df3ebb2ec50c54c26b7c5d0f834e1c471ce38f140fdb96",
+      "destination_sha256": "6cd0f77b78f2d8cfa5df3ebb2ec50c54c26b7c5d0f834e1c471ce38f140fdb96",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-02-variable.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-02-variable.png",
+      "source_sha256": "c4ffcc9642330865420dc29e350154cd3dce420d9cd5e5646cfe9ee1d5784967",
+      "destination_sha256": "c4ffcc9642330865420dc29e350154cd3dce420d9cd5e5646cfe9ee1d5784967",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-03-declare-assign.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-03-declare-assign.png",
+      "source_sha256": "2be6fabdbd49fa68d3fb4920061e018e3b6f0089267a61711452d5343c52f670",
+      "destination_sha256": "2be6fabdbd49fa68d3fb4920061e018e3b6f0089267a61711452d5343c52f670",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-04-function.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-04-function.png",
+      "source_sha256": "83ab6ca837dac58a59d29b9197ddea9ff44759e35b343f80818bad764fedb7cc",
+      "destination_sha256": "83ab6ca837dac58a59d29b9197ddea9ff44759e35b343f80818bad764fedb7cc",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-05-main-function.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-05-main-function.png",
+      "source_sha256": "3765f1b6b770834f62a9e55c03be8c2fd1a3ae317bf5441c53c297a51729d848",
+      "destination_sha256": "3765f1b6b770834f62a9e55c03be8c2fd1a3ae317bf5441c53c297a51729d848",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-06-calling-returning.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-06-calling-returning.png",
+      "source_sha256": "580e5290042633d191d617a8aaaec4ec52a029efd766163b60711d3c01d27bc2",
+      "destination_sha256": "580e5290042633d191d617a8aaaec4ec52a029efd766163b60711d3c01d27bc2",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-07-header-files.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-07-header-files.png",
+      "source_sha256": "20ab8bee0de4bb421ecc5d1179e793dd646463b8e70c3586abb5f677e864ae29",
+      "destination_sha256": "20ab8bee0de4bb421ecc5d1179e793dd646463b8e70c3586abb5f677e864ae29",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-08-namespaces.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-08-namespaces.png",
+      "source_sha256": "eece6321838c74d6e8fc0013639c50885aefdea96d49c402daad8a7ca8ea534b",
+      "destination_sha256": "eece6321838c74d6e8fc0013639c50885aefdea96d49c402daad8a7ca8ea534b",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-09-hello-world.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-09-hello-world.png",
+      "source_sha256": "d8199a5a611cabb5a038924d7d1cf481ee8bcb8cf793767988f13cc4b9cbcbf4",
+      "destination_sha256": "d8199a5a611cabb5a038924d7d1cf481ee8bcb8cf793767988f13cc4b9cbcbf4",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-10-for-loop.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-10-for-loop.png",
+      "source_sha256": "90a2d21b044be82e7184460b08792904122dd5b04c0105103af4c8da0200802b",
+      "destination_sha256": "90a2d21b044be82e7184460b08792904122dd5b04c0105103af4c8da0200802b",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-11-while-do-loops.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-11-while-do-loops.png",
+      "source_sha256": "6d082ae60b53468b6a927c1aafeaf280bfaa5009b40f3dd91c732bc1a7dbb5b3",
+      "destination_sha256": "6d082ae60b53468b6a927c1aafeaf280bfaa5009b40f3dd91c732bc1a7dbb5b3",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-12-if-statement.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-12-if-statement.png",
+      "source_sha256": "6d54131bf995f26c2afe9324d8d6bb08e52dc005af0659278169d8ade4fc69cb",
+      "destination_sha256": "6d54131bf995f26c2afe9324d8d6bb08e52dc005af0659278169d8ade4fc69cb",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-13-conditional-operator.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-13-conditional-operator.png",
+      "source_sha256": "3b5edcce845854d61377ec8ad6e49435c11422f61e549b511466e697de07c7e1",
+      "destination_sha256": "3b5edcce845854d61377ec8ad6e49435c11422f61e549b511466e697de07c7e1",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-14-manipulating-memory.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-14-manipulating-memory.png",
+      "source_sha256": "b2b855c269af2f2c4e2bbb37dd5e155f4f2855402f9f76bc4ea6554c35945962",
+      "destination_sha256": "b2b855c269af2f2c4e2bbb37dd5e155f4f2855402f9f76bc4ea6554c35945962",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-15-heap-memory.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-15-heap-memory.png",
+      "source_sha256": "8d2a3bfcb5bc8303942389efc6b04e39a358fd5193fc0d7f5666b5e0cb80b2d0",
+      "destination_sha256": "8d2a3bfcb5bc8303942389efc6b04e39a358fd5193fc0d7f5666b5e0cb80b2d0",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-16-scope-extent.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-16-scope-extent.png",
+      "source_sha256": "6e269f160a3db590b499a3988f74ae76e11c74ac49d4197a03d470f5af7f137a",
+      "destination_sha256": "6e269f160a3db590b499a3988f74ae76e11c74ac49d4197a03d470f5af7f137a",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-17-array.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-17-array.png",
+      "source_sha256": "7bc76013f5b80efd7cafa4170294b728f9bd712830b1c6002bdac1157e4e9d33",
+      "destination_sha256": "7bc76013f5b80efd7cafa4170294b728f9bd712830b1c6002bdac1157e4e9d33",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-18-classes-objects.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-18-classes-objects.png",
+      "source_sha256": "67053dcb83723edcd190a9e7808ca6798dbe0e22cc5e9f5adcc66a3e40f45f8a",
+      "destination_sha256": "67053dcb83723edcd190a9e7808ca6798dbe0e22cc5e9f5adcc66a3e40f45f8a",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-19-inheritance.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-19-inheritance.png",
+      "source_sha256": "eaff4280d1fc337f85f7283a50a6ebcfce52f1334652041f98095377a3ae1c73",
+      "destination_sha256": "eaff4280d1fc337f85f7283a50a6ebcfce52f1334652041f98095377a3ae1c73",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-20-friend-function.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-20-friend-function.png",
+      "source_sha256": "3571d62cb0e3a1f2f96498ddf5c0cae16aa0a886a9fb1b29ac5ef9e8eee5dfd6",
+      "destination_sha256": "3571d62cb0e3a1f2f96498ddf5c0cae16aa0a886a9fb1b29ac5ef9e8eee5dfd6",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-21-polymorphism.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-21-polymorphism.png",
+      "source_sha256": "4f1b984219a078184d429646f34aa3d8156abcd0c5c4c3b8f6b44d6d91cd14e7",
+      "destination_sha256": "4f1b984219a078184d429646f34aa3d8156abcd0c5c4c3b8f6b44d6d91cd14e7",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-22-operator-overloading.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-22-operator-overloading.png",
+      "source_sha256": "986baf50633bf7b949981291142a147edb5e35b7ee46c2fd0b1ad6ffc975176d",
+      "destination_sha256": "986baf50633bf7b949981291142a147edb5e35b7ee46c2fd0b1ad6ffc975176d",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-23-templates.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-23-templates.png",
+      "source_sha256": "48e2cea2916dff0b354694d03d0ba6a4f6008df5aec9b3bf1b74425b509d1ef5",
+      "destination_sha256": "48e2cea2916dff0b354694d03d0ba6a4f6008df5aec9b3bf1b74425b509d1ef5",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/images/lesson-art/lesson-24-destructor.png",
+      "destination": "cpp-programming/assets/images/lesson-art/lesson-24-destructor.png",
+      "source_sha256": "0a8a5d5859dd8a754064014b1bd938172deabf8923cf026b2e482de166c56b4a",
+      "destination_sha256": "0a8a5d5859dd8a754064014b1bd938172deabf8923cf026b2e482de166c56b4a",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/js/course.js",
+      "destination": "cpp-programming/assets/js/course.js",
+      "source_sha256": "5bd687392f52dd491d4b37b8ca31758b32795fe7540d3724319d36df0af302cf",
+      "destination_sha256": "5bd687392f52dd491d4b37b8ca31758b32795fe7540d3724319d36df0af302cf",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/assets/js/lecture.js",
+      "destination": "cpp-programming/assets/js/lecture.js",
+      "source_sha256": "f412e4812c31a32e9a8f895fc31f1c192beb61dab0d419064e4e674b98ae287e",
+      "destination_sha256": "f412e4812c31a32e9a8f895fc31f1c192beb61dab0d419064e4e674b98ae287e",
+      "byte_identical": true
+    },
+    {
+      "source": "cpp-programming/public/cookies.html",
+      "destination": "cpp-programming/cookies.html",
+      "source_sha256": "3637ade484da48bce06e40d028ae183d9fa4a89e9ff0a4014dabc18dc3177007",
+      "destination_sha256": "fc8756f354405eecba64f0e027fdf8b38fd7e47cd9b2d9539783e83e6436b241",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/glossary.html",
+      "destination": "cpp-programming/glossary.html",
+      "source_sha256": "9374aec2b4ce59a8465a0d3fff2b1437aca56eac2b274245e77c669a984e880e",
+      "destination_sha256": "2c3381f25fabacb60bb8c8bc7f4f377421c78af2567f73e179aece64027c1c9d",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/index.html",
+      "destination": "cpp-programming/index.html",
+      "source_sha256": "d9bbdd091f8574ad50c9041e66d3bee92596eb0fba5b00855e78ff431a92eff2",
+      "destination_sha256": "cd9330a64edff312f5867ce52b97e44912f79c8a00b9d1db2db6fcf8476f1ea0",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lecture-01.html",
+      "destination": "cpp-programming/lecture-01.html",
+      "source_sha256": "91cd591160a8963c68e86ff96b8ae7e0380dceab0259e8adc52d49f26ce809ef",
+      "destination_sha256": "14119031844fd8aa4e193febb9ae8e8e72b79d4cbf633e0fdac57201db4b9adc",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lectures.html",
+      "destination": "cpp-programming/lectures.html",
+      "source_sha256": "ad7b70f17b4c89ec6320789498d87e11e5f74dd179b51e17398efc88efda543d",
+      "destination_sha256": "b0a794aa9550211a77d9d36de5b25042a04baffdf36323ba2da2bf587cda2585",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-01.html",
+      "destination": "cpp-programming/lesson-01.html",
+      "source_sha256": "b6de388b95a5bd127dc8755f9226daaf09d57ea79d1d2cc371ca6e80c3ceb676",
+      "destination_sha256": "5d008e7466aff2122ee54436a7ff69173486ad152e4b7399c40edd77e88e8d2b",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-02.html",
+      "destination": "cpp-programming/lesson-02.html",
+      "source_sha256": "6849cc4ded206d5d7077f5a61046328689b635566794d0609138158e4e5b19c5",
+      "destination_sha256": "95fa4783fb9cae9e5e6fb75839f654c2d23c3d5a11724d2631d3c0f4eb2a4799",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-03.html",
+      "destination": "cpp-programming/lesson-03.html",
+      "source_sha256": "b71e468b680e0158cda00b660a044351c651ff7d5ec412d06dfc7f06657fd931",
+      "destination_sha256": "b266f79cf1980282038adac3b4d449a1abd1325adec453742464c4ae864275e2",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-04.html",
+      "destination": "cpp-programming/lesson-04.html",
+      "source_sha256": "bad1b84bd564cce805f500549b6d0d2d68b32dba980b91afb48a6aaad5abe1c9",
+      "destination_sha256": "cc95082538a3210dba9c6a66899c45a603dfe113e03f980c44a5447c779d78ec",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-05.html",
+      "destination": "cpp-programming/lesson-05.html",
+      "source_sha256": "c2a00f92948267f8e341cd7bca035dd485f47483fac02b285a905d97e53f5bf5",
+      "destination_sha256": "73def0d59cf84333c076a5d006a0dbf64c2a448dae92247602fe2fa240aa70e2",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-06.html",
+      "destination": "cpp-programming/lesson-06.html",
+      "source_sha256": "c094e24b9bc5decb3d2774066f3f67be3ed5e8d093142e24a0a127a5b3532a85",
+      "destination_sha256": "7784100c1d7d1478cbb16886076518e64765968729da9620755493723e8094f5",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-07.html",
+      "destination": "cpp-programming/lesson-07.html",
+      "source_sha256": "688d3ca8aa58e1895a4cc1cc13eba1f8ca11df98d7a1103163dc24d8a959392b",
+      "destination_sha256": "027bd54693694aa2b709606f614d18cc60acebbc0e3edb67ce083e844ab2e421",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-08.html",
+      "destination": "cpp-programming/lesson-08.html",
+      "source_sha256": "2a6e2d21ff7a71d820276f03767346fce162bf545d4016fc18f28dd79d069886",
+      "destination_sha256": "b5f31a146f81bfe2371068d41385ea51ecf1c223dbe1446002137351161bd1e0",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-09.html",
+      "destination": "cpp-programming/lesson-09.html",
+      "source_sha256": "603338f5a3f1b99303ca3f82c74767df5e8caa857131fa7162a1eac2d14218a3",
+      "destination_sha256": "1a3f4f873f72577b11c94d6e262c5c825d98f0de1191890fd8a96de35534022f",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-10.html",
+      "destination": "cpp-programming/lesson-10.html",
+      "source_sha256": "e23d44941eb9609706df535c5e50177caa6ca3b8e839d24b45f5a6f7a997a5b8",
+      "destination_sha256": "a7b17cbb3641ad4eb955bb2229a62f49e6f00e2ae5517371dc633d453306085a",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-11.html",
+      "destination": "cpp-programming/lesson-11.html",
+      "source_sha256": "4ead4b984837bbf4faf40a98c755a248c37b4c45f5ee68306c37b01c63552531",
+      "destination_sha256": "f5c243ff61122e57c87f54e5fdc6520f42bdac153fa27cc16b0732d85e0fb4d4",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-12.html",
+      "destination": "cpp-programming/lesson-12.html",
+      "source_sha256": "678fd46c0d1bc28759d511df44b0d69473bff1722aa399c5394badd0da0a55d0",
+      "destination_sha256": "3dbd310e5266056e9605813873eda0dc4a46a2895e88a9ea80cbd8826ef5af75",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-13.html",
+      "destination": "cpp-programming/lesson-13.html",
+      "source_sha256": "3690ca82c6afd293400e953233274e50492697aedf3d51c87bd5328a4cdc49ac",
+      "destination_sha256": "747ae82088687d33c2ec56fcb299c496f17399bacf1aec181f7ae016e067ac88",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-14.html",
+      "destination": "cpp-programming/lesson-14.html",
+      "source_sha256": "18503c99014f8296b728a15005f684bf72fa2b8c0a44f4341eed3edf55725122",
+      "destination_sha256": "15d2fb0b46691a19c79103b5b1ce677e8c0d0907afaef43272d783bae65fcb9a",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-15.html",
+      "destination": "cpp-programming/lesson-15.html",
+      "source_sha256": "1a30ab754439b9661136c34a1ad23b82b0fd974c836c768852aeca495161ef32",
+      "destination_sha256": "fa44fe57530880b0dd11a79f0f14a15475b241835c6381228130e51e2262c890",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-16.html",
+      "destination": "cpp-programming/lesson-16.html",
+      "source_sha256": "3c8caf9fa1ea61be719f9d9d483252198c6e03f3aeff4ac96ac9d1b570762772",
+      "destination_sha256": "4d25b19b7fdc3bc1df0f8847c79a30bac31ce4ac5b3a2e82ce94a27d8d009b7c",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-17.html",
+      "destination": "cpp-programming/lesson-17.html",
+      "source_sha256": "609894f61bed5918e1a11c1d3fc121ae3d6ee188729dbae5f06f80f69dcad7f5",
+      "destination_sha256": "989070a282b9d1a797bd9ae89b2f4e4f36b172eba3ca4dd1de1e3be5b3dfd449",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-18.html",
+      "destination": "cpp-programming/lesson-18.html",
+      "source_sha256": "f2b239a766aa53be5c59589e26d72049d6353922069b47cd85758acf71f05185",
+      "destination_sha256": "b3cf3201c844bdbedd8c7418241df56aff9bf5f4efd730961bce03c9779b64cb",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-19.html",
+      "destination": "cpp-programming/lesson-19.html",
+      "source_sha256": "092bd01bb280359205b90cd693e3c23787fefc00e59a5d3ef5171c03c11c7165",
+      "destination_sha256": "cb9f9a4dc8ef293e2188f8b2f20f21e804c600d89efd7ed1c8ff6dde83308dda",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-20.html",
+      "destination": "cpp-programming/lesson-20.html",
+      "source_sha256": "b81ce191de8241ea4e25357b6dc14ff5d2780928b8d730092f35d26f0a57febd",
+      "destination_sha256": "c6aa6f185b3a92f92ce33282d45535f475bcd72e4fffc4aaa1a2d1b16e92ad49",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-21.html",
+      "destination": "cpp-programming/lesson-21.html",
+      "source_sha256": "cfded627a9f4d222ecad3d45fdba80125d9b8630f2806e4312a6d202631e0913",
+      "destination_sha256": "e9782177bf6db81f5f1b871bd24773ab0d679b5183c6aec98bb573de5bd2d5ad",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-22.html",
+      "destination": "cpp-programming/lesson-22.html",
+      "source_sha256": "4788770154c2c23e31fe30095a3ab9816a8ecd917912308881ce7d86eb876aea",
+      "destination_sha256": "ebe1d23ca0c1c06989ed115bb1c495f662c750599221b998010888474be365d4",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-23.html",
+      "destination": "cpp-programming/lesson-23.html",
+      "source_sha256": "e96ad6de07fbc4f1e5735f8c82a3e10479c33bc3fb9feabfc715a6cc6eef0614",
+      "destination_sha256": "54d2a596ff23e74826c790c2eb82c4770a2b41274e91a6a0dd586ca22ffb2add",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/lesson-24.html",
+      "destination": "cpp-programming/lesson-24.html",
+      "source_sha256": "1e65da4727996435ccd2e5dd659b3b6189cf8119172278f805e247e8363197f1",
+      "destination_sha256": "128f527544ecc0418e9960ad13bbef617563a5321f897fde0a8cf19bd192c57a",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/privacy.html",
+      "destination": "cpp-programming/privacy.html",
+      "source_sha256": "e8f8deac147386d2958c954efb4bc634cddff0ce9bfaab49e4a5ba639e0d6029",
+      "destination_sha256": "83512c73c7dfb8cd9e0862b069748f67e30a4dce69a5490c7aa3917b1b662906",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/robots.txt",
+      "destination": "cpp-programming/robots.txt",
+      "source_sha256": "aafcf36425d228d01b997812d67ca65359367d3346df9e220b8ff255cd8bc6d9",
+      "destination_sha256": "d70cc7fc5d5ebe6186212c0d4ff05f63bc3a08218ac060edc2b4714b3a2dde30",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/sitemap.xml",
+      "destination": "cpp-programming/sitemap.xml",
+      "source_sha256": "4cd45092445f0f29bbf8385207e179358bd72432d124c465f8817ff04486cfc9",
+      "destination_sha256": "800fa5617a8a8d03ad1e0d2d21f7267193291ff41d4828698138afb7c174394b",
+      "byte_identical": false
+    },
+    {
+      "source": "cpp-programming/public/terms.html",
+      "destination": "cpp-programming/terms.html",
+      "source_sha256": "5c36c6dc2d2d5ed2c6ca274e4a98a10195ea1a7bd7d6255324ef0be95c5af50b",
+      "destination_sha256": "87955ed0cc4c0639c196c843e9e25f7cb8a5e53bea8218172c5772bd9b91c76d",
+      "byte_identical": false
+    },
+    {
+      "source": "graphics-programming/public/404.html",
+      "destination": "graphics-programming/404.html",
+      "source_sha256": "93f7c42a603e32b82993ef32ccb7b6fbed46b27565d47df9c1fc0ec14a33014c",
+      "destination_sha256": "93f7c42a603e32b82993ef32ccb7b6fbed46b27565d47df9c1fc0ec14a33014c",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/accessibility.html",
+      "destination": "graphics-programming/accessibility.html",
+      "source_sha256": "dcafadc5efcc1043ffa0dc8da07fbb39da2dd09eba18a1127a75c6525ca56592",
+      "destination_sha256": "dcafadc5efcc1043ffa0dc8da07fbb39da2dd09eba18a1127a75c6525ca56592",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/assets/css/course.css",
+      "destination": "graphics-programming/assets/css/course.css",
+      "source_sha256": "e13b935c9a22021326ba4c035c5f23eb5f718f8c2a8447bc702b50d4a5f3bc87",
+      "destination_sha256": "e13b935c9a22021326ba4c035c5f23eb5f718f8c2a8447bc702b50d4a5f3bc87",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/assets/css/ray-tracing.css",
+      "destination": "graphics-programming/assets/css/ray-tracing.css",
+      "source_sha256": "4211a874d3a167518617994080e22c4ac866068b8e6d83483846bfffcf17dea2",
+      "destination_sha256": "4211a874d3a167518617994080e22c4ac866068b8e6d83483846bfffcf17dea2",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/assets/images/favicon.svg",
+      "destination": "graphics-programming/assets/images/favicon.svg",
+      "source_sha256": "3207d1ebb8c4debeabd728bd262d3ccb6c61b0d5747de9a6117c19b52d0a0468",
+      "destination_sha256": "3207d1ebb8c4debeabd728bd262d3ccb6c61b0d5747de9a6117c19b52d0a0468",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/assets/js/course.js",
+      "destination": "graphics-programming/assets/js/course.js",
+      "source_sha256": "b853b02c78aeb3035a9efdde1d5b8febb9dd90edb82cfcb2e9e1018697f5971e",
+      "destination_sha256": "b853b02c78aeb3035a9efdde1d5b8febb9dd90edb82cfcb2e9e1018697f5971e",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/assets/js/raytracer.js",
+      "destination": "graphics-programming/assets/js/raytracer.js",
+      "source_sha256": "72746da03254f8363cc27a5c0ad199deaad6e96839eb4de845e8b16d6825c249",
+      "destination_sha256": "72746da03254f8363cc27a5c0ad199deaad6e96839eb4de845e8b16d6825c249",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/cookies.html",
+      "destination": "graphics-programming/cookies.html",
+      "source_sha256": "906aba17bcebeaf28313123adf3072ae26ab2c544259e78808abf20a07baefe8",
+      "destination_sha256": "2e04e00261c5ebc0a73b17b484a9979d03d451349d758af4092fc6bd07ab5f07",
+      "byte_identical": false
+    },
+    {
+      "source": "graphics-programming/public/glossary.html",
+      "destination": "graphics-programming/glossary.html",
+      "source_sha256": "289fae97f0c9fdde36020836054ba510872447997fdaf72b82ead6a00a135d47",
+      "destination_sha256": "289fae97f0c9fdde36020836054ba510872447997fdaf72b82ead6a00a135d47",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/index.html",
+      "destination": "graphics-programming/index.html",
+      "source_sha256": "b60f588eb1a94eaf620b66ea801d832134ef6f97bdce2302032d04d1555cc7c6",
+      "destination_sha256": "b60f588eb1a94eaf620b66ea801d832134ef6f97bdce2302032d04d1555cc7c6",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-01.html",
+      "destination": "graphics-programming/lesson-01.html",
+      "source_sha256": "9eff89ab1f61e29b090123fead06795183e37ac0b32c66b724bfff6e1facd5ed",
+      "destination_sha256": "9eff89ab1f61e29b090123fead06795183e37ac0b32c66b724bfff6e1facd5ed",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-02.html",
+      "destination": "graphics-programming/lesson-02.html",
+      "source_sha256": "de317a8f7b9ca926405a9636c50b02b6d332f043378c6c592bf3ba164419bb41",
+      "destination_sha256": "de317a8f7b9ca926405a9636c50b02b6d332f043378c6c592bf3ba164419bb41",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-03.html",
+      "destination": "graphics-programming/lesson-03.html",
+      "source_sha256": "2137fbd763ad1347d8614cb239644216da5e7b3201bac0f201222c78878a711b",
+      "destination_sha256": "2137fbd763ad1347d8614cb239644216da5e7b3201bac0f201222c78878a711b",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-04.html",
+      "destination": "graphics-programming/lesson-04.html",
+      "source_sha256": "b90d24cdebf20f7b8f04e105dc9e60abb51685b849d86266765c90441786d779",
+      "destination_sha256": "b90d24cdebf20f7b8f04e105dc9e60abb51685b849d86266765c90441786d779",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-05.html",
+      "destination": "graphics-programming/lesson-05.html",
+      "source_sha256": "a8f4538f5fce5f57395deb3ac1230eed6161c84e36b5598a63678350d1ae3c6b",
+      "destination_sha256": "a8f4538f5fce5f57395deb3ac1230eed6161c84e36b5598a63678350d1ae3c6b",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-06.html",
+      "destination": "graphics-programming/lesson-06.html",
+      "source_sha256": "c1c97885d28c60c9ba12fea0dc8831c5b5dbe013e2ec1386aa4acec35927e4db",
+      "destination_sha256": "c1c97885d28c60c9ba12fea0dc8831c5b5dbe013e2ec1386aa4acec35927e4db",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-07.html",
+      "destination": "graphics-programming/lesson-07.html",
+      "source_sha256": "83567a258e81c456c13a2cd53b4e607dda74bf7f3ee37722f5e22fc15b1c4b6d",
+      "destination_sha256": "83567a258e81c456c13a2cd53b4e607dda74bf7f3ee37722f5e22fc15b1c4b6d",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-08.html",
+      "destination": "graphics-programming/lesson-08.html",
+      "source_sha256": "ac3ce2e0f3793b265174a3020b582a793509cd15a3310db4c5dadd2bfe4a641f",
+      "destination_sha256": "ac3ce2e0f3793b265174a3020b582a793509cd15a3310db4c5dadd2bfe4a641f",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-09.html",
+      "destination": "graphics-programming/lesson-09.html",
+      "source_sha256": "625bae461f51290c6ab648b12bd2e12b60f7597ada593bb3118fa3fce3292755",
+      "destination_sha256": "625bae461f51290c6ab648b12bd2e12b60f7597ada593bb3118fa3fce3292755",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-10.html",
+      "destination": "graphics-programming/lesson-10.html",
+      "source_sha256": "d8d3dbfbdd081dd80b4fa103f1341fab1058a860a2c827724ff3f19b3efe7e95",
+      "destination_sha256": "d8d3dbfbdd081dd80b4fa103f1341fab1058a860a2c827724ff3f19b3efe7e95",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-11.html",
+      "destination": "graphics-programming/lesson-11.html",
+      "source_sha256": "6b05a173aee3be4ee6d04a5d6c7f179bc4f6e1276fe7e168b7447220bb1572ed",
+      "destination_sha256": "6b05a173aee3be4ee6d04a5d6c7f179bc4f6e1276fe7e168b7447220bb1572ed",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-12.html",
+      "destination": "graphics-programming/lesson-12.html",
+      "source_sha256": "801c9248f10b3cc2dd73d74f6b39cd0dfebe640f0aa6017fb3c3aec140149de9",
+      "destination_sha256": "801c9248f10b3cc2dd73d74f6b39cd0dfebe640f0aa6017fb3c3aec140149de9",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-13.html",
+      "destination": "graphics-programming/lesson-13.html",
+      "source_sha256": "a3f916328711b10d65a5eb7b2c9101ed73ab0851b35d8b10f46c3409b0e9d096",
+      "destination_sha256": "a3f916328711b10d65a5eb7b2c9101ed73ab0851b35d8b10f46c3409b0e9d096",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-14.html",
+      "destination": "graphics-programming/lesson-14.html",
+      "source_sha256": "682899566c1b2236a53164148f6384c144f76ef2421848a339739c549a7c10d2",
+      "destination_sha256": "682899566c1b2236a53164148f6384c144f76ef2421848a339739c549a7c10d2",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-15.html",
+      "destination": "graphics-programming/lesson-15.html",
+      "source_sha256": "fe5cafe01798a9b45f11724559e5d39ed119f7afd3a73c3246e3d69420518637",
+      "destination_sha256": "fe5cafe01798a9b45f11724559e5d39ed119f7afd3a73c3246e3d69420518637",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-16.html",
+      "destination": "graphics-programming/lesson-16.html",
+      "source_sha256": "938d12a623fbc26026c5a3eaf7f52a349d9dc3689bebc8e8828d1b257debc218",
+      "destination_sha256": "938d12a623fbc26026c5a3eaf7f52a349d9dc3689bebc8e8828d1b257debc218",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-17.html",
+      "destination": "graphics-programming/lesson-17.html",
+      "source_sha256": "39cbe77d8f890fcb049329f568922f7df486d502151848978f598d3c98421471",
+      "destination_sha256": "39cbe77d8f890fcb049329f568922f7df486d502151848978f598d3c98421471",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-18.html",
+      "destination": "graphics-programming/lesson-18.html",
+      "source_sha256": "9292477695b004dbf2cdd55548405952174a717b4da0ea536478bba96a6e9f0b",
+      "destination_sha256": "9292477695b004dbf2cdd55548405952174a717b4da0ea536478bba96a6e9f0b",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-19.html",
+      "destination": "graphics-programming/lesson-19.html",
+      "source_sha256": "9ec8931966f1a251e2b18fdc7ed37bb3e8f9d9ded3d5b11c906fd35774a17cd9",
+      "destination_sha256": "9ec8931966f1a251e2b18fdc7ed37bb3e8f9d9ded3d5b11c906fd35774a17cd9",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-20.html",
+      "destination": "graphics-programming/lesson-20.html",
+      "source_sha256": "d27a3eb68a5e76624efa62f11b0e23ccc95eb973baf06d9bd4e749e3c178efd4",
+      "destination_sha256": "d27a3eb68a5e76624efa62f11b0e23ccc95eb973baf06d9bd4e749e3c178efd4",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-21.html",
+      "destination": "graphics-programming/lesson-21.html",
+      "source_sha256": "75c70f883e23d78d10868555df2f840c80099063724b3f0aaf131811ea6b9080",
+      "destination_sha256": "75c70f883e23d78d10868555df2f840c80099063724b3f0aaf131811ea6b9080",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-22.html",
+      "destination": "graphics-programming/lesson-22.html",
+      "source_sha256": "398e4bff472e5edd98dd09ea74c4a1d679dbaf9756512a54fe19c7bcb0a01b48",
+      "destination_sha256": "398e4bff472e5edd98dd09ea74c4a1d679dbaf9756512a54fe19c7bcb0a01b48",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-23.html",
+      "destination": "graphics-programming/lesson-23.html",
+      "source_sha256": "20ff45be53f79b98ff2684493f83616198701d62429c555ae6e7335c52c41468",
+      "destination_sha256": "20ff45be53f79b98ff2684493f83616198701d62429c555ae6e7335c52c41468",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-24.html",
+      "destination": "graphics-programming/lesson-24.html",
+      "source_sha256": "0d8471107c5aa640807adbe7e0282665ddf12f4d5cb3c3909efcdc65d280e4ee",
+      "destination_sha256": "0d8471107c5aa640807adbe7e0282665ddf12f4d5cb3c3909efcdc65d280e4ee",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-25.html",
+      "destination": "graphics-programming/lesson-25.html",
+      "source_sha256": "e2c2986fb0ead30e58e6db94e14b1782b78c891736348e9b161e2561eccd94de",
+      "destination_sha256": "e2c2986fb0ead30e58e6db94e14b1782b78c891736348e9b161e2561eccd94de",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-26.html",
+      "destination": "graphics-programming/lesson-26.html",
+      "source_sha256": "aa473586d88d5b9784aa99ced804d78cfb37a39cfe8a4c84982bc6bc1d648a63",
+      "destination_sha256": "aa473586d88d5b9784aa99ced804d78cfb37a39cfe8a4c84982bc6bc1d648a63",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-27.html",
+      "destination": "graphics-programming/lesson-27.html",
+      "source_sha256": "dd6121b5aac67708f18a6685f2c4c11f9a62276dba8a12c1b567cb979c5c4d87",
+      "destination_sha256": "dd6121b5aac67708f18a6685f2c4c11f9a62276dba8a12c1b567cb979c5c4d87",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/lesson-28.html",
+      "destination": "graphics-programming/lesson-28.html",
+      "source_sha256": "bebcd6b2a4558d08d31d0ff611e1da91c6fe2fc8591d522fdddf670a553d474e",
+      "destination_sha256": "bebcd6b2a4558d08d31d0ff611e1da91c6fe2fc8591d522fdddf670a553d474e",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/privacy.html",
+      "destination": "graphics-programming/privacy.html",
+      "source_sha256": "09e625cb41d4e4e80e1b72cb1626b44f06ab0e6e1574dd0154c1d5690029638f",
+      "destination_sha256": "6fbb7e810c58d55e30cc87c811fdebadba3ddf7ce1f0512ef76f3e9e7fb0c833",
+      "byte_identical": false
+    },
+    {
+      "source": "graphics-programming/public/robots.txt",
+      "destination": "graphics-programming/robots.txt",
+      "source_sha256": "16ceb5ee3e0dc13aa9adf31a3ebbe45a1d965b8c2b9f72eaf84e5911e140ed95",
+      "destination_sha256": "16ceb5ee3e0dc13aa9adf31a3ebbe45a1d965b8c2b9f72eaf84e5911e140ed95",
+      "byte_identical": true
+    },
+    {
+      "source": "graphics-programming/public/terms.html",
+      "destination": "graphics-programming/terms.html",
+      "source_sha256": "ed5d8e14a01e100fa5b7072621524e841bbea860c3c4cc10699b08ee9b17025f",
+      "destination_sha256": "ed5d8e14a01e100fa5b7072621524e841bbea860c3c4cc10699b08ee9b17025f",
+      "byte_identical": true
+    }
+  ],
+  "added_files": [
+    {
+      "path": ".gitignore",
+      "sha256": "e821be1352afb67db6fa659a197f5706ae039a01f660ef9c795f03921987bbba"
+    },
+    {
+      "path": ".nojekyll",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "README.md",
+      "sha256": "dfe291cb8ba78f7e6960bc8b8871d1a1b1d2eb2630b728d31b503a8747fadb06"
+    },
+    {
+      "path": "cpp-programming/assets/css/movie.css",
+      "sha256": "baec57d5ba4d1f1cb2102ad29ccac8c4ec9d6c9bfc2f2624e6f5192393b1b39b"
+    },
+    {
+      "path": "cpp-programming/lesson-01-movie.html",
+      "sha256": "9bd95231672de77c85f62b926ab972fb36a752e99cc5bee5fd6e582b22e4add9"
+    },
+    {
+      "path": "hosting.html",
+      "sha256": "d47f7ec314069a16a90aa8ae4be6ead87765d7c625b85814bc26209a5b98f50a"
+    },
+    {
+      "path": "media/lesson-01.vtt",
+      "sha256": "ec722b517f034c507f8c86bd2795db051d1686b852fb5a022ac36a98861d2e47"
+    }
+  ],
+  "caption_source": "lecturer-pilot/outputs/lesson-01-reviewed-v3-levelled/lecture.vtt",
+  "caption_source_sha256": "ec722b517f034c507f8c86bd2795db051d1686b852fb5a022ac36a98861d2e47",
+  "movie_location": "GitHub Release lesson-01-v1 / lesson-01-lecture-levelled.mp4; not in git",
+  "private_production_assets_included": false,
+  "publication_performed_by_this_script": false
+}

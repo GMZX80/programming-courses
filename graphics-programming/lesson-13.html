@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Replace the convenient centre of a pixel with several measured positions and explain what the extra work buys.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 13 - Sampling the Pixel</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="13" data-ray-stage="13" data-art-pattern="cells">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 13 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html" aria-current="page"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 13</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">13. Sampling the Pixel</h1>
+            <p class="lesson-deck">Replace the convenient centre of a pixel with several measured positions and explain what the extra work buys.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-secondary" href="lesson-12.html">&larr; Lesson 12</a><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-14.html">Lesson 14 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>28 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-13-accumulation-image" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-accumulation-image&amp;lesson=13#term-accumulation-image" aria-label="Look up accumulation image in the graphics glossary" title="Look up accumulation image in the graphics glossary">accumulation image</a> <a class="glossary-chip" id="glossary-panel-origin-13-alignment" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-alignment&amp;lesson=13#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> <a class="glossary-chip" id="glossary-panel-origin-13-anti-aliasing" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-anti-aliasing&amp;lesson=13#term-anti-aliasing" aria-label="Look up anti-aliasing in the graphics glossary" title="Look up anti-aliasing in the graphics glossary">anti-aliasing</a> <a class="glossary-chip" id="glossary-panel-origin-13-average" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-average&amp;lesson=13#term-average" aria-label="Look up average in the graphics glossary" title="Look up average in the graphics glossary">average</a> <a class="glossary-chip" id="glossary-panel-origin-13-camera" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-camera&amp;lesson=13#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-13-checkerboard" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-checkerboard&amp;lesson=13#term-checkerboard" aria-label="Look up checkerboard in the graphics glossary" title="Look up checkerboard in the graphics glossary">checkerboard</a> <a class="glossary-chip" id="glossary-panel-origin-13-deterministic-random-number" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-deterministic-random-number&amp;lesson=13#term-deterministic-random-number" aria-label="Look up deterministic random number in the graphics glossary" title="Look up deterministic random number in the graphics glossary">deterministic random number</a> <a class="glossary-chip" id="glossary-panel-origin-13-display-encoding" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-display-encoding&amp;lesson=13#term-display-encoding" aria-label="Look up display encoding in the graphics glossary" title="Look up display encoding in the graphics glossary">display encoding</a> <a class="glossary-chip" id="glossary-panel-origin-13-edge" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-edge&amp;lesson=13#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-13-gpu" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-gpu&amp;lesson=13#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-13-hit" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-hit&amp;lesson=13#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a> <a class="glossary-chip" id="glossary-panel-origin-13-image" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-image&amp;lesson=13#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-13-invocation" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-invocation&amp;lesson=13#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-13-jitter" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-jitter&amp;lesson=13#term-jitter" aria-label="Look up jitter in the graphics glossary" title="Look up jitter in the graphics glossary">jitter</a> <a class="glossary-chip" id="glossary-panel-origin-13-linear-colour" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-linear-colour&amp;lesson=13#term-linear-colour" aria-label="Look up linear colour in the graphics glossary" title="Look up linear colour in the graphics glossary">linear colour</a> <a class="glossary-chip" id="glossary-panel-origin-13-pixel" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-pixel&amp;lesson=13#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-13-primary-ray" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-primary-ray&amp;lesson=13#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-13-ray-budget" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-ray-budget&amp;lesson=13#term-ray-budget" aria-label="Look up ray budget in the graphics glossary" title="Look up ray budget in the graphics glossary">ray budget</a> <a class="glossary-chip" id="glossary-panel-origin-13-reflection" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-reflection&amp;lesson=13#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflection</a> <a class="glossary-chip" id="glossary-panel-origin-13-rgb" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-rgb&amp;lesson=13#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> <a class="glossary-chip" id="glossary-panel-origin-13-sample" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-sample&amp;lesson=13#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-13-sample-index" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-sample-index&amp;lesson=13#term-sample-index" aria-label="Look up sample index in the graphics glossary" title="Look up sample index in the graphics glossary">sample index</a> <a class="glossary-chip" id="glossary-panel-origin-13-sampling-noise" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-sampling-noise&amp;lesson=13#term-sampling-noise" aria-label="Look up sampling noise in the graphics glossary" title="Look up sampling noise in the graphics glossary">sampling noise</a> <a class="glossary-chip" id="glossary-panel-origin-13-scene" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-scene&amp;lesson=13#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-13-spatial-aliasing" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-spatial-aliasing&amp;lesson=13#term-spatial-aliasing" aria-label="Look up spatial aliasing in the graphics glossary" title="Look up spatial aliasing in the graphics glossary">spatial aliasing</a> <a class="glossary-chip" id="glossary-panel-origin-13-sphere" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-sphere&amp;lesson=13#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> <a class="glossary-chip" id="glossary-panel-origin-13-stratification" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-stratification&amp;lesson=13#term-stratification" aria-label="Look up stratification in the graphics glossary" title="Look up stratification in the graphics glossary">stratification</a> <a class="glossary-chip" id="glossary-panel-origin-13-triangle" href="glossary.html?from=lesson-13.html%23glossary-panel-origin-13-triangle&amp;lesson=13#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>Every <a class="glossary-term" id="glossary-origin-13-0001" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0001&amp;lesson=13#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> so far has used the centre of each <a class="glossary-term" id="glossary-origin-13-0002" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0002&amp;lesson=13#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a>. The rule is deterministic, cheap and easy to inspect. It is not a complete measurement of the pixel region. A surface boundary, thin <a class="glossary-term" id="glossary-origin-13-0003" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0003&amp;lesson=13#term-triangle" aria-label="Look up triangle in the graphics glossary" title="Look up triangle in the graphics glossary">triangle</a> or distant <a class="glossary-term" id="glossary-origin-13-0004" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0004&amp;lesson=13#term-checkerboard" aria-label="Look up checkerboard in the graphics glossary" title="Look up checkerboard in the graphics glossary">checker pattern</a> can change within that region. One centre ray sees one side of the change and stores it as though the whole pixel agreed.</p>
+<p><a class="glossary-term" id="glossary-origin-13-0005" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0005&amp;lesson=13#term-anti-aliasing" aria-label="Look up anti-aliasing in the graphics glossary" title="Look up anti-aliasing in the graphics glossary">Anti-aliasing</a> is sometimes presented as a filter applied after rendering. A blur can hide steps, but it cannot recover visibility information that was never sampled. We shall instead take several positions inside the pixel, trace each independently and <a class="glossary-term" id="glossary-origin-13-0006" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0006&amp;lesson=13#term-average" aria-label="Look up average in the graphics glossary" title="Look up average in the graphics glossary">average</a> their contributions. This increases work in direct proportion to <a class="glossary-term" id="glossary-origin-13-0007" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0007&amp;lesson=13#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> count, so the improvement must be understood alongside its cost.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Explain why a centre sample is an estimate of a pixel region rather than the pixel itself.</li>
+<li>Generate repeatable stratified sample positions and average their <a class="glossary-term" id="glossary-origin-13-0008" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0008&amp;lesson=13#term-linear-colour" aria-label="Look up linear colour in the graphics glossary" title="Look up linear colour in the graphics glossary">linear colour</a> contributions.</li>
+<li>Distinguish <a class="glossary-term" id="glossary-origin-13-0009" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0009&amp;lesson=13#term-spatial-aliasing" aria-label="Look up spatial aliasing in the graphics glossary" title="Look up spatial aliasing in the graphics glossary">spatial aliasing</a> from <a class="glossary-term" id="glossary-origin-13-0010" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0010&amp;lesson=13#term-sampling-noise" aria-label="Look up sampling noise in the graphics glossary" title="Look up sampling noise in the graphics glossary">sampling noise</a> and relate both to measured ray count.</li>
+</ul>
+</section>
+
+<h2>Sample positions belong inside the pixel</h2>
+<p>The primary <a class="glossary-term" id="glossary-origin-13-0011" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0011&amp;lesson=13#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> mapping used <code>x + 0.5</code> and <code>y + 0.5</code>. Replace those fixed offsets with <code>offsetX</code> and <code>offsetY</code> in the interval from zero to one:</p>
+
+<pre><code class="language-js">const u = (x + offsetX) / width;
+const v = (y + offsetY) / height;
+const ray = cameraRay(u, v);
+</code></pre>
+
+<p>Four samples could all be chosen independently at random. That may leave one part of the pixel unmeasured while clustering samples elsewhere. <a class="glossary-term" id="glossary-origin-13-0012" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0012&amp;lesson=13#term-stratification" aria-label="Look up stratification in the graphics glossary" title="Look up stratification in the graphics glossary">Stratification</a> first divides the pixel into regions and takes one jittered position from each. For four samples we use a two by two arrangement; for nine, a three by three arrangement.</p>
+
+<pre><code class="language-js">function stratifiedOffsets(side, random) {
+    const offsets = [];
+    for (let row = 0; row &lt; side; ++row) {
+        for (let column = 0; column &lt; side; ++column) {
+            offsets.push([
+                (column + random()) / side,
+                (row + random()) / side
+            ]);
+        }
+    }
+    return offsets;
+}
+</code></pre>
+
+<p>The <a class="glossary-term" id="glossary-origin-13-0013" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0013&amp;lesson=13#term-jitter" aria-label="Look up jitter in the graphics glossary" title="Look up jitter in the graphics glossary">jitter</a> breaks repeated <a class="glossary-term" id="glossary-origin-13-0014" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0014&amp;lesson=13#term-alignment" aria-label="Look up alignment in the graphics glossary" title="Look up alignment in the graphics glossary">alignment</a> with <a class="glossary-term" id="glossary-origin-13-0015" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0015&amp;lesson=13#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> detail, while the strata guarantee basic coverage. This does not make four samples exact. It is a more deliberate estimate than four unconstrained positions and a more informative experiment than claiming the pixel centre represents the whole area.</p>
+
+<h2>Average before <a class="glossary-term" id="glossary-origin-13-0016" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0016&amp;lesson=13#term-display-encoding" aria-label="Look up display encoding in the graphics glossary" title="Look up display encoding in the graphics glossary">display encoding</a></h2>
+<p>Trace each sample and accumulate its linear RGB contribution. Divide by the number of samples, then apply the display transfer used by the renderer. Averaging already gamma-encoded byte values gives a different and generally incorrect result because the encoding is non-linear.</p>
+
+<pre><code class="language-js">let sum = [0, 0, 0];
+
+for (const [offsetX, offsetY] of offsets) {
+    const ray = cameraRay(
+        (x + offsetX) / width,
+        (y + offsetY) / height
+    );
+    sum = add(sum, trace(ray, bounceLimit));
+}
+
+const linearPixel = scale(sum, 1 / offsets.length);
+writeDisplayColour(pixel, linearPixel);
+</code></pre>
+
+<p>Our compact renderer applies an approximate power of <code>1/2.2</code> before converting to bytes. A complete colour pipeline would define colour space, transfer function, exposure and tone mapping more carefully. The ordering remains the important lesson: combine light-like values in their linear representation, then encode for display.</p>
+
+<section class="ray-lab concept-lab stage-13-lab" data-ray-lab data-stage="13" aria-labelledby="ray-lab-title-13">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Pixel-sampling laboratory</p><h2 id="ray-lab-title-13">Count Samples, Not Pixels</h2></div>
+        <p>Keep the 240 by 150 raster fixed, change the samples evaluated inside each pixel and account for the resulting primary camera work.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Change the sample count. The marks inside one pixel and the primary-ray work change; the raster remains 36,000 stored pixels.</p>
+    <div class="lab-control-strip">
+        <form class="ray-controls concept-controls" data-ray-controls aria-label="Lesson 13 laboratory controls"></form>
+        
+    </div>
+    <div class="ray-lab-workspace">
+        <section class="ray-output" aria-label="Multi-sample ray-traced image">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>Reconstructed image</strong><small>The same scene reconstructed using the selected number of samples for each pixel.</small></span><output data-render-state>Ready</output></div>
+            <canvas data-ray-canvas width="480" height="300">The same scene reconstructed using the selected number of samples for each pixel.</canvas>
+        </section>
+        <section class="ray-diagram" aria-label="Sub-pixel sample diagram">
+            <div class="canvas-label"><span class="canvas-label-copy"><strong>One pixel region</strong><small>One pixel divided into strata with every evaluated sample position marked.</small></span><span data-diagram-label>Calculation</span></div>
+            <canvas data-diagram-canvas width="480" height="300">One pixel divided into strata with every evaluated sample position marked.</canvas>
+        </section>
+    </div>
+    <dl class="concept-facts concept-facts-4" aria-live="polite"><div><dt>Raster</dt><dd><output data-sampling-raster>240 × 150 = 36,000 pixels</output></dd></div><div><dt>Samples per pixel</dt><dd><output data-sampling-count>4</output></dd></div><div><dt>Primary samples</dt><dd><output data-metric="primary">0</output></dd></div><div><dt>Relative camera work</dt><dd><output data-sampling-work>4×</output></dd></div></dl>
+    <div class="lab-conclusion">
+        <div class="concept-formulas"><p><code data-sampling-formula>36,000 pixels × 4 samples = 144,000 primary samples</code></p></div>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The lesson explanation and code remain available without it.</p></noscript>
+</section>
+
+<h2>Compare error and work together</h2>
+<p>Use one sample and inspect <a class="glossary-term" id="glossary-origin-13-0017" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0017&amp;lesson=13#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a> silhouettes, triangle <a class="glossary-term" id="glossary-origin-13-0018" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0018&amp;lesson=13#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edges</a> and the distant checkerboard. Then choose four or nine. Boundary pixels begin to represent mixtures of the surfaces covered by different sample positions, so edges become less stair-stepped. Fine checker detail may become noisy because a small finite set now reports varied coverage instead of the stable but systematically wrong centre result.</p>
+<p>The primary-ray counter should multiply by the sample count. Secondary-ray counts increase according to what those new <a class="glossary-term" id="glossary-origin-13-0019" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0019&amp;lesson=13#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary rays</a> <a class="glossary-term" id="glossary-origin-13-0020" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0020&amp;lesson=13#term-hit" aria-label="Look up hit in the graphics glossary" title="Look up hit in the graphics glossary">hit</a>. A four-sample image is not merely four times the camera work; it may generate four families of shadows, <a class="glossary-term" id="glossary-origin-13-0021" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0021&amp;lesson=13#term-reflection" aria-label="Look up reflection in the graphics glossary" title="Look up reflection in the graphics glossary">reflections</a> and transmissions. The primitive-test counter reveals that consequence more honestly than sample count alone.</p>
+
+<div class="worked-trace">
+<h3>A boundary pixel</h3>
+<p>Four stratified samples are traced. Three hit a red sphere and return <code>(0.8, 0.2, 0.1)</code>. One misses and returns sky <code>(0.2, 0.4, 0.8)</code>. The linear average is <code>((3 × 0.8 + 0.2)/4, (3 × 0.2 + 0.4)/4, (3 × 0.1 + 0.8)/4) = (0.65, 0.25, 0.275)</code>. The pixel now represents estimated coverage rather than choosing one side of the silhouette.</p>
+</div>
+
+<h2>Repeatability matters while debugging</h2>
+<p>If sample positions change on every render, the image changes even when the code and scene do not. That is useful when accumulating samples over time, but it makes a single-frame comparison harder to diagnose. The laboratory uses a deterministic pseudo-random value derived from pixel address and <a class="glossary-term" id="glossary-origin-13-0022" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0022&amp;lesson=13#term-sample-index" aria-label="Look up sample index in the graphics glossary" title="Look up sample index in the graphics glossary">sample index</a>. The pattern has the same inputs and therefore repeats.</p>
+<p>Determinism does not make a poor generator statistically good. It establishes reproducibility. A renderer intended for high-quality sampling needs better sequences, multidimensional decorrelation and tests for bias. We first need to distinguish a code change from a different random draw.</p>
+
+<h2>Aliasing and noise are different failures</h2>
+<p>Aliasing is structured error caused when the sample pattern cannot represent or distinguish higher-frequency variation. Noise is visible variance from an estimator that changes with finite samples. Jitter can turn conspicuous structured aliasing into less structured noise, which is often easier to reduce by adding samples. Calling both problems jaggies does not help us choose a remedy.</p>
+<p>A post-process denoiser can estimate a smoother image from noisy inputs and auxiliary data. It does not make the original estimator free or prove that missed thin geometry was sampled. We are not adding one here because the purpose is to see what the sample positions themselves establish.</p>
+
+<div class="checkpoint">
+<h3>Account for the average</h3>
+<p>Nine samples are used. Six return linear colour <code>(0.6, 0.3, 0.1)</code> and three return <code>(0.0, 0.3, 0.7)</code>. What linear colour is stored before display encoding?</p>
+<details class="reveal-answer"><summary>Reveal the calculation</summary><div><p>The red sum is <code>6 × 0.6 + 3 × 0 = 3.6</code>, green is <code>9 × 0.3 = 2.7</code>, and blue is <code>6 × 0.1 + 3 × 0.7 = 2.7</code>. Dividing by nine gives <code>(0.4, 0.3, 0.3)</code>.</p></div></details>
+</div>
+
+<section class="transfer-task">
+<h2>Measure one difficult edge</h2>
+<p>Choose a pixel on a triangle edge. Record every sample position, hit object and linear contribution for one, four and nine samples. Draw the pixel region and mark the positions. Explain the final averages using those records, then compare primitive-test counts. The smoother image is the consequence; the sampled routes are the evidence.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p><a class="glossary-term" id="glossary-origin-13-0023" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0023&amp;lesson=13#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> execution makes many samples practical, but it also makes random-state layout, <a class="glossary-term" id="glossary-origin-13-0024" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0024&amp;lesson=13#term-accumulation-image" aria-label="Look up accumulation image in the graphics glossary" title="Look up accumulation image in the graphics glossary">accumulation images</a> and synchronisation important. A Vulkan implementation may distribute samples across <a class="glossary-term" id="glossary-origin-13-0025" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0025&amp;lesson=13#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocations</a> or frames. It must still generate a known sample position, trace the corresponding route, combine linear contributions and expose when the accumulated value is safe to read.</p>
+</section>
+
+<p>We now have all of the visual mechanisms required for the manual scene. Lesson 14 assembles them, separates the different <a class="glossary-term" id="glossary-origin-13-0026" href="glossary.html?from=lesson-13.html%23glossary-origin-13-0026&amp;lesson=13#term-ray-budget" aria-label="Look up ray budget in the graphics glossary" title="Look up ray budget in the graphics glossary">ray budgets</a> and asks whether testing every object for every ray is still an appropriate traversal.</p>
+
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><a class="pagination-link" href="lesson-12.html"><span class="pagination-label">&larr; Previous lesson</span><span class="pagination-title">12. Refraction, Fresnel and Glass</span></a><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-14.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">14. A Complete Scene and the Cost of Seeing It</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Begin with the image itself and ask what one pixel is expected to know.">
+    <meta name="theme-color" content="#03100d">
+    <title>Graphics Programming - Lesson 01 - A Pixel Is a Question</title>
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/course.css">
+    <link rel="stylesheet" href="assets/css/ray-tracing.css?v=20260813-reference-contrast">
+</head>
+<body class="course-page lesson-page ray-lesson" data-lesson="01" data-ray-stage="1" data-art-pattern="cells">
+<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
+<header class="course-header">
+    <a class="course-brand" href="index.html" aria-label="Graphics Programming course index">
+        <span class="course-brand-mark">RT</span>
+        <span class="course-brand-text">Graphics Programming</span>
+    </a>
+    <div class="course-header-context">Lesson 01 of 28</div>
+    
+        <button class="nav-toggle" type="button" data-nav-toggle aria-controls="course-navigation" aria-expanded="false">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span></span>
+            <span class="nav-toggle-label">Lessons</span>
+        </button>
+</header>
+<div class="course-shell">
+<aside class="lesson-sidebar" id="course-navigation" aria-label="Course lessons">
+    <div class="sidebar-heading">
+        <p class="sidebar-kicker">Complete sequence</p>
+        <h2>28 lessons</h2>
+    </div>
+    <nav aria-label="Lesson navigation"><ol class="lesson-list"><li class="lesson-list-divider">Part I · Ray tracing by hand</li><li><a href="lesson-01.html" aria-current="page"><span class="lesson-list-number">01</span><span class="lesson-list-title">A Pixel Is a Question</span></a></li><li><a href="lesson-02.html"><span class="lesson-list-number">02</span><span class="lesson-list-title">Vectors, Points and Rays</span></a></li><li><a href="lesson-03.html"><span class="lesson-list-number">03</span><span class="lesson-list-title">The Pinhole Camera</span></a></li><li><a href="lesson-04.html"><span class="lesson-list-number">04</span><span class="lesson-list-title">Meeting a Sphere</span></a></li><li><a href="lesson-05.html"><span class="lesson-list-number">05</span><span class="lesson-list-title">The Closest Visible Surface</span></a></li><li><a href="lesson-06.html"><span class="lesson-list-number">06</span><span class="lesson-list-title">Normals and Surface Materials</span></a></li><li><a href="lesson-07.html"><span class="lesson-list-number">07</span><span class="lesson-list-title">Light Is Another Direction</span></a></li><li><a href="lesson-08.html"><span class="lesson-list-number">08</span><span class="lesson-list-title">Shadows and the Problem of Zero</span></a></li><li><a href="lesson-09.html"><span class="lesson-list-number">09</span><span class="lesson-list-title">Planes and a Grounded Scene</span></a></li><li><a href="lesson-10.html"><span class="lesson-list-number">10</span><span class="lesson-list-title">Triangles and Barycentric Coordinates</span></a></li><li><a href="lesson-11.html"><span class="lesson-list-number">11</span><span class="lesson-list-title">Reflection and Recursive Rays</span></a></li><li><a href="lesson-12.html"><span class="lesson-list-number">12</span><span class="lesson-list-title">Refraction, Fresnel and Glass</span></a></li><li><a href="lesson-13.html"><span class="lesson-list-number">13</span><span class="lesson-list-title">Sampling the Pixel</span></a></li><li><a href="lesson-14.html"><span class="lesson-list-number">14</span><span class="lesson-list-title">A Complete Scene and the Cost of Seeing It</span></a></li><li class="lesson-list-divider">Part II · Vulkan implementation</li><li><a href="lesson-15.html"><span class="lesson-list-number">15</span><span class="lesson-list-title">Vulkan Makes Ownership Explicit</span></a></li><li><a href="lesson-16.html"><span class="lesson-list-number">16</span><span class="lesson-list-title">An Image Is Not Its Memory</span></a></li><li><a href="lesson-17.html"><span class="lesson-list-number">17</span><span class="lesson-list-title">Descriptors Give the Shader Its Resources</span></a></li><li><a href="lesson-18.html"><span class="lesson-list-number">18</span><span class="lesson-list-title">Record, Dispatch, Synchronise, Present</span></a></li><li><a href="lesson-19.html"><span class="lesson-list-number">19</span><span class="lesson-list-title">The Camera Becomes Shader Input</span></a></li><li><a href="lesson-20.html"><span class="lesson-list-number">20</span><span class="lesson-list-title">Move the Sphere Equation into Compute</span></a></li><li><a href="lesson-21.html"><span class="lesson-list-number">21</span><span class="lesson-list-title">Scene Buffers and the Closest Hit</span></a></li><li><a href="lesson-22.html"><span class="lesson-list-number">22</span><span class="lesson-list-title">Materials and Light Remain Separate</span></a></li><li><a href="lesson-23.html"><span class="lesson-list-number">23</span><span class="lesson-list-title">A Shadow Query Is Still Bounded</span></a></li><li><a href="lesson-24.html"><span class="lesson-list-number">24</span><span class="lesson-list-title">Triangles Need a Buffer Contract</span></a></li><li><a href="lesson-25.html"><span class="lesson-list-number">25</span><span class="lesson-list-title">Secondary Rays Need Bounded State</span></a></li><li><a href="lesson-26.html"><span class="lesson-list-number">26</span><span class="lesson-list-title">Accumulate Samples Without Losing the Average</span></a></li><li><a href="lesson-27.html"><span class="lesson-list-number">27</span><span class="lesson-list-title">Build BLAS and TLAS Before Asking Hardware</span></a></li><li><a href="lesson-28.html"><span class="lesson-list-number">28</span><span class="lesson-list-title">The Ray Tracing Pipeline and the Complete Renderer</span></a></li></ol></nav>
+</aside>
+<div class="course-main">
+    <section class="lesson-hero" aria-labelledby="lesson-title">
+        <div class="lesson-hero-inner">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="index.html">Graphics Programming</a><span aria-hidden="true">/</span><span>Lesson 01</span></nav>
+            <p class="hero-kicker">Part 1 &middot; Ray tracing by hand</p>
+            <h1 id="lesson-title">1. A Pixel Is a Question</h1>
+            <p class="lesson-deck">Begin with the image itself and ask what one pixel is expected to know.</p>
+            <div class="lesson-hero-actions"><a class="course-button course-button-primary" href="index.html">View all lessons</a><a class="course-button course-button-secondary" href="lesson-02.html">Lesson 02 &rarr;</a><a class="course-button course-button-secondary" href="glossary.html">Graphics glossary</a></div>
+        </div>
+    </section>
+    <main class="lesson-content" id="lesson-content">
+        <article class="lesson-article">
+            <!-- glossary:lesson-terms:start -->
+<details class="lesson-glossary-panel">
+<summary>Graphics glossary <span>24 terms mentioned in this lesson</span></summary>
+<p>Select any term for a clear definition. The return button brings you back to the exact term link you used.</p>
+<div class="lesson-glossary-chips"><a class="glossary-chip" id="glossary-panel-origin-01-buffer" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-buffer&amp;lesson=01#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> <a class="glossary-chip" id="glossary-panel-origin-01-camera" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-camera&amp;lesson=01#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> <a class="glossary-chip" id="glossary-panel-origin-01-canvas-2d" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-canvas-2d&amp;lesson=01#term-canvas-2d" aria-label="Look up Canvas 2D in the graphics glossary" title="Look up Canvas 2D in the graphics glossary">Canvas 2D</a> <a class="glossary-chip" id="glossary-panel-origin-01-colour-channel" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-colour-channel&amp;lesson=01#term-colour-channel" aria-label="Look up colour channel in the graphics glossary" title="Look up colour channel in the graphics glossary">colour channel</a> <a class="glossary-chip" id="glossary-panel-origin-01-coordinate-space" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-coordinate-space&amp;lesson=01#term-coordinate-space" aria-label="Look up coordinate space in the graphics glossary" title="Look up coordinate space in the graphics glossary">coordinate space</a> <a class="glossary-chip" id="glossary-panel-origin-01-direction" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-direction&amp;lesson=01#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> <a class="glossary-chip" id="glossary-panel-origin-01-edge" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-edge&amp;lesson=01#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> <a class="glossary-chip" id="glossary-panel-origin-01-gpu" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-gpu&amp;lesson=01#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> <a class="glossary-chip" id="glossary-panel-origin-01-image" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-image&amp;lesson=01#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> <a class="glossary-chip" id="glossary-panel-origin-01-image-plane" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-image-plane&amp;lesson=01#term-image-plane" aria-label="Look up image plane in the graphics glossary" title="Look up image plane in the graphics glossary">image plane</a> <a class="glossary-chip" id="glossary-panel-origin-01-imagedata" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-imagedata&amp;lesson=01#term-imagedata" aria-label="Look up ImageData in the graphics glossary" title="Look up ImageData in the graphics glossary">ImageData</a> <a class="glossary-chip" id="glossary-panel-origin-01-intersection" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-intersection&amp;lesson=01#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> <a class="glossary-chip" id="glossary-panel-origin-01-invocation" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-invocation&amp;lesson=01#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a> <a class="glossary-chip" id="glossary-panel-origin-01-javascript" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-javascript&amp;lesson=01#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> <a class="glossary-chip" id="glossary-panel-origin-01-material" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-material&amp;lesson=01#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">material</a> <a class="glossary-chip" id="glossary-panel-origin-01-pixel" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-pixel&amp;lesson=01#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a> <a class="glossary-chip" id="glossary-panel-origin-01-point" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-point&amp;lesson=01#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a> <a class="glossary-chip" id="glossary-panel-origin-01-primary-ray" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-primary-ray&amp;lesson=01#term-primary-ray" aria-label="Look up primary ray in the graphics glossary" title="Look up primary ray in the graphics glossary">primary ray</a> <a class="glossary-chip" id="glossary-panel-origin-01-raster" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-raster&amp;lesson=01#term-raster" aria-label="Look up raster in the graphics glossary" title="Look up raster in the graphics glossary">raster</a> <a class="glossary-chip" id="glossary-panel-origin-01-rgb" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-rgb&amp;lesson=01#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> <a class="glossary-chip" id="glossary-panel-origin-01-rgba" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-rgba&amp;lesson=01#term-rgba" aria-label="Look up RGBA in the graphics glossary" title="Look up RGBA in the graphics glossary">RGBA</a> <a class="glossary-chip" id="glossary-panel-origin-01-sample" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-sample&amp;lesson=01#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> <a class="glossary-chip" id="glossary-panel-origin-01-scene" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-scene&amp;lesson=01#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> <a class="glossary-chip" id="glossary-panel-origin-01-sphere" href="glossary.html?from=lesson-01.html%23glossary-panel-origin-01-sphere&amp;lesson=01#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a></div>
+</details>
+<!-- glossary:lesson-terms:end -->
+            <p>A ray traced <a class="glossary-term" id="glossary-origin-01-0001" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0001&amp;lesson=01#term-image" aria-label="Look up image in the graphics glossary" title="Look up image in the graphics glossary">image</a> is often introduced by showing a polished <a class="glossary-term" id="glossary-origin-01-0002" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0002&amp;lesson=01#term-scene" aria-label="Look up scene in the graphics glossary" title="Look up scene in the graphics glossary">scene</a> containing glass, mirrors and soft shadows. That picture is attractive, but it is a poor place to begin. It encourages us to treat the renderer as a machine into which a scene goes and from which an image appears. If the result looks plausible, the machine is assumed to work. A plausible image is useful evidence, but it is not an explanation.</p>
+<p>We shall begin with one <a class="glossary-term" id="glossary-origin-01-0003" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0003&amp;lesson=01#term-pixel" aria-label="Look up pixel in the graphics glossary" title="Look up pixel in the graphics glossary">pixel</a>. The important question is not how to colour it, because setting three numbers is easy. The important question is what those numbers are meant to report. A ray tracer treats the pixel as the destination of a visibility calculation. It asks which route through the <a class="glossary-term" id="glossary-origin-01-0004" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0004&amp;lesson=01#term-camera" aria-label="Look up camera in the graphics glossary" title="Look up camera in the graphics glossary">camera</a> belongs to a <a class="glossary-term" id="glossary-origin-01-0005" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0005&amp;lesson=01#term-sample" aria-label="Look up sample in the graphics glossary" title="Look up sample in the graphics glossary">sample</a> of that pixel, which surface is first on that route and what light could arrive from that surface. We do not yet know how to answer any of those questions. We do, however, know precisely what must eventually be answered.</p>
+
+<section class="learning-objectives">
+<h2>What you should be able to account for</h2>
+<ul>
+<li>Distinguish a <a class="glossary-term" id="glossary-origin-01-0006" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0006&amp;lesson=01#term-raster" aria-label="Look up raster in the graphics glossary" title="Look up raster in the graphics glossary">raster</a>, a pixel and a sample rather than using the three words for the same thing.</li>
+<li>Create an image <a class="glossary-term" id="glossary-origin-01-0007" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0007&amp;lesson=01#term-buffer" aria-label="Look up buffer in the graphics glossary" title="Look up buffer in the graphics glossary">buffer</a> and write an <a class="glossary-term" id="glossary-origin-01-0008" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0008&amp;lesson=01#term-rgb" aria-label="Look up RGB in the graphics glossary" title="Look up RGB in the graphics glossary">RGB</a> value into one known pixel.</li>
+<li>Explain why <a class="glossary-term" id="glossary-origin-01-0009" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0009&amp;lesson=01#term-canvas-2d" aria-label="Look up Canvas 2D in the graphics glossary" title="Look up Canvas 2D in the graphics glossary">Canvas</a> is being used as a display surface and not as the ray tracer.</li>
+</ul>
+</section>
+
+<h2>The raster is storage</h2>
+<p>A raster is a finite rectangular grid. If its width is <code>W</code> and its height is <code>H</code>, it contains <code>W × H</code> pixels. We shall use the conventional browser image coordinates: <code>x</code> increases from left to right, <code>y</code> increases from top to bottom, and the top-left pixel is <code>(0, 0)</code>. This is a storage convention. It is not yet a camera and it says nothing about three-dimensional space.</p>
+<p>Each pixel in our buffer has four eight-bit channels: red, green, blue and alpha. The alpha value will remain 255, meaning fully opaque. Four consecutive array entries therefore belong to each pixel. The row-major index is:</p>
+<p class="equation">index = 4 × (y × width + x)</p>
+<p>The multiplication by four is not a decorative piece of syntax. Remove it and neighbouring pixels will share channels. Reverse <code>x</code> and <code>y</code> and the image will be transposed or corrupted. A rendered image can conceal this sort of error when its colours vary gently, so we first use a deliberately obvious selected pixel.</p>
+
+<pre><code class="language-js">const width = 16;
+const height = 10;
+const image = context.createImageData(width, height);
+
+function writePixel(x, y, red, green, blue) {
+    const index = 4 * (y * width + x);
+    image.data[index + 0] = red;
+    image.data[index + 1] = green;
+    image.data[index + 2] = blue;
+    image.data[index + 3] = 255;
+}
+</code></pre>
+
+<p>This function does not draw a circle, a line or a <a class="glossary-term" id="glossary-origin-01-0010" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0010&amp;lesson=01#term-sphere" aria-label="Look up sphere in the graphics glossary" title="Look up sphere in the graphics glossary">sphere</a>. It changes four entries in an array. After all required entries have been written, <code>putImageData</code> transfers that array to the visible canvas. The distinction matters because later lessons will calculate the channels themselves. If we called <code>context.arc</code> to obtain a sphere, Canvas would already have decided which pixels belong to the circle. That is exactly the decision we are trying to understand.</p>
+
+<h2>A pixel is a region, not a mathematical <a class="glossary-term" id="glossary-origin-01-0011" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0011&amp;lesson=01#term-point" aria-label="Look up point in the graphics glossary" title="Look up point in the graphics glossary">point</a></h2>
+<p>It is tempting to say that a pixel is one point on the image. The raster gives each pixel an integer address, which makes that account look sensible. However, a displayed pixel covers a small rectangular region. A ray tracer normally evaluates one or more sample positions associated with that region, then reconstructs a stored pixel value from the samples. Using the centre, <code>(x + 0.5, y + 0.5)</code>, is a convenient first estimate. It is not the complete pixel.</p>
+<p>This distinction does not change our first program, but it prevents a later confusion. When a diagonal <a class="glossary-term" id="glossary-origin-01-0012" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0012&amp;lesson=01#term-edge" aria-label="Look up edge in the graphics glossary" title="Look up edge in the graphics glossary">edge</a> forms steps, the pixel has not failed to be small enough in some absolute sense. We have estimated a continuous signal using a finite grid and perhaps only one sample per region. Lesson 13 will return to the pixel and spend more work on that estimate. For now, one centre sample gives us a traceable starting rule.</p>
+
+<div class="worked-trace">
+<h3>Account for pixel (9, 4)</h3>
+<p>Suppose the image width is 16. The pixel is in row 4, so four complete rows contain <code>4 × 16 = 64</code> pixels. Moving nine columns into the row gives pixel number 73. Each pixel occupies four array entries, so its red channel is at entry <code>4 × 73 = 292</code>. Green, blue and alpha are at 293, 294 and 295. These numbers are addresses. If we store gold there, the four values are 247, 184, 75 and 255. Move the same gold colour to another pixel and the addresses change, but those four colour values do not.</p>
+</div>
+
+<section class="ray-lab pixel-storage-lab" data-ray-lab data-stage="1" aria-labelledby="ray-lab-title-01">
+    <div class="ray-lab-heading">
+        <div><p class="ray-lab-kicker">Pixel storage laboratory</p><h2 id="ray-lab-title-01">Move One Colour to a New Address</h2></div>
+        <p>Choose a cell. Its position changes where the gold colour is stored, but the RGBA values used for gold do not change.</p>
+    </div>
+    <p class="ray-lab-instruction"><strong>Change this, then watch this:</strong> Move the gold pixel. Its four array addresses change, while its colour values remain <code>247, 184, 75, 255</code>.</p>
+    <form class="ray-controls pixel-storage-controls" data-ray-controls aria-label="Selected pixel controls"></form>
+    <div class="ray-lab-workspace pixel-storage-workspace">
+        <section class="ray-output" aria-label="16 by 10 teaching raster">
+            <div class="canvas-label"><span>16 × 10 address grid</span><output data-render-state>Choose a cell</output></div>
+            <div class="pixel-raster-frame"><canvas data-ray-canvas width="160" height="100">A uniform dark green raster with one gold selected pixel.</canvas></div>
+            <p class="pixel-raster-key"><span><i class="pixel-swatch pixel-swatch-background"></i><span class="pixel-key-copy"><strong>Ordinary</strong><code>24, 42, 36, 255</code></span></span><span><i class="pixel-swatch pixel-swatch-selected"></i><span class="pixel-key-copy"><strong>Selected</strong><code>247, 184, 75, 255</code></span></span></p>
+        </section>
+        <section class="ray-diagram" aria-label="Selected pixel array storage">
+            <div class="canvas-label"><span>Array storage</span><span data-diagram-label>Address is not value</span></div>
+            <canvas data-diagram-canvas width="480" height="260">The four changing array addresses and four fixed RGBA values belonging to the selected gold pixel.</canvas>
+        </section>
+    </div>
+    <dl class="pixel-storage-facts" aria-live="polite">
+        <div><dt>Selected coordinate</dt><dd><output data-pixel-coordinate>(9, 4)</output></dd></div>
+        <div><dt>Pixel number</dt><dd><output data-pixel-number>73</output></dd></div>
+        <div><dt>Array addresses</dt><dd><output data-pixel-range>292–295</output></dd></div>
+        <div><dt>Values stored</dt><dd><output data-pixel-values>247, 184, 75, 255</output></dd></div>
+    </dl>
+    <div class="lab-conclusion">
+        <p class="pixel-storage-formula"><code data-pixel-formula>4 × (4 × 16 + 9) = 292</code></p>
+        <p class="ray-lab-note"><strong>What this establishes:</strong> <span data-proof-note></span></p>
+    </div>
+    <noscript><p class="ray-lab-noscript">This experiment requires JavaScript. The address calculation remains explained immediately above it.</p></noscript>
+</section>
+
+<h2>Construct a diagnostic image</h2>
+<p>A diagnostic image should make the state we care about easy to inspect. Every ordinary pixel therefore stores the same dark green value. The selected pixel stores one fixed gold value. The thin lines between cells are an interface guide placed over the enlarged image; they are not extra colours in the image buffer. If the gold cell appears in the requested row and column, the address calculation is supported. If it appears elsewhere, we have a specific disagreement to investigate.</p>
+
+<pre><code class="language-js">for (let y = 0; y &lt; height; ++y) {
+    for (let x = 0; x &lt; width; ++x) {
+        const selected = x === selectedX &amp;&amp; y === selectedY;
+        const red   = selected ? 247 : 24;
+        const green = selected ? 184 : 42;
+        const blue  = selected ? 75  : 36;
+        writePixel(x, y, red, green, blue);
+    }
+}
+
+context.putImageData(image, 0, 0);
+</code></pre>
+
+<p>Move the selected pixel and watch the two kinds of number separately. The array addresses change because a different piece of storage has been selected. The gold values remain 247, 184, 75 and 255 because we are moving the same colour. An address answers <em>where?</em>; an <a class="glossary-term" id="glossary-origin-01-0013" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0013&amp;lesson=01#term-rgba" aria-label="Look up RGBA in the graphics glossary" title="Look up RGBA in the graphics glossary">RGBA</a> value answers <em>what is stored there?</em> The successful display supports the indexing rule, channel order and transfer to Canvas. It does not prove that a camera exists, that the colours are physically meaningful or that an object has been intersected.</p>
+
+<div class="checkpoint">
+<h3>Check the address before running it</h3>
+<p>An image is 20 pixels wide. Which four array entries belong to pixel <code>(3, 2)</code>? State the calculation, not only the final number.</p>
+<details class="reveal-answer"><summary>Reveal the trace</summary><div><p>Two complete rows contain <code>2 × 20 = 40</code> pixels. Moving three pixels into the next row gives pixel number 43. Its first channel is <code>4 × 43 = 172</code>, so the four entries are 172, 173, 174 and 175. Entry 172 stores red; 175 stores alpha.</p></div></details>
+</div>
+
+<h2>Attach a question to the sample</h2>
+<p>The laboratory deliberately stops at the four array addresses. It does not draw a camera or a ray because neither has been constructed yet. Our next responsibility is to turn a sample associated with this integer pixel address into an origin and <a class="glossary-term" id="glossary-origin-01-0014" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0014&amp;lesson=01#term-direction" aria-label="Look up direction in the graphics glossary" title="Look up direction in the graphics glossary">direction</a> in a three-dimensional <a class="glossary-term" id="glossary-origin-01-0015" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0015&amp;lesson=01#term-coordinate-space" aria-label="Look up coordinate space in the graphics glossary" title="Look up coordinate space in the graphics glossary">coordinate system</a>. Once we have those values, we shall have a ray with positions that can be calculated. Once we have an <a class="glossary-term" id="glossary-origin-01-0016" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0016&amp;lesson=01#term-intersection" aria-label="Look up intersection in the graphics glossary" title="Look up intersection in the graphics glossary">intersection</a> equation, that ray can ask whether a surface occupies one of those positions.</p>
+<p>Keeping these responsibilities separate is valuable. The image buffer stores answers. The camera constructs questions. Geometry tests the questions. <a class="glossary-term" id="glossary-origin-01-0017" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0017&amp;lesson=01#term-material" aria-label="Look up material in the graphics glossary" title="Look up material in the graphics glossary">Materials</a> and lights interpret successful results. A finished renderer combines them, but combining them early does not make them easier to understand. It merely makes an error harder to locate.</p>
+
+<section class="transfer-task">
+<h2>Make the storage rule yours</h2>
+<p>Change the diagnostic program to a 32 by 18 raster. Select the last valid pixel and predict its red-channel index before running the page. Then deliberately use <code>x × height + y</code> in place of <code>y × width + x</code>. Explain the visible result in terms of addresses. Restore the correct rule only after you can account for the failure.</p>
+</section>
+
+<section class="vulkan-bridge">
+<h2>Keep this model for Vulkan</h2>
+<p>The Vulkan half of the course will use images, formats and <a class="glossary-term" id="glossary-origin-01-0018" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0018&amp;lesson=01#term-gpu" aria-label="Look up GPU in the graphics glossary" title="Look up GPU in the graphics glossary">GPU</a> memory rather than a <a class="glossary-term" id="glossary-origin-01-0019" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0019&amp;lesson=01#term-javascript" aria-label="Look up JavaScript in the graphics glossary" title="Look up JavaScript in the graphics glossary">JavaScript</a> <code>Uint8ClampedArray</code>. Those mechanisms are more explicit and considerably less forgiving, but the underlying obligation remains: identify which stored element belongs to the <a class="glossary-term" id="glossary-origin-01-0020" href="glossary.html?from=lesson-01.html%23glossary-origin-01-0020&amp;lesson=01#term-invocation" aria-label="Look up invocation in the graphics glossary" title="Look up invocation in the graphics glossary">invocation</a>, decide what value it should contain and make the write visible at the right time. Vulkan will not remove the pixel question. It will make ownership of the answer more explicit.</p>
+</section>
+
+<p>We now have a raster that can receive a result and a precise address for every pixel. Lesson 2 supplies the mathematical object that will carry a sample away from the camera. Until that ray exists, the highlighted pixel is only a highlighted piece of storage.</p>
+
+        </article>
+        <nav class="lesson-pagination" aria-label="Previous and next lessons"><span class="pagination-link pagination-link-disabled" aria-hidden="true"></span><a class="pagination-index" href="index.html">All lessons</a><a class="pagination-link pagination-link-next" href="lesson-02.html"><span class="pagination-label">Next lesson &rarr;</span><span class="pagination-title">02. Vectors, Points and Rays</span></a></nav>
+    </main>
+    <footer class="course-footer">
+    <div class="course-footer-primary">
+        <p><strong>Graphics Programming</strong> &middot; Published by Static Carnival Technologies Limited</p>
+        <nav class="course-footer-links" aria-label="Website information">
+            <a href="index.html">Course index</a><a href="glossary.html">Graphics glossary</a><a href="https://www.staticcarnival.com/">Static Carnival</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="terms.html">Terms</a><a href="accessibility.html">Accessibility</a><a href="mailto:graham@staticcarnival.com">Contact</a>
+        </nav>
+    </div>
+    <p class="course-footer-company">Static Carnival Technologies Limited &middot; Registered in England and Wales &middot; Company number 17059001 &middot; Registered office: The Old Church, The Green, Melkridge, Haltwhistle, United Kingdom, NE49 0LX &middot; <a href="mailto:graham@staticcarnival.com">graham@staticcarnival.com</a></p>
+</footer>
+</div>
+</div>
+<button class="nav-scrim" type="button" data-nav-scrim hidden aria-label="Close lesson navigation"></button>
+<script src="assets/js/course.js?v=20260811-vulkan" defer></script>
+<script src="assets/js/raytracer.js?v=20260813-one-screen-labs-final" defer></script>
+</body>
+</html>
