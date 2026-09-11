@@ -1,6 +1,6 @@
 # Programming courses
 
-Public static mirror of the Static Carnival course pages by Graham Morgan.
+Public static mirror of the Static Carnival course pages by Professor Graham Morgan.
 
 - [Course portal](https://GMZX80.github.io/programming-courses/)
 - [C++ Programming](https://GMZX80.github.io/programming-courses/cpp-programming/)
@@ -17,9 +17,9 @@ The existing `cpp-programming/lecture-01.html` is a separate 50-minute, 21-slide
 
 The movie is a GitHub Release asset, not a Git file:
 
-`https://github.com/GMZX80/programming-courses/releases/download/lesson-01-v1/lesson-01-lecture-levelled.mp4`
+[Download the complete Lesson 1 movie — MP4, about 893 MB](https://github.com/GMZX80/programming-courses/releases/download/lesson-01-v1/lesson-01-lecture-levelled.mp4)
 
-That address requires the `lesson-01-v1` release and named asset to have been published. The static player does not prove the asset is live. If the browser cannot play it, use the page's direct MP4 link. The standalone caption file is `media/lesson-01.vtt`.
+The movie is published in [release lesson-01-v1](https://github.com/GMZX80/programming-courses/releases/tag/lesson-01-v1). GitHub's asset size and SHA-256 digest match the corrected master: 892,582,643 bytes; `cd77cd3305647f38f538a5e5236fe7e1ca8a573279ee0bd27d667dc5c4b81892`. If the browser cannot play it, use the direct MP4 link. The standalone caption file is `media/lesson-01.vtt`.
 
 No private voice samples, portrait inputs, model weights, credentials, generation logs or local environment files belong in this repository. The previously public web-lecture PowerPoint has any source-machine path removed from its staged copy, without changing teaching notes or slides.
 
